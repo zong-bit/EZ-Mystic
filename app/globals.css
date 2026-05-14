@@ -1,0 +1,232 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+:root {
+  --bg-primary: #0A0A0F;
+  --bg-secondary: #12121A;
+  --bg-tertiary: #1A1A28;
+  --gold-primary: #D4A853;
+  --gold-light: #E8C97A;
+  --warm-white: #FDF6E3;
+  --text-primary: #F5F0E8;
+  --text-secondary: #A09888;
+  --text-tertiary: #6B6560;
+  --jade-green: #2D8B57;
+  --cinnabar-red: #C23B22;
+  --earth-brown: #8B7355;
+  --metal-white: #C0C0C0;
+  --water-blue: #3B82F6;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 星空背景 */
+.starry-bg {
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.15), transparent),
+    radial-gradient(1.5px 1.5px at 50% 10%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.15), transparent),
+    radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1.5px 1.5px at 20% 90%, rgba(255,255,255,0.15), transparent),
+    radial-gradient(1px 1px at 80% 15%, rgba(255,255,255,0.1), transparent),
+    radial-gradient(1px 1px at 45% 55%, rgba(255,255,255,0.2), transparent);
+  background-size: 200px 200px;
+  background-repeat: repeat;
+}
+
+/* 毛玻璃 */
+.glass {
+  background: rgba(18, 18, 26, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+}
+
+.glass-card {
+  background: linear-gradient(
+    135deg,
+    rgba(18, 18, 26, 0.80) 0%,
+    rgba(26, 26, 40, 0.60) 100%
+  );
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* 金色按钮 */
+.btn-primary {
+  background: linear-gradient(135deg, #D4A853, #C49A3C);
+  color: #1A1A1A;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 10px;
+  box-shadow: 0 0 24px rgba(212, 168, 83, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  font-size: 16px;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 40px rgba(212, 168, 83, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 输入框 */
+.input-field {
+  background: rgba(26, 26, 40, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: #F5F0E8;
+  font-size: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  width: 100%;
+  font-family: inherit;
+}
+
+.input-field:focus {
+  border-color: #D4A853;
+  box-shadow: 0 0 16px rgba(212, 168, 83, 0.15);
+  outline: none;
+}
+
+.input-field::placeholder {
+  color: #6B6560;
+}
+
+select.input-field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23A09888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+/* 金色辉光 */
+.glow-gold {
+  box-shadow: 0 0 20px rgba(212, 168, 83, 0.15),
+              0 0 40px rgba(212, 168, 83, 0.08);
+}
+
+.text-gold-glow {
+  text-shadow: 0 0 20px rgba(212, 168, 83, 0.3);
+}
+
+/* 五行色文字 */
+.text-wood { color: #2D8B57; }
+.text-fire { color: #C23B22; }
+.text-earth { color: #8B7355; }
+.text-metal { color: #C0C0C0; }
+.text-water { color: #3B82F6; }
+
+/* 五行色背景 */
+.bg-wood { background-color: #2D8B57; }
+.bg-fire { background-color: #C23B22; }
+.bg-earth { background-color: #8B7355; }
+.bg-metal { background-color: #C0C0C0; }
+.bg-water { background-color: #3B82F6; }
+
+/* 太极加载 */
+.taiji-loader {
+  animation: taiji-spin 3s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes taiji-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 金色分隔线 */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #D4A853, transparent);
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0A0F;
+}
+::-webkit-scrollbar-thumb {
+  background: #2A2A3A;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3A3A4A;
+}
+
+/* 墨水晕染过渡 */
+@keyframes ink-spread {
+  from {
+    clip-path: circle(0% at 50% 50%);
+    opacity: 0;
+  }
+  to {
+    clip-path: circle(100% at 50% 50%);
+    opacity: 1;
+  }
+}
+
+.page-enter {
+  animation: ink-spread 0.8s ease-out;
+}
+
+/* 辉光脉冲 */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(212, 168, 83, 0.15); }
+  50% { box-shadow: 0 0 40px rgba(212, 168, 83, 0.35); }
+}
+
+.glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* 八字排盘解读样式 */
+.bazi-interpretation {
+  line-height: 1.8;
+}
+
+.bazi-interpretation ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+}
+
+/* 浮动动画 */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
