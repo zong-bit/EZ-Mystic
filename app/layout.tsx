@@ -2,20 +2,20 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'FateWise — 在线八字排盘 | AI命理师深度解读 | 东方智慧',
+  title: 'FateWise — Online Bazi Chart · AI Destiny Reading · Eastern Wisdom',
   description:
-    'FateWise 提供精准八字排盘、AI深度解读、完整命书PDF报告。基于真太阳时校正，千年命理智慧由AI为你揭示。',
+    'FateWise offers precise Bazi (Four Pillars) charting, AI-powered deep interpretation, and complete Destiny Book PDF reports. Based on true solar time correction, millennia of Eastern wisdom revealed by AI.',
   keywords: [
-    '八字排盘',
-    '八字命理',
-    'AI命理',
-    '真太阳时',
-    '紫微斗数',
-    '风水',
-    '天命之书',
-    '命运密码',
-    '在线排盘',
-    '命理分析',
+    'Bazi chart',
+    'Four Pillars of Destiny',
+    'AI destiny reading',
+    'true solar time',
+    'Chinese astrology',
+    'feng shui',
+    'destiny book',
+    'fate analysis',
+    'online Bazi',
+    'BaZi reading',
   ],
   authors: [{ name: 'FateWise' }],
   creator: 'FateWise',
@@ -25,27 +25,27 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'FateWise — 在线八字排盘 | AI命理师深度解读',
+    title: 'FateWise — Online Bazi Chart · AI Destiny Reading',
     description:
-      '精准八字排盘、AI深度解读、完整命书PDF报告。基于真太阳时校正，千年命理智慧由AI为你揭示。',
+      'Precise Bazi charting, AI deep interpretation, complete Destiny Book PDF reports. Based on true solar time correction, millennia of Eastern wisdom revealed by AI.',
     url: 'https://fatewise.app',
     siteName: 'FateWise',
     type: 'website',
-    locale: 'zh_CN',
+    locale: 'en_US',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'FateWise - 在线八字排盘',
+        alt: 'FateWise - Online Bazi Chart',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'FateWise — 在线八字排盘 | AI命理师深度解读',
+    title: 'FateWise — Online Bazi Chart · AI Destiny Reading',
     description:
-      '精准八字排盘、AI深度解读、完整命书PDF报告。基于真太阳时校正，千年命理智慧由AI为你揭示。',
+      'Precise Bazi charting, AI deep interpretation, complete Destiny Book PDF reports. Based on true solar time correction, millennia of Eastern wisdom revealed by AI.',
     images: ['/og-image.png'],
     creator: '@fatewise',
   },
@@ -77,7 +77,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <head>
         <meta name="application-name" content="FateWise" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
