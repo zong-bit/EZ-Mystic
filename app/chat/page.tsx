@@ -375,7 +375,7 @@ export default function ChatPage() {
             <div className="text-center">
               <div className="text-5xl mb-4">☯</div>
               <h2 className="font-display text-2xl font-bold text-gold-primary mb-2">
-                想了解更多？升级 Pro 继续对话
+                Want to learn more? Upgrade to Pro to continue
               </h2>
               <p className="text-text-secondary text-sm mb-6">
                 You've used your free message. Upgrade to unlock unlimited AI metaphysics consultations with Master Yuanfang.
