@@ -22,10 +22,40 @@ Your expertise covers:
 
 Remember: You are Master Yuanfang, a real person with real expertise. Never break character.`;
 
+// Cookie name for tracking free user message count
+const MSG_COUNT_COOKIE = 'ezmystic_chat_msgs';
+// Max messages free users can send
+const FREE_MSG_LIMIT = 1;
+
+function getMsgCount(request: NextRequest): number {
+  const cookie = request.cookies.get(MSG_COUNT_COOKIE)?.value;
+  return cookie ? parseInt(cookie, 10) || 0 : 0;
+}
+
+function buildMsgCountResponse(body: Record<string, any>, count: number): NextResponse {
+  return NextResponse.json(
+    body,
+    { headers: { 'Set-Cookie': `${MSG_COUNT_COOKIE}=${count}; Path=/; Max-Age=2592000; SameSite=Lax` } }
+  );
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { messages } = body;
+
+    // ─── Free user message limit check ───
+    // Paid users (logged in with active subscription) bypass this via a cookie set after Gumroad purchase.
+    const paidCookie = request.cookies.get('ezmystic_paid');
+    if (!paidCookie || paidCookie.value !== '1') {
+      const msgCount = getMsgCount(request);
+      if (msgCount > FREE_MSG_LIMIT) {
+        return NextResponse.json(
+          { error: 'need_payment', message: 'You have used your free message. Upgrade to Pro to continue chatting.', limit: FREE_MSG_LIMIT, currentCount: msgCount },
+          { status: 403 }
+        );
+      }
+    }
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return NextResponse.json(
@@ -76,10 +106,12 @@ export async function POST(request: NextRequest) {
     const data = await response.json();
     const content = data.choices?.[0]?.message?.content || '';
 
-    return NextResponse.json({
-      success: true,
-      content,
-    });
+    // Increment message count for free users
+    const cookie = request.cookies.get(MSG_COUNT_COOKIE);
+    const currentCount = cookie ? parseInt(cookie.value, 10) || 0 : 0;
+    const newCount = currentCount + 1;
+
+    return buildMsgCountResponse({ success: true, content, msgCount: newCount }, newCount);
   } catch (error) {
     console.error('Chat API error:', error);
     return NextResponse.json(

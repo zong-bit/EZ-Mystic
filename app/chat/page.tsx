@@ -101,6 +101,7 @@ export default function ChatPage() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPayment, setShowPayment] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -112,9 +113,28 @@ export default function ChatPage() {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
+  const getLocalMsgCount = (): number => {
+    if (typeof window === 'undefined') return 0;
+    const val = localStorage.getItem('ezmystic_chat_msgs');
+    return val ? parseInt(val, 10) || 0 : 0;
+  };
+
+  const setLocalMsgCount = (count: number) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('ezmystic_chat_msgs', String(count));
+    }
+  };
+
   const sendMessage = useCallback(async (text?: string) => {
     const messageText = text || input.trim();
     if (!messageText || loading) return;
+
+    // Client-side free user check
+    const localCount = getLocalMsgCount();
+    if (localCount >= 1 && typeof window !== 'undefined' && document.cookie.indexOf('ezmystic_paid=1') === -1) {
+      setShowPayment(true);
+      return;
+    }
 
     const userMsg: ChatMessage = {
       id: `user-${Date.now()}`,
@@ -144,9 +164,19 @@ export default function ChatPage() {
 
       const data = await response.json();
 
+      // Handle payment required
+      if (data.error === 'need_payment') {
+        setShowPayment(true);
+        setLoading(false);
+        return;
+      }
+
       if (!data.success) {
         throw new Error(data.error || 'Failed to get response');
       }
+
+      // Update local message count
+      setLocalMsgCount((data.msgCount || getLocalMsgCount()));
 
       const assistantMsg: ChatMessage = {
         id: `assistant-${Date.now()}`,
@@ -311,6 +341,63 @@ export default function ChatPage() {
           AI-generated content for reference only · 本站内容仅供娱乐参考
         </p>
       </div>
+
+      {/* ─── Payment Required Overlay ─── */}
+      {showPayment && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="glass-card max-w-md w-full p-8 relative page-enter border-gold-primary/30">
+            {/* Close button */}
+            <button
+              onClick={() => setShowPayment(false)}
+              className="absolute top-4 right-4 text-text-tertiary hover:text-text-primary transition-colors text-xl"
+              aria-label="Close">
+              ✕
+            </button>
+
+            <div className="text-center">
+              <div className="text-5xl mb-4">☯</div>
+              <h2 className="font-display text-2xl font-bold text-gold-primary mb-2">
+                想了解更多？升级 Pro 继续对话
+              </h2>
+              <p className="text-text-secondary text-sm mb-6">
+                You've used your free message. Upgrade to unlock unlimited AI metaphysics consultations with Master Yuanfang.
+              </p>
+
+              {/* Pro features */}
+              <div className="text-left space-y-2 mb-8">
+                <div className="flex items-center gap-2 text-sm text-text-secondary">
+                  <span className="text-gold-primary">✓</span>
+                  <span>Unlimited AI deep interpretation</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-text-secondary">
+                  <span className="text-gold-primary">✓</span>
+                  <span>Complete Destiny Book PDF</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-text-secondary">
+                  <span className="text-gold-primary">✓</span>
+                  <span>Great Fortune & Annual Luck cycles</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-text-secondary">
+                  <span className="text-gold-primary">✓</span>
+                  <span>Feng Shui & compatibility analysis</span>
+                </div>
+              </div>
+
+              {/* CTA buttons */}
+              <div className="space-y-3">
+                <Link href="/pricing" className="btn-primary w-full text-center py-3 block text-base">
+                  View Plans & Pricing →
+                </Link>
+                <Link
+                  href="/payment?plan=pro"
+                  className="block text-center text-gold-primary text-sm hover:underline">
+                  Get Pro for $9.99/mo
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
