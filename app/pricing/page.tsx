@@ -108,9 +108,9 @@ export default function PricingPage() {
                 <span>Open Luck (Ten Gods) guidance</span>
               </li>
             </ul>
-            <a href={GUMROAD_MONTHLY} target="_blank" rel="noopener noreferrer" className="btn-primary w-full text-center py-3">
+            <Link href="/payment?plan=pro" className="btn-primary w-full text-center py-3">
               Get Destiny Book →
-            </a>
+            </Link>
           </div>
 
           {/* Premium */}
@@ -143,9 +143,9 @@ export default function PricingPage() {
                 <span>Priority support</span>
               </li>
             </ul>
-            <a href={GUMROAD_YEARLY} target="_blank" rel="noopener noreferrer" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
+            <Link href="/payment?plan=premium" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
               Upgrade →
-            </a>
+            </Link>
           </div>
         </div>
       </section>

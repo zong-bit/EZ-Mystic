@@ -4,70 +4,99 @@ import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
+// Gumroad product links
+const GUMROAD_MONTHLY = 'https://selinazw.gumroad.com/l/lcrujk';
+const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/gebxj';
+
 function PaymentContent() {
   const searchParams = useSearchParams();
-  const [processing, setProcessing] = useState(false);
   const baziData = searchParams.get('bazi') ? JSON.parse(decodeURIComponent(searchParams.get('bazi')!)) : null;
   const name = searchParams.get('name') || '';
 
-  const handlePayment = async () => {
-    setProcessing(true);
-
-    // TODO: Integrate Paddle/Dodo Payments
-    // MVP simulated payment
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    window.location.href = `/fatebook?bazi=${encodeURIComponent(JSON.stringify(baziData))}&name=${encodeURIComponent(name)}`;
-    setProcessing(false);
-  };
+  const baziParam = baziData ? `&bazi=${encodeURIComponent(JSON.stringify(baziData))}` : '';
+  const nameParam = name ? `&name=${encodeURIComponent(name)}` : '';
 
   return (
     <div className="min-h-screen starry-bg flex items-center justify-center px-6">
-      <div className="glass-card p-8 md:p-12 max-w-lg w-full page-enter">
+      <div className="glass-card p-8 md:p-12 max-w-2xl w-full page-enter">
         <div className="text-center mb-8">
-          <h1 className="font-display text-2xl md:text-3xl font-bold mb-2 text-gold-glow">Destiny Book</h1>
-          <p className="text-text-secondary">Complete Destiny Report · PDF Download</p>
+          <h1 className="font-display text-2xl md:text-3xl font-bold mb-2 text-gold-glow">Choose Your Plan</h1>
+          <p className="text-text-secondary">Complete your purchase to unlock the Destiny Book</p>
         </div>
 
-        <div className="text-center mb-8">
-          <div className="text-5xl font-display font-bold text-gold-primary mb-2">$29.99</div>
-          <p className="text-text-tertiary text-sm">One-time payment · Lifetime access</p>
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {/* Pro Plan */}
+          <div className="border border-gold-primary/30 rounded-lg p-6 flex flex-col bg-gold-primary/[0.04]">
+            <div className="text-gold-primary text-sm uppercase tracking-wider mb-2">Pro</div>
+            <div className="font-display text-4xl font-bold text-gold-primary mb-1">$9<span className="text-lg text-text-secondary">.99</span></div>
+            <p className="text-text-tertiary text-xs mb-4">Monthly subscription</p>
 
-        <div className="mb-8 space-y-3">
-          {[
-            '📋 Complete Bazi chart report',
-            '🧬 AI deep interpretation (3000+ words)',
-            '📊 Great Fortune & annual luck analysis',
-            '🎯 Luck enhancement guide (colors/numbers/directions)',
-            '📕 Beautiful PDF format download',
-            '🔄 Free regeneration within 90 days',
-          ].map((item) => (
-            <div key={item} className="flex items-center gap-3 text-text-secondary text-sm">
-              <span className="text-gold-primary">✓</span>
-              {item}
+            <ul className="text-sm text-text-secondary space-y-2 mb-6 flex-grow">
+              <li className="flex items-center gap-2"><span className="text-gold-primary">✓</span> Full AI deep interpretation</li>
+              <li className="flex items-center gap-2"><span className="text-gold-primary">✓</span> Complete Destiny Book PDF</li>
+              <li className="flex items-center gap-2"><span className="text-gold-primary">✓</span> Great Fortune &amp; Annual Luck</li>
+              <li className="flex items-center gap-2"><span className="text-gold-primary">✓</span> Open Luck guidance</li>
+            </ul>
+
+            <a
+              href={GUMROAD_MONTHLY}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary w-full text-center py-3 mb-3"
+            >
+              Pay with Gumroad →
+            </a>
+
+            <div className="text-center">
+              <Link
+                href={`/fatebook?plan=pro${baziParam}${nameParam}`}
+                className="text-text-tertiary hover:text-text-primary transition-colors text-xs"
+              >
+                I&apos;ve paid, continue to Destiny Book →
+              </Link>
             </div>
-          ))}
+          </div>
+
+          {/* Premium Plan */}
+          <div className="border border-gold-primary/30 rounded-lg p-6 flex flex-col bg-gold-primary/[0.04]">
+            <div className="text-gold-primary text-sm uppercase tracking-wider mb-2">Premium</div>
+            <div className="font-display text-4xl font-bold text-gold-primary mb-1">$29<span className="text-lg text-text-secondary">.99</span></div>
+            <p className="text-text-tertiary text-xs mb-4">One-time payment</p>
+
+            <ul className="text-sm text-text-secondary space-y-2 mb-6 flex-grow">
+              <li className="flex items-center gap-2"><span className="text-gold-primary">✓</span> Everything in Pro</li>
+              <li className="flex items-center gap-2"><span className="text-gold-primary">✓</span> Yearly forecast report</li>
+              <li className="flex items-center gap-2"><span className="text-gold-primary">✓</span> Relationship compatibility</li>
+              <li className="flex items-center gap-2"><span className="text-gold-primary">✓</span> Feng Shui basics for your chart</li>
+              <li className="flex items-center gap-2"><span className="text-gold-primary">✓</span> Priority support</li>
+            </ul>
+
+            <a
+              href={GUMROAD_YEARLY}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary w-full text-center py-3 mb-3"
+            >
+              Pay with Gumroad →
+            </a>
+
+            <div className="text-center">
+              <Link
+                href={`/fatebook?plan=premium${baziParam}${nameParam}`}
+                className="text-text-tertiary hover:text-text-primary transition-colors text-xs"
+              >
+                I&apos;ve paid, continue to Destiny Book →
+              </Link>
+            </div>
+          </div>
         </div>
 
-        <button onClick={handlePayment} disabled={processing} className="btn-primary w-full text-lg glow-pulse mb-4">
-          {processing ? (
-            <span className="flex items-center justify-center gap-3">
-              <svg className="w-5 h-5 taiji-loader" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" />
-                <circle cx="12" cy="12" r="3" fill="currentColor" />
-              </svg>
-              Processing...
-            </span>
-          ) : '💳 Pay $29.99 Now'}
-        </button>
-
-        <div className="text-center text-text-muted text-xs space-y-1">
-          <p>Supports Paddle / Dodo Payments / Payoneer</p>
-          <p>7-day no-questions-asked refund guarantee</p>
+        <div className="text-center text-text-muted text-xs space-y-1 mb-6">
+          <p>Powered by Gumroad · Secure checkout</p>
+          <p>14-day money-back guarantee</p>
         </div>
 
-        <div className="mt-6 text-center">
+        <div className="text-center">
           <Link href="/bazi" className="text-text-secondary hover:text-text-primary transition-colors text-sm">← Back to Chart</Link>
         </div>
       </div>
