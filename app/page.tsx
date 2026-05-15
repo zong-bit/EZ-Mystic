@@ -1,8 +1,12 @@
 'use client';
 
+'use client';
+
 import Link from 'next/link';
+import { useAuth } from './auth/auth-context';
 
 export default function HomePage() {
+  const { user } = useAuth();
   return (
     <div className="min-h-screen">
       {/* Navbar */}
@@ -19,9 +23,15 @@ export default function HomePage() {
             <Link href="/pricing" className="text-text-secondary hover:text-gold-primary transition-colors text-sm">
               Pricing
             </Link>
-            <Link href="/bazi" className="btn-primary text-sm" style={{ padding: '8px 20px', fontSize: '14px' }}>
-              Begin Your Journey →
-            </Link>
+            {user ? (
+              <Link href="/dashboard" className="btn-primary text-sm" style={{ padding: '8px 20px', fontSize: '14px' }}>
+                Dashboard
+              </Link>
+            ) : (
+              <Link href="/signup" className="btn-primary text-sm" style={{ padding: '8px 20px', fontSize: '14px' }}>
+                Begin Your Journey →
+              </Link>
+            )}
           </div>
         </div>
       </nav>

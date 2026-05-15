@@ -46,8 +46,14 @@ export async function POST(request: NextRequest) {
 
     // ─── Free user message limit check ───
     // Paid users (logged in with active subscription) bypass this via a cookie set after Gumroad purchase.
+    // Logged-in users (auth session) also bypass the limit.
     const paidCookie = request.cookies.get('ezmystic_paid');
-    if (!paidCookie || paidCookie.value !== '1') {
+    const hasSession = request.cookies.get('sb-xgaxejeaxfhlupguqteu-auth-token')
+      || request.cookies.get('sb-auth-token');
+    const isPaid = paidCookie && paidCookie.value === '1';
+    const isLoggedIn = !!hasSession;
+
+    if (!isPaid && !isLoggedIn) {
       const msgCount = getMsgCount(request);
       if (msgCount > FREE_MSG_LIMIT) {
         return NextResponse.json(
@@ -90,7 +96,7 @@ export async function POST(request: NextRequest) {
           })),
         ],
         temperature: 0.8,
-        max_tokens: 2000,
+        max_tokens: 4096,
       }),
     });
 

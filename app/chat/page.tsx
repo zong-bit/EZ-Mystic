@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useAuth } from '../auth/auth-context';
 
 interface ChatMessage {
   id: string;
@@ -97,6 +98,7 @@ const SUGGESTIONS = [
 ];
 
 export default function ChatPage() {
+  const { user } = useAuth();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -129,11 +131,13 @@ export default function ChatPage() {
     const messageText = text || input.trim();
     if (!messageText || loading) return;
 
-    // Client-side free user check
-    const localCount = getLocalMsgCount();
-    if (localCount >= 1 && typeof window !== 'undefined' && document.cookie.indexOf('ezmystic_paid=1') === -1) {
-      setShowPayment(true);
-      return;
+    // Client-side free user check (skip for logged-in users)
+    if (!user) {
+      const localCount = getLocalMsgCount();
+      if (localCount >= 1 && typeof window !== 'undefined' && document.cookie.indexOf('ezmystic_paid=1') === -1) {
+        setShowPayment(true);
+        return;
+      }
     }
 
     const userMsg: ChatMessage = {
@@ -219,6 +223,20 @@ export default function ChatPage() {
             <Link href="/chat" className="text-gold-primary text-sm font-medium">
               Chat
             </Link>
+            {user ? (
+              <Link href="/dashboard" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
+                Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link href="/login" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
+                  Sign In
+                </Link>
+                <Link href="/signup" className="text-gold-primary text-sm font-medium hover:text-gold-light transition-colors">
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </nav>
