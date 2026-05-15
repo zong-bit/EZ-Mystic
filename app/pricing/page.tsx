@@ -2,6 +2,10 @@
 
 import Link from 'next/link';
 
+// Gumroad product links
+const GUMROAD_MONTHLY = 'https://selinazw.gumroad.com/l/qkcjod';
+const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/kzfhr';
+
 export default function PricingPage() {
   return (
     <div className="min-h-screen">
@@ -30,7 +34,7 @@ export default function PricingPage() {
           Simple, Transparent Pricing
         </h1>
         <p className="text-text-secondary text-lg max-w-2xl mx-auto">
-          Start with a free chart reading. Unlock your complete destiny profile when you're ready.
+          Start with a free chart reading. Unlock your complete destiny profile when you&apos;re ready.
         </p>
       </section>
 
@@ -51,7 +55,7 @@ export default function PricingPage() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-gold-primary">✓</span>
-                <span>Day Master & element analysis</span>
+                <span>Day Master &amp; element analysis</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-gold-primary">✓</span>
@@ -97,16 +101,16 @@ export default function PricingPage() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-gold-primary">✓</span>
-                <span>Great Fortune & Annual Luck cycles</span>
+                <span>Great Fortune &amp; Annual Luck cycles</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-gold-primary">✓</span>
                 <span>Open Luck (Ten Gods) guidance</span>
               </li>
             </ul>
-            <Link href="/bazi" className="btn-primary w-full text-center py-3">
+            <a href={GUMROAD_MONTHLY} target="_blank" rel="noopener noreferrer" className="btn-primary w-full text-center py-3">
               Get Destiny Book →
-            </Link>
+            </a>
           </div>
 
           {/* Premium */}
@@ -139,9 +143,9 @@ export default function PricingPage() {
                 <span>Priority support</span>
               </li>
             </ul>
-            <Link href="/bazi" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
+            <a href={GUMROAD_YEARLY} target="_blank" rel="noopener noreferrer" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
               Upgrade →
-            </Link>
+            </a>
           </div>
         </div>
       </section>
@@ -152,8 +156,8 @@ export default function PricingPage() {
           <h2 className="font-display text-2xl font-bold text-center mb-12">Frequently Asked Questions</h2>
           <div className="space-y-6">
             <div className="glass-card p-6">
-              <h3 className="font-semibold text-gold-primary mb-2">What's included in the free reading?</h3>
-              <p className="text-text-secondary text-sm">Your basic Bazi chart with the Four Pillars, Day Master analysis, and element distribution. It's a great starting point to understand your destiny code.</p>
+              <h3 className="font-semibold text-gold-primary mb-2">What&apos;s included in the free reading?</h3>
+              <p className="text-text-secondary text-sm">Your basic Bazi chart with the Four Pillars, Day Master analysis, and element distribution. It&apos;s a great starting point to understand your destiny code.</p>
             </div>
             <div className="glass-card p-6">
               <h3 className="font-semibold text-gold-primary mb-2">How does the Destiny Book work?</h3>
@@ -174,7 +178,7 @@ export default function PricingPage() {
             Not sure which plan is right for you?
           </h2>
           <p className="text-text-secondary mb-8">
-            Start with the free chart reading — you'll know exactly what you need.
+            Start with the free chart reading — you&apos;ll know exactly what you need.
           </p>
           <Link href="/bazi" className="btn-primary text-lg px-12 py-4">
             ✨ Start Free Chart Reading
