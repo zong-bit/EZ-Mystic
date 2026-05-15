@@ -3,6 +3,16 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { CITIES, type CityData } from './cities';
+import {
+  GAN_TRANSLATIONS,
+  ZHI_TRANSLATIONS,
+  WUXING_TRANSLATIONS,
+  SHICHEN_TRANSLATIONS,
+  NAYIN_TRANSLATIONS,
+  TEN_DEITY_TRANSLATIONS,
+  PILLAR_LABELS as PILLAR_LABELS_CN,
+  SECTION_HEADERS,
+} from '@/bazi/translations';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -317,6 +327,8 @@ function PillarCard({ label, pillar, index }: { label: string; pillar: BaziPilla
   const ganWx = getWuxing(pillar.gan);
   const zhiWx = getZhiWuxing(pillar.zhi);
   const wxColor = WUXING_COLORS[ganWx] || { text: 'text-text-primary', bg: '', light: '' };
+  const ganLabel = GAN_TRANSLATIONS[pillar.gan] || pillar.gan;
+  const zhiLabel = ZHI_TRANSLATIONS[pillar.zhi] || pillar.zhi;
 
   return (
     <div className="glass-card p-4 md:p-5 text-center animate-[ink-spread_0.6s_ease-out]"
@@ -330,10 +342,9 @@ function PillarCard({ label, pillar, index }: { label: string; pillar: BaziPilla
           {pillar.zhi}
         </span>
       </div>
-      <div className="flex items-center justify-center gap-2 text-xs">
-        <span className={WUXING_COLORS[ganWx]?.text || ''}>Heavenly Stem · {ganWx}</span>
-        <span className="text-text-tertiary">|</span>
-        <span className={WUXING_COLORS[zhiWx]?.text || ''}>Earthly Branch · {zhiWx}</span>
+      <div className="flex flex-col items-center gap-0.5">
+        <span className="text-[10px] text-text-tertiary leading-tight">{ganLabel}</span>
+        <span className="text-[10px] text-text-tertiary leading-tight">{zhiLabel}</span>
       </div>
     </div>
   );
@@ -342,11 +353,12 @@ function PillarCard({ label, pillar, index }: { label: string; pillar: BaziPilla
 function WuxingBar({ element, count, max }: { element: string; count: number; max: number }) {
   const color = WUXING_COLORS[element];
   const pct = max > 0 ? (count / max) * 100 : 0;
+  const label = WUXING_TRANSLATIONS[element] || element;
 
   return (
     <div className="flex items-center gap-3">
       <span className="w-6 text-center flex-shrink-0">{WUXING_ICONS[element]}</span>
-      <span className={`w-4 text-xs font-semibold ${color?.text || ''} flex-shrink-0`}>{element}</span>
+      <span className={`w-12 text-xs font-semibold ${color?.text || ''} flex-shrink-0`}>{element}</span>
       <div className="flex-1 h-3 rounded-full bg-white/5 overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-1000 ease-out ${color?.bg || ''}`}
@@ -354,6 +366,7 @@ function WuxingBar({ element, count, max }: { element: string; count: number; ma
         />
       </div>
       <span className="w-5 text-right text-xs text-text-secondary tabular-nums flex-shrink-0">{count}</span>
+      <span className="w-16 text-right text-[10px] text-text-tertiary flex-shrink-0 hidden sm:block">{label}</span>
     </div>
   );
 }
@@ -364,31 +377,36 @@ function TenDeityTable({ tenDeities }: { tenDeities: TenDeityItem[] }) {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-white/10">
-            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Pillar</th>
-            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Heavenly Stem</th>
-            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Ten Deity</th>
-            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Earthly Branch</th>
-            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Hidden Stems · Deity</th>
+            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Pillar (柱)</th>
+            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Stem (天干)</th>
+            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Ten Deity (十神)</th>
+            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Branch (地支)</th>
+            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Hidden · Deity (藏干·十神)</th>
           </tr>
         </thead>
         <tbody>
           {tenDeities.map((item) => {
             const ganWx = getWuxing(item.gan);
+            const ganTenDeityLabel = TEN_DEITY_TRANSLATIONS[item.ganTenDeity] || item.ganTenDeity;
             return (
               <tr key={item.pillar} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                <td className="py-3 px-3 text-text-primary font-medium">{PILLAR_LABELS[item.pillar]}</td>
+                <td className="py-3 px-3 text-text-primary font-medium">{PILLAR_LABELS_CN[item.pillar]}</td>
                 <td className={`py-3 px-3 ${WUXING_COLORS[ganWx]?.text || ''} font-display text-base`}>
                   {item.gan}
                 </td>
-                <td className="py-3 px-3 text-text-primary">{item.ganTenDeity}</td>
+                <td className="py-3 px-3">
+                  <span className="text-text-primary">{item.ganTenDeity}</span>
+                  <span className="text-text-tertiary text-[10px] ml-1 block">{ganTenDeityLabel}</span>
+                </td>
                 <td className="py-3 px-3 text-text-secondary font-display">{item.zhi}</td>
                 <td className="py-3 px-3">
                   <div className="flex flex-wrap gap-1.5">
                     {item.zhiTenDeities.map((zt, zi) => {
                       const wxC = WUXING_COLORS[getWuxing(zt.gan)];
+                      const deityLabel = TEN_DEITY_TRANSLATIONS[zt.deity] || zt.deity;
                       return (
                         <span key={zi} className={`text-xs px-1.5 py-0.5 rounded ${wxC?.text || ''} bg-white/[0.03]`}
-                          title={`${zt.gan} · Weight: ${zt.weight}`}>
+                          title={`${zt.gan} · ${deityLabel} · Weight: ${zt.weight}`}>
                           {zt.gan}({zt.deity})
                         </span>
                       );
@@ -743,6 +761,9 @@ export default function BaziPage() {
             <Link href="/bazi" className="text-gold-primary text-sm font-medium">
               Bazi Chart
             </Link>
+            <Link href="/chat" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
+              Chat
+            </Link>
             <Link href="/pricing" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
               Pricing
             </Link>
@@ -1036,9 +1057,9 @@ export default function BaziPage() {
             {/* Four Pillars */}
             <div>
               <h2 className="font-display text-xl font-bold text-gold-primary mb-4 flex items-center gap-2">
-                <span>Four Pillars</span>
+                <span>{SECTION_HEADERS.fourPillars}</span>
                 <span className="text-xs text-text-tertiary font-normal bg-white/5 px-2 py-0.5 rounded-full">
-                  Heavenly Stem · Five Elements
+                  Heavenly Stem (天干) · Five Elements (五行)
                 </span>
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
@@ -1049,17 +1070,21 @@ export default function BaziPage() {
               </div>
               {/* Nayin */}
               <div className="mt-4 flex flex-wrap gap-3 justify-center">
-                {['Year Pillar', 'Month Pillar', 'Day Pillar', 'Hour Pillar'].map((label, idx) => (
-                  <span key={idx} className="text-xs glass px-3 py-1.5 rounded-full text-text-secondary">
-                    {label}: {result.bazi.nayin[idx]}
-                  </span>
-                ))}
+                {['Year Pillar', 'Month Pillar', 'Day Pillar', 'Hour Pillar'].map((label, idx) => {
+                  const nayinKey = result.bazi.nayin[idx];
+                  const nayinLabel = NAYIN_TRANSLATIONS[nayinKey] || nayinKey;
+                  return (
+                    <span key={idx} className="text-xs glass px-3 py-1.5 rounded-full text-text-secondary">
+                      {label}: <span className="font-medium">{nayinKey}</span> <span className="text-text-tertiary">· {nayinLabel}</span>
+                    </span>
+                  );
+                })}
               </div>
             </div>
 
             {/* Wuxing Statistics */}
             <div className="glass-card p-6 md:p-8">
-              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">Five Elements (Wu Xing)</h2>
+              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">{SECTION_HEADERS.wuxing}</h2>
               <div className="space-y-3">
                 {result.bazi.wuxing.map((w) => (
                   <WuxingBar key={w.element} element={w.element} count={w.count} max={maxWuxingCount} />
@@ -1091,31 +1116,31 @@ export default function BaziPage() {
 
             {/* Ten Deities */}
             <div className="glass-card p-6 md:p-8">
-              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">Ten Deities</h2>
+              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">{SECTION_HEADERS.tenDeities}</h2>
               <p className="text-xs text-text-tertiary mb-4">
-                Based on the Day Master ({result.bazi.dayPillar.gan}), analyzing the Ten Deity relationships of each pillar
+                Based on the Day Master ({result.bazi.dayPillar.gan} · Day Master/日主), analyzing the Ten Deity (十神) relationships of each pillar
               </p>
               <TenDeityTable tenDeities={result.bazi.tenDeities} />
             </div>
 
             {/* Hidden Stems */}
             <div className="glass-card p-6 md:p-8">
-              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">Hidden Stems</h2>
+              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">{SECTION_HEADERS.hiddenStems}</h2>
               <p className="text-xs text-text-tertiary mb-4">
-                Heavenly stems hidden within each earthly branch, · indicates weight
+                Heavenly stems (天干) hidden within each earthly branch (地支), · indicates weight
               </p>
               <HiddenStemsTable hiddenStems={result.bazi.hiddenStems} />
             </div>
 
             {/* Grand Fortune */}
             <div className="glass-card p-6 md:p-8">
-              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">Great Fortune Cycles</h2>
+              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">{SECTION_HEADERS.grandFortune}</h2>
               <GrandFortuneTimeline gf={result.bazi.grandFortune} />
             </div>
 
             {/* True Solar Time Info */}
             <div className="glass-card p-6 md:p-8">
-              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">True Solar Time Correction</h2>
+              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">{SECTION_HEADERS.trueSolarTime}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                 <div className="text-center glass p-3 rounded-xl">
                   <div className="text-text-tertiary text-xs mb-1">Longitude Correction</div>
@@ -1143,16 +1168,14 @@ export default function BaziPage() {
             {/* AI Interpretation */}
             <div className="glass-card p-6 md:p-8" id="ai-interpretation">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="font-display text-lg font-bold text-gold-primary">🤖 AI Destiny Reading</h2>
+                <h2 className="font-display text-lg font-bold text-gold-primary">{SECTION_HEADERS.aiInterpretation}</h2>
               </div>
 
               <div className="bazi-interpretation">
                 {renderMarkdown(result.interpretation)}
               </div>
 
-              {(
-                <div className="gold-divider my-6" />
-              )}
+              <div className="gold-divider my-6" />
 
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-3 mt-4">
@@ -1168,7 +1191,7 @@ export default function BaziPage() {
                         Generating...
                       </span>
                     ) : (
-                      '📜 Generate Full Destiny Book'
+                      '📜 Generate Full Destiny Book (完整命书)'
                     )}
                   </button>
                 )}
@@ -1187,12 +1210,43 @@ export default function BaziPage() {
                   )}
                 </button>
               </div>
+
+              {/* Upgrade Prompt */}
+              <div className="mt-6 glass-card p-5 rounded-2xl border border-gold-primary/10 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-gold-primary/[0.03] to-transparent pointer-events-none" />
+                <div className="relative flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gold-primary/10 flex items-center justify-center text-2xl">
+                    👑
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-display font-semibold text-gold-primary text-base mb-1">
+                      Unlock Your Full Destiny Profile
+                    </h3>
+                    <p className="text-text-secondary text-sm mb-3">
+                      Get in-depth analysis: yearly fortune, career peak years, relationship compatibility,
+                      and personalized feng shui recommendations.
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      <Link
+                        href="/pricing"
+                        className="btn-primary text-sm px-5 py-2.5 inline-flex items-center gap-2">
+                        <span>🚀 Upgrade to Pro</span>
+                      </Link>
+                      <Link
+                        href="/fatebook"
+                        className="text-sm text-gold-primary hover:underline inline-flex items-center gap-1">
+                        Learn more →
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Fate Book */}
             {fateBook && (
               <div className="glass-card p-6 md:p-8">
-                <h2 className="font-display text-lg font-bold text-gold-primary mb-4">📜 Full Destiny Book</h2>
+                <h2 className="font-display text-lg font-bold text-gold-primary mb-4">{SECTION_HEADERS.fullDestinyBook}</h2>
                 <div className="bazi-interpretation">
                   {renderMarkdown(fateBook)}
                 </div>
@@ -1221,7 +1275,7 @@ export default function BaziPage() {
             © 2026 ez-mystic · FateWise. All rights reserved.
           </p>
           <p className="text-text-muted text-xs">
-            Disclaimer: The content on this website is for entertainment and educational purposes only and does not constitute advice for life decisions.
+            Disclaimer: The content on this website is for entertainment and educational purposes only and does not constitute advice for life decisions. · 本站内容仅供娱乐与参考，不构成人生决策依据。
           </p>
         </div>
       </footer>
