@@ -3,8 +3,8 @@
 import Link from 'next/link';
 
 // Gumroad product links
-const GUMROAD_MONTHLY = 'https://selinazw.gumroad.com/l/qkcjod';
-const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/kzfhr';
+const GUMROAD_MONTHLY = 'https://selinazw.gumroad.com/l/lcrujk';
+const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/gebxj';
 
 export default function PricingPage() {
   return (
