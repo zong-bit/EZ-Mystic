@@ -743,6 +743,9 @@ export default function BaziPage() {
             <Link href="/bazi" className="text-gold-primary text-sm font-medium">
               Bazi Chart
             </Link>
+            <Link href="/pricing" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
+              Pricing
+            </Link>
           </div>
         </div>
       </nav>

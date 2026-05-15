@@ -16,6 +16,9 @@ export default function HomePage() {
             <Link href="/bazi" className="text-text-secondary hover:text-gold-primary transition-colors text-sm">
               Bazi Chart
             </Link>
+            <Link href="/pricing" className="text-text-secondary hover:text-gold-primary transition-colors text-sm">
+              Pricing
+            </Link>
             <Link href="/bazi" className="btn-primary text-sm" style={{ padding: '8px 20px', fontSize: '14px' }}>
               Begin Your Journey →
             </Link>
@@ -125,6 +128,85 @@ export default function HomePage() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="font-display text-3xl font-bold text-center mb-4">Pricing</h2>
+          <p className="text-text-secondary text-center mb-16 max-w-xl mx-auto">
+            Start free, unlock your full destiny profile
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Free */}
+            <div className="glass-card p-8 flex flex-col">
+              <div className="mb-4">
+                <span className="text-text-tertiary text-sm uppercase tracking-wider">Free</span>
+              </div>
+              <div className="mb-6">
+                <span className="font-display text-4xl font-bold text-text-primary">$0</span>
+              </div>
+              <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
+                <li>✓ Basic Bazi chart</li>
+                <li>✓ Four Pillars overview</li>
+                <li>✓ AI element analysis</li>
+              </ul>
+              <Link href="/bazi" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
+                Get Started
+              </Link>
+            </div>
+
+            {/* Pro */}
+            <div className="glass-card p-8 flex flex-col relative border-gold-primary/40">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-primary text-dark text-xs px-4 py-1 rounded-full font-semibold">
+                Most Popular
+              </div>
+              <div className="mb-4 mt-2">
+                <span className="text-gold-primary text-sm uppercase tracking-wider">Pro</span>
+              </div>
+              <div className="mb-6">
+                <span className="font-display text-4xl font-bold text-gold-primary">$9</span>
+                <span className="text-text-secondary">.99</span>
+              </div>
+              <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
+                <li>✓ Everything in Free</li>
+                <li>✓ Full AI deep interpretation</li>
+                <li>✓ Complete Destiny Book (PDF)</li>
+                <li>✓ Great Fortune & Annual Luck</li>
+                <li>✓ Open Luck guidance</li>
+              </ul>
+              <Link href="/bazi" className="btn-primary w-full text-center py-3">
+                Get Destiny Book →
+              </Link>
+            </div>
+
+            {/* Premium */}
+            <div className="glass-card p-8 flex flex-col">
+              <div className="mb-4">
+                <span className="text-text-tertiary text-sm uppercase tracking-wider">Premium</span>
+              </div>
+              <div className="mb-6">
+                <span className="font-display text-4xl font-bold text-text-primary">$29</span>
+                <span className="text-text-secondary">.99</span>
+              </div>
+              <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
+                <li>✓ Everything in Pro</li>
+                <li>✓ Yearly forecast report</li>
+                <li>✓ Relationship compatibility</li>
+                <li>✓ Feng Shui basics</li>
+                <li>✓ Priority support</li>
+              </ul>
+              <Link href="/bazi" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
+                Upgrade →
+              </Link>
+            </div>
+          </div>
+
+          <p className="text-center text-text-tertiary text-xs mt-12">
+            Secure payment via Paddle · 14-day money-back guarantee
+          </p>
         </div>
       </section>
 
