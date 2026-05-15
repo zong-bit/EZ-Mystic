@@ -1,5 +1,5 @@
 // src/bazi/ganzhi.ts
-// 天干地支常量与基础工具
+// Heavenly Stems and Earthly Branches constants and utilities
 
 export const TIAN_GAN = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
 export const DI_ZHI = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
@@ -37,8 +37,8 @@ export const ZHI_CANG_GAN: Record<string, { gan: string; weight: number }[]> = {
 };
 
 export const SHICHEN_NAMES = [
-  '子时', '丑时', '寅时', '卯时', '辰时', '巳时',
-  '午时', '未时', '申时', '酉时', '戌时', '亥时',
+  'Zi (子)', 'Chou (丑)', 'Yin (寅)', 'Mao (卯)', 'Chen (辰)', 'Si (巳)',
+  'Wu (午)', 'Wei (未)', 'Shen (申)', 'You (酉)', 'Xu (戌)', 'Hai (亥)',
 ];
 
 export const SHICHEN_RANGES: [number, number, string][] = [
@@ -128,10 +128,10 @@ export const NAYIN_TABLE = [
 ];
 
 export function getNayinIndex(yearIndex: number, monthIndex: number): [string, string, string, string] {
-  // 纳音以两年为一组，每柱取对应组
+  // Nayin cycles in pairs of years, each pillar takes its corresponding group
   const yearPair = Math.floor(yearIndex / 2);
   const monthPair = Math.floor(monthIndex / 2);
-  // 简化：四柱纳音分别取
+  // Simplified: four pillars each take Nayin from their corresponding group
   return [
     NAYIN_TABLE[yearPair % 30],
     NAYIN_TABLE[(yearPair + 1) % 30],

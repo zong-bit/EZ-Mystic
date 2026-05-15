@@ -13,8 +13,8 @@ function PaymentContent() {
   const handlePayment = async () => {
     setProcessing(true);
 
-    // TODO: 集成 Paddle/Dodo Payments 支付
-    // MVP 模拟支付
+    // TODO: Integrate Paddle/Dodo Payments
+    // MVP simulated payment
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     window.location.href = `/fatebook?bazi=${encodeURIComponent(JSON.stringify(baziData))}&name=${encodeURIComponent(name)}`;
@@ -25,23 +25,23 @@ function PaymentContent() {
     <div className="min-h-screen starry-bg flex items-center justify-center px-6">
       <div className="glass-card p-8 md:p-12 max-w-lg w-full page-enter">
         <div className="text-center mb-8">
-          <h1 className="font-display text-2xl md:text-3xl font-bold mb-2 text-gold-glow">天命之书</h1>
-          <p className="text-text-secondary">完整命书报告 · PDF 下载</p>
+          <h1 className="font-display text-2xl md:text-3xl font-bold mb-2 text-gold-glow">Destiny Book</h1>
+          <p className="text-text-secondary">Complete Destiny Report · PDF Download</p>
         </div>
 
         <div className="text-center mb-8">
           <div className="text-5xl font-display font-bold text-gold-primary mb-2">$29.99</div>
-          <p className="text-text-tertiary text-sm">一次性付费 · 永久有效</p>
+          <p className="text-text-tertiary text-sm">One-time payment · Lifetime access</p>
         </div>
 
         <div className="mb-8 space-y-3">
           {[
-            '📋 完整八字排盘报告',
-            '🧬 AI 深度解读（3000+ 字）',
-            '📊 大运流年分析',
-            '🎯 开运指南（颜色/数字/方位）',
-            '📕 精美 PDF 格式下载',
-            '🔄 90 天内免费重新生成',
+            '📋 Complete Bazi chart report',
+            '🧬 AI deep interpretation (3000+ words)',
+            '📊 Great Fortune & annual luck analysis',
+            '🎯 Luck enhancement guide (colors/numbers/directions)',
+            '📕 Beautiful PDF format download',
+            '🔄 Free regeneration within 90 days',
           ].map((item) => (
             <div key={item} className="flex items-center gap-3 text-text-secondary text-sm">
               <span className="text-gold-primary">✓</span>
@@ -57,18 +57,18 @@ function PaymentContent() {
                 <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" />
                 <circle cx="12" cy="12" r="3" fill="currentColor" />
               </svg>
-              处理中...
+              Processing...
             </span>
-          ) : '💳 立即支付 $29.99'}
+          ) : '💳 Pay $29.99 Now'}
         </button>
 
         <div className="text-center text-text-muted text-xs space-y-1">
-          <p>支持 Paddle / Dodo Payments / Payoneer</p>
-          <p>7天无理由退款保证</p>
+          <p>Supports Paddle / Dodo Payments / Payoneer</p>
+          <p>7-day no-questions-asked refund guarantee</p>
         </div>
 
         <div className="mt-6 text-center">
-          <Link href="/bazi" className="text-text-secondary hover:text-text-primary transition-colors text-sm">← 返回排盘页</Link>
+          <Link href="/bazi" className="text-text-secondary hover:text-text-primary transition-colors text-sm">← Back to Chart</Link>
         </div>
       </div>
     </div>

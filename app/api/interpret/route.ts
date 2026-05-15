@@ -9,10 +9,10 @@ export async function POST(request: NextRequest) {
     const { bazi, name } = body;
 
     if (!bazi) {
-      return NextResponse.json({ error: '缺少八字数据' }, { status: 400 });
+      return NextResponse.json({ error: 'Bazi data is required' }, { status: 400 });
     }
 
-    // 调用 DeepSeek 生成完整命书
+    // Call DeepSeek to generate the full Destiny Book
     let fullContent = '';
     try {
       const prompt = buildFateBookPrompt(bazi as BaziResult, name);
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
           body: JSON.stringify({
             model: 'deepseek-chat',
             messages: [
-              { role: 'system', content: '你是一位资深八字命理师，请撰写专业的命理报告。使用Markdown格式。' },
+              { role: 'system', content: 'You are a senior Bazi (Four Pillars of Destiny) master. Please write a professional destiny report in Markdown format.' },
               { role: 'user', content: prompt },
             ],
             temperature: 0.7,
@@ -42,11 +42,11 @@ export async function POST(request: NextRequest) {
           fullContent = data.choices?.[0]?.message?.content || '';
         }
       } else {
-        fullContent = '暂无命书内容（请配置 DEEPSEEK_API_KEY 环境变量）';
+        fullContent = 'No Destiny Book content available (please configure the DEEPSEEK_API_KEY environment variable).';
       }
     } catch (error) {
-      console.error('命书生成失败:', error);
-      fullContent = '命书生成失败，请稍后重试。';
+      console.error('Destiny book generation failed:', error);
+      fullContent = 'Destiny book generation failed, please try again later.';
     }
 
     return NextResponse.json({
@@ -54,9 +54,9 @@ export async function POST(request: NextRequest) {
       content: fullContent,
     });
   } catch (error) {
-    console.error('API 错误:', error);
+    console.error('API error:', error);
     return NextResponse.json(
-      { error: '服务器错误' },
+      { error: 'Server error' },
       { status: 500 }
     );
   }

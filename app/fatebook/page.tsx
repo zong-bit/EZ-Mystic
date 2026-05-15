@@ -46,7 +46,7 @@ function FateBookContent() {
         setTimeout(() => setShowContent(true), 100);
       }
     } catch (err) {
-      console.error('命书生成失败:', err);
+      console.error('Destiny book generation failed:', err);
     } finally {
       setLoading(false);
     }
@@ -64,7 +64,7 @@ function FateBookContent() {
           bazi,
           name: name || 'anonymous',
           interpretation: content,
-          title: '天命之书 · Destiny Revelation',
+          title: 'Destiny Book · Destiny Revelation',
         }),
       });
 
@@ -76,7 +76,7 @@ function FateBookContent() {
         link.click();
       }
     } catch (err) {
-      console.error('PDF 下载失败:', err);
+      console.error('PDF download failed:', err);
     } finally {
       setDownloading(false);
     }
@@ -86,9 +86,9 @@ function FateBookContent() {
     return (
       <div className="min-h-screen starry-bg flex items-center justify-center px-6">
         <div className="glass-card p-12 text-center max-w-md">
-          <h2 className="font-display text-2xl font-bold mb-4">请先进行八字排盘</h2>
-          <p className="text-text-secondary mb-6">需要先完成八字排盘才能生成命书报告</p>
-          <Link href="/bazi" className="btn-primary inline-block">去排盘</Link>
+          <h2 className="font-display text-2xl font-bold mb-4">Please complete your Bazi chart first</h2>
+          <p className="text-text-secondary mb-6">A Bazi chart must be generated before creating a Destiny Book report</p>
+          <Link href="/bazi" className="btn-primary inline-block">Go to Chart</Link>
         </div>
       </div>
     );
@@ -96,7 +96,7 @@ function FateBookContent() {
 
   return (
     <div className="min-h-screen starry-bg">
-      {/* 导航 */}
+      {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 glass" style={{ backdropFilter: 'blur(12px)', background: 'rgba(18,18,26,0.72)' }}>
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
@@ -105,7 +105,7 @@ function FateBookContent() {
           </Link>
           <div className="flex items-center gap-4">
             <Link href="/bazi" className="text-text-secondary hover:text-text-primary transition-colors text-sm">
-              ← 返回
+              ← Back
             </Link>
             {content && (
               <button
@@ -114,7 +114,7 @@ function FateBookContent() {
                 className="btn-primary text-sm"
                 style={{ padding: '8px 20px', fontSize: '14px' }}
               >
-                {downloading ? '📥 生成中...' : '📥 下载 PDF'}
+                {downloading ? '📥 Generating...' : '📥 Download PDF'}
               </button>
             )}
           </div>
@@ -123,11 +123,11 @@ function FateBookContent() {
 
       <div className="pt-24 pb-12 px-6">
         <div className="max-w-4xl mx-auto">
-          {/* 封面前奏 */}
+          {/* Cover */}
           {!showContent && !loading && (
             <div className="glass-card p-12 md:p-20 text-center mb-8 page-enter">
               <div className="text-gold-primary text-4xl mb-6">✦</div>
-              <h1 className="font-display text-4xl md:text-5xl font-bold mb-3 text-gold-glow">天命之书</h1>
+              <h1 className="font-display text-4xl md:text-5xl font-bold mb-3 text-gold-glow">Destiny Book</h1>
               <p className="text-text-secondary text-lg mb-2">Destiny Revelation</p>
               <div className="text-2xl mb-8 opacity-40">🜁 🜂 🜄 🜃</div>
               {name && <p className="text-text-primary font-display text-xl mb-8">{name}</p>}
@@ -138,29 +138,29 @@ function FateBookContent() {
                       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" />
                       <circle cx="12" cy="12" r="3" fill="currentColor" />
                     </svg>
-                    生成中...
+                    Generating...
                   </span>
-                ) : '📖 打开报告'}
+                ) : '📖 Open Report'}
               </button>
             </div>
           )}
 
-          {/* 报告主体 */}
+          {/* Report content */}
           {showContent && content && (
             <div className="glass-card p-6 md:p-10 mb-8 page-enter">
               <div className="text-center mb-10 pb-6 border-b border-gold-primary/20">
                 <div className="text-gold-primary text-3xl mb-4">✦</div>
-                <h1 className="font-display text-3xl md:text-4xl font-bold mb-2 text-gold-glow">天命之书</h1>
+                <h1 className="font-display text-3xl md:text-4xl font-bold mb-2 text-gold-glow">Destiny Book</h1>
                 <p className="text-text-secondary">Destiny Revelation</p>
                 {name && <div className="mt-4 text-text-primary font-display">{name} · {bazi.zodiac}</div>}
               </div>
 
               <div className="grid grid-cols-4 gap-3 mb-8">
                 {([
-                  { label: '年柱', pillar: bazi.yearPillar },
-                  { label: '月柱', pillar: bazi.monthPillar },
-                  { label: '日柱', pillar: bazi.dayPillar },
-                  { label: '时柱', pillar: bazi.hourPillar },
+                  { label: 'Year Pillar', pillar: bazi.yearPillar },
+                  { label: 'Month Pillar', pillar: bazi.monthPillar },
+                  { label: 'Day Pillar', pillar: bazi.dayPillar },
+                  { label: 'Hour Pillar', pillar: bazi.hourPillar },
                 ] as const).map(({ label, pillar }) => (
                   <div key={label} className="text-center py-3 glass" style={{ background: 'rgba(26,26,40,0.4)' }}>
                     <div className="text-xs text-text-muted mb-1">{label}</div>
@@ -230,21 +230,21 @@ function FateBookContent() {
               </div>
 
               <div className="mt-12 pt-6 border-t border-white/5 text-center">
-                <p className="text-text-muted text-xs">⚠️ 本解读由 AI 生成，仅供参考和娱乐，不作为人生决策依据。</p>
+                <p className="text-text-muted text-xs">⚠️ This reading is AI-generated, for reference and entertainment only, not a basis for life decisions.</p>
                 <p className="text-text-muted text-xs mt-2">✨ This reading is generated by DeepSeek AI for entertainment and self-reflection purposes.</p>
-                <p className="text-text-muted text-xs mt-2">ez-mystic · FateWise · {new Date().toLocaleDateString('zh-CN')}</p>
+                <p className="text-text-muted text-xs mt-2">ez-mystic · FateWise · {new Date().toLocaleDateString('en-US')}</p>
               </div>
             </div>
           )}
 
-          {/* 底部操作栏 */}
+          {/* Bottom action bar */}
           {showContent && (
             <div className="fixed bottom-0 left-0 right-0 glass z-40" style={{ backdropFilter: 'blur(20px)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
               <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-                <Link href="/bazi" className="text-text-secondary hover:text-text-primary transition-colors text-sm">🔄 重新排盘</Link>
+                <Link href="/bazi" className="text-text-secondary hover:text-text-primary transition-colors text-sm">🔄 New Chart</Link>
                 <div className="flex items-center gap-4">
                   <button onClick={handleDownloadPDF} disabled={downloading} className="btn-primary text-sm" style={{ padding: '10px 24px', fontSize: '14px' }}>
-                    {downloading ? '📥 生成中...' : '📥 下载命书 PDF · $29.99'}
+                    {downloading ? '📥 Generating...' : '📥 Download Destiny Book · $29.99'}
                   </button>
                 </div>
               </div>

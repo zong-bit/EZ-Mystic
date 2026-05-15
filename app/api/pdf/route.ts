@@ -14,7 +14,7 @@ const fontBoldBase64 = fs.readFileSync(fontBoldPath, 'base64');
 
 const TIAN_GAN = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'] as const;
 
-// 天干五行映射：甲乙→木, 丙丁→火, 戊己→土, 庚辛→金, 壬癸→水
+// Heavenly Stem Five Elements mapping: 甲乙→木, 丙丁→火, 戊己→土, 庚辛→金, 壬癸→水
 const TIAN_GAN_WUXING = ['木', '木', '火', '火', '土', '土', '金', '金', '水', '水'] as const;
 
 function getDayMasterElement(gan: string): string {
@@ -25,10 +25,10 @@ function getDayMasterElement(gan: string): string {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { bazi, name, interpretation, title = '天命之书' } = body;
+    const { bazi, name, interpretation, title = 'Destiny Book' } = body;
 
     if (!bazi) {
-      return NextResponse.json({ error: '缺少八字数据' }, { status: 400 });
+      return NextResponse.json({ error: 'Bazi data is required' }, { status: 400 });
     }
 
     const doc = new jsPDF({ unit: 'mm', format: 'a4' });
@@ -43,31 +43,31 @@ export async function POST(request: NextRequest) {
     doc.addFileToVFS('NotoSansSC-Bold.ttf', fontBoldBase64);
     doc.addFont('NotoSansSC-Bold.ttf', 'NotoSansSC', 'bold');
 
-    // 标题
+    // Title
     doc.setFont('NotoSansSC', 'bold');
     doc.setFontSize(24);
-    doc.setTextColor(212, 168, 83); // 金色
+    doc.setTextColor(212, 168, 83); // gold
     doc.text(title, pageWidth / 2, y, { align: 'center' });
     y += 15;
 
-    // 副标题
+    // Subtitle
     doc.setFont('NotoSansSC', 'normal');
     doc.setFontSize(12);
     doc.setTextColor(100, 100, 100);
     doc.text(`ez-mystic · FateWise`, pageWidth / 2, y, { align: 'center' });
     y += 15;
 
-    // 分隔线
+    // Divider line
     doc.setDrawColor(212, 168, 83);
     doc.setLineWidth(0.5);
     doc.line(margin, y, pageWidth - margin, y);
     y += 10;
 
-    // 命主信息
+    // Subject info
     doc.setFont('NotoSansSC', 'bold');
     doc.setFontSize(14);
     doc.setTextColor(50, 50, 50);
-    doc.text('命主信息', margin, y);
+    doc.text('Subject Information', margin, y);
     y += 8;
 
     doc.setFont('NotoSansSC', 'normal');
@@ -75,9 +75,9 @@ export async function POST(request: NextRequest) {
     doc.setTextColor(80, 80, 80);
     const dayMasterElement = getDayMasterElement(bazi.dayPillar.gan);
     const info = [
-      `姓名：${name || '匿名'}`,
-      `生肖：${bazi.zodiac}`,
-      `日主：${bazi.dayPillar.gan}（${((bazi.wuxing as any)?.find((w: any) => w.element === dayMasterElement) as any)?.element || dayMasterElement}）`,
+      `Name: ${name || 'Anonymous'}`,
+      `Zodiac: ${bazi.zodiac}`,
+      `Day Master: ${bazi.dayPillar.gan} (${((bazi.wuxing as any)?.find((w: any) => w.element === dayMasterElement) as any)?.element || dayMasterElement})`,
     ];
     for (const line of info) {
       doc.text(line, margin, y);
@@ -85,26 +85,26 @@ export async function POST(request: NextRequest) {
     }
     y += 5;
 
-    // 四柱八字
+    // Four Pillars
     doc.setFont('NotoSansSC', 'bold');
     doc.setFontSize(14);
     doc.setTextColor(50, 50, 50);
-    doc.text('四柱八字', margin, y);
+    doc.text('Four Pillars', margin, y);
     y += 8;
 
-    // 表格头
+    // Table header
     doc.setFillColor(240, 235, 225);
     doc.rect(margin, y, contentWidth / 4 - 1, 7, 'F');
     doc.setFont('NotoSansSC', 'normal');
     doc.setFontSize(10);
     doc.setTextColor(50, 50, 50);
-    doc.text('年柱', margin + 3, y + 5);
-    doc.text('月柱', margin + contentWidth / 4 + 3, y + 5);
-    doc.text('日柱', margin + (contentWidth / 4) * 2 + 3, y + 5);
-    doc.text('时柱', margin + (contentWidth / 4) * 3 + 3, y + 5);
+    doc.text('Year Pillar', margin + 3, y + 5);
+    doc.text('Month Pillar', margin + contentWidth / 4 + 3, y + 5);
+    doc.text('Day Pillar', margin + (contentWidth / 4) * 2 + 3, y + 5);
+    doc.text('Hour Pillar', margin + (contentWidth / 4) * 3 + 3, y + 5);
     y += 7;
 
-    // 表格内容
+    // Table content
     doc.setDrawColor(200, 200, 200);
     const pillars = [
       `${bazi.yearPillar.gan}${bazi.yearPillar.zhi}`,
@@ -119,11 +119,11 @@ export async function POST(request: NextRequest) {
     }
     y += 12;
 
-    // 五行统计
+    // Five Elements stats
     doc.setFont('NotoSansSC', 'bold');
     doc.setFontSize(14);
     doc.setTextColor(50, 50, 50);
-    doc.text('五行统计', margin, y);
+    doc.text('Five Elements (Wu Xing)', margin, y);
     y += 8;
 
     doc.setFont('NotoSansSC', 'normal');
@@ -133,14 +133,13 @@ export async function POST(request: NextRequest) {
     doc.text(wx, margin, y);
     y += 12;
 
-    // AI 解读
+    // AI Interpretation
     if (interpretation) {
-      // 分割解读内容
       const paragraphs = interpretation.split('\n').filter((p: string) => p.trim());
       doc.setFont('NotoSansSC', 'bold');
       doc.setFontSize(14);
       doc.setTextColor(50, 50, 50);
-      doc.text('AI 解读', margin, y);
+      doc.text('AI Interpretation', margin, y);
       y += 8;
 
       doc.setFont('NotoSansSC', 'normal');
@@ -152,7 +151,7 @@ export async function POST(request: NextRequest) {
           doc.addPage();
           y = 20;
         }
-        // 处理标题行
+        // Handle heading lines
         if (line.startsWith('###') || line.startsWith('##') || line.startsWith('#')) {
           const titleText = line.replace(/[#\s]+/g, '');
           doc.setFont('NotoSansSC', 'bold');
@@ -170,7 +169,7 @@ export async function POST(request: NextRequest) {
           doc.text(`• ${splitText[0]}`, margin + 5, y);
           y += 5;
         } else if (line.includes('|')) {
-          // 表格行
+          // Table row
           const cells = line.split('|').filter((c: string) => c.trim());
           let x = margin;
           for (const cell of cells) {
@@ -191,15 +190,15 @@ export async function POST(request: NextRequest) {
       y += 5;
     }
 
-    // 免责声明
+    // Disclaimer
     doc.setFont('NotoSansSC', 'normal');
     y = 280;
     doc.setFontSize(8);
     doc.setTextColor(150, 150, 150);
-    doc.text('⚠️ 本解读由AI生成，仅供参考和娱乐，不作为人生决策依据。', pageWidth / 2, y, { align: 'center' });
-    doc.text(`ez-mystic.com · ${new Date().toLocaleDateString('zh-CN')}`, pageWidth / 2, y + 5, { align: 'center' });
+    doc.text('⚠️ This reading is AI-generated, for reference and entertainment only, not a basis for life decisions.', pageWidth / 2, y, { align: 'center' });
+    doc.text(`ez-mystic.com · ${new Date().toLocaleDateString('en-US')}`, pageWidth / 2, y + 5, { align: 'center' });
 
-    // 生成 PDF 并返回
+    // Generate PDF and return
     const pdfBlob = doc.output('blob');
     const pdfBase64 = await blobToBase64(pdfBlob);
 
@@ -209,9 +208,9 @@ export async function POST(request: NextRequest) {
       filename: `fatebook-${name || 'anonymous'}-${new Date().toISOString().slice(0, 10)}.pdf`,
     });
   } catch (error) {
-    console.error('PDF 生成失败:', error);
+    console.error('PDF generation failed:', error);
     return NextResponse.json(
-      { error: 'PDF 生成失败' },
+      { error: 'PDF generation failed' },
       { status: 500 }
     );
   }

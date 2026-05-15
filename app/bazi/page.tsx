@@ -113,10 +113,10 @@ const WUXING_ICONS: Record<string, string> = {
 };
 
 const PILLAR_LABELS: Record<string, string> = {
-  year: '年柱',
-  month: '月柱',
-  day: '日柱',
-  hour: '时柱',
+  year: 'Year Pillar',
+  month: 'Month Pillar',
+  day: 'Day Pillar',
+  hour: 'Hour Pillar',
 };
 
 const WUXING_CYCLE = ['木', '火', '土', '金', '水'];
@@ -331,9 +331,9 @@ function PillarCard({ label, pillar, index }: { label: string; pillar: BaziPilla
         </span>
       </div>
       <div className="flex items-center justify-center gap-2 text-xs">
-        <span className={WUXING_COLORS[ganWx]?.text || ''}>天干·{ganWx}</span>
+        <span className={WUXING_COLORS[ganWx]?.text || ''}>Heavenly Stem · {ganWx}</span>
         <span className="text-text-tertiary">|</span>
-        <span className={WUXING_COLORS[zhiWx]?.text || ''}>地支·{zhiWx}</span>
+        <span className={WUXING_COLORS[zhiWx]?.text || ''}>Earthly Branch · {zhiWx}</span>
       </div>
     </div>
   );
@@ -364,11 +364,11 @@ function TenDeityTable({ tenDeities }: { tenDeities: TenDeityItem[] }) {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-white/10">
-            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">柱</th>
-            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">天干</th>
-            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">十神</th>
-            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">地支</th>
-            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">藏干十神</th>
+            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Pillar</th>
+            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Heavenly Stem</th>
+            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Ten Deity</th>
+            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Earthly Branch</th>
+            <th className="text-left py-2 px-3 text-text-tertiary font-medium text-xs uppercase tracking-wider">Hidden Stems · Deity</th>
           </tr>
         </thead>
         <tbody>
@@ -388,7 +388,7 @@ function TenDeityTable({ tenDeities }: { tenDeities: TenDeityItem[] }) {
                       const wxC = WUXING_COLORS[getWuxing(zt.gan)];
                       return (
                         <span key={zi} className={`text-xs px-1.5 py-0.5 rounded ${wxC?.text || ''} bg-white/[0.03]`}
-                          title={`${zt.gan} · 权重: ${zt.weight}`}>
+                          title={`${zt.gan} · Weight: ${zt.weight}`}>
                           {zt.gan}({zt.deity})
                         </span>
                       );
@@ -414,13 +414,13 @@ function GrandFortuneTimeline({ gf }: { gf: GrandFortune }) {
     <div>
       <div className="flex items-center gap-4 text-sm mb-6">
         <div className="glass px-3 py-1.5 rounded-lg">
-          <span className="text-text-tertiary">起运：</span>
-          <span className="text-gold-primary font-semibold">{gf.startAge}岁</span>
-          <span className="text-text-tertiary ml-1">({gf.startYear}年)</span>
+          <span className="text-text-tertiary">Start Age:</span>
+          <span className="text-gold-primary font-semibold">{gf.startAge} years</span>
+          <span className="text-text-tertiary ml-1">({gf.startYear})</span>
         </div>
         <div className="glass px-3 py-1.5 rounded-lg">
-          <span className="text-text-tertiary">排法：</span>
-          <span className="text-text-secondary">{gf.direction === 'forward' ? '顺排' : '逆排'}</span>
+          <span className="text-text-tertiary">Direction:</span>
+          <span className="text-text-secondary">{gf.direction === 'forward' ? 'Forward' : 'Reverse'}</span>
         </div>
       </div>
 
@@ -440,7 +440,7 @@ function GrandFortuneTimeline({ gf }: { gf: GrandFortune }) {
               }`}>
               {/* Age range */}
               <div className="flex-shrink-0 w-16 md:w-20 text-center">
-                <div className="text-xs text-text-tertiary">{cycle.startAge}-{cycle.endAge}岁</div>
+                <div className="text-xs text-text-tertiary">{cycle.startAge}-{cycle.endAge} yrs</div>
                 <div className="text-[10px] text-text-tertiary/60">{cycleStartYear}-{cycleEndYear}</div>
               </div>
 
@@ -457,23 +457,23 @@ function GrandFortuneTimeline({ gf }: { gf: GrandFortune }) {
               {/* Wuxing indicators */}
               <div className="flex-shrink-0 flex gap-1">
                 <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${WUXING_COLORS[wx]?.bg || ''}`}
-                  title={`天干五行: ${wx}`}>
+                  title={`Heavenly Stem Element: ${wx}`}>
                   {WUXING_ICONS[wx]}
                 </span>
                 <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] ${WUXING_COLORS[zhiWx]?.bg || ''}`}
-                  title={`地支五行: ${zhiWx}`}>
+                  title={`Earthly Branch Element: ${zhiWx}`}>
                   {WUXING_ICONS[zhiWx]}
                 </span>
               </div>
 
               {/* Index */}
               <div className="ml-auto text-xs text-text-tertiary">
-                第{idx + 1}运
+                {idx + 1}{getOrdinal(idx + 1)}
               </div>
 
               {isCurrent && (
                 <div className="text-[10px] text-gold-primary font-semibold px-2 py-0.5 rounded-full bg-gold-primary/10">
-                  当前
+                  Current
                 </div>
               )}
             </div>
@@ -482,6 +482,12 @@ function GrandFortuneTimeline({ gf }: { gf: GrandFortune }) {
       </div>
     </div>
   );
+}
+
+function getOrdinal(n: number): string {
+  const s = ['th', 'st', 'nd', 'rd'];
+  const v = n % 100;
+  return s[(v - 20) % 10] || s[v] || s[0];
 }
 
 function HiddenStemsTable({ hiddenStems }: { hiddenStems: HiddenStem[] }) {
@@ -524,8 +530,8 @@ function LoadingOverlay() {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-bg-primary/80 backdrop-blur-sm">
       <div className="text-center">
         <div className="text-6xl mb-4 taiji-loader">☯</div>
-        <div className="text-gold-primary font-display text-lg mb-2">命盘推算中...</div>
-        <div className="text-text-tertiary text-sm">正在解读你的命运密码</div>
+        <div className="text-gold-primary font-display text-lg mb-2">Calculating your destiny chart...</div>
+        <div className="text-text-tertiary text-sm">Decoding your destiny code</div>
       </div>
     </div>
   );
@@ -559,7 +565,7 @@ export default function BaziPage() {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const resultRef = useRef<HTMLDivElement>(null);
+  const resultRef = useRef<HTMLDivElement | null>(null);
 
   // Filter cities based on search
   const filteredCities = citySearch
@@ -589,11 +595,11 @@ export default function BaziPage() {
   }, []);
 
   const validateForm = (): string | null => {
-    if (!form.year || form.year < 1900 || form.year > 2100) return '请输入有效的年份（1900-2100）';
-    if (!form.month || form.month < 1 || form.month > 12) return '请输入有效的月份';
-    if (!form.day || form.day < 1 || form.day > 31) return '请输入有效的日期';
-    if (form.hour === undefined || form.hour < 0 || form.hour > 23) return '请选择出生时间';
-    if (form.minute === undefined || form.minute < 0 || form.minute > 59) return '请选择出生分钟';
+    if (!form.year || form.year < 1900 || form.year > 2100) return 'Please enter a valid year (1900–2100)';
+    if (!form.month || form.month < 1 || form.month > 12) return 'Please enter a valid month';
+    if (!form.day || form.day < 1 || form.day > 31) return 'Please enter a valid day';
+    if (form.hour === undefined || form.hour < 0 || form.hour > 23) return 'Please select your birth hour';
+    if (form.minute === undefined || form.minute < 0 || form.minute > 59) return 'Please select your birth minute';
     return null;
   };
 
@@ -639,7 +645,7 @@ export default function BaziPage() {
       const data: BaziResponse = await response.json();
 
       if (!data.success) {
-        throw new Error((data as any).error || '八字计算失败');
+        throw new Error((data as any).error || 'Bazi calculation failed');
       }
 
       setResult(data);
@@ -649,7 +655,7 @@ export default function BaziPage() {
         resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 300);
     } catch (err: any) {
-      setError(err.message || '请求失败，请稍后重试');
+      setError(err.message || 'Request failed, please try again later');
     } finally {
       setLoading(false);
     }
@@ -665,7 +671,7 @@ export default function BaziPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           bazi: result.bazi,
-          name: form.name || '匿名',
+          name: form.name || 'Anonymous',
         }),
       });
 
@@ -673,10 +679,10 @@ export default function BaziPage() {
       if (data.success) {
         setFateBook(data.content);
       } else {
-        throw new Error('命书生成失败');
+        throw new Error('Destiny book generation failed');
       }
     } catch (err: any) {
-      setError(err.message || '命书生成失败');
+      setError(err.message || 'Destiny book generation failed');
     } finally {
       setFateBookLoading(false);
     }
@@ -692,9 +698,9 @@ export default function BaziPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           bazi: result.bazi,
-          name: form.name || '匿名',
+          name: form.name || 'Anonymous',
           interpretation: fateBook || result.interpretation,
-          title: `${form.name || '匿名'}·天命之书`,
+          title: `${form.name || 'Anonymous'} · Destiny Book`,
         }),
       });
 
@@ -707,10 +713,10 @@ export default function BaziPage() {
         link.click();
         document.body.removeChild(link);
       } else {
-        throw new Error('PDF 生成失败');
+        throw new Error('PDF generation failed');
       }
     } catch (err: any) {
-      setError(err.message || 'PDF 下载失败');
+      setError(err.message || 'PDF download failed');
     } finally {
       setPdfLoading(false);
     }
@@ -732,10 +738,10 @@ export default function BaziPage() {
           </Link>
           <div className="flex items-center gap-4">
             <Link href="/" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
-              首页
+              Home
             </Link>
             <Link href="/bazi" className="text-gold-primary text-sm font-medium">
-              八字排盘
+              Bazi Chart
             </Link>
           </div>
         </div>
@@ -749,13 +755,13 @@ export default function BaziPage() {
 
         <div className="relative z-10 max-w-4xl mx-auto text-center pt-12">
           <div className="mb-4">
-            <span className="text-gold-primary text-sm font-display tracking-widest">✦ 八字排盘 · AI解读 ✦</span>
+            <span className="text-gold-primary text-sm font-display tracking-widest">✦ Bazi Chart · AI Reading ✦</span>
           </div>
           <h1 className="font-display font-bold text-4xl md:text-5xl mb-4 text-gold-glow">
-            输入出生信息
+            Enter Your Birth Information
           </h1>
           <p className="text-text-secondary text-base max-w-lg mx-auto">
-            基于真太阳时校正的精准排盘，AI命理师深度解读你的命运密码
+            Precise charting with true solar time correction, AI astrologer reveals your destiny code
           </p>
         </div>
       </section>
@@ -765,21 +771,21 @@ export default function BaziPage() {
         <div className="max-w-3xl mx-auto">
           <div className="glass-card p-6 md:p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* 姓名 */}
+              {/* Name */}
               <div>
-                <label className="block text-sm text-text-secondary mb-2">姓名（选填）</label>
+                <label className="block text-sm text-text-secondary mb-2">Name (optional)</label>
                 <input
                   type="text"
                   className="input-field"
-                  placeholder="请输入姓名"
+                  placeholder="Enter your name"
                   value={form.name}
                   onChange={e => handleFormChange('name', e.target.value)}
                 />
               </div>
 
-              {/* 性别 */}
+              {/* Gender */}
               <div>
-                <label className="block text-sm text-text-secondary mb-2">性别</label>
+                <label className="block text-sm text-text-secondary mb-2">Gender</label>
                 <div className="flex gap-3">
                   <button
                     type="button"
@@ -789,7 +795,7 @@ export default function BaziPage() {
                         : 'bg-white/5 text-text-secondary border border-white/10 hover:border-white/20'
                     }`}
                     onClick={() => handleFormChange('gender', 'male')}>
-                    ♂ 男
+                    ♂ Male
                   </button>
                   <button
                     type="button"
@@ -799,14 +805,14 @@ export default function BaziPage() {
                         : 'bg-white/5 text-text-secondary border border-white/10 hover:border-white/20'
                     }`}
                     onClick={() => handleFormChange('gender', 'female')}>
-                    ♀ 女
+                    ♀ Female
                   </button>
                 </div>
               </div>
 
-              {/* 历法切换 */}
+              {/* Calendar toggle */}
               <div className="md:col-span-2">
-                <label className="block text-sm text-text-secondary mb-2">出生日期</label>
+                <label className="block text-sm text-text-secondary mb-2">Birth Date</label>
                 <div className="flex gap-3 mb-4">
                   <button
                     type="button"
@@ -816,7 +822,7 @@ export default function BaziPage() {
                         : 'bg-white/5 text-text-secondary border border-white/10'
                     }`}
                     onClick={() => handleFormChange('calendarMode', 'solar')}>
-                    ☀ 公历
+                    ☀ Solar Calendar
                   </button>
                   <button
                     type="button"
@@ -826,16 +832,16 @@ export default function BaziPage() {
                         : 'bg-white/5 text-text-secondary border border-white/10'
                     }`}
                     onClick={() => handleFormChange('calendarMode', 'lunar')}>
-                    🌙 农历
+                    🌙 Lunar Calendar
                   </button>
                   {form.calendarMode === 'lunar' && (
                     <span className="text-xs text-gold-primary/60 self-center ml-2">
-                      将在提交时自动转换为公历
+                      Will be converted to solar calendar upon submission
                     </span>
                   )}
                 </div>
 
-                {/* 年月日 */}
+                {/* Year/Month/Day */}
                 <div className="grid grid-cols-3 gap-3">
                   <div>
                     <select
@@ -843,7 +849,7 @@ export default function BaziPage() {
                       value={form.year}
                       onChange={e => handleFormChange('year', parseInt(e.target.value))}>
                       {YEARS.map(y => (
-                        <option key={y} value={y}>{y}年</option>
+                        <option key={y} value={y}>{y}</option>
                       ))}
                     </select>
                   </div>
@@ -853,7 +859,7 @@ export default function BaziPage() {
                       value={form.month}
                       onChange={e => handleFormChange('month', parseInt(e.target.value))}>
                       {MONTHS.map(m => (
-                        <option key={m} value={m}>{m}月</option>
+                        <option key={m} value={m}>{m}</option>
                       ))}
                     </select>
                   </div>
@@ -863,23 +869,23 @@ export default function BaziPage() {
                       value={form.day}
                       onChange={e => handleFormChange('day', parseInt(e.target.value))}>
                       {DAYS.map(d => (
-                        <option key={d} value={d}>{d}日</option>
+                        <option key={d} value={d}>{d}</option>
                       ))}
                     </select>
                   </div>
                 </div>
               </div>
 
-              {/* 出生时间 */}
+              {/* Birth Time */}
               <div>
-                <label className="block text-sm text-text-secondary mb-2">出生时间</label>
+                <label className="block text-sm text-text-secondary mb-2">Birth Time</label>
                 <div className="grid grid-cols-2 gap-3">
                   <select
                     className="input-field text-sm"
                     value={form.hour}
                     onChange={e => handleFormChange('hour', parseInt(e.target.value))}>
                     {HOURS.map(h => (
-                      <option key={h} value={h}>{String(h).padStart(2, '0')}时</option>
+                      <option key={h} value={h}>{String(h).padStart(2, '0')}h</option>
                     ))}
                   </select>
                   <select
@@ -887,19 +893,19 @@ export default function BaziPage() {
                     value={form.minute}
                     onChange={e => handleFormChange('minute', parseInt(e.target.value))}>
                     {MINUTES.map(m => (
-                      <option key={m} value={m}>{String(m).padStart(2, '0')}分</option>
+                      <option key={m} value={m}>{String(m).padStart(2, '0')}m</option>
                     ))}
                   </select>
                 </div>
               </div>
 
-              {/* 出生城市 */}
+              {/* Birth City */}
               <div className="relative" ref={setCityDropdownRef}>
-                <label className="block text-sm text-text-secondary mb-2">出生城市（选填）</label>
+                <label className="block text-sm text-text-secondary mb-2">Birth City (optional)</label>
                 <input
                   type="text"
                   className="input-field text-sm"
-                  placeholder="搜索城市自动填充经纬度"
+                  placeholder="Search city to auto-fill coordinates"
                   value={citySearch}
                   onChange={e => {
                     setCitySearch(e.target.value);
@@ -928,13 +934,13 @@ export default function BaziPage() {
                       </button>
                     ))}
                     {filteredCities.length === 0 && (
-                      <div className="px-4 py-3 text-text-tertiary text-sm">无匹配城市</div>
+                      <div className="px-4 py-3 text-text-tertiary text-sm">No matching city</div>
                     )}
                   </div>
                 )}
               </div>
 
-              {/* 真太阳时 */}
+              {/* True Solar Time */}
               <div className="md:col-span-2">
                 <label className="flex items-center gap-3 cursor-pointer group">
                   <div className="relative">
@@ -953,9 +959,9 @@ export default function BaziPage() {
                     </div>
                   </div>
                   <div>
-                    <span className="text-sm text-text-primary font-medium">真太阳时校正</span>
+                    <span className="text-sm text-text-primary font-medium">True Solar Time Correction</span>
                     <p className="text-xs text-text-tertiary mt-0.5">
-                      根据出生地经纬度校正时差，提高排盘精度
+                      Correct time difference based on birth location coordinates for improved charting accuracy
                     </p>
                   </div>
                 </label>
@@ -979,19 +985,19 @@ export default function BaziPage() {
                 {loading ? (
                   <span className="flex items-center gap-2 justify-center">
                     <span className="taiji-loader inline-block">☯</span>
-                    排盘中...
+                    Calculating...
                   </span>
                 ) : (
-                  '✨ 开始排盘'
+                  '✨ Start Chart Reading'
                 )}
               </button>
             </div>
 
             {/* Info */}
             <div className="mt-6 flex justify-center gap-6 text-xs text-text-tertiary">
-              <span>🐉 精确至时辰</span>
-              <span>🌍 真太阳时校正</span>
-              <span>🤖 AI深度解读</span>
+              <span>🐉 Precise to the Shichen</span>
+              <span>🌍 True Solar Time</span>
+              <span>🤖 AI Deep Interpretation</span>
             </div>
           </div>
         </div>
@@ -1003,22 +1009,22 @@ export default function BaziPage() {
           <div className="max-w-4xl mx-auto space-y-8">
             {/* Personal Info */}
             <div className="glass-card p-6 md:p-8">
-              <h2 className="font-display text-xl font-bold text-gold-primary mb-4">命主信息</h2>
+              <h2 className="font-display text-xl font-bold text-gold-primary mb-4">Subject Information</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="text-center">
-                  <div className="text-xs text-text-tertiary mb-1">姓名</div>
-                  <div className="text-text-primary font-medium">{form.name || '匿名'}</div>
+                  <div className="text-xs text-text-tertiary mb-1">Name</div>
+                  <div className="text-text-primary font-medium">{form.name || 'Anonymous'}</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-xs text-text-tertiary mb-1">性别</div>
-                  <div className="text-text-primary font-medium">{form.gender === 'male' ? '男' : '女'}</div>
+                  <div className="text-xs text-text-tertiary mb-1">Gender</div>
+                  <div className="text-text-primary font-medium">{form.gender === 'male' ? 'Male' : 'Female'}</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-xs text-text-tertiary mb-1">生肖</div>
+                  <div className="text-xs text-text-tertiary mb-1">Zodiac</div>
                   <div className="text-text-primary font-medium">{result.bazi.zodiac}</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-xs text-text-tertiary mb-1">时辰</div>
+                  <div className="text-xs text-text-tertiary mb-1">Shichen</div>
                   <div className="text-text-primary font-medium">{result.bazi.shichen}</div>
                 </div>
               </div>
@@ -1027,20 +1033,20 @@ export default function BaziPage() {
             {/* Four Pillars */}
             <div>
               <h2 className="font-display text-xl font-bold text-gold-primary mb-4 flex items-center gap-2">
-                <span>四柱八字</span>
+                <span>Four Pillars</span>
                 <span className="text-xs text-text-tertiary font-normal bg-white/5 px-2 py-0.5 rounded-full">
-                  天干·五行
+                  Heavenly Stem · Five Elements
                 </span>
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-                <PillarCard label="年柱" pillar={result.bazi.yearPillar} index={0} />
-                <PillarCard label="月柱" pillar={result.bazi.monthPillar} index={1} />
-                <PillarCard label="日柱" pillar={result.bazi.dayPillar} index={2} />
-                <PillarCard label="时柱" pillar={result.bazi.hourPillar} index={3} />
+                <PillarCard label="Year Pillar" pillar={result.bazi.yearPillar} index={0} />
+                <PillarCard label="Month Pillar" pillar={result.bazi.monthPillar} index={1} />
+                <PillarCard label="Day Pillar" pillar={result.bazi.dayPillar} index={2} />
+                <PillarCard label="Hour Pillar" pillar={result.bazi.hourPillar} index={3} />
               </div>
               {/* Nayin */}
               <div className="mt-4 flex flex-wrap gap-3 justify-center">
-                {['年柱', '月柱', '日柱', '时柱'].map((label, idx) => (
+                {['Year Pillar', 'Month Pillar', 'Day Pillar', 'Hour Pillar'].map((label, idx) => (
                   <span key={idx} className="text-xs glass px-3 py-1.5 rounded-full text-text-secondary">
                     {label}: {result.bazi.nayin[idx]}
                   </span>
@@ -1050,7 +1056,7 @@ export default function BaziPage() {
 
             {/* Wuxing Statistics */}
             <div className="glass-card p-6 md:p-8">
-              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">五行统计</h2>
+              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">Five Elements (Wu Xing)</h2>
               <div className="space-y-3">
                 {result.bazi.wuxing.map((w) => (
                   <WuxingBar key={w.element} element={w.element} count={w.count} max={maxWuxingCount} />
@@ -1082,50 +1088,50 @@ export default function BaziPage() {
 
             {/* Ten Deities */}
             <div className="glass-card p-6 md:p-8">
-              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">十神关系</h2>
+              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">Ten Deities</h2>
               <p className="text-xs text-text-tertiary mb-4">
-                以日主 ({result.bazi.dayPillar.gan}) 为参照，分析各柱天干藏干的十神关系
+                Based on the Day Master ({result.bazi.dayPillar.gan}), analyzing the Ten Deity relationships of each pillar
               </p>
               <TenDeityTable tenDeities={result.bazi.tenDeities} />
             </div>
 
             {/* Hidden Stems */}
             <div className="glass-card p-6 md:p-8">
-              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">藏干解析</h2>
+              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">Hidden Stems</h2>
               <p className="text-xs text-text-tertiary mb-4">
-                每个地支中所藏的天干，·表示权重
+                Heavenly stems hidden within each earthly branch, · indicates weight
               </p>
               <HiddenStemsTable hiddenStems={result.bazi.hiddenStems} />
             </div>
 
             {/* Grand Fortune */}
             <div className="glass-card p-6 md:p-8">
-              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">大运轮转</h2>
+              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">Great Fortune Cycles</h2>
               <GrandFortuneTimeline gf={result.bazi.grandFortune} />
             </div>
 
             {/* True Solar Time Info */}
             <div className="glass-card p-6 md:p-8">
-              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">真太阳时校正</h2>
+              <h2 className="font-display text-lg font-bold text-gold-primary mb-4">True Solar Time Correction</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                 <div className="text-center glass p-3 rounded-xl">
-                  <div className="text-text-tertiary text-xs mb-1">经度校正</div>
+                  <div className="text-text-tertiary text-xs mb-1">Longitude Correction</div>
                   <div className="text-text-primary font-medium">
                     {result.bazi.trueSolarTime.longitudeCorrection > 0 ? '+' : ''}
-                    {result.bazi.trueSolarTime.longitudeCorrection.toFixed(1)}分钟
+                    {result.bazi.trueSolarTime.longitudeCorrection.toFixed(1)} min
                   </div>
                 </div>
                 <div className="text-center glass p-3 rounded-xl">
-                  <div className="text-text-tertiary text-xs mb-1">均时差</div>
+                  <div className="text-text-tertiary text-xs mb-1">Equation of Time</div>
                   <div className="text-text-primary font-medium">
                     {result.bazi.trueSolarTime.equationOfTime > 0 ? '+' : ''}
-                    {result.bazi.trueSolarTime.equationOfTime.toFixed(1)}分钟
+                    {result.bazi.trueSolarTime.equationOfTime.toFixed(1)} min
                   </div>
                 </div>
                 <div className="text-center glass p-3 rounded-xl">
-                  <div className="text-text-tertiary text-xs mb-1">真太阳时</div>
+                  <div className="text-text-tertiary text-xs mb-1">True Solar Time</div>
                   <div className="text-gold-primary font-medium">
-                    {result.bazi.trueSolarTime.finalHour.toFixed(2)}时
+                    {result.bazi.trueSolarTime.finalHour.toFixed(2)}h
                   </div>
                 </div>
               </div>
@@ -1134,7 +1140,7 @@ export default function BaziPage() {
             {/* AI Interpretation */}
             <div className="glass-card p-6 md:p-8" id="ai-interpretation">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="font-display text-lg font-bold text-gold-primary">🤖 AI 命理解读</h2>
+                <h2 className="font-display text-lg font-bold text-gold-primary">🤖 AI Destiny Reading</h2>
               </div>
 
               <div className="bazi-interpretation">
@@ -1156,10 +1162,10 @@ export default function BaziPage() {
                     {fateBookLoading ? (
                       <span className="flex items-center gap-2">
                         <span className="taiji-loader inline-block">☯</span>
-                        生成命书中...
+                        Generating...
                       </span>
                     ) : (
-                      '📜 生成完整命书'
+                      '📜 Generate Full Destiny Book'
                     )}
                   </button>
                 )}
@@ -1171,10 +1177,10 @@ export default function BaziPage() {
                   {pdfLoading ? (
                     <span className="flex items-center gap-2">
                       <span className="taiji-loader inline-block">☯</span>
-                      生成PDF中...
+                      Generating...
                     </span>
                   ) : (
-                    '📥 下载PDF命书'
+                    '📥 Download PDF'
                   )}
                 </button>
               </div>
@@ -1183,7 +1189,7 @@ export default function BaziPage() {
             {/* Fate Book */}
             {fateBook && (
               <div className="glass-card p-6 md:p-8">
-                <h2 className="font-display text-lg font-bold text-gold-primary mb-4">📜 完整命书</h2>
+                <h2 className="font-display text-lg font-bold text-gold-primary mb-4">📜 Full Destiny Book</h2>
                 <div className="bazi-interpretation">
                   {renderMarkdown(fateBook)}
                 </div>
@@ -1192,7 +1198,7 @@ export default function BaziPage() {
 
             {/* Disclaimer */}
             <p className="text-center text-text-muted text-xs">
-              ⚠️ 本解读由AI生成，仅供参考和娱乐，不作为人生决策依据。
+              ⚠️ This reading is AI-generated, for reference and entertainment only, not a basis for life decisions.
             </p>
           </div>
         </section>
@@ -1212,7 +1218,7 @@ export default function BaziPage() {
             © 2026 ez-mystic · FateWise. All rights reserved.
           </p>
           <p className="text-text-muted text-xs">
-            免责声明：本网站内容仅供娱乐和教育用途，不构成人生决策建议。
+            Disclaimer: The content on this website is for entertainment and educational purposes only and does not constitute advice for life decisions.
           </p>
         </div>
       </footer>

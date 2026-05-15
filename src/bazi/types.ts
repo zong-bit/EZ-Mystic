@@ -2,16 +2,16 @@
 // Core types for the Bazi (Eight Characters) engine
 
 export interface Pillar {
-  gan: string;   // 天干
-  zhi: string;   // 地支
+  gan: string;   // Heavenly Stem
+  zhi: string;   // Earthly Branch
 }
 
 export interface TrueSolarTime {
   meanSolarTime: Date;
-  equationOfTime: number;     // 均时差 (分钟)
-  longitudeCorrection: number; // 经度校正 (分钟)
+  equationOfTime: number;     // Equation of time (minutes)
+  longitudeCorrection: number; // Longitude correction (minutes)
   finalTime: Date;
-  finalHour: number;           // 真太阳时小时 (0-24)
+  finalHour: number;           // True solar time hour (0-24)
 }
 
 export interface JieqiInfo {
@@ -42,29 +42,29 @@ export interface GrandFortuneCycle {
 }
 
 export interface BaziResult {
-  // 四柱
+  // Four Pillars
   yearPillar: Pillar;
   monthPillar: Pillar;
   dayPillar: Pillar;
   hourPillar: Pillar;
 
-  // 真太阳时
+  // True solar time
   trueSolarTime: TrueSolarTime;
 
-  // 辅助信息
+  // Auxiliary info
   zodiac: string;
   wuxing: { element: string; count: number }[];
   nayin: string[];
   shichen: string;
   shichenIndex: number;
 
-  // 十神
+  // Ten Deities
   tenDeities: TenDeityInfo[];
 
-  // 藏干
+  // Hidden stems
   hiddenStems: HiddenStem[];
 
-  // 大运
+  // Great Fortune
   grandFortune: {
     startAge: number;
     startYear: number;
@@ -72,7 +72,7 @@ export interface BaziResult {
     cycles: GrandFortuneCycle[];
   };
 
-  // 节气
+  // Solar terms
   jieqi: JieqiInfo;
 }
 
@@ -84,14 +84,14 @@ export interface BaziInput {
   minute: number;
   gender: 'male' | 'female';
   name?: string;
-  // 出生地
+  // Birth location
   location?: {
     city: string;
     longitude: number;
     latitude: number;
     timezone: string;
   };
-  // 配置
+  // Configuration
   useTrueSolarTime?: boolean;
 }
 

@@ -1,4 +1,4 @@
-// 中国主要城市经纬度数据
+// Major Chinese cities coordinate data
 export interface CityData {
   name: string;
   longitude: number;

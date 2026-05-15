@@ -11,103 +11,103 @@ function getWuxingChar(gan: string): string {
 export function buildBaziInterpretPrompt(bazi: BaziResult, name?: string): string {
   const { yearPillar, monthPillar, dayPillar, hourPillar, zodiac, wuxing, nayin, shichen } = bazi;
 
-  const wuxingStr = wuxing.map((w) => `${w.element}(${w.count})`).join('、');
+  const wuxingStr = wuxing.map((w) => `${w.element}(${w.count})`).join(', ');
 
   const gf = bazi.grandFortune;
 
-  return `你是一位精通中国传统八字命理的AI命理师。请根据以下八字排盘结果，生成一份专业、深入、有条理的命理解读。
+  return `You are a senior Bazi (Four Pillars of Destiny) master. Based on the following Bazi chart, generate a professional, in-depth, and well-structured destiny interpretation.
 
-## 命主信息
-- 姓名：${name || '匿名'}
-- 生肖：${zodiac}
-- 时辰：${shichen}
+## Subject Information
+- Name: ${name || 'Anonymous'}
+- Chinese Zodiac: ${zodiac}
+- Shichen (Time Period): ${shichen}
 
-## 四柱八字
-| 柱 | 天干 | 地支 | 五行 | 纳音 |
-|----|------|------|------|------|
-| 年柱 | ${yearPillar.gan} | ${yearPillar.zhi} | ${getWuxingChar(yearPillar.gan)} | ${nayin[0]} |
-| 月柱 | ${monthPillar.gan} | ${monthPillar.zhi} | ${getWuxingChar(monthPillar.gan)} | ${nayin[1]} |
-| 日柱 | ${dayPillar.gan} | ${dayPillar.zhi} | 日主 | ${nayin[2]} |
-| 时柱 | ${hourPillar.gan} | ${hourPillar.zhi} | ${getWuxingChar(hourPillar.gan)} | ${nayin[3]} |
+## Four Pillars (Bazi)
+| Pillar | Heavenly Stem | Earthly Branch | Five Element | Nayin (Melodic Element) |
+|--------|---------------|----------------|--------------|-------------------------|
+| Year   | ${yearPillar.gan} | ${yearPillar.zhi} | ${getWuxingChar(yearPillar.gan)} | ${nayin[0]} |
+| Month  | ${monthPillar.gan} | ${monthPillar.zhi} | ${getWuxingChar(monthPillar.gan)} | ${nayin[1]} |
+| Day    | ${dayPillar.gan} | ${dayPillar.zhi} | Day Master | ${nayin[2]} |
+| Hour   | ${hourPillar.gan} | ${hourPillar.zhi} | ${getWuxingChar(hourPillar.gan)} | ${nayin[3]} |
 
-## 五行统计
-木${wuxing.find(w => w.element === '木')?.count || 0} 火${wuxing.find(w => w.element === '火')?.count || 0} 土${wuxing.find(w => w.element === '土')?.count || 0} 金${wuxing.find(w => w.element === '金')?.count || 0} 水${wuxing.find(w => w.element === '水')?.count || 0}
+## Five Elements (Wu Xing) Count
+Wood: ${wuxing.find(w => w.element === '木')?.count || 0} | Fire: ${wuxing.find(w => w.element === '火')?.count || 0} | Earth: ${wuxing.find(w => w.element === '土')?.count || 0} | Metal: ${wuxing.find(w => w.element === '金')?.count || 0} | Water: ${wuxing.find(w => w.element === '水')?.count || 0}
 
-## 大运信息
-- 起运年龄：${gf.startAge}岁
-- 起运年份：${gf.startYear}年
-- 排法：${gf.direction === 'forward' ? '顺排' : '逆排'}
-- 大运走势：${gf.cycles.map(c => c.startAge + '-' + c.endAge + '岁' + c.stem + c.branch).join(' → ')}
+## Great Fortune (Da Yun) Info
+- Starting Age: ${gf.startAge} years old
+- Starting Year: ${gf.startYear}
+- Direction: ${gf.direction === 'forward' ? 'Forward (顺排)' : 'Reverse (逆排)'}
+- Fortune Cycles: ${gf.cycles.map(c => c.startAge + '-' + c.endAge + ' yrs | ' + c.stem + c.branch).join(' → ')}
 
-## 要求
-请按照以下结构输出解读（使用Markdown格式）：
+## Requirements
+Please structure your interpretation according to the following outline (in Markdown format):
 
-### 一、命盘总览
-简述日主、五行格局、命局特点
+### I. Chart Overview
+Brief analysis of the Day Master, Five Elements pattern, and overall chart characteristics
 
-### 二、性格分析
-日主性格特征、十神性格、优势与挑战
+### II. Personality Analysis
+Day Master personality traits, Ten Deity personality analysis, strengths and challenges
 
-### 三、事业运势
-适合的行业方向、事业发展趋势、大运事业分析
+### III. Career & Wealth
+Suitable career directions, career development trends, Great Fortune career analysis
 
-### 四、财运分析
-正财/偏财格局、财运高峰期、理财建议
+### IV. Wealth Analysis
+Direct/indirect wealth pattern, peak wealth periods, financial management advice
 
-### 五、感情桃花
-婚姻宫分析、桃花运、恋爱建议
+### V. Love & Relationships
+Marriage palace analysis, romance luck, relationship guidance
 
-### 六、流年运势
-当前流年简评、下一年运势提示
+### VI. Annual Luck
+Current year overview, upcoming year predictions
 
-### 七、开运建议
-幸运颜色、幸运数字、有利方位、佩戴建议
+### VII. Luck Enhancement Suggestions
+Lucky colors, lucky numbers, favorable directions, accessory recommendations
 
-请确保解读专业、客观、有深度。避免空泛的套话，要结合具体八字格局给出有针对性的分析。语气要温和、有智慧感。
+Ensure your interpretation is professional, objective, and insightful. Avoid generic statements — provide targeted analysis based on the specific Bazi pattern. The tone should be warm and wise.
 
 ---
-⚠️ 本解读由AI生成，仅供参考和娱乐，不作为人生决策依据。`;
+⚠️ This reading is AI-generated, for reference and entertainment only, not a basis for life decisions.`;
 }
 
 export function buildFateBookPrompt(bazi: BaziResult, name?: string): string {
   const { yearPillar, monthPillar, dayPillar, hourPillar, zodiac, wuxing, nayin, shichen } = bazi;
   const gf = bazi.grandFortune;
 
-  return `你是一位资深八字命理师。请为以下命主撰写一份完整的《天命之书》命理报告。
+  return `You are a senior Bazi (Four Pillars of Destiny) master. Please write a complete "Destiny Book" report for the following subject.
 
-## 命主信息
-- 姓名：${name || '匿名'}
-- 生肖：${zodiac}
-- 时辰：${shichen}
+## Subject Information
+- Name: ${name || 'Anonymous'}
+- Chinese Zodiac: ${zodiac}
+- Shichen (Time Period): ${shichen}
 
-## 四柱八字
-年柱：${yearPillar.gan}${yearPillar.zhi} | 月柱：${monthPillar.gan}${monthPillar.zhi} | 日柱：${dayPillar.gan}${dayPillar.zhi} | 时柱：${hourPillar.gan}${hourPillar.zhi}
+## Four Pillars (Bazi)
+Year: ${yearPillar.gan}${yearPillar.zhi} | Month: ${monthPillar.gan}${monthPillar.zhi} | Day: ${dayPillar.gan}${dayPillar.zhi} | Hour: ${hourPillar.gan}${hourPillar.zhi}
 
-## 五行统计
-木${wuxing.find(w => w.element === '木')?.count || 0} 火${wuxing.find(w => w.element === '火')?.count || 0} 土${wuxing.find(w => w.element === '土')?.count || 0} 金${wuxing.find(w => w.element === '金')?.count || 0} 水${wuxing.find(w => w.element === '水')?.count || 0}
+## Five Elements (Wu Xing) Count
+Wood: ${wuxing.find(w => w.element === '木')?.count || 0} | Fire: ${wuxing.find(w => w.element === '火')?.count || 0} | Earth: ${wuxing.find(w => w.element === '土')?.count || 0} | Metal: ${wuxing.find(w => w.element === '金')?.count || 0} | Water: ${wuxing.find(w => w.element === '水')?.count || 0}
 
-## 大运
-起运：${gf.startAge}岁 (${gf.startYear}年) | ${gf.direction === 'forward' ? '顺排' : '逆排'}
+## Great Fortune (Da Yun)
+Starting: ${gf.startAge} years old (${gf.startYear}) | ${gf.direction === 'forward' ? 'Forward (顺排)' : 'Reverse (逆排)'}
 
-## 要求
-请撰写一份约3000字的完整命书报告，包含以下章节：
+## Requirements
+Write a comprehensive Destiny Book report of approximately 3000 words, covering the following chapters:
 
-1. **命盘总览** - 日主分析、五行格局、纳音解读
-2. **性格深度分析** - 十神性格、天赋潜能、性格盲点
-3. **事业与财运** - 适合行业、事业阶段、财富格局
-4. **感情与婚姻** - 婚姻宫、桃花运、感情建议
-5. **健康与养生** - 五行健康提示
-6. **大运分析** - 各阶段运势解读
-7. **流年运势** - 当年与下一年详细预测
-8. **开运指南** - 颜色/数字/方位/饰品/风水建议
-9. **附录** - 术语解释
+1. **Chart Overview** - Day Master analysis, Five Elements pattern, Nayin (Melodic Element) interpretation
+2. **In-Depth Personality Analysis** - Ten Deity personality, innate talents, personality blind spots
+3. **Career & Wealth** - Suitable industries, career phases, wealth pattern
+4. **Love & Marriage** - Marriage palace, romance luck, relationship guidance
+5. **Health & Wellness** - Five Elements health insights
+6. **Great Fortune Analysis** - Life phase fortune interpretations
+7. **Annual Luck** - Detailed predictions for the current and upcoming year
+8. **Luck Enhancement Guide** - Colors, numbers, directions, accessories, feng shui tips
+9. **Appendix** - Glossary of Bazi terminology
 
-要求：
-- 语言优雅、专业、有深度
-- 结合具体八字格局给出针对性分析
-- 避免空泛套话
-- 使用Markdown格式，适当使用emoji增强可读性
+Requirements:
+- Elegant, professional, and insightful language
+- Provide targeted analysis based on the specific Bazi pattern
+- Avoid generic clichés
+- Use Markdown format, with appropriate emoji for readability
 
 ---
-⚠️ 本解读由AI生成，仅供参考和娱乐，不作为人生决策依据。`;
+⚠️ This reading is AI-generated, for reference and entertainment only, not a basis for life decisions.`;
 }
