@@ -566,10 +566,7 @@ export default function StarBackground() {
           duration: STATE_DURATIONS[next],
         };
 
-        // On entering spin: reset accumulated spin
-        if (next === 'spin') {
-          spinRef.current = 0;
-        }
+        // On entering spin: don't reset — pick up from current rotation
 
         // On entering burst: compute explosion velocities at start
         if (next === 'burst') {
@@ -591,8 +588,8 @@ export default function StarBackground() {
       // Spin accumulator (only during spin state) — start slow, ramp to 12x
       if (sm.state === 'spin') {
         const spinProg = getStateProgress(time, sm);
-        // Ramp from 0.3x → 12x base speed
-        const spinSpeed = lerp(0.3, 12, easeInOutCubic(spinProg));
+        // Ramp from 1x → 36x base speed (no pause, continuous)
+        const spinSpeed = lerp(1, 36, easeInOutCubic(spinProg));
         spinRef.current += BASE_ROT_SPEED * spinSpeed * dt;
       }
       const rot = rotationRef.current + spinRef.current;
