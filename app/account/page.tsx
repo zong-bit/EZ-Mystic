@@ -54,6 +54,7 @@ export default function AccountPage() {
         .select('*')
         .eq('user_id', user.id)
         .eq('status', 'active')
+        .eq('source', 'ez-mystic')
         .order('created_at', { ascending: false })
         .limit(1)
         .single();
@@ -82,6 +83,7 @@ export default function AccountPage() {
             .select('*')
             .eq('user_id', user.id)
             .eq('status', 'active')
+            .eq('source', 'ez-mystic')
             .order('created_at', { ascending: false })
             .limit(1)
             .single();
