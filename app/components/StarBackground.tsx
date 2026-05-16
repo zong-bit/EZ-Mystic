@@ -216,24 +216,27 @@ export default function StarBackground() {
 
   // Offscreen canvas for tai chi pixel detection (200x200 — small for performance)
   const TAI_CHI_CANVAS_SIZE = 200;
-  const taiChiCanvasRef = useRef<HTMLCanvasElement>(
-    (() => {
-      const c = document.createElement('canvas');
-      c.width = TAI_CHI_CANVAS_SIZE;
-      c.height = TAI_CHI_CANVAS_SIZE;
-      return c;
-    })(),
-  );
-  const taiChiCtxRef = useRef<CanvasRenderingContext2D>(
-    taiChiCanvasRef.current.getContext('2d')!,
-  );
+  // Lazy-init tai chi canvas on client side only (avoid SSR error)
+  const taiChiCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const taiChiCtxRef = useRef<CanvasRenderingContext2D | null>(null);
+  
+  function initTaiChiCanvas() {
+    if (taiChiCanvasRef.current || typeof document === 'undefined') return;
+    const c = document.createElement('canvas');
+    c.width = TAI_CHI_CANVAS_SIZE;
+    c.height = TAI_CHI_CANVAS_SIZE;
+    taiChiCanvasRef.current = c;
+    taiChiCtxRef.current = c.getContext('2d')!;
+  }
 
   /**
    * Draw the tai chi pattern onto the offscreen canvas.
    * White = yang, Black = yin. Each frame redraws with updated rotation.
    */
   function drawTaiChiPattern(R: number, rotation: number) {
+    initTaiChiCanvas();
     const ctx = taiChiCtxRef.current;
+    if (!ctx) return;
     const w = TAI_CHI_CANVAS_SIZE;
     const h = TAI_CHI_CANVAS_SIZE;
 
@@ -291,6 +294,7 @@ export default function StarBackground() {
    */
   function sampleTaiChiPixel(px: number, py: number): 'yang' | 'yin' {
     const ctx = taiChiCtxRef.current;
+    if (!ctx) return 'yin';
     const data = ctx.getImageData(px, py, 1, 1).data;
     return data[0] > 128 ? 'yang' : 'yin';
   }
