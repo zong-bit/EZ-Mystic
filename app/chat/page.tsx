@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../auth/auth-context';
+import { getSupabaseClient } from '../../src/lib/supabase';
 
 interface ChatMessage {
   id: string;
@@ -121,12 +122,18 @@ export default function ChatPage() {
   useEffect(() => {
     const checkLimit = async () => {
       try {
-        const res = await fetch('/api/chat/limit');
-        const data = await res.json();
-        if (data.isPro) setIsPro(true);
-        setRemaining(data.remaining);
+        const supabase = getSupabaseClient()
+        const { data: { session } } = await supabase.auth.getSession()
+        const headers: Record<string, string> = {}
+        if (session?.access_token) {
+          headers['Authorization'] = `Bearer ${session.access_token}`
+        }
+        const res = await fetch('/api/chat/limit', { headers })
+        const data = await res.json()
+        if (data.isPro) setIsPro(true)
+        setRemaining(data.remaining)
       } catch (e) {
-        console.error('Failed to check limit:', e);
+        console.error('Failed to check limit:', e)
       }
     };
     checkLimit();
@@ -139,16 +146,22 @@ export default function ChatPage() {
     // Server-side limit check
     if (!isPro) {
       try {
-        const res = await fetch('/api/chat/limit');
-        const data = await res.json();
-        if (!data.allowed) {
-          setRemaining(0);
-          setShowPayment(true);
-          return;
+        const supabase = getSupabaseClient()
+        const { data: { session } } = await supabase.auth.getSession()
+        const headers: Record<string, string> = {}
+        if (session?.access_token) {
+          headers['Authorization'] = `Bearer ${session.access_token}`
         }
-        setRemaining(data.remaining);
+        const res = await fetch('/api/chat/limit', { headers })
+        const data = await res.json()
+        if (!data.allowed) {
+          setRemaining(0)
+          setShowPayment(true)
+          return
+        }
+        setRemaining(data.remaining)
       } catch (e) {
-        console.error('Failed to check limit:', e);
+        console.error('Failed to check limit:', e)
       }
     }
 
@@ -194,10 +207,16 @@ export default function ChatPage() {
       // Consume limit on successful message
       if (!isPro) {
         try {
-          await fetch('/api/chat/limit', { method: 'POST' });
-          setRemaining(prev => (prev !== null ? Math.max(0, prev - 1) : null));
+          const supabase = getSupabaseClient()
+          const { data: { session } } = await supabase.auth.getSession()
+          const headers: Record<string, string> = {}
+          if (session?.access_token) {
+            headers['Authorization'] = `Bearer ${session.access_token}`
+          }
+          await fetch('/api/chat/limit', { method: 'POST', headers })
+          setRemaining(prev => (prev !== null ? Math.max(0, prev - 1) : null))
         } catch (e) {
-          console.error('Failed to consume limit:', e);
+          console.error('Failed to consume limit:', e)
         }
       }
 
@@ -352,7 +371,7 @@ export default function ChatPage() {
 
         {/* Disclaimer */}
         <p className="text-center text-text-tertiary text-[10px] mt-3">
-          AI-generated content for reference only · 本站内容仅供娱乐参考
+          AI-generated content for reference only · For entertainment purposes
         </p>
       </div>
 
