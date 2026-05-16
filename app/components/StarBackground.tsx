@@ -588,9 +588,12 @@ export default function StarBackground() {
       // Base rotation: ~40s per full turn, continuous throughout
       const BASE_ROT_SPEED = 0.00015;
       rotationRef.current += BASE_ROT_SPEED * dt;
-      // Spin accumulator (only during spin state)
+      // Spin accumulator (only during spin state) — start slow, ramp to 12x
       if (sm.state === 'spin') {
-        spinRef.current += BASE_ROT_SPEED * 4 * dt;
+        const spinProg = getStateProgress(time, sm);
+        // Ramp from 0.3x → 12x base speed
+        const spinSpeed = lerp(0.3, 12, easeInOutCubic(spinProg));
+        spinRef.current += BASE_ROT_SPEED * spinSpeed * dt;
       }
       const rot = rotationRef.current + spinRef.current;
 
@@ -606,7 +609,9 @@ export default function StarBackground() {
           scaleFactor = lerp(1, 1 / 3, easeInOutCubic(shrinkP));
         }
       } else if (sm.state === 'spin' || sm.state === 'burst') {
-        scaleFactor = 1 / 3;
+        const spinP = sm.state === 'spin' ? progress : 1;
+        // During spin, shrink a bit more: 1/3 → 1/4.5
+        scaleFactor = lerp(1 / 3, 1 / 4.5, easeInOutCubic(spinP));
       }
 
       // ── Draw stars ──
