@@ -37,7 +37,7 @@ interface LightBallState {
   timer: number;          // ms in light ball phase
 }
 
-const STAR_COUNT = 10000;
+const STAR_COUNT = 20000;
 
 /**
  * Compute target positions on the tai chi S-curve boundary.
@@ -206,7 +206,7 @@ function drawParticleStar(
   const distToTarget = Math.sqrt(dx * dx + dy * dy);
 
   // Visibility: only visible when near target
-  const maxDist = maxR * 0.25;
+  const maxDist = maxR * 0.35;
   const visibility = Math.max(0, 1 - distToTarget / maxDist);
 
   // If too far, skip drawing entirely
@@ -322,7 +322,7 @@ export default function StarBackground() {
     ctx.fillRect(0, 0, width, height);
 
     // --- Check explosion trigger (time-based: every 45s) ---
-    const CYCLE_DURATION = 480000; // 480s per reincarnation cycle
+    const CYCLE_DURATION = 600000; // 600s per reincarnation cycle
     const cycleTime = time - lastExplosionRef.current;
     if (!explosionRef.current.active && cycleTime > CYCLE_DURATION) {
       starPositionsRef.current = starsRef.current.map(s => ({ x: s.x, y: s.y }));
