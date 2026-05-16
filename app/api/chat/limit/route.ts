@@ -2,13 +2,17 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 
 export async function GET(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
     || request.headers.get('x-real-ip')
     || 'unknown'
   const today = new Date().toISOString().split('T')[0]
+
+  if (!supabaseUrl || !supabaseServiceRoleKey) {
+    return NextResponse.json({ error: 'Server config missing' }, { status: 500 })
+  }
 
   const supabase = createClient(supabaseUrl, supabaseServiceRoleKey, {
     auth: { persistSession: false }
@@ -57,6 +61,10 @@ export async function POST(request: NextRequest) {
     || request.headers.get('x-real-ip')
     || 'unknown'
   const today = new Date().toISOString().split('T')[0]
+
+  if (!supabaseUrl || !supabaseServiceRoleKey) {
+    return NextResponse.json({ error: 'Server config missing' }, { status: 500 })
+  }
 
   const supabase = createClient(supabaseUrl, supabaseServiceRoleKey, {
     auth: { persistSession: false }
