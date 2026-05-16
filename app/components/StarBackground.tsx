@@ -6,22 +6,37 @@ import { useEffect, useRef } from 'react';
 // Types
 // ──────────────────────────────────────────
 
+type AnimState = 'scatter' | 'converging' | 'stable' | 'shrinking' | 'spinning' | 'imploding';
+
 interface Star {
-  /** Polar radius from canvas center */
+  /** Tai-Chi polar radius from canvas center */
+  taiChiR: number;
+  /** Tai-Chi polar angle from canvas center (base, before rotation) */
+  taiChiA: number;
+  /** Home scatter position (cartesian offset from canvas center) */
+  homeX: number;
+  homeY: number;
+  /** Screen position cache (set each frame before draw) */
   orbitR: number;
-  /** Polar angle from canvas center (base, before rotation) */
   orbitA: number;
-  /** Core radius */
+  /** Core size */
   size: number;
   /** Glow halo radius */
   glowRadius: number;
-  /** Hue for colour */
+  /** Tai-Chi state colours */
+  taiChiHue: number;
+  taiChiSat: number;
+  taiChiLight: number;
+  taiChiAlpha: number;
+  /** Home scatter colours (dim, desaturated) */
+  homeHue: number;
+  homeSat: number;
+  homeLight: number;
+  homeAlpha: number;
+  /** Current display colour — set dynamically each frame in the draw loop */
   hue: number;
-  /** Saturation */
   sat: number;
-  /** Lightness */
   light: number;
-  /** Base alpha (0-1) */
   baseAlpha: number;
   /** Twinkle frequency */
   twinkleSpeed: number;
@@ -43,6 +58,35 @@ interface Star {
   rayAngle: number;
   /** Ray spin speed */
   raySpeed: number;
+  /** Converge phase offset (0-1, for organic timing) */
+  convergePhase: number;
+  /** Explosion velocity (px/ms) */
+  vx: number;
+  vy: number;
+}
+
+// ──────────────────────────────────────────
+// Easing helpers
+// ──────────────────────────────────────────
+
+function easeOutCubic(t: number): number {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+function easeInOutCubic(t: number): number {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+function easeOutExpo(t: number): number {
+  return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+}
+
+function lerp(a: number, b: number, t: number): number {
+  return a + (b - a) * t;
+}
+
+function clamp(v: number, min: number, max: number): number {
+  return v < min ? min : v > max ? max : v;
 }
 
 // ──────────────────────────────────────────
@@ -99,8 +143,9 @@ function classifyTaiChi(dx: number, dy: number, R: number): 'yang' | 'yin' | 'ou
 // Star generation
 // ──────────────────────────────────────────
 
-const TOTAL_STARS = 1100;
-
+/**
+ * Generate ~2200 stars: Tai-Chi target coords + home scatter coords + dual colours.
+ */
 function createStars(width: number, height: number): Star[] {
   const stars: Star[] = [];
   const cx = width / 2;
@@ -109,8 +154,9 @@ function createStars(width: number, height: number): Star[] {
   // R slightly less than half the shortest dimension for a good fit
   const R = Math.min(width, height) * 0.42;
   const fishR = R / 2;
+  const scatterR = R * 1.6; // disk radius for the scatter state
 
-  // ── Helpers ──
+  // ── Helper ──
 
   function makeStar(
     worldX: number,
@@ -129,8 +175,8 @@ function createStars(width: number, height: number): Star[] {
   ): void {
     const dx = worldX - cx;
     const dy = worldY - cy;
-    const orbitR = Math.sqrt(dx * dx + dy * dy);
-    const orbitA = Math.atan2(dy, dx);
+    const taiChiR = Math.sqrt(dx * dx + dy * dy);
+    const taiChiA = Math.atan2(dy, dx);
 
     const isBright = opts.bright ?? (region === 'yang');
     const size = opts.size ?? (isBright ? 1.0 + Math.random() * 2.2 : 0.4 + Math.random() * 0.8);
@@ -138,15 +184,45 @@ function createStars(width: number, height: number): Star[] {
       opts.rays ??
       (isBright && Math.random() < 0.35 ? 4 + Math.floor(Math.random() * 3) : 0);
 
+    // Tai-Chi colours
+    const taiChiHue = opts.hue ?? (region === 'yin' ? 220 + Math.random() * 35 : 38 + Math.random() * 14);
+    const taiChiSat = opts.sat ?? (region === 'yin' ? 30 + Math.random() * 25 : 55 + Math.random() * 25);
+    const taiChiLight = opts.light ?? (region === 'yin' ? 18 + Math.random() * 15 : 45 + Math.random() * 30);
+    const taiChiAlpha = opts.alpha ?? (isBright ? 0.45 + Math.random() * 0.55 : 0.12 + Math.random() * 0.18);
+
+    // Home scatter position (random point in a disk of radius scatterR)
+    const homeAngle = Math.random() * Math.PI * 2;
+    const homeRadius = Math.random() * scatterR;
+    const homeX = Math.cos(homeAngle) * homeRadius;
+    const homeY = Math.sin(homeAngle) * homeRadius;
+
+    // Home scatter colours — uniformly dim starlight
+    const homeHue = 200 + Math.random() * 60;
+    const homeSat = 15 + Math.random() * 15;
+    const homeLight = 20 + Math.random() * 15;
+    const homeAlpha = 0.08 + Math.random() * 0.12;
+
     stars.push({
-      orbitR,
-      orbitA,
+      taiChiR,
+      taiChiA,
+      homeX,
+      homeY,
+      orbitR: 0,
+      orbitA: 0,
       size,
       glowRadius: opts.glow ?? (isBright ? size * (4 + Math.random() * 7) : size * 2),
-      hue: opts.hue ?? (region === 'yin' ? 220 + Math.random() * 35 : 38 + Math.random() * 14),
-      sat: opts.sat ?? (region === 'yin' ? 30 + Math.random() * 25 : 55 + Math.random() * 25),
-      light: opts.light ?? (region === 'yin' ? 18 + Math.random() * 15 : 45 + Math.random() * 30),
-      baseAlpha: opts.alpha ?? (isBright ? 0.45 + Math.random() * 0.55 : 0.12 + Math.random() * 0.18),
+      taiChiHue,
+      taiChiSat,
+      taiChiLight,
+      taiChiAlpha,
+      homeHue,
+      homeSat,
+      homeLight,
+      homeAlpha,
+      hue: 0,
+      sat: 0,
+      light: 0,
+      baseAlpha: 0,
       twinkleSpeed: 0.0005 + Math.random() * 0.0025,
       twinklePhase: Math.random() * Math.PI * 2,
       wobbleAmount: 0.3 + Math.random() * 0.5,
@@ -157,35 +233,35 @@ function createStars(width: number, height: number): Star[] {
       rays: rayCount,
       rayAngle: Math.random() * Math.PI * 2,
       raySpeed: (0.0001 + Math.random() * 0.0004) * (Math.random() < 0.5 ? 1 : -1),
+      convergePhase: Math.random() * 0.25,
+      vx: 0,
+      vy: 0,
     });
   }
 
-  // ── 1. Outer ring stars (boundary delineation) ──
-  for (let i = 0; i < 100; i++) {
-    const angle = (i / 100) * Math.PI * 2;
-    // Slight radial scatter so the ring isn't perfectly uniform
+  // ── 1. Outer ring stars (boundary delineation) — doubled from 100 → 200 ──
+  for (let i = 0; i < 200; i++) {
+    const angle = (i / 200) * Math.PI * 2;
     const r = R * (0.98 + Math.random() * 0.02);
     const x = cx + Math.cos(angle) * r;
     const y = cy + Math.sin(angle) * r;
     makeStar(x, y, 'yang', { bright: true, alpha: 0.5 + Math.random() * 0.2, size: 1.0 + Math.random() * 1.5 });
   }
 
-  // ── 2. S-curve boundary stars ──
-  for (let i = 0; i < 80; i++) {
-    const t = i / 80; // 0..1
+  // ── 2. S-curve boundary stars — doubled from 80 → 160 ──
+  for (let i = 0; i < 160; i++) {
+    const t = i / 160;
     let px: number;
     let py: number;
 
     if (t < 0.5) {
-      // Upper: right semicircle of upper fish
-      const a = (t / 0.5) * Math.PI; // 0..π
-      const angle = -Math.PI / 2 + a; // -π/2 .. π/2 (right side)
+      const a = (t / 0.5) * Math.PI;
+      const angle = -Math.PI / 2 + a;
       px = Math.cos(angle) * fishR;
       py = -fishR + Math.sin(angle) * fishR;
     } else {
-      // Lower: left semicircle of lower fish
       const a = ((t - 0.5) / 0.5) * Math.PI;
-      const angle = Math.PI / 2 + a; // π/2 .. 3π/2 (left side)
+      const angle = Math.PI / 2 + a;
       px = Math.cos(angle) * fishR;
       py = fishR + Math.sin(angle) * fishR;
     }
@@ -197,9 +273,9 @@ function createStars(width: number, height: number): Star[] {
     });
   }
 
-  // ── 3. Yang region fill ──
+  // ── 3. Yang region fill — doubled from 280 → 640 ──
   let yangCount = 0;
-  while (yangCount < 280) {
+  while (yangCount < 640) {
     const angle = Math.random() * Math.PI * 2;
     const radius = Math.random() * R * 0.95;
     const dx = Math.cos(angle) * radius;
@@ -210,9 +286,9 @@ function createStars(width: number, height: number): Star[] {
     }
   }
 
-  // ── 4. Yin region fill ──
+  // ── 4. Yin region fill — doubled from 240 → 560 ──
   let yinCount = 0;
-  while (yinCount < 240) {
+  while (yinCount < 560) {
     const angle = Math.random() * Math.PI * 2;
     const radius = Math.random() * R * 0.95;
     const dx = Math.cos(angle) * radius;
@@ -223,9 +299,9 @@ function createStars(width: number, height: number): Star[] {
     }
   }
 
-  // ── 5. Fish-eye dots ──
-  // Yin dot inside the yang fish (upper, dark bluish)
-  for (let i = 0; i < 20; i++) {
+  // ── 5. Fish-eye dots — doubled 20 → 40 each ──
+  // Yin dot inside the yang fish (upper)
+  for (let i = 0; i < 40; i++) {
     const a = Math.random() * Math.PI * 2;
     const r = Math.random() * fishR * 0.3;
     makeStar(cx + Math.cos(a) * r, cy - fishR + Math.sin(a) * r, 'yin', {
@@ -237,8 +313,8 @@ function createStars(width: number, height: number): Star[] {
       bright: false,
     });
   }
-  // Yang dot inside the yin fish (lower, bright golden)
-  for (let i = 0; i < 20; i++) {
+  // Yang dot inside the yin fish (lower)
+  for (let i = 0; i < 40; i++) {
     const a = Math.random() * Math.PI * 2;
     const r = Math.random() * fishR * 0.3;
     makeStar(cx + Math.cos(a) * r, cy + fishR + Math.sin(a) * r, 'yang', {
@@ -251,8 +327,8 @@ function createStars(width: number, height: number): Star[] {
     });
   }
 
-  // ── 6. Background stars (scattered around the canvas, outside the Tai Chi) ──
-  for (let i = 0; i < 220; i++) {
+  // ── 6. Background stars — doubled from 220 → 560 ──
+  for (let i = 0; i < 560; i++) {
     const maxDim = Math.max(width, height) * 0.55;
     const angle = Math.random() * Math.PI * 2;
     const radius = R + Math.random() * (maxDim - R);
@@ -280,6 +356,8 @@ function createStars(width: number, height: number): Star[] {
 
 /**
  * Draw a single star with glow halo, bright core, and optional light rays.
+ * Reads position from `s.orbitR` / `s.orbitA` (set each frame).
+ * Reads colour from `s.hue`, `s.sat`, `s.light`, `s.baseAlpha` (set each frame).
  */
 function drawStar(ctx: CanvasRenderingContext2D, s: Star, time: number): void {
   const twinkle = Math.sin(time * s.twinkleSpeed + s.twinklePhase);
@@ -353,6 +431,38 @@ function drawStar(ctx: CanvasRenderingContext2D, s: Star, time: number): void {
 }
 
 // ──────────────────────────────────────────
+// Animation state machine
+// ──────────────────────────────────────────
+
+interface AnimStateMachine {
+  state: AnimState;
+  /** Timestamp (performance.now) when this state began */
+  stateStartAt: number;
+  /** Total duration of this state in ms */
+  duration: number;
+}
+
+const STATE_DURATIONS: Record<AnimState, number> = {
+  scatter: 2500,
+  converging: 3500,
+  stable: 5500,
+  shrinking: 3000,
+  spinning: 2500,
+  imploding: 1500,
+};
+
+const STATE_ORDER: AnimState[] = ['scatter', 'converging', 'stable', 'shrinking', 'spinning', 'imploding'];
+
+function getNextState(current: AnimState): AnimState {
+  const idx = STATE_ORDER.indexOf(current);
+  return STATE_ORDER[(idx + 1) % STATE_ORDER.length];
+}
+
+function getStateProgress(now: number, sm: AnimStateMachine): number {
+  return clamp((now - sm.stateStartAt) / sm.duration, 0, 1);
+}
+
+// ──────────────────────────────────────────
 // Component
 // ──────────────────────────────────────────
 
@@ -362,7 +472,14 @@ export default function StarBackground() {
   const animRef = useRef<number>(0);
   const lastTimeRef = useRef<number>(0);
   const rotationRef = useRef<number>(0);
+  /** Additional rotation for the spinning state (accumulated) */
+  const spinRef = useRef<number>(0);
   const bgGradientRef = useRef<CanvasGradient | null>(null);
+  const smRef = useRef<AnimStateMachine>({
+    state: 'scatter',
+    stateStartAt: 0,
+    duration: STATE_DURATIONS.scatter,
+  });
   let bgGradientKey = '';
 
   // ── Main draw loop ──
@@ -385,6 +502,34 @@ export default function StarBackground() {
       starsRef.current = createStars(window.innerWidth, window.innerHeight);
       bgGradientKey = '';
     };
+
+    function setExplosionVelocities(stars: Star[], cx: number, cy: number, scaleFactor: number): void {
+      for (let i = 0; i < stars.length; i++) {
+        const s = stars[i];
+        // Use taiChiX (scaled) for the direction away from center
+        const theta = s.taiChiA + rotationRef.current;
+        const tR = s.taiChiR * scaleFactor;
+        const dirX = Math.cos(theta) * tR;
+        const dirY = Math.sin(theta) * tR;
+        const dist = Math.sqrt(dirX * dirX + dirY * dirY) || 1;
+        const baseSpeed = (1.0 + Math.random() * 2.5) * (s.isBright ? 1.4 : 0.8);
+        s.vx = (dirX / dist) * baseSpeed + (Math.random() - 0.5) * 0.8;
+        s.vy = (dirY / dist) * baseSpeed + (Math.random() - 0.5) * 0.8;
+      }
+    }
+
+    /**
+     * After explosion, record every star's current screen position as its new home.
+     */
+    function recordExplosionAsHome(stars: Star[], cx: number, cy: number): void {
+      for (let i = 0; i < stars.length; i++) {
+        const s = stars[i];
+        s.homeX = s.orbitR - cx;
+        s.homeY = s.orbitA - cy;
+        s.vx = 0;
+        s.vy = 0;
+      }
+    }
 
     function draw(time: number): void {
       if (!canvas || !ctx2d) return;
@@ -413,40 +558,226 @@ export default function StarBackground() {
       ctx2d.fillStyle = bgGradientRef.current as CanvasGradient;
       ctx2d.fillRect(0, 0, cssW, cssH);
 
+      // ── Animation state machine — advance ──
+      const sm = smRef.current;
+      const elapsed = time - sm.stateStartAt;
+      if (elapsed >= sm.duration) {
+        const next = getNextState(sm.state);
+        smRef.current = {
+          state: next,
+          stateStartAt: time,
+          duration: STATE_DURATIONS[next],
+        };
+
+        // On entering spinning: reset the accumulated spin
+        if (next === 'spinning') {
+          spinRef.current = 0;
+        }
+
+        // On entering imploding: compute explosion velocities at start
+        if (next === 'imploding') {
+          const scaleFactor = 1 / 3;
+          setExplosionVelocities(starsRef.current, cx, cy, scaleFactor);
+        }
+
+        // Update reference for this frame
+        sm.state = next;
+        sm.stateStartAt = time;
+        sm.duration = STATE_DURATIONS[next];
+      }
+
+      const progress = getStateProgress(time, sm);
+
       // ── Rotation ──
-      // Continually rotate; the speed is ~1 full rotation per 40 seconds
-      rotationRef.current += 0.00015 * dt;
+      // Base rotation: ~40s per full turn
+      const BASE_ROT_SPEED = 0.00015;
+      // Spinning rotation accumulator
+      if (sm.state === 'spinning') {
+        spinRef.current += BASE_ROT_SPEED * 4 * dt;
+      }
+      // During shrinking, rotation continues at base speed
+      rotationRef.current += BASE_ROT_SPEED * dt;
+
+      const rot = rotationRef.current + spinRef.current;
+
+      // ── Scale factor (1.0 → 1/3 during shrinking, then stays at 1/3 for spinning+imploding) ──
+      let scaleFactor = 1;
+      if (sm.state === 'shrinking') {
+        scaleFactor = lerp(1, 1 / 3, easeInOutCubic(progress));
+      } else if (sm.state === 'spinning' || sm.state === 'imploding') {
+        scaleFactor = 1 / 3;
+      }
 
       // ── Draw stars ──
       const stars = starsRef.current;
       const R = Math.min(cssW, cssH) * 0.42;
-      const rot = rotationRef.current;
 
       for (let i = 0; i < stars.length; i++) {
         const s = stars[i];
 
-        // Compute world position from polar (orbitR, orbitA + rotation + wobble)
+        // ── Compute screen position and colours based on state ──
+        let wx: number;
+        let wy: number;
+        let hue: number;
+        let sat: number;
+        let light: number;
+        let baseAlpha: number;
+
+        // Tai-Chi world position (with rotation + scale + wobble)
         const wobble = Math.sin(time * s.wobbleSpeed + s.wobblePhase) * s.wobbleAmount;
-        const angle = s.orbitA + rot;
-        const r = Math.max(0.01, s.orbitR + wobble);
+        const taiChiAngle = s.taiChiA + rot;
+        const taiChiR_scaled = Math.max(0.01, s.taiChiR * scaleFactor + wobble);
+        const taiChiWX = cx + Math.cos(taiChiAngle) * taiChiR_scaled;
+        const taiChiWY = cy + Math.sin(taiChiAngle) * taiChiR_scaled;
 
-        const wx = cx + Math.cos(angle) * r;
-        const wy = cy + Math.sin(angle) * r;
+        // Home world position (no rotation/scaling)
+        const homeWX = cx + s.homeX;
+        const homeWY = cy + s.homeY;
 
-        // Skip off-screen stars
-        if (wx < -60 || wx > cssW + 60 || wy < -60 || wy > cssH + 60) continue;
+        switch (sm.state) {
+          // ═══════════════════════════
+          case 'scatter': {
+            // Stars sit at home positions with dim colours, gentle individual drift
+            const driftX = Math.sin(time * 0.0004 + s.twinklePhase) * 3;
+            const driftY = Math.cos(time * 0.0003 + s.twinklePhase * 1.3) * 3;
+            wx = homeWX + driftX;
+            wy = homeWY + driftY;
+            hue = s.homeHue;
+            sat = s.homeSat;
+            light = s.homeLight;
+            baseAlpha = s.homeAlpha;
+            break;
+          }
 
-        // Temporarily mutate orbitR/orbitA for the drawing function to read
-        // (We save/restore instead of creating temp objects for performance)
-        const savedR = s.orbitR;
-        const savedA = s.orbitA;
+          // ═══════════════════════════
+          case 'converging': {
+            // Stars lerp from home → taiChi positions with eased timing
+            const individualOffset = s.convergePhase * 0.3;
+            const rawProgress = clamp((progress - individualOffset) / (1 - individualOffset), 0, 1);
+            const e = easeOutCubic(rawProgress);
+            wx = lerp(homeWX, taiChiWX, e);
+            wy = lerp(homeWY, taiChiWY, e);
+
+            // Also rotate in as they converge — slight spiral effect
+            if (e > 0 && e < 1) {
+              const spiralAngle = e * Math.PI * 0.3;
+              const mx = lerp(homeWX, taiChiWX, e);
+              const my = lerp(homeWY, taiChiWY, e);
+              const spDx = mx - cx;
+              const spDy = my - cy;
+              const spDist = Math.sqrt(spDx * spDx + spDy * spDy);
+              const spA = Math.atan2(spDy, spDx) + spiralAngle * (1 - e);
+              wx = cx + Math.cos(spA) * spDist;
+              wy = cy + Math.sin(spA) * spDist;
+            }
+
+            // Colour lerp from home → taiChi
+            const c = easeOutCubic(rawProgress);
+            hue = lerp(s.homeHue, s.taiChiHue, c);
+            sat = lerp(s.homeSat, s.taiChiSat, c);
+            light = lerp(s.homeLight, s.taiChiLight, c);
+            baseAlpha = lerp(s.homeAlpha, s.taiChiAlpha, c);
+            break;
+          }
+
+          // ═══════════════════════════
+          case 'stable': {
+            wx = taiChiWX;
+            wy = taiChiWY;
+            hue = s.taiChiHue;
+            sat = s.taiChiSat;
+            light = s.taiChiLight;
+            baseAlpha = s.taiChiAlpha;
+            break;
+          }
+
+          // ═══════════════════════════
+          case 'shrinking': {
+            // Scale is already handled by scaleFactor applied to taiChiR
+            wx = taiChiWX;
+            wy = taiChiWY;
+            hue = s.taiChiHue;
+            sat = s.taiChiSat;
+            light = s.taiChiLight;
+            baseAlpha = s.taiChiAlpha;
+            break;
+          }
+
+          // ═══════════════════════════
+          case 'spinning': {
+            wx = taiChiWX;
+            wy = taiChiWY;
+            hue = s.taiChiHue;
+            sat = s.taiChiSat;
+            light = s.taiChiLight;
+            baseAlpha = s.taiChiAlpha;
+            break;
+          }
+
+          // ═══════════════════════════
+          case 'imploding': {
+            const implodeFraction = 0.35; // first 35% = implosion toward center
+            const rawImplode = progress / implodeFraction;
+            const implodeProg = clamp(rawImplode, 0, 1);
+
+            if (progress < implodeFraction) {
+              // ── Implosion: stars race toward center ──
+              const e = easeOutExpo(implodeProg);
+              wx = lerp(taiChiWX, cx, e);
+              wy = lerp(taiChiWY, cy, e);
+              // Fade colours during implosion
+              const fade = lerp(1, 0.3, e);
+              hue = s.taiChiHue;
+              sat = s.taiChiSat * fade;
+              light = s.taiChiLight * fade;
+              baseAlpha = s.taiChiAlpha * fade;
+            } else {
+              // ── Explosion: stars fly outward with velocity ──
+              s.orbitR += s.vx * dt * 0.06;
+              s.orbitA += s.vy * dt * 0.06;
+              s.vx *= 0.987;
+              s.vy *= 0.987;
+              wx = s.orbitR;
+              wy = s.orbitA;
+
+              // Fading colours during explosion
+              const explosionElapsed = (progress - implodeFraction) / (1 - implodeFraction);
+              const fade = lerp(0.4, 0.1, easeOutCubic(explosionElapsed));
+              hue = lerp(s.taiChiHue, s.homeHue, explosionElapsed);
+              sat = lerp(s.taiChiSat * 0.5, s.homeSat, explosionElapsed);
+              light = lerp(s.taiChiLight * 0.5, s.homeLight, explosionElapsed);
+              baseAlpha = lerp(s.taiChiAlpha * 0.3, s.homeAlpha, explosionElapsed);
+            }
+            break;
+          }
+
+          default: {
+            wx = homeWX;
+            wy = homeWY;
+            hue = s.homeHue;
+            sat = s.homeSat;
+            light = s.homeLight;
+            baseAlpha = s.homeAlpha;
+          }
+        }
+
+        // Skip off-screen
+        if (wx < -80 || wx > cssW + 80 || wy < -80 || wy > cssH + 80) continue;
+
+        // Set position + colour on star for drawStar to read
         s.orbitR = wx;
         s.orbitA = wy;
+        s.hue = Math.round(hue);
+        s.sat = Math.round(sat);
+        s.light = Math.round(light);
+        s.baseAlpha = clamp(baseAlpha, 0, 1);
 
         drawStar(ctx2d, s, time);
+      }
 
-        s.orbitR = savedR;
-        s.orbitA = savedA;
+      // ── At the end of imploding state, record explosion positions as new home ──
+      if (sm.state === 'imploding' && progress >= 0.99) {
+        recordExplosionAsHome(stars, cx, cy);
       }
 
       animRef.current = requestAnimationFrame(draw);
