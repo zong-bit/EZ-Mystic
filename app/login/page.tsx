@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getSupabaseClient } from '../../src/lib/supabase';
@@ -11,6 +11,21 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [checking, setChecking] = useState(true);
+
+  // Check if user already has a session — redirect if so
+  useEffect(() => {
+    const supabase = getSupabaseClient();
+    // Check initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        router.push('/dashboard');
+        router.refresh();
+      } else {
+        setChecking(false);
+      }
+    });
+  }, [router]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -48,65 +63,71 @@ export default function LoginPage() {
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold-primary/5 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-star-dust/5 rounded-full blur-3xl" />
 
-      <div className="relative glass-card max-w-md w-full p-8 page-enter">
-        {/* Close / back link */}
-        <Link href="/" className="absolute top-4 right-4 text-text-tertiary hover:text-text-primary transition-colors text-xl">
-          ✕
-        </Link>
-
-        <div className="text-center mb-8">
-          <span className="text-gold-primary text-3xl">✦</span>
-          <h1 className="font-display text-2xl font-bold text-gold-primary mt-2">Welcome Back</h1>
-          <p className="text-text-secondary text-sm mt-1">Sign in to continue your journey</p>
+      {checking ? (
+        <div className="relative glass-card max-w-md w-full p-8 flex items-center justify-center" style={{minHeight: '200px'}}>
+          <div className="text-text-secondary">Checking session...</div>
         </div>
-
-        {error && (
-          <div className="mb-6 p-4 rounded-xl bg-cinnabar-red/10 border border-cinnabar-red/20 text-cinnabar-red text-sm text-center">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm text-text-secondary mb-1.5">Email</label>
-            <input
-              type="email"
-              className="input-field"
-              placeholder="your@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm text-text-secondary mb-1.5">Password</label>
-            <input
-              type="password"
-              className="input-field"
-              placeholder="Your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="btn-primary w-full py-3 text-base disabled:opacity-50 disabled:cursor-not-allowed mt-2"
-          >
-            {loading ? 'Signing in...' : 'Sign In'}
-          </button>
-        </form>
-
-        <p className="text-center text-text-tertiary text-sm mt-6">
-          Don't have an account?{' '}
-          <Link href="/signup" className="text-gold-primary hover:underline">
-            Sign up
+      ) : (
+        <div className="relative glass-card max-w-md w-full p-8 page-enter">
+          {/* Close / back link */}
+          <Link href="/" className="absolute top-4 right-4 text-text-tertiary hover:text-text-primary transition-colors text-xl">
+            ✕
           </Link>
-        </p>
-      </div>
+
+          <div className="text-center mb-8">
+            <span className="text-gold-primary text-3xl">✦</span>
+            <h1 className="font-display text-2xl font-bold text-gold-primary mt-2">Welcome Back</h1>
+            <p className="text-text-secondary text-sm mt-1">Sign in to continue your journey</p>
+          </div>
+
+          {error && (
+            <div className="mb-6 p-4 rounded-xl bg-cinnabar-red/10 border border-cinnabar-red/20 text-cinnabar-red text-sm text-center">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm text-text-secondary mb-1.5">Email</label>
+              <input
+                type="email"
+                className="input-field"
+                placeholder="your@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm text-text-secondary mb-1.5">Password</label>
+              <input
+                type="password"
+                className="input-field"
+                placeholder="Your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary w-full py-3 text-base disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+            >
+              {loading ? 'Signing in...' : 'Sign In'}
+            </button>
+          </form>
+
+          <p className="text-center text-text-tertiary text-sm mt-6">
+            Don't have an account?{' '}
+            <Link href="/signup" className="text-gold-primary hover:underline">
+              Sign up
+            </Link>
+          </p>
+        </div>
+      )}
     </div>
   );
 }
