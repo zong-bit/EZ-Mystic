@@ -69,7 +69,11 @@ function createStars(width: number, height: number): Star[] {
 
   for (let i = 0; i < STAR_COUNT; i++) {
     const angle = Math.random() * Math.PI * 2;
-    const radius = Math.random() * maxR;
+    // 20% of stars on the edge, forming a natural glowing ring
+    const isEdge = Math.random() < 0.2;
+    const radius = isEdge
+      ? maxR * (0.9 + Math.random() * 0.08)  // edge 90-98%
+      : Math.random() * maxR * 0.85;          // interior 0-85%
     const isBright = Math.random() < 0.18;
 
     // Color: golden/amber (40-55) with some warm orange (30-40)
@@ -129,35 +133,26 @@ function drawParticleStar(
 ): void {
   const { x, y, size, glowRadius, rays, rayAngle, raySpeed, hue, alpha, phase, twinkleSpeed, isBright } = star;
 
-  // Proximity-based brightness: stars near their tai chi target are golden/bright
-  // Stars far from target are dim/cool
+  // Tai chi color modulation via hue only — keep original brightness
   const maxR = Math.max(ctx.canvas.width, ctx.canvas.height) * 0.5;
   const score = getTaiChiScore(x, y, cx, cy, maxR, time);
-  // Only yang stars (score > 0.5) glow bright; yin stars fade into background
-  const displayGlowScale = score > 0.5
-    ? 0.6 + (score - 0.5) * 0.8   // 0.5→0.6, 1.0→1.0
-    : 0.3 + score * 0.3;            // 0→0.3, 0.5→0.45
 
-  const displayAlphaScale = score > 0.5
-    ? 0.3 + (score - 0.5) * 2 * 0.7  // 0.5→0.3, 1.0→1.0
-    : 0.05 + score * 0.2;             // 0→0.05, 0.5→0.15 (nearly invisible)
+  // All stars keep original brightness (displayAlphaScale=1, displayLight high)
+  const displayAlphaScale = 1.0;
+  const displayLight = 75 + (score - 0.5) * 10;  // all in 70-80 range
 
-  let displayHue = score > 0.5
-    ? 40 + (score - 0.5) * 2 * 15    // 0.5→40, 1.0→55 (golden range)
-    : 35 + score * 10;                // 0→35, 0.5→40 (dull, blended)
+  // Hue shows tai chi: yang=gold(45), yin=cool white/blue(200)
+  const displayHue = score > 0.5
+    ? 35 + (score - 0.5) * 2 * 30  // 0.5→35, 1.0→65 (gold to warm gold)
+    : 180 + score * 40;             // 0→180(blue), 0.5→200(cool white)
 
-  let displaySat = score > 0.5
-    ? 60 + (score - 0.5) * 2 * 20    // 0.5→60, 1.0→80
-    : 30 + score * 20;                // 0→30, 0.5→40 (desaturated)
-
-  let displayLight = score > 0.5
-    ? 50 + (score - 0.5) * 2 * 35    // 0.5→50, 1.0→85
-    : 20 + score * 20;                // 0→20, 0.5→30 (dim)
+  // Slight saturation variation
+  const displaySat = 70 + score * 20;  // 70→90
 
   // Twinkle: modulate alpha and glowRadius with sine wave
   const twinkle = Math.sin(time * twinkleSpeed + phase);
   const currentAlpha = alpha * displayAlphaScale * (0.4 + 0.6 * twinkle);
-  const currentGlow = glowRadius * displayGlowScale * (0.7 + 0.3 * twinkle);
+  const currentGlow = glowRadius * (0.7 + 0.3 * twinkle);
 
   if (currentAlpha < 0.02) return;
 
