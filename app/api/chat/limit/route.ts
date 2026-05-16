@@ -2,17 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 export async function GET(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
     || request.headers.get('x-real-ip')
     || 'unknown'
   const today = new Date().toISOString().split('T')[0]
-
-  if (!supabaseUrl || !supabaseServiceRoleKey) {
-    return NextResponse.json({ error: 'Server config missing' }, { status: 500 })
-  }
 
   const supabase = createClient(supabaseUrl, supabaseServiceRoleKey, {
     auth: { persistSession: false }
@@ -62,19 +58,34 @@ export async function POST(request: NextRequest) {
     || 'unknown'
   const today = new Date().toISOString().split('T')[0]
 
-  if (!supabaseUrl || !supabaseServiceRoleKey) {
-    return NextResponse.json({ error: 'Server config missing' }, { status: 500 })
-  }
-
   const supabase = createClient(supabaseUrl, supabaseServiceRoleKey, {
     auth: { persistSession: false }
   })
 
-  // Upsert: increment count
-  await supabase.rpc('increment_chat_usage', {
-    p_ip: ip,
-    p_date: today
-  })
+  // Upsert: increment count (using REST API upsert via RPC pattern)
+  // First try to get current count, then increment
+  const { data: existing } = await supabase
+    .from('chat_usage')
+    .select('count')
+    .eq('ip_address', ip)
+    .eq('date', today)
+    .single()
+
+  const newCount = (existing?.count || 0) + 1
+
+  if (existing) {
+    // Update existing record
+    await supabase
+      .from('chat_usage')
+      .update({ count: newCount })
+      .eq('ip_address', ip)
+      .eq('date', today)
+  } else {
+    // Insert new record
+    await supabase
+      .from('chat_usage')
+      .insert({ ip_address: ip, date: today, count: newCount })
+  }
 
   return NextResponse.json({ success: true })
 }

@@ -104,6 +104,8 @@ export default function ChatPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPayment, setShowPayment] = useState(false);
+  const [isPro, setIsPro] = useState(false);
+  const [remaining, setRemaining] = useState<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -115,28 +117,38 @@ export default function ChatPage() {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
-  const getLocalMsgCount = (): number => {
-    if (typeof window === 'undefined') return 0;
-    const val = localStorage.getItem('ezmystic_chat_msgs');
-    return val ? parseInt(val, 10) || 0 : 0;
-  };
-
-  const setLocalMsgCount = (count: number) => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('ezmystic_chat_msgs', String(count));
-    }
-  };
+  // Check server-side limit on mount
+  useEffect(() => {
+    const checkLimit = async () => {
+      try {
+        const res = await fetch('/api/chat/limit');
+        const data = await res.json();
+        if (data.isPro) setIsPro(true);
+        setRemaining(data.remaining);
+      } catch (e) {
+        console.error('Failed to check limit:', e);
+      }
+    };
+    checkLimit();
+  }, []);
 
   const sendMessage = useCallback(async (text?: string) => {
     const messageText = text || input.trim();
     if (!messageText || loading) return;
 
-    // Client-side free user check (skip for logged-in users)
-    if (!user) {
-      const localCount = getLocalMsgCount();
-      if (localCount >= 1 && typeof window !== 'undefined' && document.cookie.indexOf('ezmystic_paid=1') === -1) {
-        setShowPayment(true);
-        return;
+    // Server-side limit check
+    if (!isPro) {
+      try {
+        const res = await fetch('/api/chat/limit');
+        const data = await res.json();
+        if (!data.allowed) {
+          setRemaining(0);
+          setShowPayment(true);
+          return;
+        }
+        setRemaining(data.remaining);
+      } catch (e) {
+        console.error('Failed to check limit:', e);
       }
     }
 
@@ -179,8 +191,15 @@ export default function ChatPage() {
         throw new Error(data.error || 'Failed to get response');
       }
 
-      // Update local message count
-      setLocalMsgCount((data.msgCount || getLocalMsgCount()));
+      // Consume limit on successful message
+      if (!isPro) {
+        try {
+          await fetch('/api/chat/limit', { method: 'POST' });
+          setRemaining(prev => (prev !== null ? Math.max(0, prev - 1) : null));
+        } catch (e) {
+          console.error('Failed to consume limit:', e);
+        }
+      }
 
       const assistantMsg: ChatMessage = {
         id: `assistant-${Date.now()}`,
@@ -195,7 +214,7 @@ export default function ChatPage() {
     } finally {
       setLoading(false);
     }
-  }, [input, loading, messages]);
+  }, [input, loading, messages, isPro]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -318,6 +337,18 @@ export default function ChatPage() {
             </button>
           </div>
         </div>
+
+        {/* Remaining messages indicator */}
+        {!isPro && remaining !== null && (
+          <p className="text-center text-text-tertiary text-xs mt-2">
+            {remaining > 0
+              ? `${remaining} free message${remaining > 1 ? 's' : ''} remaining`
+              : 'Free limit reached · '}
+            <Link href="/pricing" className="text-gold-primary hover:underline">
+              {remaining > 0 ? 'upgrade to Pro' : 'upgrade to Pro'}
+            </Link>
+          </p>
+        )}
 
         {/* Disclaimer */}
         <p className="text-center text-text-tertiary text-[10px] mt-3">
