@@ -15,7 +15,11 @@ interface Star {
   twinkleSpeed: number;
   phase: number;          // animation phase offset
   isBright: boolean;
-  _density?: number;      // runtime: tai chi density for color/brightness modulation
+  taiChiTargetX: number;  // target position in tai chi pattern
+  taiChiTargetY: number;
+  homeX: number;          // initial random position (reset after explosion)
+  homeY: number;
+  _proximity?: number;    // runtime: proximity to tai chi target (0-1) for color modulation
 }
 
 interface ExplosionState {
@@ -37,44 +41,60 @@ interface LightBallState {
 const STAR_COUNT = 600;
 
 /**
- * Tai chi density factor: returns 0-1 indicating how dense stars should be
- * at a given angle and normalized distance.
- * - 1 = should be dense (yang, the "dark" side with more stars)
- * - 0 = should be sparse (yin, the "light" side with fewer stars)
- *
- * Uses the S-curve of the tai chi symbol: the boundary between the two
- * halves is a sinusoidal curve. Stars in the dense region shrink slower
- * (accumulate), while stars in the sparse region shrink faster (pass through).
+ * Compute target positions on the tai chi boundary for each star.
+ * Returns positions distributed along the S-curve boundary of the tai chi symbol.
  */
-function getTaiChiDensity(angle: number, normDist: number): number {
-  // Normalize angle to 0-2PI
-  const a = ((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+function computeTaiChiTargets(cx: number, cy: number, maxR: number, count: number): { x: number; y: number }[] {
+  const targets: { x: number; y: number }[] = [];
 
-  // The tai chi S-curve: sin(a/2) gives the left-right division
-  // Amplify contrast: wider range so dense vs sparse is much more obvious
-  const sCurve = Math.sin(a * 0.5);
+  // The tai chi boundary is defined by:
+  // Outer circle: radius maxR
+  // Left semicircle: radius maxR/2, centered at (cx - maxR/4, cy)
+  // Right semicircle: radius maxR/2, centered at (cx + maxR/4, cy)
+  // The S-curve is the boundary between yin and yang
 
-  // Near the center, emphasize the two "eyes" of the tai chi fish
-  // The eyes are at the inner boundary of each fish head
-  // Eye positions: roughly at normDist ~0.15-0.25, at angles where sin(a/2) transitions
-  const eyeInfluence = Math.exp(-normDist * normDist * 12) * 0.5;
-  // Two eye points: cos(a) ~ 0 region (the inner boundaries)
-  const eyeAngle = Math.cos(a * 0.5);
-  const eyeBoost = eyeInfluence * (eyeAngle * eyeAngle);
+  for (let i = 0; i < count; i++) {
+    // Distribute along the S-curve using a parametric angle
+    const t = i / count; // 0-1 along the curve
 
-  // Combine: the density varies sinusoidally around the circle
-  // Amplify the sine wave to get stronger contrast (0.55 instead of 0.35)
-  const radialMod = 1 - normDist * 0.3;
-  const density = 0.5 + sCurve * 0.55 * radialMod + eyeBoost;
+    // The S-curve can be parameterized by angle from 0 to PI
+    const a = t * Math.PI;
 
-  return Math.max(0, Math.min(1, density));
+    // Outer boundary (top half of tai chi)
+    let tx: number, ty: number;
+
+    if (t < 0.5) {
+      // Left fish head region (yang)
+      const localT = t * 2; // 0-1
+      const angle = Math.PI - localT * Math.PI; // PI to 0
+      const r = maxR / 2;
+      const center = { x: cx - maxR / 4, y: cy };
+      tx = center.x + Math.cos(angle) * r * 0.95 + (Math.random() - 0.5) * maxR * 0.03;
+      ty = center.y + Math.sin(angle) * r * 0.95 + (Math.random() - 0.5) * maxR * 0.03;
+    } else {
+      // Right fish head region (yin)
+      const localT = (t - 0.5) * 2; // 0-1
+      const angle = Math.PI * localT; // 0 to PI
+      const r = maxR / 2;
+      const center = { x: cx + maxR / 4, y: cy };
+      tx = center.x + Math.cos(angle) * r * 0.95 + (Math.random() - 0.5) * maxR * 0.03;
+      ty = center.y + Math.sin(angle) * r * 0.95 + (Math.random() - 0.5) * maxR * 0.03;
+    }
+
+    targets.push({ x: tx, y: ty });
+  }
+
+  return targets;
 }
 
 function createStars(width: number, height: number): Star[] {
   const stars: Star[] = [];
   const cx = width / 2;
   const cy = height / 2;
-  const maxR = Math.sqrt(cx * cx + cy * cy);
+  const maxR = Math.max(width, height) * 0.5;
+
+  // Pre-compute tai chi target positions for each star
+  const taiChiTargets = computeTaiChiTargets(cx, cy, maxR, STAR_COUNT);
 
   for (let i = 0; i < STAR_COUNT; i++) {
     const angle = Math.random() * Math.PI * 2;
@@ -117,6 +137,10 @@ function createStars(width: number, height: number): Star[] {
         : 0.002 + Math.random() * 0.006,   // 1-3s period
       phase: Math.random() * Math.PI * 2,
       isBright,
+      taiChiTargetX: taiChiTargets[i].x,
+      taiChiTargetY: taiChiTargets[i].y,
+      homeX: cx + Math.cos(angle) * radius,
+      homeY: cy + Math.sin(angle) * radius,
     });
   }
   return stars;
@@ -132,33 +156,34 @@ function drawParticleStar(
   star: Star,
   time: number,
 ): void {
-  const { x, y, size, glowRadius, rays, rayAngle, raySpeed, hue, alpha, phase, twinkleSpeed, isBright, _density } = star;
+  const { x, y, size, glowRadius, rays, rayAngle, raySpeed, hue, alpha, phase, twinkleSpeed, isBright, _proximity } = star;
 
-  // Density-based brightness: dense regions (yang) are brighter
-  const density = _density ?? 0.5;
-  const densityAlpha = 0.4 + density * 0.6;  // density=0→0.4, density=1→1.0
-  const densityGlow = 0.7 + density * 0.3;    // density=0→0.7, density=1→1.0
+  // Proximity-based brightness: stars near their tai chi target are golden/bright
+  // Stars far from target are dim/cool
+  const proximity = _proximity ?? 0;
+  const proximityAlpha = 0.3 + proximity * 0.7;  // proximity=0→0.3, proximity=1→1.0
+  const proximityGlow = 0.5 + proximity * 0.5;    // proximity=0→0.5, proximity=1→1.0
 
-  // Density-based color: dense=golden/warm, sparse=cool blue
+  // Proximity-based color: near=golden/warm, far=cool white
   let displayHue = hue;
   let displaySat = 80;
   let displayLight = 75;
-  if (density > 0.6) {
-    // Dense (yang) region: golden/warm
-    displayHue = 40 + (density - 0.6) * 40;  // 40→56 gold
-    displaySat = 85 + (density - 0.6) * 10;   // more saturated
-    displayLight = 75 + (density - 0.6) * 15; // brighter
-  } else if (density < 0.4) {
-    // Sparse (yin) region: cool blue
-    displayHue = 210 + (0.4 - density) * 30;  // 210→216 blue
-    displaySat = 60 - (0.4 - density) * 20;    // less saturated
-    displayLight = 65 - (0.4 - density) * 15;  // dimmer
+  if (proximity > 0.3) {
+    // Near target: golden/warm
+    displayHue = 40 + (proximity - 0.3) * 40;  // 40→68 gold
+    displaySat = 85 + (proximity - 0.3) * 10;   // more saturated
+    displayLight = 75 + (proximity - 0.3) * 20; // brighter
+  } else {
+    // Far from target: cool white
+    displayHue = hue - (1 - proximity) * 30;
+    displaySat = 80 - (1 - proximity) * 20;
+    displayLight = 75 - (1 - proximity) * 15;
   }
 
   // Twinkle: modulate alpha and glowRadius with sine wave
   const twinkle = Math.sin(time * twinkleSpeed + phase);
-  const currentAlpha = alpha * densityAlpha * (0.4 + 0.6 * twinkle);
-  const currentGlow = glowRadius * densityGlow * (0.7 + 0.3 * twinkle);
+  const currentAlpha = alpha * proximityAlpha * (0.4 + 0.6 * twinkle);
+  const currentGlow = glowRadius * proximityGlow * (0.7 + 0.3 * twinkle);
 
   if (currentAlpha < 0.02) return;
 
@@ -545,25 +570,25 @@ export default function StarBackground() {
           const dy = s.y - cy;
           const dist = Math.sqrt(dx * dx + dy * dy);
           const angle = Math.atan2(dy, dx);
-          const normDist = dist / maxR;
 
-          // Spiral rotation (same for all stars)
-          const rotationSpeed = 0.00004;
-          const SHRINK_SPEED = 0.000012;  // balanced speed for timely tai chi formation
+          // Spiral rotation with ultra-weak tai chi pull
+          const SHRINK_SPEED = 0.00002;
+          const ROTATION_SPEED = 0.00004;
 
-          // Density-based tai chi: extreme contrast
-          // Dense (yang) regions: almost no shrink (stars pile up)
-          // Sparse (yin) regions: full shrink (stars pass through quickly)
-          const density = getTaiChiDensity(angle, normDist);
-          // density=1.0 → SHRINK_SPEED * 0.05 (barely moves, stars accumulate)
-          // density=0.0 → SHRINK_SPEED * 1.0 (full speed, stars pass through)
-          const adjustedShrink = SHRINK_SPEED * (0.05 + density * 0.95);
+          const newAngle = angle + ROTATION_SPEED * dt;
+          const newDist = dist * (1 - SHRINK_SPEED * dt);
 
-          const newAngle = angle + rotationSpeed * dt;
-          const newDist = Math.max(0, dist * (1 - adjustedShrink * dt));
-
-          s.x = cx + Math.cos(newAngle) * newDist;
-          s.y = cy + Math.sin(newAngle) * newDist;
+          // Ultra-weak tai chi pull (needs dozens of rotations to converge)
+          const pullX = (s.taiChiTargetX - s.x) * 0.00005;
+          const pullY = (s.taiChiTargetY - s.y) * 0.00005;
+          // Only apply pull when stars are within half the max radius
+          if (newDist < maxR * 0.5) {
+            s.x = cx + Math.cos(newAngle) * newDist + pullX;
+            s.y = cy + Math.sin(newAngle) * newDist + pullY;
+          } else {
+            s.x = cx + Math.cos(newAngle) * newDist;
+            s.y = cy + Math.sin(newAngle) * newDist;
+          }
 
           // Reset star if too close to center (safety net)
           if (newDist < 2) {
@@ -573,10 +598,9 @@ export default function StarBackground() {
             s.y = cy + Math.sin(resetAngle) * resetRadius;
           }
 
-          // Density-based brightness and color for tai chi visibility
-          // Dense regions (yang): brighter, golden/warm
-          // Sparse regions (yin): dimmer, cool blue
-          s._density = density; // store for rendering
+          // Compute proximity to tai chi target for color modulation
+          const targetDist = Math.sqrt((s.x - s.taiChiTargetX) ** 2 + (s.y - s.taiChiTargetY) ** 2);
+          s._proximity = Math.max(0, 1 - targetDist / (maxR * 0.3)); // 0-1
         }
       }
     }
