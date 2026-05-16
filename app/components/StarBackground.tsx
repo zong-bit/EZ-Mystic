@@ -5,23 +5,20 @@ import { useEffect, useRef, useCallback } from 'react';
 interface Star {
   x: number;
   y: number;
-  baseAlpha: number;
-  alpha: number;
+  size: number;           // core radius
+  glowRadius: number;     // glow halo radius
+  rays: number;           // number of light rays (4-6)
+  rayAngle: number;       // initial ray rotation angle
+  raySpeed: number;       // ray rotation speed
+  hue: number;            // 40-55 gold, 30-40 warm orange
+  alpha: number;          // base alpha
   twinkleSpeed: number;
-  twinkleOffset: number;
-  size: number;
-  hue: number;
-  saturation: number;
-  lightness: number;
-  breathePhase: number;
-  breatheSpeed: number;
-  breatheAmount: number;
+  phase: number;          // animation phase offset
   isBright: boolean;
 }
 
-const STAR_COUNT = 300;
-const ROTATION_PERIOD = 90; // seconds per full rotation (slower for subtler effect)
-const SHRINK_SPEED = 0.00002; // pixels per ms — very slow inward drift
+const STAR_COUNT = 250;
+const ROTATION_PERIOD = 120; // seconds per full rotation
 
 function createStars(width: number, height: number): Star[] {
   const stars: Star[] = [];
@@ -32,38 +29,43 @@ function createStars(width: number, height: number): Star[] {
   for (let i = 0; i < STAR_COUNT; i++) {
     const angle = Math.random() * Math.PI * 2;
     const radius = Math.random() * maxR;
-    // Brighter stars get golden hues, dimmer stars get warmer gold
-    const isBright = Math.random() < 0.15;
-    const hue = isBright
-      ? 42 + Math.random() * 10  // 42-52 bright gold
-      : 45 + Math.random() * 15; // 45-60 warm gold/amber
-    const sat = 80 + Math.random() * 20;
-    const light = isBright
-      ? 70 + Math.random() * 20  // 70-90 bright
-      : 60 + Math.random() * 15; // 60-75 dimmer
+    const isBright = Math.random() < 0.18;
 
-    // Bright stars twinkle slower, dim stars twinkle faster
-    const twinkleSpeed = isBright
-      ? 0.0008 + Math.random() * 0.001  // slower (3-8s period)
-      : 0.002 + Math.random() * 0.006;  // faster (1-3s period)
+    // Color: golden/amber (40-55) with some warm orange (30-40)
+    const hue = Math.random() < 0.2
+      ? 30 + Math.random() * 10  // warm orange
+      : 40 + Math.random() * 15; // golden (40-55)
+
+    const size = isBright
+      ? 1.5 + Math.random() * 2.5   // bright core: 1.5-4px
+      : 0.8 + Math.random() * 1.2;  // dim core: 0.8-2px
+
+    const glowRadius = isBright
+      ? size * (6 + Math.random() * 8)  // bright glow: 15-40px
+      : size * (3 + Math.random() * 4); // dim glow: 3-7px
+
+    const rays = isBright
+      ? 4 + Math.floor(Math.random() * 3)  // 4-6 rays
+      : Math.random() < 0.3
+        ? 4 + Math.floor(Math.random() * 3)
+        : 0;
 
     stars.push({
       x: cx + Math.cos(angle) * radius,
       y: cy + Math.sin(angle) * radius,
-      baseAlpha: isBright ? 0.6 + Math.random() * 0.4 : 0.3 + Math.random() * 0.4,
-      alpha: 0,
-      twinkleSpeed,
-      twinkleOffset: Math.random() * Math.PI * 2,
-      size: isBright
-        ? 2 + Math.random() * 4  // bright stars: 2-6px
-        : 1 + Math.random() * 1.5, // dim stars: 1-2.5px
+      size,
+      glowRadius,
+      rays,
+      rayAngle: Math.random() * Math.PI * 2,
+      raySpeed: (0.0001 + Math.random() * 0.0003) * (Math.random() < 0.5 ? 1 : -1),
       hue,
-      saturation: sat,
-      lightness: light,
-      // Breathe effect (slow size pulsing)
-      breathePhase: Math.random() * Math.PI * 2,
-      breatheSpeed: 0.0003 + Math.random() * 0.0005,
-      breatheAmount: isBright ? 0.15 + Math.random() * 0.15 : 0.05 + Math.random() * 0.05,
+      alpha: isBright
+        ? 0.5 + Math.random() * 0.5
+        : 0.2 + Math.random() * 0.3,
+      twinkleSpeed: isBright
+        ? 0.0006 + Math.random() * 0.001   // 3-8s period
+        : 0.002 + Math.random() * 0.006,   // 1-3s period
+      phase: Math.random() * Math.PI * 2,
       isBright,
     });
   }
@@ -71,32 +73,90 @@ function createStars(width: number, height: number): Star[] {
 }
 
 /**
- * Draw a filled five-pointed star at (cx, cy) with the given outer radius.
+ * Draw a star with particle glow halo and light rays.
  */
-function drawStarPath(
+function drawParticleStar(
   ctx: CanvasRenderingContext2D,
   cx: number,
   cy: number,
-  outerR: number,
-  innerR: number,
-  rotation: number,
-) {
-  const points = 5;
-  const step = Math.PI / points;
+  star: Star,
+  time: number,
+): void {
+  const { x, y, size, glowRadius, rays, rayAngle, raySpeed, hue, alpha, phase, twinkleSpeed, isBright } = star;
+
+  // Twinkle: modulate alpha and glowRadius with sine wave
+  const twinkle = Math.sin(time * twinkleSpeed + phase);
+  const currentAlpha = alpha * (0.4 + 0.6 * twinkle);
+  const currentGlow = glowRadius * (0.7 + 0.3 * twinkle);
+
+  if (currentAlpha < 0.02) return;
+
+  // 1. Draw radial gradient glow halo
+  //    Center is bright, fades to transparent at glowRadius
+  const glow = ctx.createRadialGradient(x, y, 0, x, y, currentGlow);
+
+  if (isBright) {
+    // Bright star: bright center → soft glow
+    glow.addColorStop(0, `hsla(${hue}, 90%, 85%, ${currentAlpha * 0.6})`);
+    glow.addColorStop(0.15, `hsla(${hue}, 85%, 75%, ${currentAlpha * 0.35})`);
+    glow.addColorStop(0.4, `hsla(${hue}, 80%, 65%, ${currentAlpha * 0.12})`);
+    glow.addColorStop(0.7, `hsla(${hue}, 75%, 55%, ${currentAlpha * 0.04})`);
+    glow.addColorStop(1, `hsla(${hue}, 70%, 50%, 0)`);
+  } else {
+    // Dim star: subtle soft halo
+    glow.addColorStop(0, `hsla(${hue}, 80%, 70%, ${currentAlpha * 0.25})`);
+    glow.addColorStop(0.3, `hsla(${hue}, 75%, 60%, ${currentAlpha * 0.1})`);
+    glow.addColorStop(0.6, `hsla(${hue}, 70%, 55%, ${currentAlpha * 0.03})`);
+    glow.addColorStop(1, `hsla(${hue}, 65%, 50%, 0)`);
+  }
 
   ctx.beginPath();
-  for (let i = 0; i < points * 2; i++) {
-    const r = i % 2 === 0 ? outerR : innerR;
-    const angle = rotation + (i * step);
-    const px = cx + Math.cos(angle) * r;
-    const py = cy + Math.sin(angle) * r;
-    if (i === 0) {
-      ctx.moveTo(px, py);
-    } else {
-      ctx.lineTo(px, py);
+  ctx.arc(x, y, currentGlow, 0, Math.PI * 2);
+  ctx.fillStyle = glow;
+  ctx.fill();
+
+  // 2. Draw core bright point (small solid circle)
+  const coreGrad = ctx.createRadialGradient(x, y, 0, x, y, size * 1.5);
+  coreGrad.addColorStop(0, `hsla(${hue}, 60%, 95%, ${currentAlpha})`);
+  coreGrad.addColorStop(0.5, `hsla(${hue}, 70%, 80%, ${currentAlpha * 0.7})`);
+  coreGrad.addColorStop(1, `hsla(${hue}, 80%, 70%, 0)`);
+
+  ctx.beginPath();
+  ctx.arc(x, y, size * 1.5, 0, Math.PI * 2);
+  ctx.fillStyle = coreGrad;
+  ctx.fill();
+
+  // 3. Draw light rays (only for stars with rays)
+  if (rays > 0) {
+    const rayLen = currentGlow * 1.2;
+    const rayAngleRot = rayAngle + time * raySpeed;
+    const rayAlpha = currentAlpha * (isBright ? 0.35 : 0.12);
+
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(rayAngleRot);
+
+    for (let r = 0; r < rays; r++) {
+      const angle = (r * Math.PI * 2) / rays;
+      const cos = Math.cos(angle);
+      const sin = Math.sin(angle);
+
+      // Thin ray line with gradient fade
+      const rayGrad = ctx.createLinearGradient(0, 0, cos * rayLen, sin * rayLen);
+      rayGrad.addColorStop(0, `hsla(${hue}, 80%, 85%, ${rayAlpha})`);
+      rayGrad.addColorStop(0.4, `hsla(${hue}, 75%, 75%, ${rayAlpha * 0.5})`);
+      rayGrad.addColorStop(1, `hsla(${hue}, 70%, 65%, 0)`);
+
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(cos * rayLen, sin * rayLen);
+      ctx.strokeStyle = rayGrad;
+      ctx.lineWidth = isBright ? 0.8 : 0.4;
+      ctx.stroke();
     }
+
+    ctx.restore();
   }
-  ctx.closePath();
 }
 
 export default function StarBackground() {
@@ -145,20 +205,11 @@ export default function StarBackground() {
       const rx = dx * cos - dy * sin + cx;
       const ry = dx * sin + dy * cos + cy;
 
-      // Shrink toward center (very slow)
+      // Slow shrink toward center
+      const SHRINK_SPEED = 0.00002;
       const shrinkFactor = 1 - SHRINK_SPEED * dt;
       s.x = cx + (s.x - cx) * shrinkFactor;
       s.y = cy + (s.y - cy) * shrinkFactor;
-
-      // Twinkle: from dark → bright → dark
-      // Use squared sine for sharper peaks (more dramatic twinkling)
-      const twinkleRaw = Math.sin(time * s.twinkleSpeed + s.twinkleOffset);
-      // Map to 0..1 with sharper transitions
-      s.alpha = s.baseAlpha * (0.3 + 0.7 * twinkleRaw * twinkleRaw);
-
-      // Breathe effect: slow size pulsing
-      const breathe = 1 + s.breatheAmount * Math.sin(time * s.breatheSpeed + s.breathePhase);
-      const effectiveSize = s.size * breathe;
 
       // Reset if too close to center
       const dist = Math.sqrt((s.x - cx) ** 2 + (s.y - cy) ** 2);
@@ -170,25 +221,10 @@ export default function StarBackground() {
       }
 
       // Skip if off screen
-      if (rx < -10 || rx > width + 10 || ry < -10 || ry > height + 10) continue;
+      if (rx < -50 || rx > width + 50 || ry < -50 || ry > height + 50) continue;
 
-      // Draw star shape (five-pointed)
-      const innerR = effectiveSize * 0.4;
-      drawStarPath(ctx, rx, ry, effectiveSize, innerR, time * 0.0003 + i);
-
-      const lightness = s.lightness + s.alpha * 15;
-      ctx.fillStyle = `hsla(${s.hue}, ${s.saturation}%, ${lightness}%, ${s.alpha})`;
-      ctx.fill();
-
-      // Glow effect for brighter stars
-      if (s.alpha > 0.5) {
-        const glowSize = effectiveSize * (s.isBright ? 4 : 2.5);
-        const glowAlpha = s.alpha * (s.isBright ? 0.12 : 0.06);
-        ctx.beginPath();
-        ctx.arc(rx, ry, glowSize, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${s.hue}, ${s.saturation}%, ${Math.min(lightness + 15, 95)}%, ${glowAlpha})`;
-        ctx.fill();
-      }
+      // Draw particle star
+      drawParticleStar(ctx, rx, ry, s, time);
     }
 
     animRef.current = requestAnimationFrame(draw);
@@ -223,7 +259,7 @@ export default function StarBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 -z-10"
+      className="fixed inset-0 -z-10 pointer-events-none"
       style={{ width: '100vw', height: '100vh' }}
       aria-hidden="true"
     />
