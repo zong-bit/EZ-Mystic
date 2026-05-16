@@ -37,7 +37,7 @@ interface LightBallState {
   timer: number;          // ms in light ball phase
 }
 
-const STAR_COUNT = 5000;
+const STAR_COUNT = 10000;
 
 /**
  * Compute target positions on the tai chi S-curve boundary.
@@ -322,7 +322,7 @@ export default function StarBackground() {
     ctx.fillRect(0, 0, width, height);
 
     // --- Check explosion trigger (time-based: every 45s) ---
-    const CYCLE_DURATION = 240000; // 240s per reincarnation cycle
+    const CYCLE_DURATION = 480000; // 480s per reincarnation cycle
     const cycleTime = time - lastExplosionRef.current;
     if (!explosionRef.current.active && cycleTime > CYCLE_DURATION) {
       starPositionsRef.current = starsRef.current.map(s => ({ x: s.x, y: s.y }));
