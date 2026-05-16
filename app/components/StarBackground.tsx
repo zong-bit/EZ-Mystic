@@ -497,7 +497,7 @@ export default function StarBackground() {
         lastExplosionRef.current = time;
       }
     } else {
-      // === NORMAL SPIRAL CONTRACTION WITH DENSITY-BASED TAI CHI ===
+      // === NORMAL SPIRAL CONTRACTION WITH TARGET-POSITION TAI CHI ===
       const maxR = Math.max(width, height) * 0.5;
 
       // Light ball phase: when stars are very close to center
