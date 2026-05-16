@@ -32,58 +32,6 @@ interface ExplosionState {
 
 const STAR_COUNT = 1500;
 
-/**
- * Determine which tai chi region a point belongs to.
- * Horizontal tai chi: yang (white) on the left, yin (black) on the right.
- * Correct geometry: large circle radius R, small circles radius R/2, fish-eye radius R/8.
- * Reference: https://www-3.github.io/yinyang.htm
- */
-function getTaiChiRegion(
-  x: number,
-  y: number,
-  cx: number,
-  cy: number,
-  R: number,
-  rotation: number,
-): 'yang' | 'yin' | 'yangEye' | 'yinEye' | 'outside' {
-  // Rotate point into tai chi's vertical coordinate system
-  const dx = x - cx;
-  const dy = y - cy;
-  const cos = Math.cos(-rotation);
-  const sin = Math.sin(-rotation);
-  const rx = dx * cos - dy * sin;  // rotated x
-  const ry = dx * sin + dy * cos;  // rotated y (vertical coordinate)
-
-  const dist = Math.sqrt(rx * rx + ry * ry);
-
-  // Outside the large circle?
-  if (dist > R) return 'outside';
-
-  // Fish-eye detection
-  const topEyeDist = Math.sqrt(rx * rx + (ry + R / 2) * (ry + R / 2));
-  const bottomEyeDist = Math.sqrt(rx * rx + (ry - R / 2) * (ry - R / 2));
-  const eyeThreshold = R / 8;
-
-  if (topEyeDist < eyeThreshold) return 'yangEye';    // yang fish-eye (black dot)
-  if (bottomEyeDist < eyeThreshold) return 'yinEye';   // yin fish-eye (white dot)
-
-  // Upper small circle (white region)
-  const topDist = Math.sqrt(rx * rx + (ry + R / 2) * (ry + R / 2));
-  if (topDist < R / 2) return 'yang';
-
-  // Lower small circle (black region)
-  const bottomDist = Math.sqrt(rx * rx + (ry - R / 2) * (ry - R / 2));
-  if (bottomDist < R / 2) return 'yin';
-
-  // Right half: upper part is white (yang), lower part is black (yin)
-  if (ry < 0 && ry > -R / 2) return 'yang';
-  if (ry > 0 && ry < R / 2) return 'yin';
-
-  // Remaining parts: left = yang, right = yin
-  if (rx < 0) return 'yang';
-  return 'yin';
-}
-
 function createStars(width: number, height: number): Star[] {
   const stars: Star[] = [];
   const cx = width / 2;
@@ -152,13 +100,22 @@ function drawParticleStar(
   cy: number,
   star: Star,
   time: number,
-  maskAngle: number,
   taiChiR: number,
+  taiChiCanvasSize: number,
+  taiChiCtx: CanvasRenderingContext2D,
 ): void {
   const { x, y, size, glowRadius, rays, rayAngle, raySpeed, hue, alpha, phase, twinkleSpeed, isBright } = star;
 
-  // Determine tai chi region for this star's current position
-  const region = getTaiChiRegion(x, y, cx, cy, taiChiR, maskAngle);
+  // Map star position to offscreen canvas pixel coordinate
+  const mapX = Math.floor((x - cx) / taiChiR * taiChiCanvasSize / 2 + taiChiCanvasSize / 2);
+  const mapY = Math.floor((y - cy) / taiChiR * taiChiCanvasSize / 2 + taiChiCanvasSize / 2);
+
+  // Clamp and sample
+  const px = Math.max(0, Math.min(taiChiCanvasSize - 1, mapX));
+  const py = Math.max(0, Math.min(taiChiCanvasSize - 1, mapY));
+  const data = taiChiCtx.getImageData(px, py, 1, 1).data;
+  const region: 'yang' | 'yin' = data[0] > 128 ? 'yang' : 'yin';
+
   let displayAlphaScale = 1.0;
   let displayHue = 45; // gold
 
@@ -166,12 +123,8 @@ function drawParticleStar(
     // Yang region: golden bright stars
     displayAlphaScale = 1.0;
     displayHue = 45;
-  } else if (region === 'yinEye') {
-    // Yin fish-eye: a small cluster of bright gold stars
-    displayAlphaScale = 0.9;
-    displayHue = 45;
   } else {
-    // Yin region, yang fish-eye, outside: invisible
+    // Yin region: invisible
     displayAlphaScale = 0.02;
   }
 
@@ -260,6 +213,87 @@ export default function StarBackground() {
   const bgGradientRef = useRef<CanvasGradient | null>(null);
   const maskAngleRef = useRef<number>(0);
   let bgGradientKey = '';
+
+  // Offscreen canvas for tai chi pixel detection (200x200 — small for performance)
+  const TAI_CHI_CANVAS_SIZE = 200;
+  const taiChiCanvasRef = useRef<HTMLCanvasElement>(
+    (() => {
+      const c = document.createElement('canvas');
+      c.width = TAI_CHI_CANVAS_SIZE;
+      c.height = TAI_CHI_CANVAS_SIZE;
+      return c;
+    })(),
+  );
+  const taiChiCtxRef = useRef<CanvasRenderingContext2D>(
+    taiChiCanvasRef.current.getContext('2d')!,
+  );
+
+  /**
+   * Draw the tai chi pattern onto the offscreen canvas.
+   * White = yang, Black = yin. Each frame redraws with updated rotation.
+   */
+  function drawTaiChiPattern(R: number, rotation: number) {
+    const ctx = taiChiCtxRef.current;
+    const w = TAI_CHI_CANVAS_SIZE;
+    const h = TAI_CHI_CANVAS_SIZE;
+
+    // Clear to white (yang)
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.save();
+    ctx.translate(w / 2, h / 2);
+    ctx.rotate(rotation);
+    const scale = w / 2 / R;
+
+    // Outer large circle (filled white above)
+    ctx.beginPath();
+    ctx.arc(0, 0, R * scale, 0, Math.PI * 2);
+    ctx.fillStyle = 'white';
+    ctx.fill();
+
+    // Right half: fill black (yin)
+    ctx.beginPath();
+    ctx.arc(0, 0, R * scale, -Math.PI / 2, Math.PI / 2);
+    ctx.fillStyle = 'black';
+    ctx.fill();
+
+    // Upper small white circle (yang bulge)
+    ctx.beginPath();
+    ctx.arc(0, -R / 2 * scale, R / 2 * scale, 0, Math.PI * 2);
+    ctx.fillStyle = 'white';
+    ctx.fill();
+
+    // Lower small black circle (yin bulge)
+    ctx.beginPath();
+    ctx.arc(0, R / 2 * scale, R / 2 * scale, 0, Math.PI * 2);
+    ctx.fillStyle = 'black';
+    ctx.fill();
+
+    // Yang fish-eye (black dot in upper white region)
+    ctx.beginPath();
+    ctx.arc(0, -R / 2 * scale, R / 8 * scale, 0, Math.PI * 2);
+    ctx.fillStyle = 'black';
+    ctx.fill();
+
+    // Yin fish-eye (white dot in lower black region)
+    ctx.beginPath();
+    ctx.arc(0, R / 2 * scale, R / 8 * scale, 0, Math.PI * 2);
+    ctx.fillStyle = 'white';
+    ctx.fill();
+
+    ctx.restore();
+  }
+
+  /**
+   * Sample the offscreen canvas at a pixel coordinate.
+   * Returns 'yang' if the pixel is bright (>128), 'yin' if dark.
+   */
+  function sampleTaiChiPixel(px: number, py: number): 'yang' | 'yin' {
+    const ctx = taiChiCtxRef.current;
+    const data = ctx.getImageData(px, py, 1, 1).data;
+    return data[0] > 128 ? 'yang' : 'yin';
+  }
 
   const draw = useCallback((time: number) => {
     const canvas = canvasRef.current;
@@ -490,99 +524,117 @@ export default function StarBackground() {
         lastExplosionRef.current = time;
       }
     } else {
-      // === NORMAL SPIRAL CONTRACTION WITH TAI CHI TARGETS ===
+      // === NORMAL SPIRAL CONTRACTION WITH TAI CHI PIXEL-BASED DETECTION ===
 
-      // Light ball phase: when stars are very close to center
-      let totalDist = 0;
+    // Update offscreen tai chi pattern with current rotation
+    maskAngleRef.current += 0.0003 * dt; // slow rotation
+    drawTaiChiPattern(taiChiR, maskAngleRef.current);
+
+    // Light ball phase: when stars are very close to center
+    let totalDist = 0;
+    for (const s of starsRef.current) {
+      const dx = s.x - cx;
+      const dy = s.y - cy;
+      totalDist += Math.sqrt(dx * dx + dy * dy);
+    }
+    const avgDist = totalDist / starsRef.current.length;
+    const lightBallThreshold = maxR * 0.15;
+
+    let inLightBall = false;
+    if (avgDist < lightBallThreshold && !exp.active) {
+      inLightBall = true;
+      exp.phase = 'lightball';
+      exp.lightBallTimer += dt;
+
       for (const s of starsRef.current) {
-        const dx = s.x - cx;
-        const dy = s.y - cy;
-        totalDist += Math.sqrt(dx * dx + dy * dy);
+        s.x += (cx - s.x) * 0.05;
+        s.y += (cy - s.y) * 0.05;
+        s.alpha = Math.min(1, s.alpha + 0.02);
+        s.hue = 45 + Math.random() * 5;
       }
-      const avgDist = totalDist / starsRef.current.length;
-      const lightBallThreshold = maxR * 0.15;
 
-      let inLightBall = false;
-      if (avgDist < lightBallThreshold && !exp.active) {
-        inLightBall = true;
-        exp.phase = 'lightball';
-        exp.lightBallTimer += dt;
+      if (exp.lightBallTimer > 2000) {
+        starPositionsRef.current = starsRef.current.map(s => ({ x: s.x, y: s.y }));
 
-        for (const s of starsRef.current) {
-          s.x += (cx - s.x) * 0.05;
-          s.y += (cy - s.y) * 0.05;
-          s.alpha = Math.min(1, s.alpha + 0.02);
-          s.hue = 45 + Math.random() * 5;
-        }
+        const rayCount = 40 + Math.floor(Math.random() * 20);
+        const rays = Array.from({ length: rayCount }, () => ({
+          angle: Math.random() * Math.PI * 2,
+          length: 0,
+        }));
 
-        if (exp.lightBallTimer > 2000) {
-          starPositionsRef.current = starsRef.current.map(s => ({ x: s.x, y: s.y }));
-
-          const rayCount = 40 + Math.floor(Math.random() * 20);
-          const rays = Array.from({ length: rayCount }, () => ({
-            angle: Math.random() * Math.PI * 2,
-            length: 0,
-          }));
-
-          const particleCount = 120 + Math.floor(Math.random() * 80);
-          const particles = Array.from({ length: particleCount }, () => {
-            const angle = Math.random() * Math.PI * 2;
-            const speed = 1 + Math.random() * 4;
-            return {
-              x: cx,
-              y: cy,
-              vx: Math.cos(angle) * speed,
-              vy: Math.sin(angle) * speed,
-              alpha: 0.6 + Math.random() * 0.4,
-              size: 0.5 + Math.random() * 1.5,
-              life: 0.5 + Math.random() * 0.5,
-            };
-          });
-
-          const shockwaveRings = Array.from({ length: 3 }, (_, i) => ({
+        const particleCount = 120 + Math.floor(Math.random() * 80);
+        const particles = Array.from({ length: particleCount }, () => {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 1 + Math.random() * 4;
+          return {
             x: cx,
             y: cy,
-            radius: 0,
-            alpha: 0.5 - i * 0.12,
-            speed: 2.5 + i * 0.5,
-          }));
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            alpha: 0.6 + Math.random() * 0.4,
+            size: 0.5 + Math.random() * 1.5,
+            life: 0.5 + Math.random() * 0.5,
+          };
+        });
 
-          explosionRef.current = { active: true, phase: 'flash', progress: 0, time: 0, rays, particles, shockwaveRings, lightBallTimer: 0 };
-          lastExplosionRef.current = time;
-        }
+        const shockwaveRings = Array.from({ length: 3 }, (_, i) => ({
+          x: cx,
+          y: cy,
+          radius: 0,
+          alpha: 0.5 - i * 0.12,
+          speed: 2.5 + i * 0.5,
+        }));
+
+        explosionRef.current = { active: true, phase: 'flash', progress: 0, time: 0, rays, particles, shockwaveRings, lightBallTimer: 0 };
+        lastExplosionRef.current = time;
       }
+    }
 
-      if (!inLightBall) {
-        for (let i = 0; i < starsRef.current.length; i++) {
-          const s = starsRef.current[i];
+    if (!inLightBall) {
+      for (let i = 0; i < starsRef.current.length; i++) {
+        const s = starsRef.current[i];
 
-          const dx = s.x - cx;
-          const dy = s.y - cy;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const angle = Math.atan2(dy, dx);
+        const dx = s.x - cx;
+        const dy = s.y - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const angle = Math.atan2(dy, dx);
 
-          // Spiral rotation and shrink
-          const SHRINK_SPEED = 0.00002;
-          const ROTATION_SPEED = 0.00004;
+        // Map star position to offscreen canvas pixel coordinate
+        const mapX = Math.floor((s.x - cx) / taiChiR * TAI_CHI_CANVAS_SIZE / 2 + TAI_CHI_CANVAS_SIZE / 2);
+        const mapY = Math.floor((s.y - cy) / taiChiR * TAI_CHI_CANVAS_SIZE / 2 + TAI_CHI_CANVAS_SIZE / 2);
 
-          const newAngle = angle + ROTATION_SPEED * dt;
-          const newDist = dist * (1 - SHRINK_SPEED * dt);
+        // Clamp to canvas bounds
+        const px = Math.max(0, Math.min(TAI_CHI_CANVAS_SIZE - 1, mapX));
+        const py = Math.max(0, Math.min(TAI_CHI_CANVAS_SIZE - 1, mapY));
 
-          s.x = cx + Math.cos(newAngle) * newDist;
-          s.y = cy + Math.sin(newAngle) * newDist;
+        // Sample pixel: white = yang, black = yin
+        const region = sampleTaiChiPixel(px, py);
 
-          // Reset star if too close to center (safety net)
-          if (newDist < 2) {
-            const resetAngle = Math.random() * Math.PI * 2;
-            const resetRadius = maxR;
-            s.x = cx + Math.cos(resetAngle) * resetRadius;
-            s.y = cy + Math.sin(resetAngle) * resetRadius;
-          }
+        // Differential shrink speed: yang = slow (stars accumulate), yin = fast (stars pass through)
+        const SHRINK_BASE = 0.00002;
+        const SHRINK_YANG = SHRINK_BASE * 0.3;   // slow on yang side → stars gather
+        const SHRINK_YIN = SHRINK_BASE * 1.5;    // fast on yin side → stars rush through
+        const SHRINK_SPEED = region === 'yang' ? SHRINK_YANG : SHRINK_YIN;
+        const ROTATION_SPEED = 0.00004;
 
-          // Gradual alpha decay to prevent accumulation
-          s.alpha *= 0.999;
+        const newAngle = angle + ROTATION_SPEED * dt;
+        const newDist = dist * (1 - SHRINK_SPEED * dt);
+
+        s.x = cx + Math.cos(newAngle) * newDist;
+        s.y = cy + Math.sin(newAngle) * newDist;
+
+        // Reset star if too close to center (safety net)
+        if (newDist < 2) {
+          const resetAngle = Math.random() * Math.PI * 2;
+          const resetRadius = maxR;
+          s.x = cx + Math.cos(resetAngle) * resetRadius;
+          s.y = cy + Math.sin(resetAngle) * resetRadius;
         }
+
+        // Gradual alpha decay to prevent accumulation
+        s.alpha *= 0.999;
       }
+    }
     }
 
     // Draw all stars
@@ -593,7 +645,7 @@ export default function StarBackground() {
 
       if (rx < -50 || rx > width + 50 || ry < -50 || ry > height + 50) continue;
 
-      drawParticleStar(ctx, cx, cy, s, time, maskAngleRef.current, taiChiR);
+      drawParticleStar(ctx, cx, cy, s, time, taiChiR, TAI_CHI_CANVAS_SIZE, taiChiCtxRef.current);
     }
 
     animRef.current = requestAnimationFrame(draw);
