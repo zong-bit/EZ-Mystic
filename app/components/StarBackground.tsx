@@ -35,37 +35,68 @@ interface LightBallState {
   timer: number;          // ms in light ball phase
 }
 
-const STAR_COUNT = 800;
+const STAR_COUNT = 1500;
 
 /**
- * Draw a tai chi shape (filled) for destination-out mask carving.
- * Fills the entire tai chi area so destination-out carves it out.
+ * Create an offscreen canvas mask for the tai chi shape.
+ * White areas = keep stars, black areas = hide stars.
+ * Correct geometry: large circle radius R, small circles radius R/2, fish-eye radius R/8.
+ * Reference: https://www-3.github.io/yinyang.htm
  */
-function drawTaiChiShape(
-  ctx: CanvasRenderingContext2D,
-  cx: number,
-  cy: number,
-  radius: number,
-  rotation: number,
-): void {
-  ctx.save();
-  ctx.translate(cx, cy);
-  ctx.rotate(rotation);
+function createTaiChiMask(width: number, height: number, cx: number, cy: number, radius: number, rotation: number): HTMLCanvasElement {
+  const maskCanvas = document.createElement('canvas')
+  maskCanvas.width = width
+  maskCanvas.height = height
+  const ctx = maskCanvas.getContext('2d')!
 
-  // Draw YANG (white part of Tai Chi) only: left semicircle + right eye
-  // destination-out will remove mask only from this area, letting stars show through
-  // The S-curve is naturally the left semicircle's arc edge
-  // Left semicircle (yang): gold stars visible here
-  ctx.beginPath();
-  ctx.arc(-radius / 2, 0, radius / 2, -Math.PI / 2, Math.PI / 2);
-  ctx.fill();
+  ctx.save()
+  ctx.translate(cx, cy)
+  ctx.rotate(rotation)
 
-  // Right eye (white dot inside yin): a small circle visible within the dark area
-  ctx.beginPath();
-  ctx.arc(radius / 2, 0, radius / 6, 0, Math.PI * 2);
-  ctx.fill();
+  // All black by default (stars hidden)
+  ctx.fillStyle = 'black'
+  ctx.fillRect(-width, -height, width * 2, height * 2)
 
-  ctx.restore();
+  // White = show stars, Black = hide stars
+  ctx.fillStyle = 'white'
+
+  // 1. Large circle (tai chi outer boundary)
+  ctx.beginPath()
+  ctx.arc(0, 0, radius, 0, Math.PI * 2)
+  ctx.fill()
+
+  // 2. Right semicircle black (yang = left side)
+  ctx.fillStyle = 'black'
+  ctx.beginPath()
+  ctx.arc(0, 0, radius, -Math.PI / 2, Math.PI / 2)
+  ctx.fill()
+
+  // 3. Upper small white circle (completes the S-curve upper part)
+  ctx.fillStyle = 'white'
+  ctx.beginPath()
+  ctx.arc(0, -radius / 2, radius / 2, 0, Math.PI * 2)
+  ctx.fill()
+
+  // 4. Lower small black circle (completes the S-curve lower part)
+  ctx.fillStyle = 'black'
+  ctx.beginPath()
+  ctx.arc(0, radius / 2, radius / 2, 0, Math.PI * 2)
+  ctx.fill()
+
+  // 5. Upper fish-eye (black dot in white region)
+  ctx.fillStyle = 'black'
+  ctx.beginPath()
+  ctx.arc(0, -radius / 2, radius / 8, 0, Math.PI * 2)
+  ctx.fill()
+
+  // 6. Lower fish-eye (white dot in black region)
+  ctx.fillStyle = 'white'
+  ctx.beginPath()
+  ctx.arc(0, radius / 2, radius / 8, 0, Math.PI * 2)
+  ctx.fill()
+
+  ctx.restore()
+  return maskCanvas
 }
 
 function createStars(width: number, height: number): Star[] {
@@ -588,26 +619,15 @@ export default function StarBackground() {
       drawParticleStar(ctx, rx, ry, s, time);
     }
 
-    // === Draw tai chi mask overlay (destination-out carve) ===
+    // === Apply tai chi mask via offscreen canvas + destination-in ===
     const maskAlpha = maskOpacityRef.current * 0.85;
     if (maskAlpha > 0.01 && !exp.active) {
-      ctx.save();
-      ctx.globalAlpha = maskAlpha;
-
-      // Fill entire canvas with background-matching gradient
-      const maskGrad = ctx.createLinearGradient(0, 0, width, height);
-      maskGrad.addColorStop(0, '#0a0a2e');
-      maskGrad.addColorStop(0.5, '#0f0a28');
-      maskGrad.addColorStop(1, '#1a0a2e');
-      ctx.fillStyle = maskGrad;
-      ctx.fillRect(0, 0, width, height);
-
-      // destination-out carves out the tai chi shape (makes it transparent)
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.fillStyle = '#ffffff';
-      drawTaiChiShape(ctx, cx, cy, maskRadiusRef.current, maskAngleRef.current);
-
-      ctx.restore();
+      const maskCanvas = createTaiChiMask(width, height, cx, cy, maskRadiusRef.current, maskAngleRef.current + Math.PI / 2)
+      ctx.save()
+      ctx.globalAlpha = maskAlpha
+      ctx.globalCompositeOperation = 'destination-in'
+      ctx.drawImage(maskCanvas, 0, 0)
+      ctx.restore()
     }
 
     animRef.current = requestAnimationFrame(draw);
