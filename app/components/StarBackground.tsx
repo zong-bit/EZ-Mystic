@@ -17,6 +17,9 @@ interface Star {
   twinkleSpeed: number;
   phase: number;          // animation phase offset
   isBright: boolean;
+  taiChiTargetX: number;  // target position in tai chi pattern
+  taiChiTargetY: number;
+  taiChiInfluence: number;// 0-1, how much tai chi pull affects this star
 }
 
 interface ExplosionState {
@@ -26,9 +29,44 @@ interface ExplosionState {
   time: number;           // ms since explosion started
   rays: { angle: number; length: number }[];
   particles: { x: number; y: number; vx: number; vy: number; alpha: number; size: number; life: number }[];
+  shockwaveRings: { x: number; y: number; radius: number; alpha: number; speed: number }[];
 }
 
 const STAR_COUNT = 250;
+
+/**
+ * Assign a target position on the tai chi pattern for a star.
+ * The tai chi is drawn as a circle with S-curve distribution:
+ * - Stars 0..N/2 → yang side (upper-left bias)
+ * - Stars N/2+1..N → yin side (lower-right bias)
+ */
+function assignTaiChiTarget(
+  index: number,
+  total: number,
+  cx: number,
+  cy: number,
+): { x: number; y: number } {
+  const radius = Math.min(cx, cy) * 0.7; // tai chi fits in half canvas
+  const t = index / total; // 0-1
+
+  let targetX: number, targetY: number;
+
+  if (t < 0.5) {
+    // Yang side (left, upper bias)
+    const r = radius * (0.15 + Math.random() * 0.75);
+    const a = Math.PI * (0.3 + Math.random() * 0.7); // upper-left sector
+    targetX = cx - r * Math.cos(a);
+    targetY = cy - r * Math.sin(a) * 0.6; // compress vertically for yang
+  } else {
+    // Yin side (right, lower bias)
+    const r = radius * (0.15 + Math.random() * 0.75);
+    const a = Math.PI * (Math.random() * 0.7); // lower-right sector
+    targetX = cx + r * Math.cos(a);
+    targetY = cy + r * Math.sin(a) * 0.6; // compress vertically for yin
+  }
+
+  return { x: targetX, y: targetY };
+}
 
 function createStars(width: number, height: number): Star[] {
   const stars: Star[] = [];
@@ -60,6 +98,9 @@ function createStars(width: number, height: number): Star[] {
         ? 4 + Math.floor(Math.random() * 3)
         : 0;
 
+    // Assign tai chi target position at creation time
+    const taiChi = assignTaiChiTarget(i, STAR_COUNT, cx, cy);
+
     stars.push({
       x: cx + Math.cos(angle) * radius,
       y: cy + Math.sin(angle) * radius,
@@ -79,6 +120,9 @@ function createStars(width: number, height: number): Star[] {
         : 0.002 + Math.random() * 0.006,   // 1-3s period
       phase: Math.random() * Math.PI * 2,
       isBright,
+      taiChiTargetX: taiChi.x,
+      taiChiTargetY: taiChi.y,
+      taiChiInfluence: 0, // updated per frame
     });
   }
   return stars;
@@ -104,18 +148,15 @@ function drawParticleStar(
   if (currentAlpha < 0.02) return;
 
   // 1. Draw radial gradient glow halo
-  //    Center is bright, fades to transparent at glowRadius
   const glow = ctx.createRadialGradient(x, y, 0, x, y, currentGlow);
 
   if (isBright) {
-    // Bright star: bright center → soft glow
     glow.addColorStop(0, `hsla(${hue}, 90%, 85%, ${currentAlpha * 0.6})`);
     glow.addColorStop(0.15, `hsla(${hue}, 85%, 75%, ${currentAlpha * 0.35})`);
     glow.addColorStop(0.4, `hsla(${hue}, 80%, 65%, ${currentAlpha * 0.12})`);
     glow.addColorStop(0.7, `hsla(${hue}, 75%, 55%, ${currentAlpha * 0.04})`);
     glow.addColorStop(1, `hsla(${hue}, 70%, 50%, 0)`);
   } else {
-    // Dim star: subtle soft halo
     glow.addColorStop(0, `hsla(${hue}, 80%, 70%, ${currentAlpha * 0.25})`);
     glow.addColorStop(0.3, `hsla(${hue}, 75%, 60%, ${currentAlpha * 0.1})`);
     glow.addColorStop(0.6, `hsla(${hue}, 70%, 55%, ${currentAlpha * 0.03})`);
@@ -127,7 +168,7 @@ function drawParticleStar(
   ctx.fillStyle = glow;
   ctx.fill();
 
-  // 2. Draw core bright point (small solid circle)
+  // 2. Draw core bright point
   const coreGrad = ctx.createRadialGradient(x, y, 0, x, y, size * 1.5);
   coreGrad.addColorStop(0, `hsla(${hue}, 60%, 95%, ${currentAlpha})`);
   coreGrad.addColorStop(0.5, `hsla(${hue}, 70%, 80%, ${currentAlpha * 0.7})`);
@@ -138,7 +179,7 @@ function drawParticleStar(
   ctx.fillStyle = coreGrad;
   ctx.fill();
 
-  // 3. Draw light rays (only for stars with rays)
+  // 3. Draw light rays
   if (rays > 0) {
     const rayLen = currentGlow * 1.2;
     const rayAngleRot = rayAngle + time * raySpeed;
@@ -153,7 +194,6 @@ function drawParticleStar(
       const cos = Math.cos(angle);
       const sin = Math.sin(angle);
 
-      // Thin ray line with gradient fade
       const rayGrad = ctx.createLinearGradient(0, 0, cos * rayLen, sin * rayLen);
       rayGrad.addColorStop(0, `hsla(${hue}, 80%, 85%, ${rayAlpha})`);
       rayGrad.addColorStop(0.4, `hsla(${hue}, 75%, 75%, ${rayAlpha * 0.5})`);
@@ -177,8 +217,8 @@ export default function StarBackground() {
   const animRef = useRef<number>(0);
   const lastTimeRef = useRef<number>(0);
   const lastExplosionRef = useRef(0);
-  const explosionRef = useRef<ExplosionState>({ active: false, phase: 'flash', progress: 0, time: 0, rays: [], particles: [] });
-  const starPositionsRef = useRef<{ x: number; y: number }[]>([]); // snapshot before explosion
+  const explosionRef = useRef<ExplosionState>({ active: false, phase: 'flash', progress: 0, time: 0, rays: [], particles: [], shockwaveRings: [] });
+  const starPositionsRef = useRef<{ x: number; y: number }[]>([]);
 
   const draw = useCallback((time: number) => {
     const canvas = canvasRef.current;
@@ -202,7 +242,7 @@ export default function StarBackground() {
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, width, height);
 
-    // Check for explosion trigger (every ~30-60 seconds)
+    // --- Check explosion trigger ---
     if (!explosionRef.current.active && (time - lastExplosionRef.current) > 30000 + Math.random() * 30000) {
       let totalDist = 0;
       for (const s of starsRef.current) {
@@ -212,15 +252,14 @@ export default function StarBackground() {
       }
       const avgDist = totalDist / starsRef.current.length;
       if (avgDist < 50) {
-        // Snap current positions as start positions for the explosion
         starPositionsRef.current = starsRef.current.map(s => ({ x: s.x, y: s.y }));
-        // Generate rays
+
         const rayCount = 40 + Math.floor(Math.random() * 20);
         const rays = Array.from({ length: rayCount }, () => ({
           angle: Math.random() * Math.PI * 2,
-          length: 0, // will grow during phase 1
+          length: 0,
         }));
-        // Generate extra particles
+
         const particleCount = 120 + Math.floor(Math.random() * 80);
         const particles = Array.from({ length: particleCount }, () => {
           const angle = Math.random() * Math.PI * 2;
@@ -232,16 +271,26 @@ export default function StarBackground() {
             vy: Math.sin(angle) * speed,
             alpha: 0.6 + Math.random() * 0.4,
             size: 0.5 + Math.random() * 1.5,
-            life: 0.5 + Math.random() * 0.5, // fraction of expand phase before fading
+            life: 0.5 + Math.random() * 0.5,
           };
         });
-        explosionRef.current = { active: true, phase: 'flash', progress: 0, time: 0, rays, particles };
+
+        // Shockwave rings (sine wave shape)
+        const shockwaveRings = Array.from({ length: 3 }, (_, i) => ({
+          x: cx,
+          y: cy,
+          radius: 0,
+          alpha: 0.5 - i * 0.12,
+          speed: 2.5 + i * 0.5,
+        }));
+
+        explosionRef.current = { active: true, phase: 'flash', progress: 0, time: 0, rays, particles, shockwaveRings };
         lastExplosionRef.current = time;
       }
     }
 
-    // Handle explosion animation
     const exp = explosionRef.current;
+
     if (exp.active) {
       exp.time += dt;
       const totalTime = exp.time;
@@ -250,15 +299,22 @@ export default function StarBackground() {
       if (totalTime < 200) {
         exp.phase = 'flash';
         const p = totalTime / 200;
-        // Ease out
         const ep = 1 - Math.pow(1 - p, 3);
 
-        // Background flash
+        // Center flash (white/golden radial)
         const flashAlpha = Math.sin(p * Math.PI) * 0.35;
         ctx.fillStyle = `rgba(255, 248, 220, ${flashAlpha})`;
         ctx.fillRect(0, 0, width, height);
 
-        // Draw rays from center
+        // Radial flash from center
+        const flashGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(width, height) * 0.4);
+        flashGrad.addColorStop(0, `rgba(255, 250, 230, ${flashAlpha * 1.5})`);
+        flashGrad.addColorStop(0.3, `rgba(255, 240, 200, ${flashAlpha * 0.6})`);
+        flashGrad.addColorStop(1, `rgba(255, 200, 100, 0)`);
+        ctx.fillStyle = flashGrad;
+        ctx.fillRect(0, 0, width, height);
+
+        // Rays from center
         for (const ray of exp.rays) {
           const rayLen = ep * Math.max(width, height) * 0.6;
           const rayAlpha = (1 - p * 0.5) * 0.6;
@@ -285,7 +341,31 @@ export default function StarBackground() {
         const p = (totalTime - 200) / 600;
         const ep = 1 - Math.pow(1 - p, 2);
 
-        // Continue rays fading out
+        // Shockwave rings (sine wave ripple)
+        for (const ring of exp.shockwaveRings) {
+          ring.radius += ring.speed * dt;
+          const fadeAlpha = ring.alpha * (1 - p * 0.8);
+          if (fadeAlpha <= 0) continue;
+
+          // Sine wave ripple effect
+          const segments = 72;
+          ctx.beginPath();
+          for (let i = 0; i <= segments; i++) {
+            const a = (i / segments) * Math.PI * 2;
+            const ripple = Math.sin(a * 8 + p * 10) * 3; // sine wave ripple
+            const r = ring.radius + ripple;
+            const px = ring.x + Math.cos(a) * r;
+            const py = ring.y + Math.sin(a) * r;
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.closePath();
+          ctx.strokeStyle = `rgba(255, 245, 210, ${fadeAlpha})`;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+
+        // Rays fading
         const rayFade = 1 - p;
         for (const ray of exp.rays) {
           const rayLen = Math.max(width, height) * 0.6 * (0.5 + ep * 0.5);
@@ -301,9 +381,10 @@ export default function StarBackground() {
           ctx.stroke();
         }
 
-        // Draw extra particles
+        // Particles
         for (const pt of exp.particles) {
-          const ptLife = pt.life;
+          pt.x += pt.vx * dt;
+          pt.y += pt.vy * dt;
           const fadeStart = 0.5;
           let ptAlpha = pt.alpha;
           if (p > fadeStart) {
@@ -321,7 +402,7 @@ export default function StarBackground() {
           ctx.fill();
         }
 
-        // Stars fly outward from center with easing
+        // Stars fly outward from center (random directions, not uniform ring)
         for (let i = 0; i < starsRef.current.length; i++) {
           const s = starsRef.current[i];
           const orig = starPositionsRef.current[i];
@@ -329,10 +410,14 @@ export default function StarBackground() {
           const dy = orig.y - cy;
           const dist = Math.sqrt(dx * dx + dy * dy) || 1;
           const angle = Math.atan2(dy, dx);
+
+          // Random spread direction (not just radial)
+          const spreadAngle = angle + (Math.random() - 0.5) * 0.8;
           const spread = ep * Math.max(width, height) * 0.5;
-          s.x = cx + Math.cos(angle) * dist + Math.cos(angle) * spread;
-          s.y = cy + Math.sin(angle) * dist + Math.sin(angle) * spread;
-          // Fade alpha
+
+          s.x = cx + Math.cos(spreadAngle) * (dist + spread);
+          s.y = cy + Math.sin(spreadAngle) * (dist + spread);
+
           const fadeAlpha = 1 - p * 0.6;
           s.alpha = fadeAlpha;
         }
@@ -341,7 +426,7 @@ export default function StarBackground() {
       else if (totalTime < 1500) {
         exp.phase = 'recover';
         const p = (totalTime - 800) / 700;
-        const ep = p * p; // ease in
+        const ep = p * p;
 
         // Stars return to base positions
         for (let i = 0; i < starsRef.current.length; i++) {
@@ -352,12 +437,11 @@ export default function StarBackground() {
           };
           s.x = base.x + (s.x - base.x) * (1 - ep);
           s.y = base.y + (s.y - base.y) * (1 - ep);
-          // Restore alpha
           const targetAlpha = s.isBright ? 0.7 : 0.35;
           s.alpha = targetAlpha + (1 - targetAlpha) * ep;
         }
 
-        // Particles fading out
+        // Particles fading
         for (const pt of exp.particles) {
           const fadeAlpha = Math.max(0, 1 - (p + 0.2) * 2);
           if (fadeAlpha <= 0) continue;
@@ -370,38 +454,48 @@ export default function StarBackground() {
           ctx.fill();
         }
       }
-      // --- Explosion complete ---
+      // --- Explosion complete, reset for reincarnation ---
       else {
         exp.active = false;
-        // Reset stars to clean state
-        starsRef.current.forEach((s, i) => {
-          s.x = starPositionsRef.current[i].x;
-          s.y = starPositionsRef.current[i].y;
-          s.alpha = s.isBright ? 0.7 : 0.35;
-        });
+        // Reset stars to clean random positions (looks like random starfield again)
+        const resetStars = createStars(width, height);
+        starsRef.current = resetStars;
+        starPositionsRef.current = resetStars.map(s => ({ x: s.x, y: s.y }));
+        lastExplosionRef.current = time;
       }
     } else {
-      // Normal spiral shrink phase
+      // === NORMAL SPIRAL CONTRACTION (tai chi reveal) ===
       for (let i = 0; i < starsRef.current.length; i++) {
         const s = starsRef.current[i];
 
-        // Spiral rotation + shrink toward center
         const dx = s.x - cx;
         const dy = s.y - cy;
         const dist = Math.sqrt(dx * dx + dy * dy);
         const angle = Math.atan2(dy, dx);
+        const maxR = Math.max(width, height) * 0.5;
+
+        // Spiral rotation + shrink
         const rotationSpeed = 0.00004;
         const SHRINK_SPEED = 0.00002;
         const newAngle = angle + rotationSpeed * dt;
         const newDist = dist * (1 - SHRINK_SPEED * dt);
 
-        s.x = cx + Math.cos(newAngle) * newDist;
-        s.y = cy + Math.sin(newAngle) * newDist;
+        // Tai chi influence: increases as star gets closer to center
+        const taiChiStrength = Math.max(0, 1 - newDist / (maxR * 0.5));
+        // Smooth easing for tai chi influence
+        const easedTaiChi = taiChiStrength * taiChiStrength;
 
-        // Reset if too close to center
+        // Tai chi pull toward target position
+        const pullX = (s.taiChiTargetX - s.x) * easedTaiChi * 0.008 * dt;
+        const pullY = (s.taiChiTargetY - s.y) * easedTaiChi * 0.008 * dt;
+
+        s.x = cx + Math.cos(newAngle) * newDist + pullX;
+        s.y = cy + Math.sin(newAngle) * newDist + pullY;
+
+        // Reset star if too close to center (shouldn't happen due to explosion trigger, but safety net)
         if (newDist < 2) {
           const resetAngle = Math.random() * Math.PI * 2;
-          const resetRadius = Math.max(width, height) * 0.5;
+          const resetRadius = maxR;
           s.x = cx + Math.cos(resetAngle) * resetRadius;
           s.y = cy + Math.sin(resetAngle) * resetRadius;
         }
@@ -414,10 +508,8 @@ export default function StarBackground() {
       const rx = s.x;
       const ry = s.y;
 
-      // Skip if off screen
       if (rx < -50 || rx > width + 50 || ry < -50 || ry > height + 50) continue;
 
-      // Draw particle star
       drawParticleStar(ctx, rx, ry, s, time);
     }
 
