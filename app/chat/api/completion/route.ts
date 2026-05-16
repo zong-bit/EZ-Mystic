@@ -1,5 +1,9 @@
 // app/chat/api/completion/route.ts
 import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 const SYSTEM_PROMPT = `You are Master Yuanfang (玄方大师), a seasoned Chinese metaphysics practitioner with decades of experience in Bazi (八字), Feng Shui (风水), and I Ching (易经).
 
@@ -42,15 +46,27 @@ export async function POST(request: NextRequest) {
     const { messages } = body;
 
     // ─── Free user message limit check ───
-    // Paid users (logged in with active subscription) bypass this via a cookie set after Gumroad purchase.
-    // Logged-in users (auth session) also bypass the limit.
-    const paidCookie = request.cookies.get('ezmystic_paid');
-    const hasSession = request.cookies.get('sb-xgaxejeaxfhlupguqteu-auth-token')
-      || request.cookies.get('sb-auth-token');
-    const isPaid = paidCookie && paidCookie.value === '1';
-    const isLoggedIn = !!hasSession;
+    // Use Authorization header (same as /api/chat/limit) to detect login + Pro status.
+    // Supabase JS stores sessions in localStorage, NOT cookies, so cookie-based detection always fails.
+    const authHeader = request.headers.get('authorization');
+    let isPro = false;
+    if (authHeader) {
+      const token = authHeader.replace('Bearer ', '');
+      const supabase = createClient(supabaseUrl, supabaseServiceRoleKey, { auth: { persistSession: false } });
+      const { data: { user } } = await supabase.auth.getUser(token);
+      if (user) {
+        const { data: sub } = await supabase
+          .from('subscriptions')
+          .select('plan')
+          .eq('user_id', user.id)
+          .eq('source', 'ez-mystic')
+          .eq('status', 'active')
+          .single();
+        isPro = sub?.plan === 'pro';
+      }
+    }
 
-    if (!isPaid && !isLoggedIn) {
+    if (!isPro) {
       const msgCount = getMsgCount(request);
       if (msgCount > FREE_MSG_LIMIT) {
         return NextResponse.json(
@@ -109,12 +125,15 @@ export async function POST(request: NextRequest) {
     const data = await response.json();
     const content = data.choices?.[0]?.message?.content || '';
 
-    // Increment message count for free users
-    const cookie = request.cookies.get(MSG_COUNT_COOKIE);
-    const currentCount = cookie ? parseInt(cookie.value, 10) || 0 : 0;
-    const newCount = currentCount + 1;
+    // Increment message count only for non-Pro users
+    if (!isPro) {
+      const cookie = request.cookies.get(MSG_COUNT_COOKIE);
+      const currentCount = cookie ? parseInt(cookie.value, 10) || 0 : 0;
+      const newCount = currentCount + 1;
+      return buildMsgCountResponse({ success: true, content, msgCount: newCount }, newCount);
+    }
 
-    return buildMsgCountResponse({ success: true, content, msgCount: newCount }, newCount);
+    return NextResponse.json({ success: true, content, msgCount: null });
   } catch (error) {
     console.error('Chat API error:', error);
     return NextResponse.json(

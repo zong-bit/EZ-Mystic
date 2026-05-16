@@ -196,9 +196,16 @@ export default function ChatPage() {
         content: m.content,
       }));
 
+      // Build headers — include auth token so the server can detect login/Pro status
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      const session = await getSupabaseClient().auth.getSession();
+      if (session?.data?.session?.access_token) {
+        headers['Authorization'] = `Bearer ${session.data.session.access_token}`;
+      }
+
       const response = await fetch('/chat/api/completion', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ messages: apiMessages }),
       });
 
