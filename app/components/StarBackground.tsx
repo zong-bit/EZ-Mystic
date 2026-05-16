@@ -37,7 +37,7 @@ interface LightBallState {
   timer: number;          // ms in light ball phase
 }
 
-const STAR_COUNT = 800;
+const STAR_COUNT = 2000;
 
 /**
  * Compute target positions on the tai chi S-curve boundary.
@@ -206,7 +206,7 @@ function drawParticleStar(
   const distToTarget = Math.sqrt(dx * dx + dy * dy);
 
   // Visibility: only visible when near target
-  const maxDist = maxR * 0.15;
+  const maxDist = maxR * 0.25;
   const visibility = Math.max(0, 1 - distToTarget / maxDist);
 
   // If too far, skip drawing entirely
