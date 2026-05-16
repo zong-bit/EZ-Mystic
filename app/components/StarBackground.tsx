@@ -133,21 +133,20 @@ function drawParticleStar(
 ): void {
   const { x, y, size, glowRadius, rays, rayAngle, raySpeed, hue, alpha, phase, twinkleSpeed, isBright } = star;
 
-  // Tai chi color modulation via hue only — keep original brightness
+  // Tai chi score 0-1: 0=阴(不显示), 1=阳(金色亮星)
   const maxR = Math.max(ctx.canvas.width, ctx.canvas.height) * 0.5;
   const score = getTaiChiScore(x, y, cx, cy, maxR, time);
+  // 阴面（score <= 0.5）：隐入背景
+  if (score <= 0.5) {
+    ctx.globalAlpha = 0.02;
+  }
 
-  // All stars keep original brightness (displayAlphaScale=1, displayLight high)
-  const displayAlphaScale = 1.0;
-  const displayLight = 75 + (score - 0.5) * 10;  // all in 70-80 range
-
-  // Hue shows tai chi: yang=gold(45), yin=cool white/blue(200)
-  const displayHue = score > 0.5
-    ? 35 + (score - 0.5) * 2 * 30  // 0.5→35, 1.0→65 (gold to warm gold)
-    : 180 + score * 40;             // 0→180(blue), 0.5→200(cool white)
-
-  // Slight saturation variation
-  const displaySat = 70 + score * 20;  // 70→90
+  // 阳面（score > 0.5）：金色亮星，亮度随 score 增加
+  const adjustedScore = (score - 0.5) * 2;  // 将 0.5-1.0 映射到 0-1
+  const displayAlphaScale = 0.3 + adjustedScore * 0.7;
+  const displayHue = 40 + adjustedScore * 20;  // 金色范围 40-60
+  const displaySat = 80;
+  const displayLight = 65 + adjustedScore * 20;
 
   // Twinkle: modulate alpha and glowRadius with sine wave
   const twinkle = Math.sin(time * twinkleSpeed + phase);
@@ -583,15 +582,8 @@ export default function StarBackground() {
       if (rx < -50 || rx > width + 50 || ry < -50 || ry > height + 50) continue;
 
       drawParticleStar(ctx, rx, ry, s, time);
+      ctx.globalAlpha = 1.0;  // reset alpha after tai chi modulation
     }
-
-    // Draw circular border around the tai chi pattern
-    const borderAlpha = 0.12;
-    ctx.beginPath();
-    ctx.arc(cx, cy, maxR * 0.95, 0, Math.PI * 2);
-    ctx.strokeStyle = `hsla(45, 60%, 65%, ${borderAlpha})`;
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
 
     animRef.current = requestAnimationFrame(draw);
   }, []);
