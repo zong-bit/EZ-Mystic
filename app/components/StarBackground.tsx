@@ -534,8 +534,11 @@ export default function StarBackground() {
     function draw(time: number): void {
       if (!canvas || !ctx2d) return;
       const { width, height } = canvas;
-      const cx = width / 2;
-      const cy = height / 2;
+      const dpr = window.devicePixelRatio || 1;
+      const cssW = width / dpr;
+      const cssH = height / dpr;
+      const cx = cssW / 2;
+      const cy = cssH / 2;
 
       // Delta time
       const dt = lastTimeRef.current ? time - lastTimeRef.current : 16;
@@ -550,10 +553,6 @@ export default function StarBackground() {
         bgGradientRef.current.addColorStop(1, '#1a0a2e');
         bgGradientKey = gradKey;
       }
-
-      // Use the CSS dimensions for rendering coordinates
-      const cssW = width / (window.devicePixelRatio || 1);
-      const cssH = height / (window.devicePixelRatio || 1);
 
       ctx2d.fillStyle = bgGradientRef.current as CanvasGradient;
       ctx2d.fillRect(0, 0, cssW, cssH);
