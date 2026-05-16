@@ -15,16 +15,32 @@ export default function LoginPage() {
 
   // Check if user already has a session — redirect if so
   useEffect(() => {
+    let cancelled = false;
     const supabase = getSupabaseClient();
-    // Check initial session
+    
+    // Timeout: if getSession hangs (e.g. network issues in China), show login form anyway
+    const timeout = setTimeout(() => {
+      if (!cancelled) setChecking(false);
+    }, 3000);
+    
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        router.push('/dashboard');
-        router.refresh();
-      } else {
+      if (!cancelled) {
+        clearTimeout(timeout);
+        if (session) {
+          router.push('/dashboard');
+          router.refresh();
+        } else {
+          setChecking(false);
+        }
+      }
+    }).catch(() => {
+      if (!cancelled) {
+        clearTimeout(timeout);
         setChecking(false);
       }
     });
+    
+    return () => { cancelled = true; };
   }, [router]);
 
   const handleSubmit = async (e: FormEvent) => {
