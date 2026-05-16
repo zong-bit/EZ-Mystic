@@ -196,11 +196,11 @@ function createStars(width: number, height: number): Star[] {
     const homeX = Math.cos(homeAngle) * homeRadius;
     const homeY = Math.sin(homeAngle) * homeRadius;
 
-    // Home scatter colours — uniformly dim starlight
+    // Home scatter colours — visible warm/cool starlight
     const homeHue = 200 + Math.random() * 60;
-    const homeSat = 15 + Math.random() * 15;
-    const homeLight = 20 + Math.random() * 15;
-    const homeAlpha = 0.08 + Math.random() * 0.12;
+    const homeSat = 25 + Math.random() * 25;
+    const homeLight = 45 + Math.random() * 20;
+    const homeAlpha = 0.25 + Math.random() * 0.20;
 
     stars.push({
       taiChiR,
@@ -443,12 +443,12 @@ interface AnimStateMachine {
 }
 
 const STATE_DURATIONS: Record<AnimState, number> = {
-  scatter: 2500,
-  converging: 3500,
-  stable: 5500,
-  shrinking: 3000,
-  spinning: 2500,
-  imploding: 1500,
+  scatter: 4000,
+  converging: 7000,
+  stable: 6000,
+  shrinking: 5000,
+  spinning: 3000,
+  imploding: 2500,
 };
 
 const STATE_ORDER: AnimState[] = ['scatter', 'converging', 'stable', 'shrinking', 'spinning', 'imploding'];
@@ -650,32 +650,35 @@ export default function StarBackground() {
 
           // ═══════════════════════════
           case 'converging': {
-            // Stars lerp from home → taiChi positions with eased timing
+            // Stars orbit gracefully into position — orbital spiral
             const individualOffset = s.convergePhase * 0.3;
             const rawProgress = clamp((progress - individualOffset) / (1 - individualOffset), 0, 1);
-            const e = easeOutCubic(rawProgress);
-            wx = lerp(homeWX, taiChiWX, e);
-            wy = lerp(homeWY, taiChiWY, e);
+            const e = easeInOutCubic(rawProgress);
 
-            // Also rotate in as they converge — slight spiral effect
-            if (e > 0 && e < 1) {
-              const spiralAngle = e * Math.PI * 0.3;
-              const mx = lerp(homeWX, taiChiWX, e);
-              const my = lerp(homeWY, taiChiWY, e);
-              const spDx = mx - cx;
-              const spDy = my - cy;
-              const spDist = Math.sqrt(spDx * spDx + spDy * spDy);
-              const spA = Math.atan2(spDy, spDx) + spiralAngle * (1 - e);
-              wx = cx + Math.cos(spA) * spDist;
-              wy = cy + Math.sin(spA) * spDist;
-            }
+            // Compute current radius: from home distance → tai chi distance
+            const homeDist = Math.sqrt(s.homeX * s.homeX + s.homeY * s.homeY);
+            const taiChiDist = s.taiChiR * scaleFactor;
+            const currentDist = lerp(homeDist, taiChiDist, e);
+
+            // Compute current angle: from home angle → tai chi angle (with rotation)
+            const homeAngle = Math.atan2(s.homeY, s.homeX);
+            const taiChiAngleFull = s.taiChiA + rot;
+            let angleDiff = taiChiAngleFull - homeAngle;
+            while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
+            while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
+
+            // Add a full 360° orbital sweep on top — stars orbit as they converge
+            const orbitalSweep = Math.sin(e * Math.PI) * Math.PI * 1.2;
+            const currentAngle = homeAngle + angleDiff * e + orbitalSweep * (1 - e * 0.5);
+
+            wx = cx + Math.cos(currentAngle) * currentDist;
+            wy = cy + Math.sin(currentAngle) * currentDist;
 
             // Colour lerp from home → taiChi
-            const c = easeOutCubic(rawProgress);
-            hue = lerp(s.homeHue, s.taiChiHue, c);
-            sat = lerp(s.homeSat, s.taiChiSat, c);
-            light = lerp(s.homeLight, s.taiChiLight, c);
-            baseAlpha = lerp(s.homeAlpha, s.taiChiAlpha, c);
+            hue = lerp(s.homeHue, s.taiChiHue, e);
+            sat = lerp(s.homeSat, s.taiChiSat, e);
+            light = lerp(s.homeLight, s.taiChiLight, e);
+            baseAlpha = lerp(s.homeAlpha, s.taiChiAlpha, e);
             break;
           }
 
@@ -715,7 +718,7 @@ export default function StarBackground() {
 
           // ═══════════════════════════
           case 'imploding': {
-            const implodeFraction = 0.35; // first 35% = implosion toward center
+            const implodeFraction = 0.4; // first 40% = implosion toward center
             const rawImplode = progress / implodeFraction;
             const implodeProg = clamp(rawImplode, 0, 1);
 
@@ -725,27 +728,27 @@ export default function StarBackground() {
               wx = lerp(taiChiWX, cx, e);
               wy = lerp(taiChiWY, cy, e);
               // Fade colours during implosion
-              const fade = lerp(1, 0.3, e);
+              const fade = lerp(1, 0.2, e);
               hue = s.taiChiHue;
-              sat = s.taiChiSat * fade;
-              light = s.taiChiLight * fade;
-              baseAlpha = s.taiChiAlpha * fade;
+              sat = lerp(s.taiChiSat, 0, e);
+              light = lerp(s.taiChiLight, 5, e);
+              baseAlpha = lerp(s.taiChiAlpha, 0.6, e);
             } else {
               // ── Explosion: stars fly outward with velocity ──
               s.orbitR += s.vx * dt * 0.06;
               s.orbitA += s.vy * dt * 0.06;
-              s.vx *= 0.987;
-              s.vy *= 0.987;
+              s.vx *= 0.985;
+              s.vy *= 0.985;
               wx = s.orbitR;
               wy = s.orbitA;
 
-              // Fading colours during explosion
+              // Transition colours back to exact home colors by end
               const explosionElapsed = (progress - implodeFraction) / (1 - implodeFraction);
-              const fade = lerp(0.4, 0.1, easeOutCubic(explosionElapsed));
-              hue = lerp(s.taiChiHue, s.homeHue, explosionElapsed);
-              sat = lerp(s.taiChiSat * 0.5, s.homeSat, explosionElapsed);
-              light = lerp(s.taiChiLight * 0.5, s.homeLight, explosionElapsed);
-              baseAlpha = lerp(s.taiChiAlpha * 0.3, s.homeAlpha, explosionElapsed);
+              const eEase = easeOutCubic(explosionElapsed);
+              hue = lerp(s.taiChiHue, s.homeHue, eEase);
+              sat = lerp(s.taiChiSat, s.homeSat, eEase);
+              light = lerp(s.taiChiLight, s.homeLight, eEase);
+              baseAlpha = lerp(s.taiChiAlpha, s.homeAlpha, eEase);
             }
             break;
           }
