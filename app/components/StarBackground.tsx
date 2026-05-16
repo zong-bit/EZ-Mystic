@@ -472,6 +472,8 @@ export default function StarBackground() {
   const rotationRef = useRef<number>(0);
   /** Additional rotation for the spinning state (accumulated) */
   const spinRef = useRef<number>(0);
+  /** Spin speed multiplier, continuously grows during spin state (1 → 60+) */
+  const spinAccelRef = useRef<number>(1);
   const bgGradientRef = useRef<CanvasGradient | null>(null);
   const smRef = useRef<AnimStateMachine>({
     state: 'wander',
@@ -566,7 +568,10 @@ export default function StarBackground() {
           duration: STATE_DURATIONS[next],
         };
 
-        // On entering spin: don't reset — pick up from current rotation
+        // On entering spin: start accel from 1x (current rotation speed)
+        if (next === 'spin') {
+          spinAccelRef.current = 1;
+        }
 
         // On entering burst: compute explosion velocities at start
         if (next === 'burst') {
@@ -585,14 +590,27 @@ export default function StarBackground() {
       // Base rotation: ~40s per full turn, continuous throughout
       const BASE_ROT_SPEED = 0.00015;
       rotationRef.current += BASE_ROT_SPEED * dt;
-      // Spin accumulator (only during spin state) — start slow, ramp to 12x
+
+      // Spin: continuously accelerate from 1x upward
       if (sm.state === 'spin') {
-        const spinProg = getStateProgress(time, sm);
-        // Ramp from 1x → 36x base speed (no pause, continuous)
-        const spinSpeed = lerp(1, 36, easeOutExpo(spinProg));
+        spinAccelRef.current += 0.002 * dt;
+        const spinSpeed = spinAccelRef.current;
         spinRef.current += BASE_ROT_SPEED * spinSpeed * dt;
       }
       const rot = rotationRef.current + spinRef.current;
+
+      // ── Dynamic state transition: spin → burst at speed threshold ──
+      if (sm.state === 'spin' && spinAccelRef.current >= 60) {
+        smRef.current = {
+          state: 'burst',
+          stateStartAt: time,
+          duration: STATE_DURATIONS.burst,
+        };
+        setExplosionVelocities(starsRef.current, cx, cy, 1 / 6);
+        sm.state = 'burst';
+        sm.stateStartAt = time;
+        sm.duration = STATE_DURATIONS.burst;
+      }
 
       // ── Scale factor ──
       // During 'attract': stars form tai chi AND gradually shrink from full → 1/3
@@ -605,10 +623,12 @@ export default function StarBackground() {
           const shrinkP = (progress - 0.3) / 0.7;
           scaleFactor = lerp(1, 1 / 3, easeInOutCubic(shrinkP));
         }
-      } else if (sm.state === 'spin' || sm.state === 'burst') {
-        const spinP = sm.state === 'spin' ? progress : 1;
-        // During spin, shrink a bit more: 1/3 → 1/4.5
-        scaleFactor = lerp(1 / 3, 1 / 4.5, easeInOutCubic(spinP));
+      } else if (sm.state === 'spin') {
+        // Continuous shrink from 1/3 → 1/6 as speed grows from 1x → 60x
+        const speedFraction = clamp((spinAccelRef.current - 1) / 59, 0, 1);
+        scaleFactor = lerp(1 / 3, 1 / 6, easeOutCubic(speedFraction));
+      } else if (sm.state === 'burst') {
+        scaleFactor = lerp(1 / 3, 1 / 4.5, easeInOutCubic(progress));
       }
 
       // ── Draw stars ──
