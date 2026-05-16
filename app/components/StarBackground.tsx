@@ -52,12 +52,16 @@ function drawTaiChiShape(
   ctx.translate(cx, cy);
   ctx.rotate(rotation);
 
-  // All in one path for destination-out compatibility
+  // Draw YANG (white part of Tai Chi) only: left semicircle + right eye
+  // destination-out will remove mask only from this area, letting stars show through
+  // The S-curve is naturally the left semicircle's arc edge
+  // Left semicircle (yang): gold stars visible here
   ctx.beginPath();
-  ctx.arc(0, 0, radius, 0, Math.PI * 2);
   ctx.arc(-radius / 2, 0, radius / 2, -Math.PI / 2, Math.PI / 2);
-  ctx.arc(radius / 2, 0, radius / 2, Math.PI / 2, -Math.PI / 2);
-  ctx.arc(-radius / 2, 0, radius / 6, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Right eye (white dot inside yin): a small circle visible within the dark area
+  ctx.beginPath();
   ctx.arc(radius / 2, 0, radius / 6, 0, Math.PI * 2);
   ctx.fill();
 
