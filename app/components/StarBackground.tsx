@@ -18,7 +18,6 @@ interface Star {
 }
 
 const STAR_COUNT = 250;
-const ROTATION_PERIOD = 120; // seconds per full rotation
 
 function createStars(width: number, height: number): Star[] {
   const stars: Star[] = [];
@@ -164,7 +163,6 @@ export default function StarBackground() {
   const starsRef = useRef<Star[]>([]);
   const animRef = useRef<number>(0);
   const lastTimeRef = useRef<number>(0);
-  const rotationRef = useRef<number>(0);
 
   const draw = useCallback((time: number) => {
     const canvas = canvasRef.current;
@@ -180,10 +178,6 @@ export default function StarBackground() {
     const dt = lastTimeRef.current ? time - lastTimeRef.current : 16;
     lastTimeRef.current = time;
 
-    // Update rotation
-    rotationRef.current += (dt / 1000) * (2 * Math.PI) / ROTATION_PERIOD;
-    const rot = rotationRef.current;
-
     // Clear with gradient background
     const grad = ctx.createLinearGradient(0, 0, width, height);
     grad.addColorStop(0, '#0a0a2e');
@@ -197,28 +191,29 @@ export default function StarBackground() {
     for (let i = 0; i < stars.length; i++) {
       const s = stars[i];
 
-      // Rotate around center
+      // Spiral rotation + shrink toward center
       const dx = s.x - cx;
       const dy = s.y - cy;
-      const cos = Math.cos(rot);
-      const sin = Math.sin(rot);
-      const rx = dx * cos - dy * sin + cx;
-      const ry = dx * sin + dy * cos + cy;
-
-      // Slow shrink toward center
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const angle = Math.atan2(dy, dx);
+      const rotationSpeed = 0.0002;
       const SHRINK_SPEED = 0.00002;
-      const shrinkFactor = 1 - SHRINK_SPEED * dt;
-      s.x = cx + (s.x - cx) * shrinkFactor;
-      s.y = cy + (s.y - cy) * shrinkFactor;
+      const newAngle = angle + rotationSpeed * dt;
+      const newDist = dist * (1 - SHRINK_SPEED * dt);
+
+      s.x = cx + Math.cos(newAngle) * newDist;
+      s.y = cy + Math.sin(newAngle) * newDist;
 
       // Reset if too close to center
-      const dist = Math.sqrt((s.x - cx) ** 2 + (s.y - cy) ** 2);
-      if (dist < 2) {
-        const angle = Math.random() * Math.PI * 2;
-        const radius = Math.max(width, height) * 0.5;
-        s.x = cx + Math.cos(angle) * radius;
-        s.y = cy + Math.sin(angle) * radius;
+      if (newDist < 2) {
+        const resetAngle = Math.random() * Math.PI * 2;
+        const resetRadius = Math.max(width, height) * 0.5;
+        s.x = cx + Math.cos(resetAngle) * resetRadius;
+        s.y = cy + Math.sin(resetAngle) * resetRadius;
       }
+
+      const rx = s.x;
+      const ry = s.y;
 
       // Skip if off screen
       if (rx < -50 || rx > width + 50 || ry < -50 || ry > height + 50) continue;
@@ -259,7 +254,7 @@ export default function StarBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 -z-10 pointer-events-none"
+      className="fixed inset-0 z-0 pointer-events-none"
       style={{ width: '100vw', height: '100vh' }}
       aria-hidden="true"
     />
