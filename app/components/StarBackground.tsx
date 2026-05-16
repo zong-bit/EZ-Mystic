@@ -5,8 +5,6 @@ import { useEffect, useRef, useCallback } from 'react';
 interface Star {
   x: number;
   y: number;
-  baseX: number;          // initial/return position
-  baseY: number;
   size: number;           // core radius
   glowRadius: number;     // glow halo radius
   rays: number;           // number of light rays (4-6)
@@ -17,9 +15,6 @@ interface Star {
   twinkleSpeed: number;
   phase: number;          // animation phase offset
   isBright: boolean;
-  taiChiTargetX: number;  // target position in tai chi pattern
-  taiChiTargetY: number;
-  taiChiInfluence: number;// 0-1, how much tai chi pull affects this star
 }
 
 interface ExplosionState {
@@ -35,37 +30,33 @@ interface ExplosionState {
 const STAR_COUNT = 600;
 
 /**
- * Assign a target position on the tai chi pattern for a star.
- * The tai chi is drawn as a circle with S-curve distribution:
- * - Stars 0..N/2 → yang side (upper-left bias)
- * - Stars N/2+1..N → yin side (lower-right bias)
+ * Tai chi density factor: returns 0-1 indicating how dense stars should be
+ * at a given angle and normalized distance.
+ * - 1 = should be dense (yang, the "dark" side with more stars)
+ * - 0 = should be sparse (yin, the "light" side with fewer stars)
+ *
+ * Uses the S-curve of the tai chi symbol: the boundary between the two
+ * halves is a sinusoidal curve. Stars in the dense region shrink slower
+ * (accumulate), while stars in the sparse region shrink faster (pass through).
  */
-function assignTaiChiTarget(
-  index: number,
-  total: number,
-  cx: number,
-  cy: number,
-): { x: number; y: number } {
-  const radius = Math.min(cx, cy) * 0.7; // tai chi fits in half canvas
-  const t = index / total; // 0-1
+function getTaiChiDensity(angle: number, normDist: number): number {
+  // Normalize angle to 0-2PI
+  const a = ((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
 
-  let targetX: number, targetY: number;
+  // The tai chi S-curve: sin(a/2) gives the left-right division
+  // We want the "dark" side (more stars) on one half and "light" side (fewer stars) on the other
+  const sCurve = Math.sin(a * 0.5);
 
-  if (t < 0.5) {
-    // Yang side (left, upper bias)
-    const r = radius * (0.15 + Math.random() * 0.75);
-    const a = Math.PI * (0.3 + Math.random() * 0.7); // upper-left sector
-    targetX = cx - r * Math.cos(a);
-    targetY = cy - r * Math.sin(a) * 0.6; // compress vertically for yang
-  } else {
-    // Yin side (right, lower bias)
-    const r = radius * (0.15 + Math.random() * 0.75);
-    const a = Math.PI * (Math.random() * 0.7); // lower-right sector
-    targetX = cx + r * Math.cos(a);
-    targetY = cy + r * Math.sin(a) * 0.6; // compress vertically for yin
-  }
+  // Near the center, emphasize the two "eyes" of the tai chi fish
+  // The eyes are at the inner boundary of each fish head
+  const eyeInfluence = Math.exp(-normDist * normDist * 8) * 0.3;
 
-  return { x: targetX, y: targetY };
+  // Combine: the density varies sinusoidally around the circle
+  // Add a small radial dependency so the effect is stronger near center
+  const radialMod = 1 - normDist * 0.3;
+  const density = 0.5 + sCurve * 0.35 * radialMod + eyeInfluence * Math.cos(a * 0.5);
+
+  return Math.max(0, Math.min(1, density));
 }
 
 function createStars(width: number, height: number): Star[] {
@@ -98,14 +89,9 @@ function createStars(width: number, height: number): Star[] {
         ? 4 + Math.floor(Math.random() * 3)
         : 0;
 
-    // Assign tai chi target position at creation time
-    const taiChi = assignTaiChiTarget(i, STAR_COUNT, cx, cy);
-
     stars.push({
       x: cx + Math.cos(angle) * radius,
       y: cy + Math.sin(angle) * radius,
-      baseX: cx + Math.cos(angle) * radius,
-      baseY: cy + Math.sin(angle) * radius,
       size,
       glowRadius,
       rays,
@@ -120,9 +106,6 @@ function createStars(width: number, height: number): Star[] {
         : 0.002 + Math.random() * 0.006,   // 1-3s period
       phase: Math.random() * Math.PI * 2,
       isBright,
-      taiChiTargetX: taiChi.x,
-      taiChiTargetY: taiChi.y,
-      taiChiInfluence: 0, // updated per frame
     });
   }
   return stars;
@@ -458,14 +441,16 @@ export default function StarBackground() {
       // --- Explosion complete, reset for reincarnation ---
       else {
         exp.active = false;
-        // Reset stars to clean random positions (looks like random starfield again)
+        // Reset stars to fully random positions across the entire canvas
         const resetStars = createStars(width, height);
         starsRef.current = resetStars;
         starPositionsRef.current = resetStars.map(s => ({ x: s.x, y: s.y }));
         lastExplosionRef.current = time;
       }
     } else {
-      // === NORMAL SPIRAL CONTRACTION (tai chi reveal) ===
+      // === NORMAL SPIRAL CONTRACTION WITH DENSITY-BASED TAI CHI ===
+      const maxR = Math.max(width, height) * 0.5;
+
       for (let i = 0; i < starsRef.current.length; i++) {
         const s = starsRef.current[i];
 
@@ -473,36 +458,25 @@ export default function StarBackground() {
         const dy = s.y - cy;
         const dist = Math.sqrt(dx * dx + dy * dy);
         const angle = Math.atan2(dy, dx);
-        const maxR = Math.max(width, height) * 0.5;
+        const normDist = dist / maxR;
 
-        // Spiral rotation + shrink (linear, not exponential, so stars actually reach center)
+        // Spiral rotation (same for all stars)
         const rotationSpeed = 0.00004;
         const SHRINK_SPEED = 0.00002;
+
+        // Density-based tai chi: stars in dense regions shrink slower,
+        // so they accumulate and form the "dark" side with more stars.
+        // Stars in sparse regions shrink faster, passing through quickly.
+        const density = getTaiChiDensity(angle, normDist);
+        const adjustedShrink = SHRINK_SPEED * (1 + (1 - density) * 0.5);
+
         const newAngle = angle + rotationSpeed * dt;
-        const newDist = Math.max(0, dist * (1 - SHRINK_SPEED * dt));
+        const newDist = Math.max(0, dist * (1 - adjustedShrink * dt));
 
-        // Tai chi influence: starts at maxR*0.5, reaches max at maxR*0.33 (1/3)
-        const taiChiStrength = Math.max(0, Math.min(1, 1 - (newDist - maxR * 0.33) / (maxR * 0.5 - maxR * 0.33)));
-        // Smooth easing for tai chi influence
-        const easedTaiChi = taiChiStrength * taiChiStrength;
+        s.x = cx + Math.cos(newAngle) * newDist;
+        s.y = cy + Math.sin(newAngle) * newDist;
 
-        // Tai chi pull toward target position (weak — only noticeable when very close)
-        const pullX = (s.taiChiTargetX - s.x) * easedTaiChi * 0.0008 * dt;
-        const pullY = (s.taiChiTargetY - s.y) * easedTaiChi * 0.0008 * dt;
-
-        // Rotate tai chi target positions slowly so the pattern rotates
-        const taiChiRotationSpeed = 0.0001;
-        const dxT = s.taiChiTargetX - cx;
-        const dyT = s.taiChiTargetY - cy;
-        const angleT = Math.atan2(dyT, dxT);
-        const distT = Math.sqrt(dxT * dxT + dyT * dyT);
-        s.taiChiTargetX = cx + Math.cos(angleT + taiChiRotationSpeed * dt) * distT;
-        s.taiChiTargetY = cy + Math.sin(angleT + taiChiRotationSpeed * dt) * distT;
-
-        s.x = cx + Math.cos(newAngle) * newDist + pullX;
-        s.y = cy + Math.sin(newAngle) * newDist + pullY;
-
-        // Reset star if too close to center (shouldn't happen due to explosion trigger, but safety net)
+        // Reset star if too close to center (safety net)
         if (newDist < 2) {
           const resetAngle = Math.random() * Math.PI * 2;
           const resetRadius = maxR;
