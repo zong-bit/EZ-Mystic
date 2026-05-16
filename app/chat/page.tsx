@@ -206,41 +206,6 @@ export default function ChatPage() {
 
   return (
     <div className="min-h-screen bg-bg-primary flex flex-col">
-      {/* ─── Navbar ─── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass" style={{ backdropFilter: 'blur(12px)', background: 'rgba(18,18,26,0.72)' }}>
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-gold-primary text-xl font-display font-bold text-gold-glow">✦</span>
-            <span className="text-text-primary font-display font-semibold text-lg">FateWise</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link href="/" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
-              Home
-            </Link>
-            <Link href="/bazi" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
-              Bazi Chart
-            </Link>
-            <Link href="/chat" className="text-gold-primary text-sm font-medium">
-              Chat
-            </Link>
-            {user ? (
-              <Link href="/dashboard" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
-                Dashboard
-              </Link>
-            ) : (
-              <>
-                <Link href="/login" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
-                  Sign In
-                </Link>
-                <Link href="/signup" className="text-gold-primary text-sm font-medium hover:text-gold-light transition-colors">
-                  Sign Up
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      </nav>
-
       {/* ─── Chat Container ─── */}
       <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full pt-20 pb-6 px-4">
         {/* Messages Area */}

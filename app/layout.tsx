@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import AuthProviderWrapper from './auth/provider';
+import Navbar from './components/Navbar';
 
 export const metadata: Metadata = {
   title: 'FateWise — Online Bazi Chart · AI Destiny Reading · Eastern Wisdom',
@@ -88,6 +89,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-bg-primary text-text-primary font-body">
         <AuthProviderWrapper>
+          <Navbar />
           {children}
         </AuthProviderWrapper>
       </body>

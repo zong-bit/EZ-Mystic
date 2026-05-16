@@ -9,24 +9,6 @@ const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/gebxj';
 export default function PricingPage() {
   return (
     <div className="min-h-screen">
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass" style={{ backdropFilter: 'blur(12px)', background: 'rgba(18,18,26,0.72)' }}>
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-gold-primary text-xl font-display font-bold text-gold-glow">✦</span>
-            <span className="text-text-primary font-display font-semibold text-lg">FateWise</span>
-          </Link>
-          <div className="flex items-center gap-6">
-            <Link href="/bazi" className="text-text-secondary hover:text-gold-primary transition-colors text-sm">
-              Bazi Chart
-            </Link>
-            <Link href="/bazi" className="btn-primary text-sm" style={{ padding: '8px 20px', fontSize: '14px' }}>
-              Begin Your Journey →
-            </Link>
-          </div>
-        </div>
-      </nav>
-
       {/* Header */}
       <section className="pt-32 pb-16 px-6 text-center">
         <span className="text-gold-primary text-lg font-display tracking-widest">✦ Choose Your Path ✦</span>

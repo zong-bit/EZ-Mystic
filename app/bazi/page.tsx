@@ -747,30 +747,6 @@ export default function BaziPage() {
 
   return (
     <div className="min-h-screen bg-bg-primary">
-      {/* ─── Navbar ─── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass" style={{ backdropFilter: 'blur(12px)', background: 'rgba(18,18,26,0.72)' }}>
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-gold-primary text-xl font-display font-bold text-gold-glow">✦</span>
-            <span className="text-text-primary font-display font-semibold text-lg">FateWise</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link href="/" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
-              Home
-            </Link>
-            <Link href="/bazi" className="text-gold-primary text-sm font-medium">
-              Bazi Chart
-            </Link>
-            <Link href="/chat" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
-              Chat
-            </Link>
-            <Link href="/pricing" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
-              Pricing
-            </Link>
-          </div>
-        </div>
-      </nav>
-
       {/* ─── Hero ─── */}
       <section className="relative pt-20 pb-16 px-6 overflow-hidden">
         <div className="absolute inset-0 starry-bg opacity-40" />

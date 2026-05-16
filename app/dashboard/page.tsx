@@ -11,7 +11,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/login');
+      router.push('/account');
     }
   }, [user, loading, router]);
 
@@ -33,36 +33,6 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-bg-primary">
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass" style={{ backdropFilter: 'blur(12px)', background: 'rgba(18,18,26,0.72)' }}>
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-gold-primary text-xl font-display font-bold text-gold-glow">✦</span>
-            <span className="text-text-primary font-display font-semibold text-lg">FateWise</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link href="/" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
-              Home
-            </Link>
-            <Link href="/bazi" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
-              Bazi Chart
-            </Link>
-            <Link href="/chat" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
-              Chat
-            </Link>
-            <div className="flex items-center gap-3 pl-4 border-l border-white/10">
-              <span className="text-text-secondary text-sm">{email}</span>
-              <button
-                onClick={signOut}
-                className="text-text-tertiary hover:text-cinnabar-red transition-colors text-sm"
-              >
-                Sign Out
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
-
       {/* Dashboard Content */}
       <div className="max-w-4xl mx-auto pt-28 px-6 pb-16">
         <div className="glass-card p-8 page-enter">

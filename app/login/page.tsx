@@ -27,7 +27,7 @@ export default function LoginPage() {
       if (!cancelled) {
         clearTimeout(timeout);
         if (session) {
-          router.push('/dashboard');
+          router.push('/account');
           router.refresh();
         } else {
           setChecking(false);
@@ -63,7 +63,7 @@ export default function LoginPage() {
 
       if (authError) throw authError;
 
-      router.push('/dashboard');
+      router.push('/account');
       router.refresh();
     } catch (err: any) {
       setError(err.message || 'Login failed');

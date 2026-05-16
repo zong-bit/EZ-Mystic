@@ -96,31 +96,6 @@ function FateBookContent() {
 
   return (
     <div className="min-h-screen starry-bg">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass" style={{ backdropFilter: 'blur(12px)', background: 'rgba(18,18,26,0.72)' }}>
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-gold-primary text-xl">✦</span>
-            <span className="text-text-primary font-display font-semibold">FateWise</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link href="/bazi" className="text-text-secondary hover:text-text-primary transition-colors text-sm">
-              ← Back
-            </Link>
-            {content && (
-              <button
-                onClick={handleDownloadPDF}
-                disabled={downloading}
-                className="btn-primary text-sm"
-                style={{ padding: '8px 20px', fontSize: '14px' }}
-              >
-                {downloading ? '📥 Generating...' : '📥 Download PDF'}
-              </button>
-            )}
-          </div>
-        </div>
-      </nav>
-
       <div className="pt-24 pb-12 px-6">
         <div className="max-w-4xl mx-auto">
           {/* Cover */}

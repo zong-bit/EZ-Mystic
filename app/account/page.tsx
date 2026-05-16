@@ -145,37 +145,6 @@ export default function AccountPage() {
 
   return (
     <div className="min-h-screen bg-bg-primary">
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass" style={{ backdropFilter: 'blur(12px)', background: 'rgba(18,18,26,0.72)' }}>
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-gold-primary text-xl font-display font-bold text-gold-glow">✦</span>
-            <span className="text-text-primary font-display font-semibold text-lg">FateWise</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link href="/" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
-              Home
-            </Link>
-            <Link href="/bazi" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
-              Bazi Chart
-            </Link>
-            <Link href="/chat" className="text-text-tertiary hover:text-text-secondary transition-colors text-sm">
-              Chat
-            </Link>
-            <div className="flex items-center gap-3 pl-4 border-l border-white/10">
-              <span className="text-text-secondary text-sm">{user.email}</span>
-              <button
-                onClick={handleSignOut}
-                className="text-text-tertiary hover:text-cinnabar-red transition-colors text-sm"
-              >
-                Sign Out
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Content */}
       <div className="max-w-4xl mx-auto pt-28 px-6 pb-16">
         {error && (
           <div className="mb-6 p-4 rounded-xl bg-cinnabar-red/10 border border-cinnabar-red/20 text-cinnabar-red text-sm text-center">
