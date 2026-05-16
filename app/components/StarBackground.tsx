@@ -649,7 +649,7 @@ export default function StarBackground() {
 
       if (rx < -50 || rx > width + 50 || ry < -50 || ry > height + 50) continue;
 
-      drawParticleStar(ctx, cx, cy, s, time, taiChiR, TAI_CHI_CANVAS_SIZE, taiChiCtxRef.current);
+      if (taiChiCtxRef.current) drawParticleStar(ctx, cx, cy, s, time, taiChiR, TAI_CHI_CANVAS_SIZE, taiChiCtxRef.current);
     }
 
     animRef.current = requestAnimationFrame(draw);
