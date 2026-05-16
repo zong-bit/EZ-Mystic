@@ -32,7 +32,7 @@ interface ExplosionState {
   shockwaveRings: { x: number; y: number; radius: number; alpha: number; speed: number }[];
 }
 
-const STAR_COUNT = 250;
+const STAR_COUNT = 600;
 
 /**
  * Assign a target position on the tai chi pattern for a star.
@@ -486,9 +486,18 @@ export default function StarBackground() {
         // Smooth easing for tai chi influence
         const easedTaiChi = taiChiStrength * taiChiStrength;
 
-        // Tai chi pull toward target position
-        const pullX = (s.taiChiTargetX - s.x) * easedTaiChi * 0.008 * dt;
-        const pullY = (s.taiChiTargetY - s.y) * easedTaiChi * 0.008 * dt;
+        // Tai chi pull toward target position (weak — only noticeable when very close)
+        const pullX = (s.taiChiTargetX - s.x) * easedTaiChi * 0.0008 * dt;
+        const pullY = (s.taiChiTargetY - s.y) * easedTaiChi * 0.0008 * dt;
+
+        // Rotate tai chi target positions slowly so the pattern rotates
+        const taiChiRotationSpeed = 0.0001;
+        const dxT = s.taiChiTargetX - cx;
+        const dyT = s.taiChiTargetY - cy;
+        const angleT = Math.atan2(dyT, dxT);
+        const distT = Math.sqrt(dxT * dxT + dyT * dyT);
+        s.taiChiTargetX = cx + Math.cos(angleT + taiChiRotationSpeed * dt) * distT;
+        s.taiChiTargetY = cy + Math.sin(angleT + taiChiRotationSpeed * dt) * distT;
 
         s.x = cx + Math.cos(newAngle) * newDist + pullX;
         s.y = cy + Math.sin(newAngle) * newDist + pullY;
