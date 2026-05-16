@@ -258,7 +258,7 @@ export default function StarBackground() {
     ctx.fillRect(0, 0, width, height);
 
     // --- Check explosion trigger (time-based: every 45s) ---
-    const CYCLE_DURATION = 45000; // 45s per reincarnation cycle
+    const CYCLE_DURATION = 120000; // 120s per reincarnation cycle
     const cycleTime = time - lastExplosionRef.current;
     if (!explosionRef.current.active && cycleTime > CYCLE_DURATION) {
       starPositionsRef.current = starsRef.current.map(s => ({ x: s.x, y: s.y }));
