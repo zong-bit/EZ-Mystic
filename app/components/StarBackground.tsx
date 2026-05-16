@@ -589,7 +589,7 @@ export default function StarBackground() {
       if (sm.state === 'spin') {
         const spinProg = getStateProgress(time, sm);
         // Ramp from 1x → 36x base speed (no pause, continuous)
-        const spinSpeed = lerp(1, 36, easeInOutCubic(spinProg));
+        const spinSpeed = lerp(1, 36, easeOutExpo(spinProg));
         spinRef.current += BASE_ROT_SPEED * spinSpeed * dt;
       }
       const rot = rotationRef.current + spinRef.current;
