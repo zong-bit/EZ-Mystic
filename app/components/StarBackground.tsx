@@ -35,14 +35,13 @@ interface LightBallState {
   timer: number;          // ms in light ball phase
 }
 
-const STAR_COUNT = 3000;
+const STAR_COUNT = 1500;
 
 /**
- * Draw a tai chi path (unfilled) for evenodd mask overlay.
- * The path forms the tai chi shape; when filled with evenodd,
- * the tai chi interior is excluded (a "hole" in the overlay).
+ * Draw a tai chi shape (filled) for destination-out mask carving.
+ * Fills the entire tai chi area so destination-out carves it out.
  */
-function drawTaiChiPath(
+function drawTaiChiShape(
   ctx: CanvasRenderingContext2D,
   cx: number,
   cy: number,
@@ -53,20 +52,30 @@ function drawTaiChiPath(
   ctx.translate(cx, cy);
   ctx.rotate(rotation);
 
-  // Outer circle (clockwise for evenodd hole)
-  ctx.arc(0, 0, radius, 0, Math.PI * 2, true);
+  // Outer circle (the full tai chi boundary)
+  ctx.beginPath();
+  ctx.arc(0, 0, radius, 0, Math.PI * 2);
+  ctx.fill();
 
-  // Left fish (yang) - clockwise semicircle
-  ctx.arc(-radius / 2, 0, radius / 2, 0, Math.PI * 2, true);
+  // Left half (yang - the white/positive part)
+  ctx.beginPath();
+  ctx.arc(-radius / 2, 0, radius / 2, -Math.PI / 2, Math.PI / 2);
+  ctx.fill();
 
-  // Right fish (yin) - clockwise semicircle
-  ctx.arc(radius / 2, 0, radius / 2, Math.PI, 0, true);
+  // Right half (yin - the black/negative part)
+  ctx.beginPath();
+  ctx.arc(radius / 2, 0, radius / 2, Math.PI / 2, -Math.PI / 2);
+  ctx.fill();
 
-  // Left fish eye
-  ctx.arc(-radius / 2, 0, radius / 6, 0, Math.PI * 2, true);
+  // Left fish eye (small dot inside yang)
+  ctx.beginPath();
+  ctx.arc(-radius / 2, 0, radius / 6, 0, Math.PI * 2);
+  ctx.fill();
 
-  // Right fish eye
-  ctx.arc(radius / 2, 0, radius / 6, 0, Math.PI * 2, true);
+  // Right fish eye (small dot inside yin)
+  ctx.beginPath();
+  ctx.arc(radius / 2, 0, radius / 6, 0, Math.PI * 2);
+  ctx.fill();
 
   ctx.restore();
 }
@@ -231,6 +240,8 @@ export default function StarBackground() {
   const maskOpacityRef = useRef(0);
   const maskRadiusRef = useRef(400);
   const maskAngleRef = useRef(0);
+  const bgGradientRef = useRef<CanvasGradient | null>(null);
+  let bgGradientKey = '';
 
   const draw = useCallback((time: number) => {
     const canvas = canvasRef.current;
@@ -247,12 +258,16 @@ export default function StarBackground() {
     const dt = lastTimeRef.current ? time - lastTimeRef.current : 16;
     lastTimeRef.current = time;
 
-    // Clear with gradient background
-    const grad = ctx.createLinearGradient(0, 0, width, height);
-    grad.addColorStop(0, '#0a0a2e');
-    grad.addColorStop(0.5, '#0f0a28');
-    grad.addColorStop(1, '#1a0a2e');
-    ctx.fillStyle = grad;
+    // Clear with gradient background (cached by size)
+    const gradKey = `${width}x${height}`;
+    if (gradKey !== bgGradientKey) {
+      bgGradientRef.current = ctx.createLinearGradient(0, 0, width, height);
+      bgGradientRef.current.addColorStop(0, '#0a0a2e');
+      bgGradientRef.current.addColorStop(0.5, '#0f0a28');
+      bgGradientRef.current.addColorStop(1, '#1a0a2e');
+      bgGradientKey = gradKey;
+    }
+    ctx.fillStyle = bgGradientRef.current as CanvasGradient;
     ctx.fillRect(0, 0, width, height);
 
     // --- Check explosion trigger (time-based: every 45s) ---
@@ -585,24 +600,24 @@ export default function StarBackground() {
       drawParticleStar(ctx, rx, ry, s, time);
     }
 
-    // === Draw tai chi mask overlay (solid color, no destination-out) ===
+    // === Draw tai chi mask overlay (destination-out carve) ===
     const maskAlpha = maskOpacityRef.current * 0.85;
     if (maskAlpha > 0.01 && !exp.active) {
       ctx.save();
       ctx.globalAlpha = maskAlpha;
 
-      // Same gradient as background for perfect blend
+      // Fill entire canvas with background-matching gradient
       const maskGrad = ctx.createLinearGradient(0, 0, width, height);
       maskGrad.addColorStop(0, '#0a0a2e');
       maskGrad.addColorStop(0.5, '#0f0a28');
       maskGrad.addColorStop(1, '#1a0a2e');
       ctx.fillStyle = maskGrad;
+      ctx.fillRect(0, 0, width, height);
 
-      // Full-screen rect + tai chi path → evenodd fills non-tai-chi area
-      ctx.beginPath();
-      ctx.rect(0, 0, width, height);
-      drawTaiChiPath(ctx, cx, cy, maskRadiusRef.current, maskAngleRef.current);
-      ctx.fill('evenodd');
+      // destination-out carves out the tai chi shape (makes it transparent)
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.fillStyle = '#ffffff';
+      drawTaiChiShape(ctx, cx, cy, maskRadiusRef.current, maskAngleRef.current);
 
       ctx.restore();
     }
