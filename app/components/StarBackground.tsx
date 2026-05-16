@@ -17,10 +17,6 @@ interface Star {
   isBright: boolean;
   homeX: number;          // initial random position (reset after explosion)
   homeY: number;
-  targetX: number;        // tai chi target position
-  targetY: number;
-  targetDist: number;     // distance from center to target (for spiral speed)
-  passedTarget: boolean;  // whether star has passed its target zone
 }
 
 interface ExplosionState {
@@ -37,77 +33,55 @@ interface ExplosionState {
 const STAR_COUNT = 1500;
 
 /**
- * Compute the tai chi target position for a star based on its index.
- * 1/3 of stars on the S-curve boundary, 2/3 inside the yang (white) region.
+ * Determine which tai chi region a point belongs to.
+ * Horizontal tai chi: yang (white) on the left, yin (black) on the right.
  * Correct geometry: large circle radius R, small circles radius R/2, fish-eye radius R/8.
  * Reference: https://www-3.github.io/yinyang.htm
  */
-function computeTaiChiTarget(
-  index: number,
-  total: number,
+function getTaiChiRegion(
+  x: number,
+  y: number,
   cx: number,
   cy: number,
   R: number,
-): { x: number; y: number } {
-  const t = index / total; // 0-1
+  rotation: number,
+): 'yang' | 'yin' | 'yangEye' | 'yinEye' | 'outside' {
+  // Rotate point into tai chi's vertical coordinate system
+  const dx = x - cx;
+  const dy = y - cy;
+  const cos = Math.cos(-rotation);
+  const sin = Math.sin(-rotation);
+  const rx = dx * cos - dy * sin;  // rotated x
+  const ry = dx * sin + dy * cos;  // rotated y (vertical coordinate)
 
-  if (t < 0.33) {
-    // S-curve boundary points (clear dividing line)
-    const s = t / 0.33; // 0-1 along the S-curve
+  const dist = Math.sqrt(rx * rx + ry * ry);
 
-    let x: number, y: number;
-    if (s < 0.5) {
-      // Upper S-curve (top to center)
-      const angle = s * 2 * Math.PI; // 0 to π
-      const smallR = R / 2;
-      const centerX = cx;
-      const centerY = cy - R / 2;
-      x = centerX + Math.cos(angle) * smallR * 0.95;
-      y = centerY + Math.sin(angle) * smallR * 0.95;
-    } else {
-      // Lower S-curve (center to bottom)
-      const angle = (s - 0.5) * 2 * Math.PI; // 0 to π
-      const smallR = R / 2;
-      const centerX = cx;
-      const centerY = cy + R / 2;
-      x = centerX + Math.cos(angle) * smallR * 0.95;
-      y = centerY + Math.sin(angle) * smallR * 0.95;
-    }
+  // Outside the large circle?
+  if (dist > R) return 'outside';
 
-    return { x, y };
-  }
+  // Fish-eye detection
+  const topEyeDist = Math.sqrt(rx * rx + (ry + R / 2) * (ry + R / 2));
+  const bottomEyeDist = Math.sqrt(rx * rx + (ry - R / 2) * (ry - R / 2));
+  const eyeThreshold = R / 8;
 
-  // Inside yang (white) region - random distribution
-  const isUpper = t < 0.66; // top half of yang
+  if (topEyeDist < eyeThreshold) return 'yangEye';    // yang fish-eye (black dot)
+  if (bottomEyeDist < eyeThreshold) return 'yinEye';   // yin fish-eye (white dot)
 
-  if (isUpper) {
-    // Upper half of yang region (top of large circle)
-    const angle = Math.random() * Math.PI; // 0 to π (upper half)
-    const r = R * Math.random() * 0.8;
-    return {
-      x: cx + Math.cos(angle) * r,
-      y: cy + Math.sin(angle) * r - R * 0.05, // bias slightly upward
-    };
-  } else {
-    // Lower yang region (left half + bottom fish-eye area)
-    if (Math.random() < 0.5) {
-      // Left half of large circle
-      const angle = Math.PI / 2 + Math.random() * Math.PI;
-      const r = R * Math.random() * 0.8;
-      return {
-        x: cx + Math.cos(angle) * r,
-        y: cy + Math.sin(angle) * r,
-      };
-    } else {
-      // Near bottom fish-eye (white dot in black region)
-      const angle = Math.random() * Math.PI * 2;
-      const r = R * 0.15 * Math.random();
-      return {
-        x: cx + Math.cos(angle) * r,
-        y: cy + R / 2 + Math.sin(angle) * r,
-      };
-    }
-  }
+  // Upper small circle (white region)
+  const topDist = Math.sqrt(rx * rx + (ry + R / 2) * (ry + R / 2));
+  if (topDist < R / 2) return 'yang';
+
+  // Lower small circle (black region)
+  const bottomDist = Math.sqrt(rx * rx + (ry - R / 2) * (ry - R / 2));
+  if (bottomDist < R / 2) return 'yin';
+
+  // Right half: upper part is white (yang), lower part is black (yin)
+  if (ry < 0 && ry > -R / 2) return 'yang';
+  if (ry > 0 && ry < R / 2) return 'yin';
+
+  // Remaining parts: left = yang, right = yin
+  if (rx < 0) return 'yang';
+  return 'yin';
 }
 
 function createStars(width: number, height: number): Star[] {
@@ -144,12 +118,6 @@ function createStars(width: number, height: number): Star[] {
         ? 4 + Math.floor(Math.random() * 3)
         : 0;
 
-    // Compute tai chi target position
-    const target = computeTaiChiTarget(i, STAR_COUNT, cx, cy, taiChiR);
-    const targetDist = Math.sqrt(
-      (target.x - cx) ** 2 + (target.y - cy) ** 2
-    );
-
     stars.push({
       x: cx + Math.cos(angle) * radius,
       y: cy + Math.sin(angle) * radius,
@@ -169,10 +137,6 @@ function createStars(width: number, height: number): Star[] {
       homeX: cx + Math.cos(angle) * radius,
       homeY: cy + Math.sin(angle) * radius,
       isBright,
-      targetX: target.x,
-      targetY: target.y,
-      targetDist,
-      passedTarget: false,
     });
   }
   return stars;
@@ -180,8 +144,7 @@ function createStars(width: number, height: number): Star[] {
 
 /**
  * Draw a star with particle glow halo and light rays.
- * Stars are drawn in pure gold; brightness is controlled by proximity
- * to their tai chi target position.
+ * Visibility is controlled by the tai chi region the star currently occupies.
  */
 function drawParticleStar(
   ctx: CanvasRenderingContext2D,
@@ -189,11 +152,29 @@ function drawParticleStar(
   cy: number,
   star: Star,
   time: number,
+  maskAngle: number,
+  taiChiR: number,
 ): void {
   const { x, y, size, glowRadius, rays, rayAngle, raySpeed, hue, alpha, phase, twinkleSpeed, isBright } = star;
 
-  const displayAlphaScale = 1;
-  const displayHue = hue;
+  // Determine tai chi region for this star's current position
+  const region = getTaiChiRegion(x, y, cx, cy, taiChiR, maskAngle);
+  let displayAlphaScale = 1.0;
+  let displayHue = 45; // gold
+
+  if (region === 'yang') {
+    // Yang region: golden bright stars
+    displayAlphaScale = 1.0;
+    displayHue = 45;
+  } else if (region === 'yinEye') {
+    // Yin fish-eye: a small cluster of bright gold stars
+    displayAlphaScale = 0.9;
+    displayHue = 45;
+  } else {
+    // Yin region, yang fish-eye, outside: invisible
+    displayAlphaScale = 0.02;
+  }
+
   const displaySat = 80;
   const displayLight = 60;
 
@@ -277,6 +258,7 @@ export default function StarBackground() {
   const explosionRef = useRef<ExplosionState>({ active: false, phase: 'flash', progress: 0, time: 0, rays: [], particles: [], shockwaveRings: [], lightBallTimer: 0 });
   const starPositionsRef = useRef<{ x: number; y: number }[]>([]);
   const bgGradientRef = useRef<CanvasGradient | null>(null);
+  const maskAngleRef = useRef<number>(0);
   let bgGradientKey = '';
 
   const draw = useCallback((time: number) => {
@@ -571,9 +553,6 @@ export default function StarBackground() {
       }
 
       if (!inLightBall) {
-        // Compute contraction progress for brightness
-        const progress = 1 - avgDist / maxR; // 0-1
-
         for (let i = 0; i < starsRef.current.length; i++) {
           const s = starsRef.current[i];
 
@@ -582,7 +561,7 @@ export default function StarBackground() {
           const dist = Math.sqrt(dx * dx + dy * dy);
           const angle = Math.atan2(dy, dx);
 
-          // Spiral rotation and shrink — natural, not pulled to target
+          // Spiral rotation and shrink
           const SHRINK_SPEED = 0.00002;
           const ROTATION_SPEED = 0.00004;
 
@@ -600,41 +579,8 @@ export default function StarBackground() {
             s.y = cy + Math.sin(resetAngle) * resetRadius;
           }
 
-          // Brightness: only when star passes near its tai chi target
-          const distToTarget = Math.sqrt(
-            (s.x - s.targetX) ** 2 + (s.y - s.targetY) ** 2
-          );
-          const targetZone = taiChiR * 0.08; // ~8% of tai chi radius as target zone
-
-          // Stars that have contracted past the tai chi radius are candidates to light up
-          const pastTaiChiRadius = dist < taiChiR;
-
-          if (pastTaiChiRadius && distToTarget < targetZone) {
-            // Near target — brighten
-            const proximity = 1 - distToTarget / targetZone;
-            const fadeIn = Math.min(1, progress * 3); // fade in over first 33% of contraction
-            const brightness = proximity * fadeIn;
-
-            if (brightness > 0.1) {
-              s.alpha = Math.min(1, s.alpha + brightness * 0.02);
-              // Shift hue toward pure gold when bright
-              s.hue = s.hue + (48 - s.hue) * brightness * 0.05;
-            } else {
-              // Gradually dim back to base
-              s.alpha = s.alpha * 0.995;
-            }
-          } else if (pastTaiChiRadius && distToTarget < targetZone * 2) {
-            // In the outer edge of target zone — slight brightening
-            const proximity = 1 - distToTarget / (targetZone * 2);
-            const fadeIn = Math.min(1, progress * 2);
-            const brightness = proximity * fadeIn * 0.3;
-
-            s.alpha = Math.min(1, s.alpha + brightness * 0.005);
-          } else {
-            // Not near target — dim back to base alpha
-            const baseAlpha = s.isBright ? 0.5 : 0.2;
-            s.alpha = s.alpha * 0.998 + baseAlpha * 0.002;
-          }
+          // Gradual alpha decay to prevent accumulation
+          s.alpha *= 0.999;
         }
       }
     }
@@ -647,7 +593,7 @@ export default function StarBackground() {
 
       if (rx < -50 || rx > width + 50 || ry < -50 || ry > height + 50) continue;
 
-      drawParticleStar(ctx, rx, ry, s, time);
+      drawParticleStar(ctx, cx, cy, s, time, maskAngleRef.current, taiChiR);
     }
 
     animRef.current = requestAnimationFrame(draw);
