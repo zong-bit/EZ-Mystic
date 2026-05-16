@@ -37,7 +37,7 @@ interface LightBallState {
   timer: number;          // ms in light ball phase
 }
 
-const STAR_COUNT = 2000;
+const STAR_COUNT = 5000;
 
 /**
  * Compute target positions on the tai chi S-curve boundary.
