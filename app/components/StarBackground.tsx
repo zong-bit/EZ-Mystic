@@ -37,7 +37,7 @@ interface LightBallState {
   timer: number;          // ms in light ball phase
 }
 
-const STAR_COUNT = 600;
+const STAR_COUNT = 800;
 
 /**
  * Compute target positions on the tai chi boundary for each star.
@@ -133,12 +133,26 @@ function drawParticleStar(
   // Stars far from target are dim/cool
   const maxR = Math.max(ctx.canvas.width, ctx.canvas.height) * 0.5;
   const score = getTaiChiScore(x, y, cx, cy, maxR, time);
-  const displayGlowScale = 0.4 + score * 0.6;
-  const displayAlphaScale = 0.3 + score * 0.7;
+  // Only yang stars (score > 0.5) glow bright; yin stars fade into background
+  const displayGlowScale = score > 0.5
+    ? 0.6 + (score - 0.5) * 0.8   // 0.5→0.6, 1.0→1.0
+    : 0.3 + score * 0.3;            // 0→0.3, 0.5→0.45
 
-  let displayHue = 40 + score * 30;
-  let displaySat = 60 + score * 30;
-  let displayLight = 50 + score * 35;
+  const displayAlphaScale = score > 0.5
+    ? 0.3 + (score - 0.5) * 2 * 0.7  // 0.5→0.3, 1.0→1.0
+    : 0.05 + score * 0.2;             // 0→0.05, 0.5→0.15 (nearly invisible)
+
+  let displayHue = score > 0.5
+    ? 40 + (score - 0.5) * 2 * 15    // 0.5→40, 1.0→55 (golden range)
+    : 35 + score * 10;                // 0→35, 0.5→40 (dull, blended)
+
+  let displaySat = score > 0.5
+    ? 60 + (score - 0.5) * 2 * 20    // 0.5→60, 1.0→80
+    : 30 + score * 20;                // 0→30, 0.5→40 (desaturated)
+
+  let displayLight = score > 0.5
+    ? 50 + (score - 0.5) * 2 * 35    // 0.5→50, 1.0→85
+    : 20 + score * 20;                // 0→20, 0.5→30 (dim)
 
   // Twinkle: modulate alpha and glowRadius with sine wave
   const twinkle = Math.sin(time * twinkleSpeed + phase);
@@ -229,6 +243,7 @@ export default function StarBackground() {
     const { width, height } = canvas;
     const cx = width / 2;
     const cy = height / 2;
+    const maxR = Math.max(width, height) * 0.5;
 
     // Delta time
     const dt = lastTimeRef.current ? time - lastTimeRef.current : 16;
@@ -458,7 +473,6 @@ export default function StarBackground() {
       }
     } else {
       // === NORMAL SPIRAL CONTRACTION WITH TARGET-POSITION TAI CHI ===
-      const maxR = Math.max(width, height) * 0.5;
 
       // Light ball phase: when stars are very close to center
       let totalDist = 0;
@@ -575,6 +589,14 @@ export default function StarBackground() {
 
       drawParticleStar(ctx, rx, ry, s, time);
     }
+
+    // Draw circular border around the tai chi pattern
+    const borderAlpha = 0.12;
+    ctx.beginPath();
+    ctx.arc(cx, cy, maxR * 0.95, 0, Math.PI * 2);
+    ctx.strokeStyle = `hsla(45, 60%, 65%, ${borderAlpha})`;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
 
     animRef.current = requestAnimationFrame(draw);
   }, []);
