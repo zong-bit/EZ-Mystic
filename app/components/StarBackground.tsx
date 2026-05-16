@@ -15,8 +15,6 @@ interface Star {
   twinkleSpeed: number;
   phase: number;          // animation phase offset
   isBright: boolean;
-  taiChiTargetX: number;  // target position on tai chi S-curve
-  taiChiTargetY: number;
   homeX: number;          // initial random position (reset after explosion)
   homeY: number;
 }
@@ -40,86 +38,46 @@ interface LightBallState {
 const STAR_COUNT = 10000;
 
 /**
- * Compute target positions on the tai chi S-curve boundary.
- * Distributes points along the boundary of the tai chi symbol.
+ * Draw a tai chi shape (filled regions) on the canvas.
+ * Used with destination-out composite to carve the shape out of a mask.
  */
-function computeTaiChiTargets(count: number, cx: number, cy: number, maxR: number): { x: number; y: number }[] {
-  const targets: { x: number; y: number }[] = [];
+function drawTaiChiShape(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  radius: number,
+  rotation: number,
+): void {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(rotation);
 
-  for (let i = 0; i < count; i++) {
-    const t = i / count; // 0-1 along the boundary
+  // Outer circle (full tai chi boundary)
+  ctx.beginPath();
+  ctx.arc(0, 0, radius, 0, Math.PI * 2);
+  ctx.fill();
 
-    // Tai chi boundary: outer circle + two inner semicircles + S-curve
-    let angle: number;
-    let radius: number;
+  // Left fish (yang) - dark semicircle on left
+  ctx.beginPath();
+  ctx.arc(-radius / 2, 0, radius / 2, 0, Math.PI * 2);
+  ctx.fill();
 
-    if (t < 0.5) {
-      // Outer circle (top half, y < cy)
-      const st = t * 2; // 0-1 in this segment
-      angle = Math.PI + st * Math.PI; // PI to 2PI (top half)
-      radius = maxR * 0.48;
-    } else if (t < 0.5 + 1/6) {
-      // Right inner semicircle (small circle on right)
-      const st = (t - 0.5) * 6; // 0-1
-      angle = Math.PI / 2 + st * Math.PI;
-      radius = maxR * 0.1;
-      const centerX = cx + maxR * 0.24;
-      const centerY = cy;
-      targets.push({
-        x: centerX + Math.cos(angle) * radius,
-        y: centerY + Math.sin(angle) * radius,
-      });
-      continue;
-    } else if (t < 0.5 + 2/6) {
-      // S-curve boundary (right side)
-      const st = (t - 0.5 - 1/6) * 3; // 0-1
-      angle = Math.PI / 2 - st * Math.PI;
-      radius = maxR * 0.1;
-      const centerX = cx + maxR * 0.24;
-      const centerY = cy;
-      targets.push({
-        x: centerX + Math.cos(angle) * radius,
-        y: centerY + Math.sin(angle) * radius,
-      });
-      continue;
-    } else if (t < 0.5 + 3/6) {
-      // Outer circle (bottom half, y > cy)
-      const st = (t - 0.5 - 2/6) * 2;
-      angle = st * Math.PI;
-      radius = maxR * 0.48;
-    } else if (t < 0.5 + 4/6) {
-      // Left inner semicircle
-      const st = (t - 0.5 - 3/6) * 6;
-      angle = -Math.PI / 2 + st * Math.PI;
-      radius = maxR * 0.1;
-      const centerX = cx - maxR * 0.24;
-      const centerY = cy;
-      targets.push({
-        x: centerX + Math.cos(angle) * radius,
-        y: centerY + Math.sin(angle) * radius,
-      });
-      continue;
-    } else {
-      // S-curve boundary (left side)
-      const st = (t - 0.5 - 4/6) * 3;
-      angle = -Math.PI / 2 - st * Math.PI;
-      radius = maxR * 0.1;
-      const centerX = cx - maxR * 0.24;
-      const centerY = cy;
-      targets.push({
-        x: centerX + Math.cos(angle) * radius,
-        y: centerY + Math.sin(angle) * radius,
-      });
-      continue;
-    }
+  // Right fish (yin) - semicircle on right (fills the other half)
+  ctx.beginPath();
+  ctx.arc(radius / 2, 0, radius / 2, Math.PI, 0);
+  ctx.fill();
 
-    targets.push({
-      x: cx + Math.cos(angle) * radius,
-      y: cy + Math.sin(angle) * radius,
-    });
-  }
+  // Left fish eye (small circle)
+  ctx.beginPath();
+  ctx.arc(-radius / 2, 0, radius / 6, 0, Math.PI * 2);
+  ctx.fill();
 
-  return targets;
+  // Right fish eye (small circle)
+  ctx.beginPath();
+  ctx.arc(radius / 2, 0, radius / 6, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
 }
 
 function createStars(width: number, height: number): Star[] {
@@ -127,9 +85,6 @@ function createStars(width: number, height: number): Star[] {
   const cx = width / 2;
   const cy = height / 2;
   const maxR = Math.max(width, height) * 0.5;
-
-  // Compute tai chi target positions on the S-curve
-  const taiChiTargets = computeTaiChiTargets(STAR_COUNT, cx, cy, maxR);
 
   for (let i = 0; i < STAR_COUNT; i++) {
     const angle = Math.random() * Math.PI * 2;
@@ -178,8 +133,6 @@ function createStars(width: number, height: number): Star[] {
       homeX: cx + Math.cos(angle) * radius,
       homeY: cy + Math.sin(angle) * radius,
       isBright,
-      taiChiTargetX: taiChiTargets[i].x,
-      taiChiTargetY: taiChiTargets[i].y,
     });
   }
   return stars;
@@ -187,7 +140,8 @@ function createStars(width: number, height: number): Star[] {
 
 /**
  * Draw a star with particle glow halo and light rays.
- * Visibility determined by proximity to its tai chi target position.
+ * Stars are always drawn in full gold; the tai chi mask overlay
+ * controls which stars are visible.
  */
 function drawParticleStar(
   ctx: CanvasRenderingContext2D,
@@ -196,27 +150,13 @@ function drawParticleStar(
   star: Star,
   time: number,
 ): void {
-  const { x, y, taiChiTargetX, taiChiTargetY, size, glowRadius, rays, rayAngle, raySpeed, hue, alpha, phase, twinkleSpeed, isBright } = star;
+  const { x, y, size, glowRadius, rays, rayAngle, raySpeed, hue, alpha, phase, twinkleSpeed, isBright } = star;
 
-  const maxR = Math.max(ctx.canvas.width, ctx.canvas.height) * 0.5;
-
-  // Distance to tai chi target
-  const dx = x - taiChiTargetX;
-  const dy = y - taiChiTargetY;
-  const distToTarget = Math.sqrt(dx * dx + dy * dy);
-
-  // Visibility: only visible when near target
-  const maxDist = maxR * 0.35;
-  const visibility = Math.max(0, 1 - distToTarget / maxDist);
-
-  // If too far, skip drawing entirely
-  if (visibility < 0.05) return;
-
-  // Brightness and color based on visibility
-  const displayAlphaScale = 0.3 + visibility * 0.7;
-  const displayHue = 40 + visibility * 20;  // 40-60 golden range
+  // Always draw in pure golden color
+  const displayAlphaScale = 1;
+  const displayHue = hue;  // 40-55 golden range
   const displaySat = 80;
-  const displayLight = 60 + visibility * 25;
+  const displayLight = 60;
 
   // Twinkle: modulate alpha and glowRadius with sine wave
   const twinkle = Math.sin(time * twinkleSpeed + phase);
@@ -297,6 +237,9 @@ export default function StarBackground() {
   const lastExplosionRef = useRef(0);
   const explosionRef = useRef<ExplosionState>({ active: false, phase: 'flash', progress: 0, time: 0, rays: [], particles: [], shockwaveRings: [], lightBallTimer: 0 });
   const starPositionsRef = useRef<{ x: number; y: number }[]>([]);
+  const maskOpacityRef = useRef(0);
+  const maskRadiusRef = useRef(400);
+  const maskAngleRef = useRef(0);
 
   const draw = useCallback((time: number) => {
     const canvas = canvasRef.current;
@@ -534,9 +477,13 @@ export default function StarBackground() {
         starsRef.current = resetStars;
         starPositionsRef.current = resetStars.map(s => ({ x: s.x, y: s.y }));
         lastExplosionRef.current = time;
+        // Reset mask: start transparent again, radius full, reset rotation
+        maskOpacityRef.current = 0;
+        maskRadiusRef.current = maxR * 0.48;
+        maskAngleRef.current = 0;
       }
     } else {
-      // === NORMAL SPIRAL CONTRACTION — NO PULL, TARGET-BASED VISIBILITY ===
+      // === NORMAL SPIRAL CONTRACTION ===
 
       // Light ball phase: when stars are very close to center
       let totalDist = 0;
@@ -547,6 +494,12 @@ export default function StarBackground() {
       }
       const avgDist = totalDist / starsRef.current.length;
       const lightBallThreshold = maxR * 0.15;
+
+      // Update mask state based on contraction progress
+      const progress = 1 - avgDist / maxR; // 0-1 contraction progress
+      maskOpacityRef.current = Math.min(0.95, progress * 1.5);
+      maskRadiusRef.current = maxR * 0.48 * (1 - progress * 0.7); // shrinks with contraction
+      maskAngleRef.current += 0.0003 * dt; // slow rotation
 
       let inLightBall = false;
       if (avgDist < lightBallThreshold && !exp.active) {
@@ -639,6 +592,31 @@ export default function StarBackground() {
       if (rx < -50 || rx > width + 50 || ry < -50 || ry > height + 50) continue;
 
       drawParticleStar(ctx, rx, ry, s, time);
+    }
+
+    // === Draw tai chi mask overlay ===
+    if (!exp.active) {
+      const maskAlpha = maskOpacityRef.current * 0.85;
+      if (maskAlpha > 0.01) {
+        ctx.save();
+        ctx.globalAlpha = maskAlpha;
+        ctx.fillStyle = '#0a0a2e'; // same as background
+        ctx.fillRect(0, 0, width, height);
+
+        // Carve out tai chi shape from mask
+        ctx.globalCompositeOperation = 'destination-out';
+        drawTaiChiShape(
+          ctx,
+          cx,
+          cy,
+          maskRadiusRef.current,
+          maskAngleRef.current,
+        );
+        ctx.restore();
+      }
+    } else {
+      // Explosion: mask disappears
+      maskOpacityRef.current = 0;
     }
 
     animRef.current = requestAnimationFrame(draw);
