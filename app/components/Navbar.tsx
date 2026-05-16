@@ -44,6 +44,14 @@ export default function Navbar({ currentPage }: NavbarProps) {
             Bazi Chart
           </Link>
           <Link
+            href="/chat"
+            className={`text-sm transition-colors ${
+              isActive('/chat') ? 'text-gold-primary' : 'text-text-tertiary hover:text-text-secondary'
+            }`}
+          >
+            Chat
+          </Link>
+          <Link
             href="/blog"
             className={`text-sm transition-colors ${
               isActive('/blog') ? 'text-gold-primary' : 'text-text-tertiary hover:text-text-secondary'
