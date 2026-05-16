@@ -16,6 +16,11 @@ export function getSupabaseClient(): SupabaseClient {
 
 // Server-side (API routes) — uses service role key, bypasses RLS
 export function getSupabaseAdmin(): SupabaseClient {
+  if (!supabaseUrl || !supabaseServiceRoleKey) {
+    throw new Error(
+      'Supabase config missing: set SUPABASE_SERVICE_ROLE_KEY in .env.local'
+    )
+  }
   return createClient(supabaseUrl, supabaseServiceRoleKey, {
     auth: { persistSession: false },
   })
