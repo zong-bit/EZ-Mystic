@@ -251,7 +251,8 @@ export default function StarBackground() {
         totalDist += Math.sqrt(dx * dx + dy * dy);
       }
       const avgDist = totalDist / starsRef.current.length;
-      if (avgDist < 50) {
+      const explodeThreshold = Math.max(width, height) * 0.5 * 0.1; // 1/10 of max radius
+      if (avgDist < explodeThreshold) {
         starPositionsRef.current = starsRef.current.map(s => ({ x: s.x, y: s.y }));
 
         const rayCount = 40 + Math.floor(Math.random() * 20);
@@ -474,14 +475,14 @@ export default function StarBackground() {
         const angle = Math.atan2(dy, dx);
         const maxR = Math.max(width, height) * 0.5;
 
-        // Spiral rotation + shrink
+        // Spiral rotation + shrink (linear, not exponential, so stars actually reach center)
         const rotationSpeed = 0.00004;
         const SHRINK_SPEED = 0.00002;
         const newAngle = angle + rotationSpeed * dt;
-        const newDist = dist * (1 - SHRINK_SPEED * dt);
+        const newDist = Math.max(0, dist * (1 - SHRINK_SPEED * dt));
 
-        // Tai chi influence: increases as star gets closer to center
-        const taiChiStrength = Math.max(0, 1 - newDist / (maxR * 0.5));
+        // Tai chi influence: starts at maxR*0.5, reaches max at maxR*0.33 (1/3)
+        const taiChiStrength = Math.max(0, Math.min(1, 1 - (newDist - maxR * 0.33) / (maxR * 0.5 - maxR * 0.33)));
         // Smooth easing for tai chi influence
         const easedTaiChi = taiChiStrength * taiChiStrength;
 
