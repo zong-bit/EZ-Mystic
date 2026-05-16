@@ -258,7 +258,7 @@ export default function StarBackground() {
     ctx.fillRect(0, 0, width, height);
 
     // --- Check explosion trigger (time-based: every 45s) ---
-    const CYCLE_DURATION = 120000; // 120s per reincarnation cycle
+    const CYCLE_DURATION = 180000; // 180s per reincarnation cycle
     const cycleTime = time - lastExplosionRef.current;
     if (!explosionRef.current.active && cycleTime > CYCLE_DURATION) {
       starPositionsRef.current = starsRef.current.map(s => ({ x: s.x, y: s.y }));
@@ -549,7 +549,7 @@ export default function StarBackground() {
 
           // Spiral rotation (same for all stars)
           const rotationSpeed = 0.00004;
-          const SHRINK_SPEED = 0.000004;  // 5x slower for tai chi visibility
+          const SHRINK_SPEED = 0.000012;  // balanced speed for timely tai chi formation
 
           // Density-based tai chi: extreme contrast
           // Dense (yang) regions: almost no shrink (stars pile up)
