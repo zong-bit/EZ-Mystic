@@ -60,6 +60,14 @@ export default function Navbar({ currentPage }: NavbarProps) {
             Blog
           </Link>
           <Link
+            href="/zen"
+            className={`text-sm transition-colors ${
+              isActive('/zen') ? 'text-gold-primary' : 'text-text-tertiary hover:text-text-secondary'
+            }`}
+          >
+            Zen
+          </Link>
+          <Link
             href="/pricing"
             className={`text-sm transition-colors ${
               isActive('/pricing') ? 'text-gold-primary' : 'text-text-tertiary hover:text-text-secondary'

@@ -15,16 +15,23 @@ interface Star {
   twinkleSpeed: number;
   phase: number;          // animation phase offset
   isBright: boolean;
+  _density?: number;      // runtime: tai chi density for color/brightness modulation
 }
 
 interface ExplosionState {
   active: boolean;
-  phase: 'flash' | 'expand' | 'recover';
+  phase: 'flash' | 'expand' | 'recover' | 'lightball';
   progress: number;       // 0-1 within phase
   time: number;           // ms since explosion started
   rays: { angle: number; length: number }[];
   particles: { x: number; y: number; vx: number; vy: number; alpha: number; size: number; life: number }[];
   shockwaveRings: { x: number; y: number; radius: number; alpha: number; speed: number }[];
+  lightBallTimer: number; // ms accumulated in light ball phase
+}
+
+interface LightBallState {
+  active: boolean;
+  timer: number;          // ms in light ball phase
 }
 
 const STAR_COUNT = 600;
@@ -44,17 +51,21 @@ function getTaiChiDensity(angle: number, normDist: number): number {
   const a = ((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
 
   // The tai chi S-curve: sin(a/2) gives the left-right division
-  // We want the "dark" side (more stars) on one half and "light" side (fewer stars) on the other
+  // Amplify contrast: wider range so dense vs sparse is much more obvious
   const sCurve = Math.sin(a * 0.5);
 
   // Near the center, emphasize the two "eyes" of the tai chi fish
   // The eyes are at the inner boundary of each fish head
-  const eyeInfluence = Math.exp(-normDist * normDist * 8) * 0.3;
+  // Eye positions: roughly at normDist ~0.15-0.25, at angles where sin(a/2) transitions
+  const eyeInfluence = Math.exp(-normDist * normDist * 12) * 0.5;
+  // Two eye points: cos(a) ~ 0 region (the inner boundaries)
+  const eyeAngle = Math.cos(a * 0.5);
+  const eyeBoost = eyeInfluence * (eyeAngle * eyeAngle);
 
   // Combine: the density varies sinusoidally around the circle
-  // Add a small radial dependency so the effect is stronger near center
+  // Amplify the sine wave to get stronger contrast (0.55 instead of 0.35)
   const radialMod = 1 - normDist * 0.3;
-  const density = 0.5 + sCurve * 0.35 * radialMod + eyeInfluence * Math.cos(a * 0.5);
+  const density = 0.5 + sCurve * 0.55 * radialMod + eyeBoost;
 
   return Math.max(0, Math.min(1, density));
 }
@@ -121,12 +132,33 @@ function drawParticleStar(
   star: Star,
   time: number,
 ): void {
-  const { x, y, size, glowRadius, rays, rayAngle, raySpeed, hue, alpha, phase, twinkleSpeed, isBright } = star;
+  const { x, y, size, glowRadius, rays, rayAngle, raySpeed, hue, alpha, phase, twinkleSpeed, isBright, _density } = star;
+
+  // Density-based brightness: dense regions (yang) are brighter
+  const density = _density ?? 0.5;
+  const densityAlpha = 0.4 + density * 0.6;  // density=0→0.4, density=1→1.0
+  const densityGlow = 0.7 + density * 0.3;    // density=0→0.7, density=1→1.0
+
+  // Density-based color: dense=golden/warm, sparse=cool blue
+  let displayHue = hue;
+  let displaySat = 80;
+  let displayLight = 75;
+  if (density > 0.6) {
+    // Dense (yang) region: golden/warm
+    displayHue = 40 + (density - 0.6) * 40;  // 40→56 gold
+    displaySat = 85 + (density - 0.6) * 10;   // more saturated
+    displayLight = 75 + (density - 0.6) * 15; // brighter
+  } else if (density < 0.4) {
+    // Sparse (yin) region: cool blue
+    displayHue = 210 + (0.4 - density) * 30;  // 210→216 blue
+    displaySat = 60 - (0.4 - density) * 20;    // less saturated
+    displayLight = 65 - (0.4 - density) * 15;  // dimmer
+  }
 
   // Twinkle: modulate alpha and glowRadius with sine wave
   const twinkle = Math.sin(time * twinkleSpeed + phase);
-  const currentAlpha = alpha * (0.4 + 0.6 * twinkle);
-  const currentGlow = glowRadius * (0.7 + 0.3 * twinkle);
+  const currentAlpha = alpha * densityAlpha * (0.4 + 0.6 * twinkle);
+  const currentGlow = glowRadius * densityGlow * (0.7 + 0.3 * twinkle);
 
   if (currentAlpha < 0.02) return;
 
@@ -134,16 +166,16 @@ function drawParticleStar(
   const glow = ctx.createRadialGradient(x, y, 0, x, y, currentGlow);
 
   if (isBright) {
-    glow.addColorStop(0, `hsla(${hue}, 90%, 85%, ${currentAlpha * 0.6})`);
-    glow.addColorStop(0.15, `hsla(${hue}, 85%, 75%, ${currentAlpha * 0.35})`);
-    glow.addColorStop(0.4, `hsla(${hue}, 80%, 65%, ${currentAlpha * 0.12})`);
-    glow.addColorStop(0.7, `hsla(${hue}, 75%, 55%, ${currentAlpha * 0.04})`);
-    glow.addColorStop(1, `hsla(${hue}, 70%, 50%, 0)`);
+    glow.addColorStop(0, `hsla(${displayHue}, ${displaySat}%, ${displayLight}%, ${currentAlpha * 0.6})`);
+    glow.addColorStop(0.15, `hsla(${displayHue}, ${displaySat - 5}%, ${displayLight - 10}%, ${currentAlpha * 0.35})`);
+    glow.addColorStop(0.4, `hsla(${displayHue}, ${displaySat - 10}%, ${displayLight - 20}%, ${currentAlpha * 0.12})`);
+    glow.addColorStop(0.7, `hsla(${displayHue}, ${displaySat - 15}%, ${displayLight - 30}%, ${currentAlpha * 0.04})`);
+    glow.addColorStop(1, `hsla(${displayHue}, ${displaySat - 20}%, ${displayLight - 35}%, 0)`);
   } else {
-    glow.addColorStop(0, `hsla(${hue}, 80%, 70%, ${currentAlpha * 0.25})`);
-    glow.addColorStop(0.3, `hsla(${hue}, 75%, 60%, ${currentAlpha * 0.1})`);
-    glow.addColorStop(0.6, `hsla(${hue}, 70%, 55%, ${currentAlpha * 0.03})`);
-    glow.addColorStop(1, `hsla(${hue}, 65%, 50%, 0)`);
+    glow.addColorStop(0, `hsla(${displayHue}, ${displaySat}%, ${displayLight}%, ${currentAlpha * 0.25})`);
+    glow.addColorStop(0.3, `hsla(${displayHue}, ${displaySat - 5}%, ${displayLight - 10}%, ${currentAlpha * 0.1})`);
+    glow.addColorStop(0.6, `hsla(${displayHue}, ${displaySat - 10}%, ${displayLight - 15}%, ${currentAlpha * 0.03})`);
+    glow.addColorStop(1, `hsla(${displayHue}, ${displaySat - 15}%, ${displayLight - 20}%, 0)`);
   }
 
   ctx.beginPath();
@@ -153,9 +185,9 @@ function drawParticleStar(
 
   // 2. Draw core bright point
   const coreGrad = ctx.createRadialGradient(x, y, 0, x, y, size * 1.5);
-  coreGrad.addColorStop(0, `hsla(${hue}, 60%, 95%, ${currentAlpha})`);
-  coreGrad.addColorStop(0.5, `hsla(${hue}, 70%, 80%, ${currentAlpha * 0.7})`);
-  coreGrad.addColorStop(1, `hsla(${hue}, 80%, 70%, 0)`);
+  coreGrad.addColorStop(0, `hsla(${displayHue}, 60%, 95%, ${currentAlpha})`);
+  coreGrad.addColorStop(0.5, `hsla(${displayHue}, 70%, 80%, ${currentAlpha * 0.7})`);
+  coreGrad.addColorStop(1, `hsla(${displayHue}, 80%, 70%, 0)`);
 
   ctx.beginPath();
   ctx.arc(x, y, size * 1.5, 0, Math.PI * 2);
@@ -178,9 +210,9 @@ function drawParticleStar(
       const sin = Math.sin(angle);
 
       const rayGrad = ctx.createLinearGradient(0, 0, cos * rayLen, sin * rayLen);
-      rayGrad.addColorStop(0, `hsla(${hue}, 80%, 85%, ${rayAlpha})`);
-      rayGrad.addColorStop(0.4, `hsla(${hue}, 75%, 75%, ${rayAlpha * 0.5})`);
-      rayGrad.addColorStop(1, `hsla(${hue}, 70%, 65%, 0)`);
+      rayGrad.addColorStop(0, `hsla(${displayHue}, 80%, 85%, ${rayAlpha})`);
+      rayGrad.addColorStop(0.4, `hsla(${displayHue}, 75%, 75%, ${rayAlpha * 0.5})`);
+      rayGrad.addColorStop(1, `hsla(${displayHue}, 70%, 65%, 0)`);
 
       ctx.beginPath();
       ctx.moveTo(0, 0);
@@ -200,7 +232,7 @@ export default function StarBackground() {
   const animRef = useRef<number>(0);
   const lastTimeRef = useRef<number>(0);
   const lastExplosionRef = useRef(0);
-  const explosionRef = useRef<ExplosionState>({ active: false, phase: 'flash', progress: 0, time: 0, rays: [], particles: [], shockwaveRings: [] });
+  const explosionRef = useRef<ExplosionState>({ active: false, phase: 'flash', progress: 0, time: 0, rays: [], particles: [], shockwaveRings: [], lightBallTimer: 0 });
   const starPositionsRef = useRef<{ x: number; y: number }[]>([]);
 
   const draw = useCallback((time: number) => {
@@ -268,7 +300,7 @@ export default function StarBackground() {
           speed: 2.5 + i * 0.5,
         }));
 
-        explosionRef.current = { active: true, phase: 'flash', progress: 0, time: 0, rays, particles, shockwaveRings };
+        explosionRef.current = { active: true, phase: 'flash', progress: 0, time: 0, rays, particles, shockwaveRings, lightBallTimer: 0 };
         lastExplosionRef.current = time;
       }
     }
@@ -451,37 +483,110 @@ export default function StarBackground() {
       // === NORMAL SPIRAL CONTRACTION WITH DENSITY-BASED TAI CHI ===
       const maxR = Math.max(width, height) * 0.5;
 
-      for (let i = 0; i < starsRef.current.length; i++) {
-        const s = starsRef.current[i];
-
+      // Check for light ball phase trigger
+      let totalDist = 0;
+      for (const s of starsRef.current) {
         const dx = s.x - cx;
         const dy = s.y - cy;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const angle = Math.atan2(dy, dx);
-        const normDist = dist / maxR;
+        totalDist += Math.sqrt(dx * dx + dy * dy);
+      }
+      const avgDist = totalDist / starsRef.current.length;
+      const lightBallThreshold = maxR * 0.15;
 
-        // Spiral rotation (same for all stars)
-        const rotationSpeed = 0.00004;
-        const SHRINK_SPEED = 0.00002;
+      let inLightBall = false;
+      if (avgDist < lightBallThreshold && !exp.active) {
+        inLightBall = true;
+        exp.phase = 'lightball';
+        exp.lightBallTimer += dt;
 
-        // Density-based tai chi: stars in dense regions shrink slower,
-        // so they accumulate and form the "dark" side with more stars.
-        // Stars in sparse regions shrink faster, passing through quickly.
-        const density = getTaiChiDensity(angle, normDist);
-        const adjustedShrink = SHRINK_SPEED * (1 + (1 - density) * 0.5);
+        // All stars converge to center, become brightest
+        for (const s of starsRef.current) {
+          s.x += (cx - s.x) * 0.05;
+          s.y += (cy - s.y) * 0.05;
+          s.alpha = Math.min(1, s.alpha + 0.02);
+          s.hue = 45 + Math.random() * 5; // all golden
+        }
 
-        const newAngle = angle + rotationSpeed * dt;
-        const newDist = Math.max(0, dist * (1 - adjustedShrink * dt));
+        // After 2 seconds, trigger explosion
+        if (exp.lightBallTimer > 2000) {
+          // Prepare explosion
+          const threshold = Math.max(width, height) * 0.5 * 0.1;
+          starPositionsRef.current = starsRef.current.map(s => ({ x: s.x, y: s.y }));
 
-        s.x = cx + Math.cos(newAngle) * newDist;
-        s.y = cy + Math.sin(newAngle) * newDist;
+          const rayCount = 40 + Math.floor(Math.random() * 20);
+          const rays = Array.from({ length: rayCount }, () => ({
+            angle: Math.random() * Math.PI * 2,
+            length: 0,
+          }));
 
-        // Reset star if too close to center (safety net)
-        if (newDist < 2) {
-          const resetAngle = Math.random() * Math.PI * 2;
-          const resetRadius = maxR;
-          s.x = cx + Math.cos(resetAngle) * resetRadius;
-          s.y = cy + Math.sin(resetAngle) * resetRadius;
+          const particleCount = 120 + Math.floor(Math.random() * 80);
+          const particles = Array.from({ length: particleCount }, () => {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 1 + Math.random() * 4;
+            return {
+              x: cx,
+              y: cy,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed,
+              alpha: 0.6 + Math.random() * 0.4,
+              size: 0.5 + Math.random() * 1.5,
+              life: 0.5 + Math.random() * 0.5,
+            };
+          });
+
+          const shockwaveRings = Array.from({ length: 3 }, (_, i) => ({
+            x: cx,
+            y: cy,
+            radius: 0,
+            alpha: 0.5 - i * 0.12,
+            speed: 2.5 + i * 0.5,
+          }));
+
+          explosionRef.current = { active: true, phase: 'flash', progress: 0, time: 0, rays, particles, shockwaveRings, lightBallTimer: 0 };
+          lastExplosionRef.current = time;
+        }
+      }
+
+      if (!inLightBall) {
+        for (let i = 0; i < starsRef.current.length; i++) {
+          const s = starsRef.current[i];
+
+          const dx = s.x - cx;
+          const dy = s.y - cy;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const angle = Math.atan2(dy, dx);
+          const normDist = dist / maxR;
+
+          // Spiral rotation (same for all stars)
+          const rotationSpeed = 0.00004;
+          const SHRINK_SPEED = 0.00002;
+
+          // Density-based tai chi: stars in dense regions shrink much slower,
+          // so they accumulate and form the "dark" side with more stars.
+          // Stars in sparse regions shrink much faster, passing through quickly.
+          const density = getTaiChiDensity(angle, normDist);
+          // density=1.0 → SHRINK_SPEED * 0.5 (very slow, stars accumulate)
+          // density=0.0 → SHRINK_SPEED * 1.0 (normal speed, stars pass through)
+          const adjustedShrink = SHRINK_SPEED * (0.5 + density * 0.5);
+
+          const newAngle = angle + rotationSpeed * dt;
+          const newDist = Math.max(0, dist * (1 - adjustedShrink * dt));
+
+          s.x = cx + Math.cos(newAngle) * newDist;
+          s.y = cy + Math.sin(newAngle) * newDist;
+
+          // Reset star if too close to center (safety net)
+          if (newDist < 2) {
+            const resetAngle = Math.random() * Math.PI * 2;
+            const resetRadius = maxR;
+            s.x = cx + Math.cos(resetAngle) * resetRadius;
+            s.y = cy + Math.sin(resetAngle) * resetRadius;
+          }
+
+          // Density-based brightness and color for tai chi visibility
+          // Dense regions (yang): brighter, golden/warm
+          // Sparse regions (yin): dimmer, cool blue
+          s._density = density; // store for rendering
         }
       }
     }
