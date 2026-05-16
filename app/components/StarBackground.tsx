@@ -163,6 +163,9 @@ export default function StarBackground() {
   const starsRef = useRef<Star[]>([]);
   const animRef = useRef<number>(0);
   const lastTimeRef = useRef<number>(0);
+  const explodingRef = useRef(false);
+  const explosionProgressRef = useRef(0);
+  const lastExplosionRef = useRef(0);
 
   const draw = useCallback((time: number) => {
     const canvas = canvasRef.current;
@@ -186,32 +189,75 @@ export default function StarBackground() {
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, width, height);
 
-    // Update and draw stars
-    const stars = starsRef.current;
-    for (let i = 0; i < stars.length; i++) {
-      const s = stars[i];
-
-      // Spiral rotation + shrink toward center
-      const dx = s.x - cx;
-      const dy = s.y - cy;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const angle = Math.atan2(dy, dx);
-      const rotationSpeed = 0.00004; // slow down 5x
-      const SHRINK_SPEED = 0.00002;
-      const newAngle = angle + rotationSpeed * dt;
-      const newDist = dist * (1 - SHRINK_SPEED * dt);
-
-      s.x = cx + Math.cos(newAngle) * newDist;
-      s.y = cy + Math.sin(newAngle) * newDist;
-
-      // Reset if too close to center
-      if (newDist < 2) {
-        const resetAngle = Math.random() * Math.PI * 2;
-        const resetRadius = Math.max(width, height) * 0.5;
-        s.x = cx + Math.cos(resetAngle) * resetRadius;
-        s.y = cy + Math.sin(resetAngle) * resetRadius;
+    // Check for explosion trigger (every ~30-60 seconds)
+    if (!explodingRef.current && (time - lastExplosionRef.current) > 30000 + Math.random() * 30000) {
+      let totalDist = 0;
+      for (const s of starsRef.current) {
+        const dx = s.x - cx;
+        const dy = s.y - cy;
+        totalDist += Math.sqrt(dx * dx + dy * dy);
       }
+      const avgDist = totalDist / starsRef.current.length;
+      if (avgDist < 50) {
+        explodingRef.current = true;
+        explosionProgressRef.current = 0;
+        lastExplosionRef.current = time;
+      }
+    }
 
+    // Handle explosion animation
+    if (explodingRef.current) {
+      explosionProgressRef.current += dt * 0.002; // ~0.5s explosion
+      if (explosionProgressRef.current < 1) {
+        // Explosion phase: stars fly outward from center
+        for (const s of starsRef.current) {
+          const dx = s.x - cx;
+          const dy = s.y - cy;
+          const angle = Math.atan2(dy, dx);
+          const t = explosionProgressRef.current;
+          // Quick outward burst
+          s.x = cx + Math.cos(angle) * (10 + t * (Math.max(width, height) * 0.5));
+          s.y = cy + Math.sin(angle) * (10 + t * (Math.max(width, height) * 0.5));
+          // Flash bright during explosion
+          s.alpha = 0.5 + t * 0.5;
+        }
+      } else {
+        // Explosion done: reset all stars to initial distribution
+        explodingRef.current = false;
+        explosionProgressRef.current = 0;
+        starsRef.current = createStars(window.innerWidth, window.innerHeight);
+      }
+    } else {
+      // Normal spiral shrink phase
+      for (let i = 0; i < starsRef.current.length; i++) {
+        const s = starsRef.current[i];
+
+        // Spiral rotation + shrink toward center
+        const dx = s.x - cx;
+        const dy = s.y - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const angle = Math.atan2(dy, dx);
+        const rotationSpeed = 0.00004;
+        const SHRINK_SPEED = 0.00002;
+        const newAngle = angle + rotationSpeed * dt;
+        const newDist = dist * (1 - SHRINK_SPEED * dt);
+
+        s.x = cx + Math.cos(newAngle) * newDist;
+        s.y = cy + Math.sin(newAngle) * newDist;
+
+        // Reset if too close to center
+        if (newDist < 2) {
+          const resetAngle = Math.random() * Math.PI * 2;
+          const resetRadius = Math.max(width, height) * 0.5;
+          s.x = cx + Math.cos(resetAngle) * resetRadius;
+          s.y = cy + Math.sin(resetAngle) * resetRadius;
+        }
+      }
+    }
+
+    // Draw all stars
+    for (let i = 0; i < starsRef.current.length; i++) {
+      const s = starsRef.current[i];
       const rx = s.x;
       const ry = s.y;
 

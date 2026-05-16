@@ -118,12 +118,19 @@ export default function ChatPage() {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
-  // Check server-side limit on mount
+  // Check server-side limit on mount with retry (session may not be ready yet)
   useEffect(() => {
-    const checkLimit = async () => {
+    const checkLimit = async (retries = 3) => {
       try {
         const supabase = getSupabaseClient()
         const { data: { session } } = await supabase.auth.getSession()
+
+        if (!session && retries > 0) {
+          // Session not ready yet, wait and retry
+          await new Promise(r => setTimeout(r, 500))
+          return checkLimit(retries - 1)
+        }
+
         const headers: Record<string, string> = {}
         if (session?.access_token) {
           headers['Authorization'] = `Bearer ${session.access_token}`
@@ -134,6 +141,10 @@ export default function ChatPage() {
         setRemaining(data.remaining)
       } catch (e) {
         console.error('Failed to check limit:', e)
+        if (retries > 0) {
+          await new Promise(r => setTimeout(r, 1000))
+          return checkLimit(retries - 1)
+        }
       }
     };
     checkLimit();
