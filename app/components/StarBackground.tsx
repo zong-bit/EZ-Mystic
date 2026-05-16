@@ -257,52 +257,44 @@ export default function StarBackground() {
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, width, height);
 
-    // --- Check explosion trigger ---
-    if (!explosionRef.current.active && (time - lastExplosionRef.current) > 30000 + Math.random() * 30000) {
-      let totalDist = 0;
-      for (const s of starsRef.current) {
-        const dx = s.x - cx;
-        const dy = s.y - cy;
-        totalDist += Math.sqrt(dx * dx + dy * dy);
-      }
-      const avgDist = totalDist / starsRef.current.length;
-      const explodeThreshold = Math.max(width, height) * 0.5 * 0.1; // 1/10 of max radius
-      if (avgDist < explodeThreshold) {
-        starPositionsRef.current = starsRef.current.map(s => ({ x: s.x, y: s.y }));
+    // --- Check explosion trigger (time-based: every 45s) ---
+    const CYCLE_DURATION = 45000; // 45s per reincarnation cycle
+    const cycleTime = time - lastExplosionRef.current;
+    if (!explosionRef.current.active && cycleTime > CYCLE_DURATION) {
+      starPositionsRef.current = starsRef.current.map(s => ({ x: s.x, y: s.y }));
 
-        const rayCount = 40 + Math.floor(Math.random() * 20);
-        const rays = Array.from({ length: rayCount }, () => ({
-          angle: Math.random() * Math.PI * 2,
-          length: 0,
-        }));
+      const rayCount = 40 + Math.floor(Math.random() * 20);
+      const rays = Array.from({ length: rayCount }, () => ({
+        angle: Math.random() * Math.PI * 2,
+        length: 0,
+      }));
 
-        const particleCount = 120 + Math.floor(Math.random() * 80);
-        const particles = Array.from({ length: particleCount }, () => {
-          const angle = Math.random() * Math.PI * 2;
-          const speed = 1 + Math.random() * 4;
-          return {
-            x: cx,
-            y: cy,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed,
-            alpha: 0.6 + Math.random() * 0.4,
-            size: 0.5 + Math.random() * 1.5,
-            life: 0.5 + Math.random() * 0.5,
-          };
-        });
-
-        // Shockwave rings (sine wave shape)
-        const shockwaveRings = Array.from({ length: 3 }, (_, i) => ({
+      const particleCount = 120 + Math.floor(Math.random() * 80);
+      const particles = Array.from({ length: particleCount }, () => {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 1 + Math.random() * 4;
+        return {
           x: cx,
           y: cy,
-          radius: 0,
-          alpha: 0.5 - i * 0.12,
-          speed: 2.5 + i * 0.5,
-        }));
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          alpha: 0.6 + Math.random() * 0.4,
+          size: 0.5 + Math.random() * 1.5,
+          life: 0.5 + Math.random() * 0.5,
+        };
+      });
 
-        explosionRef.current = { active: true, phase: 'flash', progress: 0, time: 0, rays, particles, shockwaveRings, lightBallTimer: 0 };
-        lastExplosionRef.current = time;
-      }
+      // Shockwave rings (sine wave shape)
+      const shockwaveRings = Array.from({ length: 3 }, (_, i) => ({
+        x: cx,
+        y: cy,
+        radius: 0,
+        alpha: 0.5 - i * 0.12,
+        speed: 2.5 + i * 0.5,
+      }));
+
+      explosionRef.current = { active: true, phase: 'flash', progress: 0, time: 0, rays, particles, shockwaveRings, lightBallTimer: 0 };
+      lastExplosionRef.current = time;
     }
 
     const exp = explosionRef.current;
@@ -483,7 +475,7 @@ export default function StarBackground() {
       // === NORMAL SPIRAL CONTRACTION WITH DENSITY-BASED TAI CHI ===
       const maxR = Math.max(width, height) * 0.5;
 
-      // Check for light ball phase trigger
+      // Light ball phase: when stars are very close to center
       let totalDist = 0;
       for (const s of starsRef.current) {
         const dx = s.x - cx;
@@ -507,10 +499,8 @@ export default function StarBackground() {
           s.hue = 45 + Math.random() * 5; // all golden
         }
 
-        // After 2 seconds, trigger explosion
+        // After 2 seconds in light ball, trigger explosion
         if (exp.lightBallTimer > 2000) {
-          // Prepare explosion
-          const threshold = Math.max(width, height) * 0.5 * 0.1;
           starPositionsRef.current = starsRef.current.map(s => ({ x: s.x, y: s.y }));
 
           const rayCount = 40 + Math.floor(Math.random() * 20);
@@ -559,15 +549,15 @@ export default function StarBackground() {
 
           // Spiral rotation (same for all stars)
           const rotationSpeed = 0.00004;
-          const SHRINK_SPEED = 0.00002;
+          const SHRINK_SPEED = 0.000004;  // 5x slower for tai chi visibility
 
-          // Density-based tai chi: stars in dense regions shrink much slower,
-          // so they accumulate and form the "dark" side with more stars.
-          // Stars in sparse regions shrink much faster, passing through quickly.
+          // Density-based tai chi: extreme contrast
+          // Dense (yang) regions: almost no shrink (stars pile up)
+          // Sparse (yin) regions: full shrink (stars pass through quickly)
           const density = getTaiChiDensity(angle, normDist);
-          // density=1.0 → SHRINK_SPEED * 0.5 (very slow, stars accumulate)
-          // density=0.0 → SHRINK_SPEED * 1.0 (normal speed, stars pass through)
-          const adjustedShrink = SHRINK_SPEED * (0.5 + density * 0.5);
+          // density=1.0 → SHRINK_SPEED * 0.05 (barely moves, stars accumulate)
+          // density=0.0 → SHRINK_SPEED * 1.0 (full speed, stars pass through)
+          const adjustedShrink = SHRINK_SPEED * (0.05 + density * 0.95);
 
           const newAngle = angle + rotationSpeed * dt;
           const newDist = Math.max(0, dist * (1 - adjustedShrink * dt));
