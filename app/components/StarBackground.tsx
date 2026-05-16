@@ -196,7 +196,7 @@ export default function StarBackground() {
       const dy = s.y - cy;
       const dist = Math.sqrt(dx * dx + dy * dy);
       const angle = Math.atan2(dy, dx);
-      const rotationSpeed = 0.0002;
+      const rotationSpeed = 0.00004; // slow down 5x
       const SHRINK_SPEED = 0.00002;
       const newAngle = angle + rotationSpeed * dt;
       const newDist = dist * (1 - SHRINK_SPEED * dt);
