@@ -35,7 +35,7 @@ interface LightBallState {
   timer: number;          // ms in light ball phase
 }
 
-const STAR_COUNT = 10000;
+const STAR_COUNT = 3000;
 
 /**
  * Draw a tai chi shape (filled regions) on the canvas.
@@ -600,7 +600,12 @@ export default function StarBackground() {
       if (maskAlpha > 0.01) {
         ctx.save();
         ctx.globalAlpha = maskAlpha;
-        ctx.fillStyle = '#0a0a2e'; // same as background
+        // Use same gradient as background for perfect blend
+        const maskGrad = ctx.createLinearGradient(0, 0, width, height);
+        maskGrad.addColorStop(0, '#0a0a2e');
+        maskGrad.addColorStop(0.5, '#0f0a28');
+        maskGrad.addColorStop(1, '#1a0a2e');
+        ctx.fillStyle = maskGrad;
         ctx.fillRect(0, 0, width, height);
 
         // Carve out tai chi shape from mask
