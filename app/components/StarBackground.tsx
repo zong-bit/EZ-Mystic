@@ -19,7 +19,6 @@ interface Star {
   taiChiTargetY: number;
   homeX: number;          // initial random position (reset after explosion)
   homeY: number;
-  _proximity?: number;    // runtime: proximity to tai chi target (0-1) for color modulation
 }
 
 interface ExplosionState {
@@ -44,47 +43,22 @@ const STAR_COUNT = 600;
  * Compute target positions on the tai chi boundary for each star.
  * Returns positions distributed along the S-curve boundary of the tai chi symbol.
  */
-function computeTaiChiTargets(cx: number, cy: number, maxR: number, count: number): { x: number; y: number }[] {
-  const targets: { x: number; y: number }[] = [];
-
-  // The tai chi boundary is defined by:
-  // Outer circle: radius maxR
-  // Left semicircle: radius maxR/2, centered at (cx - maxR/4, cy)
-  // Right semicircle: radius maxR/2, centered at (cx + maxR/4, cy)
-  // The S-curve is the boundary between yin and yang
-
-  for (let i = 0; i < count; i++) {
-    // Distribute along the S-curve using a parametric angle
-    const t = i / count; // 0-1 along the curve
-
-    // The S-curve can be parameterized by angle from 0 to PI
-    const a = t * Math.PI;
-
-    // Outer boundary (top half of tai chi)
-    let tx: number, ty: number;
-
-    if (t < 0.5) {
-      // Left fish head region (yang)
-      const localT = t * 2; // 0-1
-      const angle = Math.PI - localT * Math.PI; // PI to 0
-      const r = maxR / 2;
-      const center = { x: cx - maxR / 4, y: cy };
-      tx = center.x + Math.cos(angle) * r * 0.95 + (Math.random() - 0.5) * maxR * 0.03;
-      ty = center.y + Math.sin(angle) * r * 0.95 + (Math.random() - 0.5) * maxR * 0.03;
-    } else {
-      // Right fish head region (yin)
-      const localT = (t - 0.5) * 2; // 0-1
-      const angle = Math.PI * localT; // 0 to PI
-      const r = maxR / 2;
-      const center = { x: cx + maxR / 4, y: cy };
-      tx = center.x + Math.cos(angle) * r * 0.95 + (Math.random() - 0.5) * maxR * 0.03;
-      ty = center.y + Math.sin(angle) * r * 0.95 + (Math.random() - 0.5) * maxR * 0.03;
-    }
-
-    targets.push({ x: tx, y: ty });
+function getTaiChiScore(x: number, y: number, cx: number, cy: number, maxR: number, time: number): number {
+  const dx = x - cx;
+  const dy = y - cy;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  const angle = Math.atan2(dy, dx) + time * 0.00001;
+  const sCurve = (Math.sin(angle) + 1) / 2;
+  const eye1Dist = Math.sqrt((dx + maxR * 0.3) ** 2 + dy ** 2);
+  const eye1Effect = Math.exp(-(eye1Dist * eye1Dist) / ((maxR * 0.12) ** 2));
+  const eye2Dist = Math.sqrt((dx - maxR * 0.25) ** 2 + dy ** 2);
+  const eye2Effect = Math.exp(-(eye2Dist * eye2Dist) / ((maxR * 0.12) ** 2));
+  let score = sCurve - eye1Effect * 0.4 + eye2Effect * 0.4;
+  if (dist < maxR * 0.5) {
+    const centerFactor = 1 - dist / (maxR * 0.5);
+    score = 0.5 + (score - 0.5) * (0.5 + centerFactor * 0.5);
   }
-
-  return targets;
+  return Math.max(0, Math.min(1, score));
 }
 
 function createStars(width: number, height: number): Star[] {
@@ -92,9 +66,6 @@ function createStars(width: number, height: number): Star[] {
   const cx = width / 2;
   const cy = height / 2;
   const maxR = Math.max(width, height) * 0.5;
-
-  // Pre-compute tai chi target positions for each star
-  const taiChiTargets = computeTaiChiTargets(cx, cy, maxR, STAR_COUNT);
 
   for (let i = 0; i < STAR_COUNT; i++) {
     const angle = Math.random() * Math.PI * 2;
@@ -136,11 +107,11 @@ function createStars(width: number, height: number): Star[] {
         ? 0.0006 + Math.random() * 0.001   // 3-8s period
         : 0.002 + Math.random() * 0.006,   // 1-3s period
       phase: Math.random() * Math.PI * 2,
-      isBright,
-      taiChiTargetX: taiChiTargets[i].x,
-      taiChiTargetY: taiChiTargets[i].y,
       homeX: cx + Math.cos(angle) * radius,
       homeY: cy + Math.sin(angle) * radius,
+      isBright,
+      taiChiTargetX: cx,
+      taiChiTargetY: cy,
     });
   }
   return stars;
@@ -156,34 +127,23 @@ function drawParticleStar(
   star: Star,
   time: number,
 ): void {
-  const { x, y, size, glowRadius, rays, rayAngle, raySpeed, hue, alpha, phase, twinkleSpeed, isBright, _proximity } = star;
+  const { x, y, size, glowRadius, rays, rayAngle, raySpeed, hue, alpha, phase, twinkleSpeed, isBright } = star;
 
   // Proximity-based brightness: stars near their tai chi target are golden/bright
   // Stars far from target are dim/cool
-  const proximity = _proximity ?? 0;
-  const proximityAlpha = 0.3 + proximity * 0.7;  // proximity=0→0.3, proximity=1→1.0
-  const proximityGlow = 0.5 + proximity * 0.5;    // proximity=0→0.5, proximity=1→1.0
+  const maxR = Math.max(ctx.canvas.width, ctx.canvas.height) * 0.5;
+  const score = getTaiChiScore(x, y, cx, cy, maxR, time);
+  const displayGlowScale = 0.4 + score * 0.6;
+  const displayAlphaScale = 0.3 + score * 0.7;
 
-  // Proximity-based color: near=golden/warm, far=cool white
-  let displayHue = hue;
-  let displaySat = 80;
-  let displayLight = 75;
-  if (proximity > 0.3) {
-    // Near target: golden/warm
-    displayHue = 40 + (proximity - 0.3) * 40;  // 40→68 gold
-    displaySat = 85 + (proximity - 0.3) * 10;   // more saturated
-    displayLight = 75 + (proximity - 0.3) * 20; // brighter
-  } else {
-    // Far from target: cool white
-    displayHue = hue - (1 - proximity) * 30;
-    displaySat = 80 - (1 - proximity) * 20;
-    displayLight = 75 - (1 - proximity) * 15;
-  }
+  let displayHue = 40 + score * 30;
+  let displaySat = 60 + score * 30;
+  let displayLight = 50 + score * 35;
 
   // Twinkle: modulate alpha and glowRadius with sine wave
   const twinkle = Math.sin(time * twinkleSpeed + phase);
-  const currentAlpha = alpha * proximityAlpha * (0.4 + 0.6 * twinkle);
-  const currentGlow = glowRadius * proximityGlow * (0.7 + 0.3 * twinkle);
+  const currentAlpha = alpha * displayAlphaScale * (0.4 + 0.6 * twinkle);
+  const currentGlow = glowRadius * displayGlowScale * (0.7 + 0.3 * twinkle);
 
   if (currentAlpha < 0.02) return;
 
@@ -599,8 +559,8 @@ export default function StarBackground() {
           }
 
           // Compute proximity to tai chi target for color modulation
-          const targetDist = Math.sqrt((s.x - s.taiChiTargetX) ** 2 + (s.y - s.taiChiTargetY) ** 2);
-          s._proximity = Math.max(0, 1 - targetDist / (maxR * 0.3)); // 0-1
+
+
         }
       }
     }
