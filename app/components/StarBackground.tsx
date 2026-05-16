@@ -35,7 +35,7 @@ interface LightBallState {
   timer: number;          // ms in light ball phase
 }
 
-const STAR_COUNT = 1500;
+const STAR_COUNT = 800;
 
 /**
  * Draw a tai chi shape (filled) for destination-out mask carving.
@@ -52,28 +52,12 @@ function drawTaiChiShape(
   ctx.translate(cx, cy);
   ctx.rotate(rotation);
 
-  // Outer circle (the full tai chi boundary)
+  // All in one path for destination-out compatibility
   ctx.beginPath();
   ctx.arc(0, 0, radius, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Left half (yang - the white/positive part)
-  ctx.beginPath();
   ctx.arc(-radius / 2, 0, radius / 2, -Math.PI / 2, Math.PI / 2);
-  ctx.fill();
-
-  // Right half (yin - the black/negative part)
-  ctx.beginPath();
   ctx.arc(radius / 2, 0, radius / 2, Math.PI / 2, -Math.PI / 2);
-  ctx.fill();
-
-  // Left fish eye (small dot inside yang)
-  ctx.beginPath();
   ctx.arc(-radius / 2, 0, radius / 6, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Right fish eye (small dot inside yin)
-  ctx.beginPath();
   ctx.arc(radius / 2, 0, radius / 6, 0, Math.PI * 2);
   ctx.fill();
 
