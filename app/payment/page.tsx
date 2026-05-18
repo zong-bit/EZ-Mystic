@@ -28,7 +28,7 @@ function PaymentContent() {
           {/* Pro Plan */}
           <div className="border border-gold-primary/30 rounded-lg p-6 flex flex-col bg-gold-primary/[0.04]">
             <div className="text-gold-primary text-sm uppercase tracking-wider mb-2">Pro</div>
-            <div className="font-display text-4xl font-bold text-gold-primary mb-1">$14<span className="text-lg text-text-secondary">.99</span></div>
+            <div className="font-display text-4xl font-bold text-gold-primary mb-1">$9<span className="text-lg text-text-secondary">.99</span></div>
             <p className="text-text-tertiary text-xs mb-4">Monthly subscription</p>
 
             <ul className="text-sm text-text-secondary space-y-2 mb-6 flex-grow">
@@ -60,7 +60,7 @@ function PaymentContent() {
           {/* Premium Plan */}
           <div className="border border-gold-primary/30 rounded-lg p-6 flex flex-col bg-gold-primary/[0.04]">
             <div className="text-gold-primary text-sm uppercase tracking-wider mb-2">Premium</div>
-            <div className="font-display text-4xl font-bold text-gold-primary mb-1">$9<span className="text-lg text-text-secondary">.99</span></div>
+            <div className="font-display text-4xl font-bold text-gold-primary mb-1">$29<span className="text-lg text-text-secondary">.99</span></div>
             <p className="text-text-tertiary text-xs mb-4">One-time payment</p>
 
             <ul className="text-sm text-text-secondary space-y-2 mb-6 flex-grow">

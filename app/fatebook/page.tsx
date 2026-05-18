@@ -219,7 +219,7 @@ function FateBookContent() {
                 <Link href="/bazi" className="text-text-secondary hover:text-text-primary transition-colors text-sm">🔄 New Chart</Link>
                 <div className="flex items-center gap-4">
                   <button onClick={handleDownloadPDF} disabled={downloading} className="btn-primary text-sm" style={{ padding: '10px 24px', fontSize: '14px' }}>
-                    {downloading ? '📥 Generating...' : '📥 Download Destiny Book · $9.99'}
+                    {downloading ? '📥 Generating...' : '📥 Download Destiny Book · $29.99'}
                   </button>
                 </div>
               </div>

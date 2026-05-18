@@ -64,7 +64,7 @@ export default function PricingPage() {
             </div>
             <span className="text-gold-primary text-sm uppercase tracking-wider mt-2">Pro</span>
             <div className="my-4">
-              <span className="font-display text-5xl font-bold text-gold-primary">$14</span>
+              <span className="font-display text-5xl font-bold text-gold-primary">$9</span>
               <span className="text-text-secondary">.99</span>
               <span className="text-text-tertiary text-sm ml-1">/month</span>
             </div>
@@ -100,7 +100,7 @@ export default function PricingPage() {
           <div className="glass-card p-8 flex flex-col">
             <span className="text-text-tertiary text-sm uppercase tracking-wider">Premium · Lifetime</span>
             <div className="my-4">
-              <span className="font-display text-5xl font-bold text-text-primary">$9</span>
+              <span className="font-display text-5xl font-bold text-text-primary">$29</span>
               <span className="text-text-secondary">.99</span>
               <span className="text-text-tertiary text-sm ml-1">one-time</span>
             </div>
