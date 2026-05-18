@@ -1,0 +1,266 @@
+name: "bornchart.blog SEO文章批量生成"
+description: "为bornchart.app生成3篇SEO优化的英文八字博客文章"
+
+agents_dir: "agency-agents-zh"
+
+llm:
+  provider: deepseek
+  model: deepseek-chat
+  max_tokens: 4096
+  timeout: 300000
+  retry: 2
+
+concurrency: 3
+
+steps:
+  - id: research_keywords
+    role: "marketing/marketing-seo-specialist"
+    name: "SEO研究员"
+    emoji: "🔍"
+    task: |
+      你是一位资深SEO研究员。请执行以下任务：
+
+      1. 对 "free bazi reading", "chinese astrology career", "bazi compatibility" 这三个目标关键词进行LSI关键词研究。
+      2. 输出每个目标关键词对应的8-12个LSI关键词/长尾关键词。
+      3. 输出每篇文章的标题、meta description（不超过160字符）、slug。
+      4. 输出每篇文章建议的H2和H3大纲结构（至少5个H2）。
+
+      网站：bornchart.app (AI-powered Chinese Bazi解读工具)
+      现有9篇博客文章，需保持风格一致。
+
+      格式要求：
+      ## 文章1: [英文标题]
+      - Slug: [slug格式]
+      - Meta Description: [不超过160字符]
+      - LSI关键词: [列表]
+      - 文章大纲:
+        ## H2标题
+        ### H3标题（可选）
+        ...
+
+      ## 文章2: [英文标题]
+      ...
+
+      ## 文章3: [英文标题]
+      ...
+
+      文章主题：
+      1. 'How to Read Your Bazi Chart for Career Guidance' - 聚焦bazi career, 10 gods, day master
+      2. 'Bazi Love Compatibility: Find Your Perfect Match' - 聚焦bazi compatibility, relationship, marriage
+      3. 'Free Bazi Reading vs Paid: What Do You Really Get?' - 聚焦free bazi reading对比，bornchart价值主张
+    output: seo_research
+
+  - id: write_article_1
+    role: "marketing/marketing-content-creator"
+    name: "SEO内容作者"
+    emoji: "✍️"
+    task: |
+      你是一位资深SEO内容作者，专门为bornchart.app（AI-powered Chinese Bazi解读工具）撰写高质量博客文章。
+
+      使用以下研究数据编写文章：
+      {{seo_research}}
+
+      文章主题：'How to Read Your Bazi Chart for Career Guidance'
+
+      要求：
+      - 标题包含关键词（如"bazi career"，"chinese astrology career"）
+      - 正文中自然融入LSI关键词
+      - 字数：1500-2000字（英文）
+      - 内容必须专业、有价值，展示对八字命理的真实理解
+      - 文章开头要有hook，吸引读者继续阅读
+      - 适当内部链接到bornchart.app的产品页面
+      - 保持信息丰富但通俗易懂
+
+      输出完整文章，包含frontmatter：
+      ---
+      title: "How to Read Your Bazi Chart for Career Guidance"
+      excerpt: "简短的文章摘要，不超过160字符"
+      date: "2024-05-20"
+      keywords: ["bazi career", "free bazi reading", ...]
+      category: "Career"
+      ---
+
+      [正文内容...]
+    depends_on: [research_keywords]
+    output: article_1_draft
+
+  - id: write_article_2
+    role: "marketing/marketing-content-creator"
+    name: "SEO内容作者"
+    emoji: "✍️"
+    task: |
+      你是一位资深SEO内容作者，专门为bornchart.app（AI-powered Chinese Bazi解读工具）撰写高质量博客文章。
+
+      使用以下研究数据编写文章：
+      {{seo_research}}
+
+      文章主题：'Bazi Love Compatibility: Find Your Perfect Match'
+
+      要求：
+      - 标题包含关键词（如"bazi compatibility"，"chinese astrology love"）
+      - 正文中自然融入LSI关键词
+      - 字数：1500-2000字（英文）
+      - 内容必须专业、有价值，展示对八字合婚的真实理解
+      - 解释如何通过日柱、五行相生相克判断感情契合度
+      - 适当内部链接到bornchart.app的产品页面
+      - 保持信息丰富但通俗易懂
+
+      输出完整文章，包含frontmatter：
+      ---
+      title: "Bazi Love Compatibility: Find Your Perfect Match"
+      excerpt: "简短的文章摘要，不超过160字符"
+      date: "2024-05-20"
+      keywords: ["bazi compatibility", "free bazi reading", ...]
+      category: "Compatibility"
+      ---
+
+      [正文内容...]
+    depends_on: [research_keywords]
+    output: article_2_draft
+
+  - id: write_article_3
+    role: "marketing/marketing-content-creator"
+    name: "SEO内容作者"
+    emoji: "✍️"
+    task: |
+      你是一位资深SEO内容作者，专门为bornchart.app（AI-powered Chinese Bazi解读工具）撰写高质量博客文章。
+
+      使用以下研究数据编写文章：
+      {{seo_research}}
+
+      文章主题：'Free Bazi Reading vs Paid: What Do You Really Get?'
+
+      要求：
+      - 标题包含关键词（如"free bazi reading"，"bazi reading online"）
+      - 正文中自然融入LSI关键词
+      - 字数：1500-2000字（英文）
+      - 内容必须专业、有价值，诚实对比免费八字排盘和付费解读的差异
+      - 强调bornchart.app AI解读的价值：免费获得专业级解读
+      - 解释免费工具能做什么、不能做什么
+      - 适当内部链接到bornchart.app的产品页面
+      - 保持信息丰富但通俗易懂
+
+      输出完整文章，包含frontmatter：
+      ---
+      title: "Free Bazi Reading vs Paid: What Do You Really Get?"
+      excerpt: "简短的文章摘要，不超过160字符"
+      date: "2024-05-20"
+      keywords: ["free bazi reading", "chinese astrology career", ...]
+      category: "Resources"
+      ---
+
+      [正文内容...]
+    depends_on: [research_keywords]
+    output: article_3_draft
+
+  - id: seo_audit_1
+    role: "marketing/marketing-seo-specialist"
+    name: "SEO审核官"
+    emoji: "✅"
+    task: |
+      你是一位SEO审核专家。请审核以下文章是否符合SEO最佳实践。
+
+      文章内容：
+      {{article_1_draft}}
+
+      审核要点：
+      1. 主关键词是否在标题、H1、前100字中出现
+      2. LSI关键词是否自然分布
+      3. 标题标签优化（是否包含关键词，是否吸引点击）
+      4. meta description是否在160字符内且包含关键词
+      5. 内容长度是否在1500-2000字
+      6. 内部链接建议
+      7. 可读性建议
+
+      输出审核报告，然后直接输出经过你优化后的最终版本文章（包含frontmatter）。
+      优化版本必须保留原始核心内容，只改进SEO相关部分。
+    depends_on: [write_article_1]
+    output: article_1_final
+
+  - id: seo_audit_2
+    role: "marketing/marketing-seo-specialist"
+    name: "SEO审核官"
+    emoji: "✅"
+    task: |
+      你是一位SEO审核专家。请审核以下文章是否符合SEO最佳实践。
+
+      文章内容：
+      {{article_2_draft}}
+
+      审核要点：
+      1. 主关键词是否在标题、H1、前100字中出现
+      2. LSI关键词是否自然分布
+      3. 标题标签优化（是否包含关键词，是否吸引点击）
+      4. meta description是否在160字符内且包含关键词
+      5. 内容长度是否在1500-2000字
+      6. 内部链接建议
+      7. 可读性建议
+
+      输出审核报告，然后直接输出经过你优化后的最终版本文章（包含frontmatter）。
+      优化版本必须保留原始核心内容，只改进SEO相关部分。
+    depends_on: [write_article_2]
+    output: article_2_final
+
+  - id: seo_audit_3
+    role: "marketing/marketing-seo-specialist"
+    name: "SEO审核官"
+    emoji: "✅"
+    task: |
+      你是一位SEO审核专家。请审核以下文章是否符合SEO最佳实践。
+
+      文章内容：
+      {{article_3_draft}}
+
+      审核要点：
+      1. 主关键词是否在标题、H1、前100字中出现
+      2. LSI关键词是否自然分布
+      3. 标题标签优化（是否包含关键词，是否吸引点击）
+      4. meta description是否在160字符内且包含关键词
+      5. 内容长度是否在1500-2000字
+      6. 内部链接建议
+      7. 可读性建议
+
+      输出审核报告，然后直接输出经过你优化后的最终版本文章（包含frontmatter）。
+      优化版本必须保留原始核心内容，只改进SEO相关部分。
+    depends_on: [write_article_3]
+    output: article_3_final
+
+  - id: generate_markdown_files
+    role: "engineering/engineering-technical-writer"
+    name: "技术文档作者"
+    emoji: "📁"
+    task: |
+      你是一位技术文档作者。请将以下3篇SEO优化后的文章转换为Markdown文件。
+
+      文章1：
+      {{article_1_final}}
+
+      文章2：
+      {{article_2_final}}
+
+      文章3：
+      {{article_3_final}}
+
+      要求：
+      1. 每篇文章保存为单独文件，存放在 content/blog/ 目录
+      2. 文件名使用slug格式（例如：how-to-read-your-bazi-chart-for-career-guidance.md）
+      3. 确保frontmatter使用---包裹且格式正确（YAML格式）
+      4. 正文使用标准Markdown格式
+
+      输出格式示例（每个文件独立输出）：
+      ===== content/blog/[slug].md =====
+      ---
+      title: "..."
+      excerpt: "..."
+      date: "2024-05-20"
+      keywords: ["...", "..."]
+      category: "..."
+      ---
+      
+      # 标题
+      
+      [正文Markdown内容...]
+
+      请严格按此格式输出三个文件，文件之间用 ===== 分隔。
+    depends_on: [seo_audit_1, seo_audit_2, seo_audit_3]
+    output: final_markdown_files

@@ -1,0 +1,116 @@
+{
+  "name": "bornchart.blog SEO文章批量生成",
+  "success": true,
+  "totalDuration": "177.7s",
+  "totalTokens": {
+    "input": 66360,
+    "output": 29982
+  },
+  "inputs": {},
+  "steps": [
+    {
+      "id": "research_keywords",
+      "role": "marketing/marketing-seo-specialist",
+      "agentName": "SEO研究员",
+      "agentEmoji": "🔍",
+      "status": "completed",
+      "output_var": "seo_research",
+      "duration": "29.0s",
+      "tokens": {
+        "input": 6008,
+        "output": 2036
+      }
+    },
+    {
+      "id": "write_article_1",
+      "role": "marketing/marketing-content-creator",
+      "agentName": "SEO内容作者",
+      "agentEmoji": "✍️",
+      "status": "completed",
+      "output_var": "article_1_draft",
+      "duration": "62.5s",
+      "tokens": {
+        "input": 4716,
+        "output": 2728
+      }
+    },
+    {
+      "id": "write_article_2",
+      "role": "marketing/marketing-content-creator",
+      "agentName": "SEO内容作者",
+      "agentEmoji": "✍️",
+      "status": "completed",
+      "output_var": "article_2_draft",
+      "duration": "62.5s",
+      "tokens": {
+        "input": 4730,
+        "output": 3800
+      }
+    },
+    {
+      "id": "write_article_3",
+      "role": "marketing/marketing-content-creator",
+      "agentName": "SEO内容作者",
+      "agentEmoji": "✍️",
+      "status": "completed",
+      "output_var": "article_3_draft",
+      "duration": "62.5s",
+      "tokens": {
+        "input": 4761,
+        "output": 2152
+      }
+    },
+    {
+      "id": "seo_audit_1",
+      "role": "marketing/marketing-seo-specialist",
+      "agentName": "SEO审核官",
+      "agentEmoji": "✅",
+      "status": "completed",
+      "output_var": "article_1_final",
+      "duration": "55.1s",
+      "tokens": {
+        "input": 8591,
+        "output": 4471
+      }
+    },
+    {
+      "id": "seo_audit_2",
+      "role": "marketing/marketing-seo-specialist",
+      "agentName": "SEO审核官",
+      "agentEmoji": "✅",
+      "status": "completed",
+      "output_var": "article_2_final",
+      "duration": "55.1s",
+      "tokens": {
+        "input": 9663,
+        "output": 4999
+      }
+    },
+    {
+      "id": "seo_audit_3",
+      "role": "marketing/marketing-seo-specialist",
+      "agentName": "SEO审核官",
+      "agentEmoji": "✅",
+      "status": "completed",
+      "output_var": "article_3_final",
+      "duration": "55.1s",
+      "tokens": {
+        "input": 8016,
+        "output": 5141
+      }
+    },
+    {
+      "id": "generate_markdown_files",
+      "role": "engineering/engineering-technical-writer",
+      "agentName": "技术文档作者",
+      "agentEmoji": "📁",
+      "status": "completed",
+      "output_var": "final_markdown_files",
+      "duration": "31.0s",
+      "tokens": {
+        "input": 19875,
+        "output": 4655
+      }
+    }
+  ]
+}
