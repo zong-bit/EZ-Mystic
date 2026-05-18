@@ -1,7 +1,5 @@
 'use client';
 
-'use client';
-
 import Link from 'next/link';
 import { useAuth } from './auth/auth-context';
 
@@ -18,29 +16,47 @@ export default function HomePage() {
 
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
           <div className="mb-6">
-            <span className="text-gold-primary text-lg font-display tracking-widest">✦ Eastern Wisdom × AI Innovation ✦</span>
+            <span className="text-gold-primary text-lg font-display tracking-widest">✦ Free Bazi Calculator · AI-Powered Chinese Astrology ✦</span>
           </div>
 
           <h1 className="font-display font-bold text-5xl md:text-7xl mb-6 leading-tight text-gold-glow">
-            Discover Your
+            Free Bazi Calculator &
             <br />
             <span className="bg-gradient-to-r from-gold-primary via-gold-light to-gold-primary bg-clip-text text-transparent">
-              Destiny Code
+              Chinese Astrology Reading
             </span>
           </h1>
 
-          <p className="text-text-secondary text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
-            Precise Bazi Charting · AI Deep Interpretation · Complete Destiny Book
+          <p className="text-text-secondary text-lg md:text-xl mb-6 max-w-2xl mx-auto leading-relaxed">
+            Calculate your BaZi (Four Pillars of Destiny) chart instantly — free, accurate, and AI-powered.
             <br />
             <span className="text-text-tertiary text-base">Millennia of Eastern wisdom, revealed by artificial intelligence</span>
           </p>
 
+          {/* Social proof */}
+          <div className="flex items-center justify-center gap-6 mb-8 text-text-tertiary text-sm">
+            <div className="flex items-center gap-1">
+              <span className="text-gold-primary">★★★★★</span>
+              <span className="text-text-secondary">4.8/5</span>
+            </div>
+            <span className="text-text-tertiary/50">·</span>
+            <div className="flex items-center gap-1">
+              <span>📊</span>
+              <span>10,000+ charts generated</span>
+            </div>
+            <span className="text-text-tertiary/50">·</span>
+            <div className="flex items-center gap-1">
+              <span>🌍</span>
+              <span>50+ countries</span>
+            </div>
+          </div>
+
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/bazi" className="btn-primary glow-pulse text-lg px-10 py-4">
-              ✨ Free Chart Reading
+            <Link href="/bazi" className="btn-primary glow-pulse text-lg px-12 py-4">
+              ✨ Get Your Free Bazi Chart
             </Link>
-            <Link href="/bazi" className="glass px-8 py-4 text-text-secondary hover:text-text-primary transition-colors text-lg">
-              Learn More →
+            <Link href="/pricing" className="glass px-8 py-4 text-text-secondary hover:text-text-primary transition-colors text-lg">
+              View Pricing →
             </Link>
           </div>
 
@@ -188,15 +204,15 @@ export default function HomePage() {
           </div>
 
           <p className="text-center text-text-tertiary text-xs mt-12">
-            Secure payment via Paddle · 14-day money-back guarantee
+            Secure payment via Gumroad · 14-day money-back guarantee
           </p>
         </div>
       </section>
 
-      {/* Why FateWise */}
+      {/* Why EZ-Mystic */}
       <section className="py-24 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="font-display text-3xl font-bold text-center mb-16">Why FateWise</h2>
+          <h2 className="font-display text-3xl font-bold text-center mb-16">Why EZ-Mystic</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="text-center">
               <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gold-primary/10 flex items-center justify-center">
@@ -243,10 +259,10 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <span className="text-gold-primary text-lg">✦</span>
-            <span className="font-display font-semibold">FateWise</span>
+            <span className="font-display font-semibold">EZ-Mystic</span>
           </div>
           <p className="text-text-tertiary text-sm mb-2">
-            © 2026 ez-mystic · FateWise. All rights reserved.
+            © 2026 EZ-Mystic. All rights reserved.
           </p>
           <p className="text-text-muted text-xs">
             Disclaimer: The content on this website is for entertainment and educational purposes only and does not constitute advice for life decisions.

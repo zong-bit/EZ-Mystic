@@ -21,8 +21,8 @@ interface PlanInfo {
 const PLANS: Record<string, PlanInfo> = {
   pro: {
     name: 'Pro',
-    price: '$9',
-    priceFull: '$9.99',
+    price: '$14',
+    priceFull: '$14.99',
     subtitle: 'Monthly subscription',
     features: [
       'Full AI deep interpretation (career, wealth, love)',
@@ -35,9 +35,9 @@ const PLANS: Record<string, PlanInfo> = {
   },
   premium: {
     name: 'Premium',
-    price: '$29',
-    priceFull: '$29.99',
-    subtitle: 'One-time payment',
+    price: '$9',
+    priceFull: '$9.99',
+    subtitle: 'One-time payment · Lifetime access',
     features: [
       'Everything in Pro',
       'Yearly forecast report',

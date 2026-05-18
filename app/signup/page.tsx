@@ -41,7 +41,7 @@ export default function SignupPage() {
 
       if (data.session) {
         // Auto-login if session returned (email confirmation disabled)
-        router.push('/dashboard');
+        router.push('/bazi');
         router.refresh();
       } else {
         // Email confirmation required

@@ -64,10 +64,11 @@ export default function PricingPage() {
             </div>
             <span className="text-gold-primary text-sm uppercase tracking-wider mt-2">Pro</span>
             <div className="my-4">
-              <span className="font-display text-5xl font-bold text-gold-primary">$9</span>
+              <span className="font-display text-5xl font-bold text-gold-primary">$14</span>
               <span className="text-text-secondary">.99</span>
+              <span className="text-text-tertiary text-sm ml-1">/month</span>
             </div>
-            <p className="text-text-secondary text-sm mb-6">Your complete destiny profile</p>
+            <p className="text-text-secondary text-sm mb-6">Your complete destiny profile — renew monthly</p>
             <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
               <li className="flex items-start gap-2">
                 <span className="text-gold-primary">✓</span>
@@ -97,12 +98,13 @@ export default function PricingPage() {
 
           {/* Premium */}
           <div className="glass-card p-8 flex flex-col">
-            <span className="text-text-tertiary text-sm uppercase tracking-wider">Premium</span>
+            <span className="text-text-tertiary text-sm uppercase tracking-wider">Premium · Lifetime</span>
             <div className="my-4">
-              <span className="font-display text-5xl font-bold text-text-primary">$29</span>
+              <span className="font-display text-5xl font-bold text-text-primary">$9</span>
               <span className="text-text-secondary">.99</span>
+              <span className="text-text-tertiary text-sm ml-1">one-time</span>
             </div>
-            <p className="text-text-secondary text-sm mb-6">The ultimate destiny toolkit</p>
+            <p className="text-text-secondary text-sm mb-6">Everything in Pro + extras — pay once, keep forever</p>
             <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
               <li className="flex items-start gap-2">
                 <span className="text-gold-primary">✓</span>

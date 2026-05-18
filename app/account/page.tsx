@@ -157,10 +157,29 @@ export default function AccountPage() {
         {/* Welcome */}
         <div className="mb-8 page-enter">
           <h1 className="font-display text-2xl font-bold text-text-primary">
-            Welcome{profile?.name ? `, ${profile.name}` : ''}!
+            Welcome{profile?.name ? `, ${profile.name}` : ''}! 🔮
           </h1>
           <p className="text-text-secondary text-sm mt-1">Manage your account and usage</p>
         </div>
+
+        {/* First-time guide */}
+        {!subscription && (
+          <div className="glass-card p-8 mb-6 border-gold-primary/30 page-enter">
+            <div className="text-center">
+              <span className="text-3xl mb-3 block">✨</span>
+              <h2 className="font-display text-xl font-bold text-gold-primary mb-2">First time here?</h2>
+              <p className="text-text-secondary text-sm mb-4">
+                Discover what your birth time reveals about your destiny. Start with a free Bazi chart reading!
+              </p>
+              <Link href="/bazi" className="btn-primary inline-block px-8 py-3">
+                ✨ Try Your Free Bazi Reading
+              </Link>
+              <p className="text-text-tertiary text-xs mt-3">
+                No credit card required · Takes 30 seconds
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Plan Card */}
         <div className="glass-card p-6 mb-6 page-enter">
