@@ -7,8 +7,8 @@ const GUMROAD_MONTHLY = 'https://selinazw.gumroad.com/l/lcrujk';
 const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/gebxj';
 
 // Paddle checkout URLs (update after creating in Paddle dashboard)
-const PADDLE_CHECKOUT_PRO = 'https://check.paddle.com/checkout/YOUR_PRO_LINK';
-const PADDLE_CHECKOUT_PREMIUM = 'https://check.paddle.com/checkout/YOUR_PREMIUM_LINK';
+const PADDLE_CHECKOUT_PRO = 'https://checkout.paddle.com/checkout/price/pri_01krwnhrp61mddw9hb4rj7k40b';
+const PADDLE_CHECKOUT_PREMIUM = 'https://checkout.paddle.com/checkout/price/pri_01krwnhv91ve8zd3t49kd0bysb';
 
 export default function PricingPage() {
   return (

@@ -12,8 +12,8 @@ const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/gebxj';
 const PADDLE_PRO_PRICE_ID = 'pri_01krwj2267cjbr45n40f3aj3vr';
 const PADDLE_PREMIUM_PRICE_ID = 'pri_01krwj29wge21qkx8yfe9re6vy';
 // TODO: Replace with actual Paddle checkout URLs from dashboard
-const PADDLE_CHECKOUT_PRO = 'https://check.paddle.com/checkout/YOUR_PRO_LINK';
-const PADDLE_CHECKOUT_PREMIUM = 'https://check.paddle.com/checkout/YOUR_PREMIUM_LINK';
+const PADDLE_CHECKOUT_PRO = 'https://checkout.paddle.com/checkout/price/pri_01krwnhrp61mddw9hb4rj7k40b';
+const PADDLE_CHECKOUT_PREMIUM = 'https://checkout.paddle.com/checkout/price/pri_01krwnhv91ve8zd3t49kd0bysb';
 
 interface PlanInfo {
   name: string;
