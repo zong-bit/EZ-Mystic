@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'FateWise' }],
   creator: 'FateWise',
   publisher: 'FateWise',
-  metadataBase: new URL('https://fatewise.app'),
+  metadataBase: new URL('https://bornchart.app'),
   alternates: {
     canonical: '/',
   },
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     title: 'FateWise — Online Bazi Chart · AI Destiny Reading',
     description:
       'Precise Bazi charting, AI deep interpretation, complete Destiny Book PDF reports. Based on true solar time correction, millennia of Eastern wisdom revealed by AI.',
-    url: 'https://fatewise.app',
+    url: 'https://bornchart.app',
     siteName: 'FateWise',
     type: 'website',
     locale: 'en_US',

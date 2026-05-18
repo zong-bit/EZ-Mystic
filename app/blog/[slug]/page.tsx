@@ -207,7 +207,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 
   const { post } = result;
   const keywords = post.keywords ? post.keywords.split(',').map(k => k.trim()) : [];
-  const canonicalUrl = `https://fatewise.app/blog/${params.slug}`;
+  const canonicalUrl = `https://bornchart.app/blog/${params.slug}`;
 
   return {
     title: `${post.title} | FateWise Blog`,

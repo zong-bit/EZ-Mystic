@@ -1,0 +1,132 @@
+name: "FateWise项目状态分析与执行计划"
+description: "基于FateWise项目的真实状态，输出功能完整度评估、优先级排序、工时估算和30天执行计划"
+
+agents_dir: "agency-agents-zh"
+
+llm:
+  provider: deepseek
+  model: deepseek-v4-flash
+  max_tokens: 4096
+  timeout: 300000
+  retry: 2
+
+concurrency: 2
+
+steps:
+  - id: product_assessment
+    role: "product/product-manager"
+    name: "产品经理"
+    emoji: "📊"
+    task: |
+      你是一位资深产品经理，现需对FateWise项目进行功能完整度评估和下一步优先级排序。
+
+      项目当前状态：
+      - 网站 https://ez-mystic.vercel.app 已部署上线，Next.js 14 + TypeScript + Tailwind CSS
+      - Bazi排盘（含真太阳时校正）完整可用
+      - AI深度解读（/chat 对话功能）
+      - Destiny Book PDF 生成（/fatebook）
+      - Blog 已有9篇英文文章，自动渲染
+      - 用户系统（Supabase认证 /signup /login /account /dashboard）
+      - 定价页面（Pricing）：Pro $14.99/月、Premium $99.99一次性
+      - 支付：Gumroad + Paddle 双支付方式可选
+      - 付费流程：选择套餐 → 选支付方式 → 跳转Gumroad/Paddle → webhook → 激活
+      - Vercel Analytics 已集成
+      - 域名fatewise.app已注册但未指向
+      - 首页已优化（定价按钮链接到/payment?plan=xxx 而不是/bazi）
+      - /account页面新增首次用户引导卡片
+      - 注册成功跳转改为/bazi
+
+      本次会话完成的：
+      - 价格统一：Pro $14.99/月、Premium $99.99一次性
+      - Paddle产品和Checkout链接已创建
+      - Vercel Analytics 代码集成并部署
+
+      可用资源：DeepSeek API, Paddle支付, Gumroad支付, Supabase, Vercel, GitHub仓库zong-bit/EZ-Mystic
+
+      请完成以下输出（格式为Markdown）：
+
+      ## 一、功能完整度评估（按模块打分，1-10分）
+      对以下模块逐一打分并给出理由：
+      - 排盘功能
+      - AI解读
+      - PDF生成
+      - 博客系统
+      - 用户系统
+      - 支付系统
+      - 部署与域名
+      - 分析监控
+
+      ## 二、优先级排序（P0/P1/P2）
+      列出下一步需要完成的任务，按P0（必须做）、P1（重要）、P2（值得做）分类。每一项需简要说明理由。
+      参考方向：域名绑定与HTTPS、SEO优化、多语言/中文支持、支付体验优化、AI解读增强、营销落地页、用户留存功能（如邮件通知）、移动端适配等。请基于项目实际状态判断。
+
+      注意：输出不要超过800字。
+    output: product_assessment
+
+  - id: tech_estimation
+    role: "engineering/engineering-software-architect"
+    name: "技术架构师"
+    emoji: "🔧"
+    task: |
+      你是一位资深技术架构师，现需为FateWise项目的下一步任务估算工时。
+
+      项目当前技术栈：
+      - Next.js 14 + TypeScript + Tailwind CSS
+      - Supabase（认证+数据库）
+      - DeepSeek API
+      - Paddle + Gumroad 支付
+      - Vercel 托管
+      - Vercel Analytics
+      - GitHub仓库：zong-bit/EZ-Mystic
+
+      已知当前状态（见产品经理评估中提供的完整状态信息），请基于以下潜在任务列表估算工时（单位：人天，以1名全栈开发人员为基准）。对于每个任务，给出最低、最高和最佳估算。
+
+      任务列表（必要时可增减）：
+      1. 域名绑定（fatewise.app指向Vercel + SSL证书配置）
+      2. SEO基础优化（meta tags、sitemap、robots.txt、结构化数据）
+      3. 中文内容支持（i18n或新增中文页面）
+      4. 支付体验优化（前端支付状态反馈、重试逻辑）
+      5. AI解读增强（增加深度模式、历史记录）
+      6. 营销落地页（如Landing page增加案例、证言）
+      7. 邮件通知（注册欢迎、订阅确认、付费提醒）
+      8. 移动端适配优化（响应式细节）
+      9. 用户仪表盘增强（历史订单、解读记录）
+      10. Paddle webhook双环境测试与健壮性
+
+      输出格式（Markdown）：
+      ## 工时估算表
+      | 任务 | 最低（天） | 最佳（天） | 最高（天） | 备注 |
+      |------|-----------|-----------|-----------|------|
+      | ... | ... | ... | ... | ... |
+
+      注意：输出不要超过500字。
+    output: tech_estimation
+
+  - id: final_plan
+    role: "project-management/project-management-project-shepherd"
+    name: "项目牧羊人"
+    emoji: "🐑"
+    task: |
+      你是一位资深项目经理，请基于以下两份输入制定FateWise项目的30天执行计划。
+
+      【产品经理评估与优先级】
+      {{product_assessment}}
+
+      【技术架构师工时估算】
+      {{tech_estimation}}
+
+      请整合以上信息，输出一份可直接执行的30天计划（Markdown），包含：
+      1. 总计工时预估与资源建议
+      2. 按周分解的计划（Week1~Week4），列出每周要完成的任务、负责人（假设1名全栈开发者+自己作为PM）
+      3. 关键里程碑（至少4个）
+      4. 风险与应对措施
+
+      要求：计划切实可行，按优先级排序，确保30天内完成P0全部任务，并尽可能推进P1任务。不需要重复模块打分，而是直接给出行动计划。
+
+      最终输出即为完整的工作流成品，请直接输出以下内容：
+      ## FateWise 30天执行计划
+      （详细内容）
+      
+      注意：总字数控制在1500字以内。
+    output: final_plan
+    depends_on: [product_assessment, tech_estimation]

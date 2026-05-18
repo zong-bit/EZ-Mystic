@@ -70,7 +70,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'FateWise Blog — Eastern Wisdom & Bazi Guide',
     description: 'Explore Chinese astrology, Bazi (Four Pillars of Destiny), Five Elements theory, and authentic Eastern wisdom.',
-    url: 'https://fatewise.app/blog',
+    url: 'https://bornchart.app/blog',
     siteName: 'FateWise',
     type: 'website',
     locale: 'en_US',

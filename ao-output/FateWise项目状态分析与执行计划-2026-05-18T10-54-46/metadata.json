@@ -1,0 +1,51 @@
+{
+  "name": "FateWise项目状态分析与执行计划",
+  "success": true,
+  "totalDuration": "48.9s",
+  "totalTokens": {
+    "input": 19771,
+    "output": 4176
+  },
+  "inputs": {},
+  "steps": [
+    {
+      "id": "product_assessment",
+      "role": "product/product-manager",
+      "agentName": "产品经理",
+      "agentEmoji": "📊",
+      "status": "completed",
+      "output_var": "product_assessment",
+      "duration": "16.1s",
+      "tokens": {
+        "input": 10354,
+        "output": 1394
+      }
+    },
+    {
+      "id": "tech_estimation",
+      "role": "engineering/engineering-software-architect",
+      "agentName": "技术架构师",
+      "agentEmoji": "🔧",
+      "status": "completed",
+      "output_var": "tech_estimation",
+      "duration": "16.1s",
+      "tokens": {
+        "input": 3882,
+        "output": 484
+      }
+    },
+    {
+      "id": "final_plan",
+      "role": "project-management/project-management-project-shepherd",
+      "agentName": "项目牧羊人",
+      "agentEmoji": "🐑",
+      "status": "completed",
+      "output_var": "final_plan",
+      "duration": "32.8s",
+      "tokens": {
+        "input": 5535,
+        "output": 2298
+      }
+    }
+  ]
+}
