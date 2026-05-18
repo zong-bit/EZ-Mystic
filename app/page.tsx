@@ -166,7 +166,7 @@ export default function HomePage() {
                 <span className="text-gold-primary text-sm uppercase tracking-wider">Pro</span>
               </div>
               <div className="mb-6">
-                <span className="font-display text-4xl font-bold text-gold-primary">$9</span>
+                <span className="font-display text-4xl font-bold text-gold-primary">$14</span>
                 <span className="text-text-secondary">.99</span>
               </div>
               <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
@@ -176,7 +176,7 @@ export default function HomePage() {
                 <li>✓ Great Fortune & Annual Luck</li>
                 <li>✓ Open Luck guidance</li>
               </ul>
-              <Link href="/bazi" className="btn-primary w-full text-center py-3">
+              <Link href="/payment?plan=pro" className="btn-primary w-full text-center py-3">
                 Get Destiny Book →
               </Link>
             </div>
@@ -187,7 +187,7 @@ export default function HomePage() {
                 <span className="text-text-tertiary text-sm uppercase tracking-wider">Premium</span>
               </div>
               <div className="mb-6">
-                <span className="font-display text-4xl font-bold text-text-primary">$29</span>
+                <span className="font-display text-4xl font-bold text-text-primary">$9</span>
                 <span className="text-text-secondary">.99</span>
               </div>
               <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
@@ -197,7 +197,7 @@ export default function HomePage() {
                 <li>✓ Feng Shui basics</li>
                 <li>✓ Priority support</li>
               </ul>
-              <Link href="/bazi" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
+              <Link href="/payment?plan=premium" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
                 Upgrade →
               </Link>
             </div>

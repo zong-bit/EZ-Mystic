@@ -442,7 +442,7 @@ export default function ChatPage() {
                 <Link
                   href="/payment?plan=pro"
                   className="block text-center text-gold-primary text-sm hover:underline">
-                  Get Pro for $9.99/mo
+                  Get Pro for $14.99/mo
                 </Link>
               </div>
             </div>
