@@ -4,7 +4,11 @@ import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
-// Paddle product prices (update checkout URLs after creating in Paddle dashboard)
+// Gumroad product links
+const GUMROAD_MONTHLY = 'https://selinazw.gumroad.com/l/lcrujk';
+const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/gebxj';
+
+// Paddle product prices
 const PADDLE_PRO_PRICE_ID = 'pri_01krwj2267cjbr45n40f3aj3vr';
 const PADDLE_PREMIUM_PRICE_ID = 'pri_01krwj29wge21qkx8yfe9re6vy';
 // TODO: Replace with actual Paddle checkout URLs from dashboard
@@ -17,7 +21,8 @@ interface PlanInfo {
   priceFull: string;
   subtitle: string;
   features: string[];
-  checkoutUrl: string;
+  gumroadLink: string;
+  paddleLink: string;
   planKey: 'pro' | 'premium';
 }
 
@@ -33,7 +38,8 @@ const PLANS: Record<string, PlanInfo> = {
       'Great Fortune & Annual Luck cycles',
       'Open Luck (Ten Gods) guidance',
     ],
-    checkoutUrl: PADDLE_CHECKOUT_PRO,
+    gumroadLink: GUMROAD_MONTHLY,
+    paddleLink: PADDLE_CHECKOUT_PRO,
     planKey: 'pro',
   },
   premium: {
@@ -48,7 +54,8 @@ const PLANS: Record<string, PlanInfo> = {
       'Feng Shui basics for your chart',
       'Priority support',
     ],
-    checkoutUrl: PADDLE_CHECKOUT_PREMIUM,
+    gumroadLink: GUMROAD_YEARLY,
+    paddleLink: PADDLE_CHECKOUT_PREMIUM,
     planKey: 'premium',
   },
 };
@@ -66,8 +73,10 @@ function PaymentPlanContent() {
 
   const [processing, setProcessing] = useState(false);
 
+  const [selected, setSelected] = useState<'gumroad' | 'paddle'>('gumroad');
   const handleCheckout = () => {
-    window.open(plan.checkoutUrl, '_blank', 'noopener,noreferrer');
+    const url = selected === 'gumroad' ? plan.gumroadLink : plan.paddleLink;
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -93,6 +102,32 @@ function PaymentPlanContent() {
           ))}
         </div>
 
+        <div className="mb-6">
+          <p className="text-text-tertiary text-xs mb-2 text-center">Choose payment method:</p>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setSelected('gumroad')}
+              className={`flex-1 py-2 px-3 rounded-lg text-sm border transition-colors ${
+                selected === 'gumroad'
+                  ? 'border-gold-primary text-gold-primary bg-gold-primary/10'
+                  : 'border-white/10 text-text-tertiary hover:text-text-secondary'
+              }`}
+            >
+              💳 Gumroad
+            </button>
+            <button
+              onClick={() => setSelected('paddle')}
+              className={`flex-1 py-2 px-3 rounded-lg text-sm border transition-colors ${
+                selected === 'paddle'
+                  ? 'border-gold-primary text-gold-primary bg-gold-primary/10'
+                  : 'border-white/10 text-text-tertiary hover:text-text-secondary'
+              }`}
+            >
+              🔷 Paddle
+            </button>
+          </div>
+        </div>
+
         <button onClick={handleCheckout} disabled={processing} className="btn-primary w-full text-lg glow-pulse mb-4">
           {processing ? (
             <span className="flex items-center justify-center gap-3">
@@ -104,13 +139,13 @@ function PaymentPlanContent() {
             </span>
           ) : (
             <span className="flex items-center justify-center gap-2">
-              💳 Pay with Paddle · {plan.priceFull}
+              💳 Pay with {selected === 'gumroad' ? 'Gumroad' : 'Paddle'} · {plan.priceFull}
             </span>
           )}
         </button>
 
         <div className="text-center text-text-muted text-xs space-y-1 mb-6">
-          <p>Powered by Paddle · Secure checkout</p>
+          <p>Powered by Gumroad & Paddle · Secure checkout</p>
           <p>14-day money-back guarantee</p>
         </div>
 

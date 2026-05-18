@@ -204,7 +204,7 @@ export default function HomePage() {
           </div>
 
           <p className="text-center text-text-tertiary text-xs mt-12">
-            Secure payment via Paddle · 14-day money-back guarantee
+            Secure payment via Gumroad & Paddle · 14-day money-back guarantee
           </p>
         </div>
       </section>
