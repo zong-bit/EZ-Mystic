@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Analytics } from '@vercel/analytics/react';
 import AuthProviderWrapper from './auth/provider';
 import Navbar from './components/Navbar';
 import StarBackground from './components/StarBackground';
@@ -94,6 +95,7 @@ export default function RootLayout({
           <Navbar />
           {children}
         </AuthProviderWrapper>
+        <Analytics />
       </body>
     </html>
   );
