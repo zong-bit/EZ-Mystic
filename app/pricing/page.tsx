@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 
-// Gumroad product links
-const GUMROAD_MONTHLY = 'https://selinazw.gumroad.com/l/lcrujk';
-const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/gebxj';
+// Paddle checkout URLs (update after creating in Paddle dashboard)
+const PADDLE_CHECKOUT_PRO = 'https://check.paddle.com/checkout/YOUR_PRO_LINK';
+const PADDLE_CHECKOUT_PREMIUM = 'https://check.paddle.com/checkout/YOUR_PREMIUM_LINK';
 
 export default function PricingPage() {
   return (

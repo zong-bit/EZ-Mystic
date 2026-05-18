@@ -4,9 +4,9 @@ import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
-// Gumroad product links
-const GUMROAD_MONTHLY = 'https://selinazw.gumroad.com/l/lcrujk';
-const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/gebxj';
+// Paddle checkout URLs (update after creating in Paddle dashboard)
+const PADDLE_CHECKOUT_PRO = 'https://check.paddle.com/checkout/YOUR_PRO_LINK';
+const PADDLE_CHECKOUT_PREMIUM = 'https://check.paddle.com/checkout/YOUR_PREMIUM_LINK';
 
 function PaymentContent() {
   const searchParams = useSearchParams();
@@ -39,12 +39,12 @@ function PaymentContent() {
             </ul>
 
             <a
-              href={GUMROAD_MONTHLY}
+              href={PADDLE_CHECKOUT_PRO}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary w-full text-center py-3 mb-3"
             >
-              Pay with Gumroad →
+              Pay with Paddle →
             </a>
 
             <div className="text-center">
@@ -72,12 +72,12 @@ function PaymentContent() {
             </ul>
 
             <a
-              href={GUMROAD_YEARLY}
+              href={PADDLE_CHECKOUT_PREMIUM}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary w-full text-center py-3 mb-3"
             >
-              Pay with Gumroad →
+              Pay with Paddle →
             </a>
 
             <div className="text-center">
@@ -92,7 +92,7 @@ function PaymentContent() {
         </div>
 
         <div className="text-center text-text-muted text-xs space-y-1 mb-6">
-          <p>Powered by Gumroad · Secure checkout</p>
+          <p>Powered by Paddle · Secure checkout</p>
           <p>14-day money-back guarantee</p>
         </div>
 
