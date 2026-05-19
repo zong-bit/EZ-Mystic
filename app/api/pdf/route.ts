@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     doc.setFont('NotoSansSC', 'normal');
     doc.setFontSize(12);
     doc.setTextColor(100, 100, 100);
-    doc.text(`ez-mystic · FateWise`, pageWidth / 2, y, { align: 'center' });
+    doc.text(`BornChart · FateWise`, pageWidth / 2, y, { align: 'center' });
     y += 15;
 
     // Divider line
@@ -196,7 +196,7 @@ export async function POST(request: NextRequest) {
     doc.setFontSize(8);
     doc.setTextColor(150, 150, 150);
     doc.text('⚠️ This reading is AI-generated, for reference and entertainment only, not a basis for life decisions.', pageWidth / 2, y, { align: 'center' });
-    doc.text(`ez-mystic.com · ${new Date().toLocaleDateString('en-US')}`, pageWidth / 2, y + 5, { align: 'center' });
+    doc.text(`bornchart.app · ${new Date().toLocaleDateString('en-US')}`, pageWidth / 2, y + 5, { align: 'center' });
 
     // Generate PDF and return
     const pdfBlob = doc.output('blob');

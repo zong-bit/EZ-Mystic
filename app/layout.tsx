@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/react';
 import AuthProviderWrapper from './auth/provider';
 import Navbar from './components/Navbar';
 import StarBackground from './components/StarBackground';
+import Footer from './components/Footer';
 
 export const metadata: Metadata = {
   title: 'FateWise — Online Bazi Chart · AI Destiny Reading · Eastern Wisdom',
@@ -25,6 +26,9 @@ export const metadata: Metadata = {
   creator: 'FateWise',
   publisher: 'FateWise',
   metadataBase: new URL('https://bornchart.app'),
+  verification: {
+    google: 'iZdsDRFA8lc9MPxrgudfQKuLKwrnDijPuuuBbEkILE4',
+  },
   alternates: {
     canonical: '/',
   },
@@ -94,6 +98,7 @@ export default function RootLayout({
         <AuthProviderWrapper>
           <Navbar />
           {children}
+          <Footer />
         </AuthProviderWrapper>
         <Analytics />
       </body>

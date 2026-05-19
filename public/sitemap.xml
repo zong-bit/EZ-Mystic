@@ -4,73 +4,91 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <url>
-    <loc>https://fatewise.app/</loc>
-    <lastmod>2026-05-15</lastmod>
+    <loc>https://bornchart.app/</loc>
+    <lastmod>2026-05-19</lastmod>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://fatewise.app/bazi</loc>
-    <lastmod>2026-05-15</lastmod>
+    <loc>https://bornchart.app/bazi</loc>
+    <lastmod>2026-05-19</lastmod>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://fatewise.app/pricing</loc>
-    <lastmod>2026-05-15</lastmod>
+    <loc>https://bornchart.app/pricing</loc>
+    <lastmod>2026-05-19</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://fatewise.app/blog</loc>
+    <loc>https://bornchart.app/blog</loc>
     <lastmod>2026-05-15</lastmod>
     <priority>0.7</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://fatewise.app/blog/what-is-bazi-four-pillars-of-destiny-guide</loc>
+    <loc>https://bornchart.app/terms</loc>
+    <lastmod>2026-05-19</lastmod>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://bornchart.app/privacy</loc>
+    <lastmod>2026-05-19</lastmod>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://bornchart.app/refund</loc>
+    <lastmod>2026-05-19</lastmod>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://bornchart.app/blog/what-is-bazi-four-pillars-of-destiny-guide</loc>
     <lastmod>2026-05-15</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://fatewise.app/blog/how-to-read-bazi-chart-day-master-five-elements</loc>
+    <loc>https://bornchart.app/blog/how-to-read-bazi-chart-day-master-five-elements</loc>
     <lastmod>2026-05-12</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://fatewise.app/blog/true-solar-time-chinese-astrology-birth-location</loc>
+    <loc>https://bornchart.app/blog/true-solar-time-chinese-astrology-birth-location</loc>
     <lastmod>2026-05-10</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://fatewise.app/blog/bazi-life-cycle-major-luck-pillars</loc>
+    <loc>https://bornchart.app/blog/bazi-life-cycle-major-luck-pillars</loc>
     <lastmod>2026-05-15</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://fatewise.app/blog/how-to-calculate-your-bazi-chart-step-by-step-guide</loc>
+    <loc>https://bornchart.app/blog/how-to-calculate-your-bazi-chart-step-by-step-guide</loc>
     <lastmod>2026-05-15</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://fatewise.app/blog/the-five-elements-in-bazi-wood-fire-earth-metal-water-explained</loc>
+    <loc>https://bornchart.app/blog/the-five-elements-in-bazi-wood-fire-earth-metal-water-explained</loc>
     <lastmod>2026-05-15</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://fatewise.app/blog/bazi-vs-western-astrology-key-differences-you-should-know</loc>
+    <loc>https://bornchart.app/blog/bazi-vs-western-astrology-key-differences-you-should-know</loc>
     <lastmod>2026-05-15</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://fatewise.app/blog/understanding-your-day-master-the-key-to-reading-bazi</loc>
+    <loc>https://bornchart.app/blog/understanding-your-day-master-the-key-to-reading-bazi</loc>
     <lastmod>2026-05-15</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>

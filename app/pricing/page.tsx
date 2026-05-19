@@ -95,6 +95,18 @@ export default function PricingPage() {
                 <span>Open Luck (Ten Gods) guidance</span>
               </li>
             </ul>
+
+            {/* Deliverables — Pro */}
+            <div className="mb-6 p-3 border border-gold-primary/20 rounded bg-gold-primary/5">
+              <p className="text-xs text-gold-primary font-semibold uppercase tracking-wider mb-1">You Will Receive:</p>
+              <ul className="text-xs text-text-secondary space-y-1">
+                <li>✦ Full AI deep interpretation report</li>
+                <li>✦ Complete Destiny Book PDF download</li>
+                <li>✦ Great Fortune &amp; Annual Luck analysis</li>
+                <li>✦ Open Luck (Ten Gods) guidance</li>
+              </ul>
+            </div>
+
             <Link href="/payment?plan=pro" className="btn-primary w-full text-center py-3">
               Get Destiny Book →
             </Link>
@@ -131,6 +143,19 @@ export default function PricingPage() {
                 <span>Priority support</span>
               </li>
             </ul>
+
+            {/* Deliverables — Premium */}
+            <div className="mb-6 p-3 border border-gold-primary/20 rounded bg-gold-primary/5">
+              <p className="text-xs text-gold-primary font-semibold uppercase tracking-wider mb-1">You Will Receive:</p>
+              <ul className="text-xs text-text-secondary space-y-1">
+                <li>✦ Full AI deep interpretation report</li>
+                <li>✦ Complete Destiny Book PDF download</li>
+                <li>✦ Great Fortune &amp; Annual Luck analysis</li>
+                <li>✦ Yearly forecast report</li>
+                <li>✦ Relationship compatibility analysis</li>
+              </ul>
+            </div>
+
             <Link href="/payment?plan=premium" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
               Upgrade →
             </Link>
@@ -174,18 +199,24 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 py-12 px-6">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <span className="text-gold-primary text-lg">✦</span>
-            <span className="font-display font-semibold">FateWise</span>
+      {/* Payment policies — required for Paddle */}
+      <section className="pb-12 px-6">
+        <div className="max-w-3xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-2 bg-gold-primary/10 border border-gold-primary/30 rounded-full px-4 py-2">
+            <span className="text-gold-primary text-lg">🛡</span>
+            <span className="text-gold-primary text-sm font-semibold">14-Day Money-Back Guarantee on All Paid Plans</span>
           </div>
-          <p className="text-text-tertiary text-sm mb-2">
-            © 2026 ez-mystic · FateWise. All rights reserved.
-          </p>
+          <p className="text-text-tertiary text-xs">Powered by Gumroad &amp; Paddle · Secure checkout</p>
+          <div className="flex items-center justify-center gap-3 text-xs">
+            <Link href="/terms" className="text-text-tertiary hover:text-gold-primary transition-colors underline underline-offset-2">Terms of Service</Link>
+            <span className="text-text-tertiary/30">·</span>
+            <Link href="/privacy" className="text-text-tertiary hover:text-gold-primary transition-colors underline underline-offset-2">Privacy Policy</Link>
+            <span className="text-text-tertiary/30">·</span>
+            <Link href="/refund" className="text-text-tertiary hover:text-gold-primary transition-colors underline underline-offset-2">Refund Policy</Link>
+          </div>
         </div>
-      </footer>
+      </section>
+
     </div>
   );
 }

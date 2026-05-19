@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { buildFateBookPrompt } from '@/bazi/ai-prompt';
 import type { BaziResult } from '@/bazi/types';
+import { trackUsage } from '@/lib/usage-tracker';
 
 export async function POST(request: NextRequest) {
   try {
@@ -48,6 +49,14 @@ export async function POST(request: NextRequest) {
       console.error('Destiny book generation failed:', error);
       fullContent = 'Destiny book generation failed, please try again later.';
     }
+
+    // Track usage in Supabase (fire & forget)
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || request.headers.get('x-real-ip') || 'unknown';
+    trackUsage({
+      source: 'fatewise',
+      endpoint: 'interpret',
+      ip,
+    });
 
     return NextResponse.json({
       success: true,

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 import { useAuth } from './auth/auth-context';
 
 export default function HomePage() {
@@ -130,6 +131,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Live Stats */}
+      <LiveStats />
+
       {/* Pricing */}
       <section className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
@@ -254,21 +258,59 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/5 py-12 px-6">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <span className="text-gold-primary text-lg">✦</span>
-            <span className="font-display font-semibold">EZ-Mystic</span>
-          </div>
-          <p className="text-text-tertiary text-sm mb-2">
-            © 2026 EZ-Mystic. All rights reserved.
-          </p>
-          <p className="text-text-muted text-xs">
-            Disclaimer: The content on this website is for entertainment and educational purposes only and does not constitute advice for life decisions.
+      {/* Business description for payment partner compliance */}
+      <section className="pb-16 px-6">
+        <div className="max-w-3xl mx-auto p-4 border border-gold-primary/20 rounded-lg bg-gold-primary/5">
+          <p className="text-text-secondary text-sm leading-relaxed text-center">
+            <strong className="text-gold-primary">FateWise</strong> (operated as <strong className="text-gold-primary">BornChart</strong>) is an AI-powered Chinese astrology platform that generates personalized Bazi (Four Pillars of Destiny) charts, provides in-depth AI interpretation across personality, career, wealth, and relationships, and delivers beautifully formatted Destiny Book PDF reports with Great Fortune cycles and annual luck analysis.
           </p>
         </div>
-      </footer>
+      </section>
+
     </div>
   );
+}
+
+// ── Live Stats component ──
+type StatsData = {
+  today: number
+  total: number
+  uniqueIps: number
+}
+
+function LiveStats() {
+  const [stats, setStats] = useState<StatsData | null>(null)
+
+  useEffect(() => {
+    fetch('/api/stats')
+      .then(r => r.json())
+      .then(d => setStats(d))
+      .catch(() => {})
+  }, [])
+
+  if (!stats) return null
+
+  return (
+    <section className="py-12 px-6">
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-6">
+          <h2 className="text-text-tertiary tracking-wide uppercase text-xs font-semibold">📊 Live Stats</h2>
+        </div>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="glass-card p-4 text-center">
+            <div className="text-2xl font-display font-bold text-gold-primary">{stats.today}</div>
+            <div className="text-xs text-text-tertiary mt-1">charts generated today</div>
+          </div>
+          <div className="glass-card p-4 text-center">
+            <div className="text-2xl font-display font-bold text-gold-primary">{stats.uniqueIps}</div>
+            <div className="text-xs text-text-tertiary mt-1">active users this week</div>
+          </div>
+          <div className="glass-card p-4 text-center">
+            <div className="text-2xl font-display font-bold text-gold-primary">{stats.total}</div>
+            <div className="text-xs text-text-tertiary mt-1">total charts generated</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
 }

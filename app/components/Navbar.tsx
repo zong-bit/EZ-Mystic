@@ -75,6 +75,33 @@ export default function Navbar({ currentPage }: NavbarProps) {
           >
             Pricing
           </Link>
+          <div className="hidden lg:flex items-center gap-4">
+            <span className="text-text-tertiary/20 text-xs">|</span>
+            <Link
+              href="/terms"
+              className={`text-sm transition-colors ${
+                isActive('/terms') ? 'text-gold-primary' : 'text-text-tertiary hover:text-text-secondary'
+              }`}
+            >
+              Terms
+            </Link>
+            <Link
+              href="/privacy"
+              className={`text-sm transition-colors ${
+                isActive('/privacy') ? 'text-gold-primary' : 'text-text-tertiary hover:text-text-secondary'
+              }`}
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/refund"
+              className={`text-sm transition-colors ${
+                isActive('/refund') ? 'text-gold-primary' : 'text-text-tertiary hover:text-text-secondary'
+              }`}
+            >
+              Refund
+            </Link>
+          </div>
           {user ? (
             <>
               <Link

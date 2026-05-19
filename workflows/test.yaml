@@ -1,0 +1,44 @@
+name: "Multi-Agent Collaboration Workflow"
+description: "A general-purpose workflow for analyzing a topic through research, structuring, and synthesis."
+
+agents_dir: "agency-agents"
+
+llm:
+  provider: openai
+  model: qwen/qwen3.6-35b-a3b
+  max_tokens: 4096
+  timeout: 300000
+  retry: 2
+
+concurrency: 3
+
+steps:
+  - id: research
+    role: "product/product-trend-researcher"
+    name: "Research Analyst"
+    emoji: "🔍"
+    task: |
+      Analyze the topic "test" to identify key trends, current state, and relevant context.
+      Output a concise summary of findings in bullet points.
+    output: research_findings
+
+  - id: structure
+    role: "product/product-sprint-prioritizer"
+    name: "Structuring Lead"
+    emoji: "📋"
+    task: |
+      Based on the research findings {{research_findings}}, create a logical outline or structure for a comprehensive report on "test".
+      Define the main sections and key arguments for each section.
+    output: report_outline
+    depends_on: [research]
+
+  - id: synthesize
+    role: "support/support-executive-summary-generator"
+    name: "Synthesis Lead"
+    emoji: "🧠"
+    task: |
+      Using the research findings {{research_findings}} and the report outline {{report_outline}}, draft a complete, coherent executive summary/report on "test".
+      Ensure the narrative is clear, professional, and directly addresses the core aspects of the topic.
+      Keep the total length under 800 words.
+    output: final_report
+    depends_on: [research, structure]

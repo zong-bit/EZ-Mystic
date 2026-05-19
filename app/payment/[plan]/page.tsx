@@ -144,17 +144,40 @@ function PaymentPlanContent() {
           )}
         </button>
 
-        <div className="text-center text-text-muted text-xs space-y-1 mb-6">
-          <p>Powered by Gumroad & Paddle · Secure checkout</p>
-          <p>14-day money-back guarantee</p>
+        <div className="text-center space-y-3 mb-6">
+          {/* 14-day guarantee badge */}
+          <div className="inline-flex items-center gap-2 bg-gold-primary/10 border border-gold-primary/30 rounded-full px-4 py-2">
+            <span className="text-gold-primary text-lg">🛡</span>
+            <span className="text-gold-primary text-sm font-semibold">14-Day Money-Back Guarantee</span>
+          </div>
+
+          <div className="flex items-center justify-center gap-3 text-text-tertiary text-xs">
+            <span>Powered by Gumroad & Paddle</span>
+            <span className="text-text-tertiary/30">·</span>
+            <span>Secure checkout</span>
+          </div>
+
+          <div className="flex items-center justify-center gap-3 text-xs">
+            <Link href="/terms" className="text-text-tertiary hover:text-gold-primary transition-colors underline underline-offset-2">
+              Terms of Service
+            </Link>
+            <span className="text-text-tertiary/30">·</span>
+            <Link href="/privacy" className="text-text-tertiary hover:text-gold-primary transition-colors underline underline-offset-2">
+              Privacy Policy
+            </Link>
+            <span className="text-text-tertiary/30">·</span>
+            <Link href="/refund" className="text-text-tertiary hover:text-gold-primary transition-colors underline underline-offset-2">
+              Refund Policy
+            </Link>
+          </div>
         </div>
 
         <div className="space-y-3 text-center">
           <Link
-            href={`/fatebook?plan=${plan.planKey}${baziParam}${nameParam}`}
+            href={`/payment/verify?plan=${plan.planKey}${baziParam}${nameParam}`}
             className="block text-text-secondary hover:text-text-primary transition-colors text-sm"
           >
-            I&apos;ve paid, continue to Destiny Book →
+            I&apos;ve paid — activate my purchase →
           </Link>
           <Link href="/bazi" className="block text-text-tertiary hover:text-text-primary transition-colors text-xs">
             ← Back to Chart
@@ -175,12 +198,33 @@ function PaymentPlanContent() {
 
 export default function PaymentPlanPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen starry-bg flex items-center justify-center">
-        <div className="text-gold-primary text-2xl taiji-loader">✦</div>
+    <>
+      <Suspense fallback={
+        <div className="min-h-screen starry-bg flex items-center justify-center">
+          <div className="text-gold-primary text-2xl taiji-loader">✦</div>
+        </div>
+      }>
+        <PaymentPlanContent />
+      </Suspense>
+      {/* Server-rendered legal notice */}
+      <div className="text-center space-y-3 px-6 pb-8">
+        <div className="inline-flex items-center gap-2 bg-gold-primary/10 border border-gold-primary/30 rounded-full px-4 py-2">
+          <span className="text-gold-primary text-lg">🛡</span>
+          <span className="text-gold-primary text-sm font-semibold">14-Day Money-Back Guarantee</span>
+        </div>
+        <div className="flex items-center justify-center gap-3 text-text-tertiary text-xs">
+          <span>Powered by Gumroad &amp; Paddle</span>
+          <span className="text-text-tertiary/30">·</span>
+          <span>Secure checkout</span>
+        </div>
+        <div className="flex items-center justify-center gap-3 text-xs">
+          <Link href="/terms" className="text-text-tertiary hover:text-gold-primary transition-colors underline underline-offset-2">Terms of Service</Link>
+          <span className="text-text-tertiary/30">·</span>
+          <Link href="/privacy" className="text-text-tertiary hover:text-gold-primary transition-colors underline underline-offset-2">Privacy Policy</Link>
+          <span className="text-text-tertiary/30">·</span>
+          <Link href="/refund" className="text-text-tertiary hover:text-gold-primary transition-colors underline underline-offset-2">Refund Policy</Link>
+        </div>
       </div>
-    }>
-      <PaymentPlanContent />
-    </Suspense>
+    </>
   );
 }

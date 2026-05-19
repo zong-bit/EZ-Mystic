@@ -341,7 +341,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             <span className="font-display font-semibold text-text-primary">FateWise</span>
           </div>
           <p className="text-text-tertiary text-sm mb-2">
-            © 2026 ez-mystic · FateWise. All rights reserved.
+            © 2026 BornChart · FateWise. All rights reserved.
           </p>
           <p className="text-text-muted text-xs">
             Disclaimer: The content on this website is for entertainment and educational purposes only.

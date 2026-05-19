@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { calculateBazi } from '@/bazi';
 import { buildBaziInterpretPrompt } from '@/bazi/ai-prompt';
+import { trackUsage } from '@/lib/usage-tracker';
 
 export async function POST(request: NextRequest) {
   try {
@@ -65,6 +66,13 @@ export async function POST(request: NextRequest) {
       console.error('AI interpretation failed:', aiError);
       aiInterpretation = generateMockInterpretation(bazi);
     }
+
+    // Track usage in Supabase (fire & forget)
+    trackUsage({
+      source: 'fatewise',
+      endpoint: 'bazi',
+      ip: request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || request.headers.get('x-real-ip') || 'unknown',
+    });
 
     return NextResponse.json({
       success: true,
