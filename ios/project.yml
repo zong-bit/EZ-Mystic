@@ -1,0 +1,34 @@
+name: FateWise
+options:
+  bundleIdPrefix: com.fatewise
+  deploymentTarget:
+    iOS: "16.0"
+  xcodeVersion: "16.0"
+settings:
+  base:
+    TARGETED_DEVICE_FAMILY: "1,2"
+    INFOPLIST_FILE: FateWise/Info.plist
+    DEVELOPMENT_TEAM: ""
+    SWIFT_VERSION: "5.9"
+    IPHONEOS_DEPLOYMENT_TARGET: "16.0"
+
+targets:
+  FateWise:
+    type: application
+    platform: iOS
+    sources:
+      - Sources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.fatewise.app
+        INFOPLIST_FILE: FateWise/Info.plist
+    info:
+      path: FateWise/Info.plist
+      properties:
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UILaunchScreen: {}
+        UIStatusBarStyle: UIStatusBarStyleLightContent
+        UIViewControllerBasedStatusBarAppearance: true
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
