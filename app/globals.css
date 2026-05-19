@@ -35,6 +35,8 @@ body {
 
 /* 星空背景 */
 .starry-bg {
+  /* GPU acceleration hint */
+  transform: translateZ(0);
   background-image:
     radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.25), transparent),
     radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.15), transparent),
