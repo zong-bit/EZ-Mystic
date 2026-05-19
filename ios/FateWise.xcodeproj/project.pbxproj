@@ -1,432 +1,167 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>archiveVersion</key>
-	<integer>1</integer>
-	<key>classes</key>
-	<dict/>
-	<key>objectVersion</key>
-	<integer>56</integer>
-	<key>objects</key>
-	<dict>
-		<key>0899665CB70B51364FD3EACC</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>8EE6B6ADC095CDC56BE16A9E</string>
-				<string>C25F4F6540DF31069317F7C3</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<integer>0</integer>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>0BCFF3790758B64B5F588410</key>
-		<dict>
-			<key>fileRef</key>
-			<string>8CA37D8760849C1796B91CFB</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>0D0D0EC4F4655E6EC05F4644</key>
-		<dict>
-			<key>buildActionMask</key>
-			<integer>2147483647</integer>
-			<key>files</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<integer>0</integer>
-		</dict>
-		<key>32112B69DE77256709CED046</key>
-		<dict>
-			<key>fileRef</key>
-			<string>B2B7A54C5E4D3641A0ACFB96</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>42AEFBAE01D2DFD981F7DA7D</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>0899665CB70B51364FD3EACC</string>
-			<key>buildPhases</key>
-			<array>
-				<string>7B1AB24959979FF757979CE2</string>
-				<string>0D0D0EC4F4655E6EC05F4644</string>
-				<string>B22A3451AEE081E29DEBFBCA</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>FateWise</string>
-			<key>productName</key>
-			<string>FateWise</string>
-			<key>productReference</key>
-			<string>79ADC6EED14B8805F9DF98B4</string>
-			<key>productType</key>
-			<string>com.apple.product-type.application</string>
-		</dict>
-		<key>56208123FD24E6A5A8C50DF4</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>8EE6B6ADC095CDC56BE16A9E</string>
-				<string>C25F4F6540DF31069317F7C3</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<integer>0</integer>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>573E76B16F00DE7171355BBE</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>sourcecode.swift</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>Constants.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>5928955287B8089ED2177128</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>D685C104AFFBCF83C7CB0FB6</string>
-				<string>A97C29AD63741CF438998CE6</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>63A9F0EA7BB98050796B649E</key>
-		<dict>
-			<key>attributes</key>
-			<dict>
-				<key>BuildIndependentTargetsInParallel</key>
-				<integer>1</integer>
-				<key>LastSwiftUpdateCheck</key>
-				<integer>1600</integer>
-				<key>LastUpgradeCheck</key>
-				<integer>1600</integer>
-			</dict>
-			<key>buildConfigurationList</key>
-			<string>56208123FD24E6A5A8C50DF4</string>
-			<key>compatibilityVersion</key>
-			<string>Xcode 14.0</string>
-			<key>developmentRegion</key>
-			<string>en</string>
-			<key>hasScannedForEncodings</key>
-			<integer>0</integer>
-			<key>isa</key>
-			<string>PBXProject</string>
-			<key>knownRegions</key>
-			<array>
-				<string>en</string>
-				<string>Base</string>
-			</array>
-			<key>mainGroup</key>
-			<string>5928955287B8089ED2177128</string>
-			<key>productRefGroup</key>
-			<string>A97C29AD63741CF438998CE6</string>
-			<key>targets</key>
-			<array>
-				<string>42AEFBAE01D2DFD981F7DA7D</string>
-			</array>
-		</dict>
-		<key>66EE357BCDEF731269AF5457</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>sourcecode.swift</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>StarFieldView.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>79ADC6EED14B8805F9DF98B4</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.application</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>FateWise.app</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>7B1AB24959979FF757979CE2</key>
-		<dict>
-			<key>buildActionMask</key>
-			<integer>2147483647</integer>
-			<key>files</key>
-			<array>
-				<string>E7ED208BA9F0F3FC98F140BC</string>
-				<string>C8AFD69CF8DC6F8757506FF5</string>
-				<string>BC9BA31773930D5D55A9A22B</string>
-				<string>32112B69DE77256709CED046</string>
-				<string>0BCFF3790758B64B5F588410</string>
-				<string>9B8017C603EF6BB1B110314B</string>
-				<string>8139624898A349ADA4ED5613</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<integer>0</integer>
-		</dict>
-		<key>8139624898A349ADA4ED5613</key>
-		<dict>
-			<key>fileRef</key>
-			<string>D20C22F5695147CF2414E6AA</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>8CA37D8760849C1796B91CFB</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>sourcecode.swift</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>SplashView.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>8EE6B6ADC095CDC56BE16A9E</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS</key>
-				<string>YES</string>
-				<key>CLANG_ANALYZER_NONNULL</key>
-				<string>YES</string>
-				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
-				<string>gnu++20</string>
-				<key>CLANG_ENABLE_MODULES</key>
-				<string>YES</string>
-				<key>CLANG_ENABLE_OBJC_ARC</key>
-				<string>YES</string>
-				<key>DEBUG_INFORMATION_FORMAT</key>
-				<string>dwarf</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>ENABLE_TESTABILITY</key>
-				<string>YES</string>
-				<key>GCC_DYNAMIC_NO_PIC</key>
-				<string>NO</string>
-				<key>GCC_OPTIMIZATION_LEVEL</key>
-				<string>0</string>
-				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-				<array>
-					<string>DEBUG=1</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>INFOPLIST_FILE</key>
-				<string>FateWise/Info.plist</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>16.0</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>INCLUDE_SOURCE</string>
-				<key>ONLY_ACTIVE_ARCH</key>
-				<string>YES</string>
-				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
-				<string>com.fatewise.app</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SWIFT_ACTIVE_COMPILATION_CONDITIONS</key>
-				<string>DEBUG</string>
-				<key>SWIFT_OPTIMIZATION_LEVEL</key>
-				<string>-Onone</string>
-				<key>SWIFT_VERSION</key>
-				<string>5.0</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>9B8017C603EF6BB1B110314B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>E1E409D1DFB3898DD8512D54</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>A97C29AD63741CF438998CE6</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>79ADC6EED14B8805F9DF98B4</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Products</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>B22A3451AEE081E29DEBFBCA</key>
-		<dict>
-			<key>buildActionMask</key>
-			<integer>2147483647</integer>
-			<key>files</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXResourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<integer>0</integer>
-		</dict>
-		<key>B2B7A54C5E4D3641A0ACFB96</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>sourcecode.swift</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>WebView.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>BA2C4087C1F2C6BA31D3B010</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>sourcecode.swift</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>FateWiseApp.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>BC9BA31773930D5D55A9A22B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>66EE357BCDEF731269AF5457</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C25F4F6540DF31069317F7C3</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS</key>
-				<string>YES</string>
-				<key>CLANG_ANALYZER_NONNULL</key>
-				<string>YES</string>
-				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
-				<string>gnu++20</string>
-				<key>CLANG_ENABLE_MODULES</key>
-				<string>YES</string>
-				<key>CLANG_ENABLE_OBJC_ARC</key>
-				<string>YES</string>
-				<key>DEBUG_INFORMATION_FORMAT</key>
-				<string>dwarf-with-dsym</string>
-				<key>ENABLE_NS_ASSERTIONS</key>
-				<string>NO</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>GCC_OPTIMIZATION_LEVEL</key>
-				<string>s</string>
-				<key>INFOPLIST_FILE</key>
-				<string>FateWise/Info.plist</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>16.0</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>NO</string>
-				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
-				<string>com.fatewise.app</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SWIFT_COMPILATION_MODE</key>
-				<string>wholemodule</string>
-				<key>SWIFT_OPTIMIZATION_LEVEL</key>
-				<string>-O</string>
-				<key>SWIFT_VERSION</key>
-				<string>5.0</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VALIDATE_PRODUCT</key>
-				<string>YES</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>C8AFD69CF8DC6F8757506FF5</key>
-		<dict>
-			<key>fileRef</key>
-			<string>573E76B16F00DE7171355BBE</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>D20C22F5695147CF2414E6AA</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>sourcecode.swift</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>SettingsView.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>D685C104AFFBCF83C7CB0FB6</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>BA2C4087C1F2C6BA31D3B010</string>
-				<string>573E76B16F00DE7171355BBE</string>
-				<string>66EE357BCDEF731269AF5457</string>
-				<string>B2B7A54C5E4D3641A0ACFB96</string>
-				<string>8CA37D8760849C1796B91CFB</string>
-				<string>E1E409D1DFB3898DD8512D54</string>
-				<string>D20C22F5695147CF2414E6AA</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string></string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>E1E409D1DFB3898DD8512D54</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>sourcecode.swift</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>MainTabView.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>E7ED208BA9F0F3FC98F140BC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>BA2C4087C1F2C6BA31D3B010</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-	</dict>
-</dict>
-</plist>
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C7563986947E6F5203AB9D36 /* FateWiseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D233364D104BD2973824FF3F /* FateWiseApp.swift */; };
+		A1535BE721B8972A00283D20 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7E91D297DFC3461513AD42 /* Constants.swift */; };
+		F9F90E1FFF9E7220908CB774 /* StarFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9618E28133F86C86B51B5E4 /* StarFieldView.swift */; };
+		49BA75C7AB696BB44187A74F /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97BA952A41660778603BC23 /* WebView.swift */; };
+		CD5EB7298D109D6E63044316 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CE8E7549DE3557601D0879 /* SplashView.swift */; };
+		42D755136027E3040A176EB5 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F54392934B1E8A40FDE54E2 /* MainTabView.swift */; };
+		1D36A4261C5437709A223D6D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D4DBDD27984E782C60C99F /* SettingsView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D233364D104BD2973824FF3F /* FateWiseApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FateWiseApp.swift; sourceTree = "<group>"; };
+		5E7E91D297DFC3461513AD42 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D9618E28133F86C86B51B5E4 /* StarFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarFieldView.swift; sourceTree = "<group>"; };
+		A97BA952A41660778603BC23 /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		B8CE8E7549DE3557601D0879 /* SplashView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		3F54392934B1E8A40FDE54E2 /* MainTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		18D4DBDD27984E782C60C99F /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E503B88588DB8CA2F5F9AD82 /* FateWise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FateWise.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		88CC2428FC87BDC780D9BDFB = {
+			isa = PBXGroup;
+			children = (D233364D104BD2973824FF3F /* FateWiseApp.swift */, 5E7E91D297DFC3461513AD42 /* Constants.swift */, D9618E28133F86C86B51B5E4 /* StarFieldView.swift */, A97BA952A41660778603BC23 /* WebView.swift */, B8CE8E7549DE3557601D0879 /* SplashView.swift */, 3F54392934B1E8A40FDE54E2 /* MainTabView.swift */, 18D4DBDD27984E782C60C99F /* SettingsView.swift */);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		9DE86C893314FA1523E37C5F = {
+			isa = PBXGroup;
+			children = (E503B88588DB8CA2F5F9AD82 /* FateWise.app */);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D819DA1AB5596E7C8C4907E9 = {
+			isa = PBXGroup;
+			children = (88CC2428FC87BDC780D9BDFB /* Sources */, 9DE86C893314FA1523E37C5F /* Products */);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FB2A6A98F435BDB4E8A176B5 /* FateWise */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4801EC44C28239652EC9E9F5 /* Build configuration list for PBXNativeTarget "FateWise" */;
+			buildPhases = (A5515AA3B95019C0376E756D /* Sources */, 6F579D68685E6A6C24558C1D /* Frameworks */, B4C46F8A9FE9CF67D91712FD /* Resources */);
+			buildRules = ();
+			dependencies = ();
+			name = FateWise;
+			productName = FateWise;
+			productReference = E503B88588DB8CA2F5F9AD82 /* FateWise.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AF920977832779FBDF955368 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = 291F3DBEB1A0F1AD19E58CFD /* Build configuration list for PBXProject "FateWise" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (en, Base);
+			mainGroup = D819DA1AB5596E7C8C4907E9;
+			productRefGroup = 9DE86C893314FA1523E37C5F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (FB2A6A98F435BDB4E8A176B5 /* FateWise */);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A5515AA3B95019C0376E756D = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (C7563986947E6F5203AB9D36 /* FateWiseApp.swift in Sources */, A1535BE721B8972A00283D20 /* Constants.swift in Sources */, F9F90E1FFF9E7220908CB774 /* StarFieldView.swift in Sources */, 49BA75C7AB696BB44187A74F /* WebView.swift in Sources */, CD5EB7298D109D6E63044316 /* SplashView.swift in Sources */, 42D755136027E3040A176EB5 /* MainTabView.swift in Sources */, 1D36A4261C5437709A223D6D /* SettingsView.swift in Sources */);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6F579D68685E6A6C24558C1D = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B4C46F8A9FE9CF67D91712FD = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2DE559CFBF2EBC93F7AD13C0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				INFOPLIST_FILE = FateWise/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fatewise.app;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_PREVIEWS = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				GCC_PREPROCESSOR_DEFINITIONS = ("DEBUG=1", "$(inherited)");
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+			};
+			name = Debug;
+		};
+		FE81E663FBAB9609526981F8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				INFOPLIST_FILE = FateWise/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fatewise.app;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_PREVIEWS = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		291F3DBEB1A0F1AD19E58CFD /* Build configuration list for PBXProject "FateWise" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (2DE559CFBF2EBC93F7AD13C0 /* Debug */, FE81E663FBAB9609526981F8 /* Release */);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4801EC44C28239652EC9E9F5 /* Build configuration list for PBXNativeTarget "FateWise" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (2DE559CFBF2EBC93F7AD13C0 /* Debug */, FE81E663FBAB9609526981F8 /* Release */);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = AF920977832779FBDF955368 /* Project object */;
+}
