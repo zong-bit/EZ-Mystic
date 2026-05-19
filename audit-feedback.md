@@ -1,4 +1,4 @@
-# 审计反馈（2026-05-20 03:57）
+# 审计反馈（2026-05-20 04:12）
 
 ## ✅ 一切正常
 
@@ -8,4 +8,5 @@
 - 无新 BUG
 - Git: tree clean，无新活动
 - 阻塞项不变（Paddle产品发布+Webhook，CEO操作）
-- PM last_check: 03:42（15min前，活跃）
+- ux-auditor 自5/16起无更新（scores仅paper-summarizer:3）
+- PM last_check: 04:12（当前）
