@@ -1,29 +1,30 @@
 import SwiftUI
+import WebKit
 
 /// 主视图 - 底部 Tab 导航
 struct MainTabView: View {
     @State private var selectedTab = 0
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            // 底层：星星背景（全局）
+        ZStack {
+            // 底层：星星背景
             StarFieldView()
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
             
             // 上层：Tab 内容
             TabView(selection: $selectedTab) {
-                WebContainerView(title: "Home", tab: 0)
+                WebContainerView(url: AppTheme.webViewURL, title: "Home")
                     .tabItem {
                         Image(systemName: selectedTab == 0 ? "house.fill" : "house")
                         Text("Home")
                     }
                     .tag(0)
                 
-                WebContainerView(title: "Blog", tab: 1)
+                WebContainerView(url: "\(AppTheme.webViewURL)/chat", title: "Chat")
                     .tabItem {
-                        Image(systemName: selectedTab == 1 ? "book.fill" : "book")
-                        Text("Blog")
+                        Image(systemName: selectedTab == 1 ? "message.fill" : "message")
+                        Text("Chat")
                     }
                     .tag(1)
                 
@@ -35,66 +36,42 @@ struct MainTabView: View {
                     .tag(2)
             }
             .tint(AppTheme.gold)
-            // Tab Bar 背景透明
-            .onAppear {
-                // TabView 背景透明，星星才能透出来
-                let tabAppearance = UITabBarAppearance()
-                tabAppearance.configureWithTransparentBackground()
-                tabAppearance.backgroundColor = UIColor.clear
-                tabAppearance.backgroundEffect = nil
-                UITabBar.appearance().standardAppearance = tabAppearance
-                UITabBar.appearance().scrollEdgeAppearance = tabAppearance
-                
-                // 全局设置 TabView 背景
-                let appearance = UITabBarItemAppearance()
-                appearance.normal.iconColor = UIColor(AppTheme.textTertiary)
-                appearance.normal.titleTextAttributes = [.foregroundColor: UIColor(AppTheme.textTertiary)]
-                appearance.selected.iconColor = UIColor(AppTheme.gold)
-                appearance.selected.titleTextAttributes = [.foregroundColor: UIColor(AppTheme.gold)]
-                tabAppearance.stackedLayoutAppearance = appearance
-            }
         }
         .ignoresSafeArea(.keyboard)
+        .preferredColorScheme(.dark)
     }
 }
 
-/// 网页容器
+/// 网页容器 - 透明背景
 struct WebContainerView: View {
+    let url: String
     let title: String
-    let tab: Int
     @State private var isLoading = true
-    
-    private var baseURL: URL {
-        if title == "Blog" {
-            return URL(string: "\(AppTheme.webViewURL)/blog")!
-        }
-        return URL(string: AppTheme.webViewURL)!
-    }
     
     var body: some View {
         ZStack {
-            WebView(url: baseURL)
-                .background(Color.clear)
+            Color.clear
             
-            // 加载进度指示
+            if let url = URL(string: url) {
+                WebView(url: url)
+            }
+            
             if isLoading {
-                VStack {
+                VStack(spacing: 12) {
                     ProgressView()
                         .progressViewStyle(.circular)
                         .tint(AppTheme.gold)
-                        .scaleEffect(1.2)
+                        .scaleEffect(1.5)
                     Text("Loading...")
-                        .font(.caption)
+                        .font(.subheadline)
                         .foregroundColor(AppTheme.textTertiary)
-                        .padding(.top, 8)
                 }
-                .transition(.opacity)
+                .transition(.opacity.animation(.easeInOut(duration: 0.3)))
             }
         }
         .background(Color.clear)
         .onAppear {
-            // 模拟加载延迟
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 withAnimation { isLoading = false }
             }
         }
