@@ -485,9 +485,6 @@ export default function StarBackground() {
   // ── Main draw loop ──
 
   useEffect(() => {
-    // Disable heavy canvas animation on mobile (GPU performance)
-    if (window.innerWidth < 768) return;
-
     const canvas = canvasRef.current;
     if (!canvas) return;
 
