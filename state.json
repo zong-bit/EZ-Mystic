@@ -10,18 +10,18 @@
   "domain_registered": true,
   "status": "up",
   "phase": "feature-complete",
-  "last_check": "2026-05-20T04:57:00+08:00",
-  "last_report": "✅bornchart.app持续正常HTTP 200(0.31s首页,0.33s/pricing,0.36s/bazi,0.41s/blog,0.28s/chat)。累计正常+995min(第64次)。无新审计/UX反馈。无新bug。Git无新活动(HEAD 073a6b3)。阻塞项:仅剩Paddle产品发布+Webhook(CEO操作)。",
+  "last_check": "2026-05-20T05:12:00+08:00",
+  "last_report": "✅bornchart.app持续正常HTTP 200(0.31s首页,0.30s/pricing,0.30s/bazi,0.39s/blog,0.27s/chat)。累计正常+1010min(第65次)。无新审计/UX反馈。无新bug。Git无新活动(HEAD da0eaef)。阻塞项:仅剩Paddle产品发布+Webhook(CEO操作)。",
   "code_review": {
     "status": "solid",
     "issues": [],
-    "notes": "Audit 2026-05-20T04:57:00+08:00: ✅bornchart.app持续稳定HTTP 200(第64次连续)。无新审计/UX反馈,无新bug。Git无新活动。阻塞项:仅剩Paddle Dashboard发布+Webhook(CEO操作)。"
+    "notes": "Audit 2026-05-20T05:12:00+08:00: ✅bornchart.app持续稳定HTTP 200(第65次连续)。无新审计/UX反馈,无新bug。Git无新活动。阻塞项:仅剩Paddle Dashboard发布+Webhook(CEO操作)。"
   },
   "updates_count_since_down": 0,
-  "last_seen_up": "2026-05-20T04:57:00+08:00",
+  "last_seen_up": "2026-05-20T05:12:00+08:00",
   "down_since": null,
   "down_accumulated_hours": 0,
-  "consecutive_passes": 64,
+  "consecutive_passes": 65,
   "deploy_status": "live-migrated",
   "payment": "Migrated from Gumroad to Paddle. Checkout URLs filled (b2d074c). Products need publishing in Paddle dashboard (CEO action).",
   "paddle_products": {
@@ -78,7 +78,7 @@
     "Paddle products not published in dashboard (CEO action)",
     "Paddle webhook URL not configured in dashboard (CEO action)"
   ],
-  "notes": "✅bornchart.app持续正常HTTP 200(0.31s首页,0.33s/pricing,0.36s/bazi,0.41s/blog,0.28s/chat)。累计正常+995min(第64次)。无新审计/UX反馈。无新bug。Git无新活动(HEAD 073a6b3)。阻塞项:仅剩Paddle产品发布+Webhook(CEO操作)。",
+  "notes": "✅bornchart.app持续正常HTTP 200(0.31s首页,0.30s/pricing,0.30s/bazi,0.39s/blog,0.27s/chat)。累计正常+1010min(第65次)。无新审计/UX反馈。无新bug。Git无新活动(HEAD da0eaef)。阻塞项:仅剩Paddle产品发布+Webhook(CEO操作)。",
   "deployed_pages": [
     "/ (home)",
     "/bazi",
@@ -107,6 +107,11 @@
       "time": "2026-05-20T04:57:00+08:00",
       "status": "up",
       "note": "✅bornchart.app持续正常HTTP 200(0.31s首页,0.33s/pricing,0.36s/bazi,0.41s/blog,0.28s/chat)。累计正常+995min(第64次)。无新审计/UX反馈。无新bug。Git无新活动(HEAD 073a6b3)。阻塞项:仅剩Paddle产品发布+Webhook(CEO操作)。"
+    },
+    {
+      "time": "2026-05-20T05:12:00+08:00",
+      "status": "up",
+      "note": "✅bornchart.app持续正常HTTP 200(0.31s首页,0.30s/pricing,0.30s/bazi,0.39s/blog,0.27s/chat)。累计正常+1010min(第65次)。无新审计/UX反馈。无新bug。Git无新活动(HEAD da0eaef)。阻塞项:仅剩Paddle产品发布+Webhook(CEO操作)。"
     }
   ]
 }
