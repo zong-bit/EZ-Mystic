@@ -1,0 +1,117 @@
+{
+  "project": "ez-mystic",
+  "name": "FateWise - AI东方神秘学",
+  "url": "https://bornchart.app",
+  "domain": "https://bornchart.app",
+  "old_domains": {
+    "vercel": "https://ez-mystic.vercel.app (down/unused after migration)",
+    "fatewise": "https://fatewise.app (not registered, abandoned)"
+  },
+  "domain_registered": true,
+  "status": "up",
+  "phase": "feature-complete",
+  "last_check": "2026-05-19T23:57:00+08:00",
+  "last_report": "✅bornchart.app持续正常HTTP 200(0.30s首页,0.37s/pricing,0.29s/bazi,0.40s/blog,0.30s/chat)。累计正常+710min(第47次)。无新审计/UX反馈。无新bug。Git无新活动。阻塞项:仅剩Paddle产品发布+Webhook(CEO操作)。",
+  "code_review": {
+    "status": "solid",
+    "issues": [],
+    "notes": "Audit 2026-05-19T23:57:00+08:00: ✅bornchart.app持续稳定HTTP 200(第47次连续)。无新审计/UX反馈,无新bug。Git无新活动。Paddle待Dashboard发布(CEO操作)。"
+  },
+  "updates_count_since_down": 0,
+  "last_seen_up": "2026-05-19T23:57:00+08:00",
+  "down_since": null,
+  "down_accumulated_hours": 0,
+  "consecutive_passes": 47,
+  "deploy_status": "live-migrated",
+  "payment": "Migrated from Gumroad to Paddle. Checkout URLs filled (b2d074c). Products need publishing in Paddle dashboard (CEO action).",
+  "paddle_products": {
+    "pro": {
+      "price": "$9.99/mo",
+      "url": "/payment?plan=pro",
+      "published": false,
+      "note": "URL filled in code. Needs publishing in Paddle Dashboard."
+    },
+    "premium": {
+      "price": "$29.99 one-time",
+      "url": "/payment?plan=premium",
+      "published": false,
+      "note": "URL filled in code. Needs publishing in Paddle Dashboard."
+    }
+  },
+  "gumroad_products": {
+    "pro": {
+      "url": "https://selinazw.gumroad.com/l/lcrujk",
+      "published": false
+    },
+    "premium": {
+      "url": "https://selinazw.gumroad.com/l/gebxj",
+      "published": false
+    }
+  },
+  "gsc_verified": false,
+  "backlog": [
+    {
+      "id": "paid-qa",
+      "title": "P1: 实现问答功能 - 免费解读Open,具体问题收费",
+      "priority": 1,
+      "status": "pending",
+      "note": "商业模式:免费AI命理解读吸引用户;用户可以问具体事情(事业/感情/财运),收费回答"
+    },
+    {
+      "id": "show-examples",
+      "title": "P1: 展示付费会员可问的示例问题",
+      "priority": 1,
+      "status": "pending",
+      "note": "例如:事业运势分析、感情缘分测算、今年财运如何等。让用户知道付费能获得什么。"
+    },
+    {
+      "id": "paddle-publish",
+      "title": "P0: 在Paddle Dashboard发布产品并配置Webhook",
+      "priority": 0,
+      "status": "pending",
+      "note": "Checkout URLs已填入代码(b2d074c),需在Paddle后台完成发布+Webhook配置(CEO操作)"
+    }
+  ],
+  "stage": "feature-complete-no-revenue",
+  "revenue_readiness": 60,
+  "blockers": [
+    "Paddle products not published in dashboard (CEO action)",
+    "Paddle webhook URL not configured in dashboard (CEO action)"
+  ],
+  "notes": "✅bornchart.app持续正常HTTP 200(0.30s首页,0.37s/pricing,0.29s/bazi,0.40s/blog,0.30s/chat)。累计正常+710min(第47次)。无新审计/UX反馈。无新bug。Git无新活动。阻塞项:仅剩Paddle产品发布+Webhook(CEO操作)。",
+  "deployed_pages": [
+    "/ (home)",
+    "/bazi",
+    "/pricing",
+    "/blog",
+    "/chat"
+  ],
+  "git_remote": "git@github.com:zong-bit/EZ-Mystic.git",
+  "gh_cli": false,
+  "github_token": null,
+  "vercel_env": {
+    "DEEPSEEK_API_KEY": "set",
+    "DEEPSEEK_MODEL": "set",
+    "DEEPSEEK_API_URL": "set",
+    "NEXT_PUBLIC_APP_URL": "set (likely bornchart.app)",
+    "NEXT_PUBLIC_APP_NAME": "set",
+    "GUMROAD_WEBHOOK_SECRET": "set (added 2026-05-15)"
+  },
+  "audit_history": [
+    {
+      "time": "2026-05-19T23:27:00+08:00",
+      "status": "up",
+      "note": "✅bornchart.app持续正常HTTP 200(1.15s首页,1.14s/pricing,1.14s/bazi,1.34s/blog,1.07s/chat)。累计正常+680min(第45次)。无新审计/UX反馈。无新bug。Git remote force-pushed(native iOS)."
+    },
+    {
+      "time": "2026-05-19T23:42:00+08:00",
+      "status": "up",
+      "note": "✅bornchart.app持续正常HTTP 200(1.14s,1.49s/pricing,0.80s/bazi,1.15s/blog,1.14s/chat)。累计正常+695min(第46次)。无新审计/UX反馈。无新bug。Git无新活动。"
+    },
+    {
+      "time": "2026-05-19T23:57:00+08:00",
+      "status": "up",
+      "note": "✅bornchart.app持续正常HTTP 200(0.30s首页,0.37s/pricing,0.29s/bazi,0.40s/blog,0.30s/chat)。累计正常+710min(第47次)。无新审计/UX反馈。无新bug。Git无新活动。"
+    }
+  ]
+}
