@@ -37,12 +37,21 @@ struct MainTabView: View {
             .tint(AppTheme.gold)
             // Tab Bar 背景透明
             .onAppear {
+                // TabView 背景透明，星星才能透出来
                 let tabAppearance = UITabBarAppearance()
                 tabAppearance.configureWithTransparentBackground()
-                tabAppearance.backgroundColor = UIColor(AppTheme.bgPrimary).withAlphaComponent(0.7)
-                tabAppearance.backgroundEffect = UIBlurEffect(style: .dark)
+                tabAppearance.backgroundColor = UIColor.clear
+                tabAppearance.backgroundEffect = nil
                 UITabBar.appearance().standardAppearance = tabAppearance
                 UITabBar.appearance().scrollEdgeAppearance = tabAppearance
+                
+                // 全局设置 TabView 背景
+                let appearance = UITabBarItemAppearance()
+                appearance.normal.iconColor = UIColor(AppTheme.textTertiary)
+                appearance.normal.titleTextAttributes = [.foregroundColor: UIColor(AppTheme.textTertiary)]
+                appearance.selected.iconColor = UIColor(AppTheme.gold)
+                appearance.selected.titleTextAttributes = [.foregroundColor: UIColor(AppTheme.gold)]
+                tabAppearance.stackedLayoutAppearance = appearance
             }
         }
         .ignoresSafeArea(.keyboard)
@@ -65,7 +74,7 @@ struct WebContainerView: View {
     var body: some View {
         ZStack {
             WebView(url: baseURL)
-                .background(.clear)
+                .background(Color.clear)
             
             // 加载进度指示
             if isLoading {
@@ -82,7 +91,7 @@ struct WebContainerView: View {
                 .transition(.opacity)
             }
         }
-        .background(AppTheme.bgPrimary)
+        .background(Color.clear)
         .onAppear {
             // 模拟加载延迟
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
