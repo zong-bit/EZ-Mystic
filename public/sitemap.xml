@@ -93,4 +93,10 @@
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
+  <url>
+    <loc>https://bornchart.app/blog/how-to-read-bazi-chart-beginners-guide</loc>
+    <lastmod>2026-05-19</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 </urlset>
