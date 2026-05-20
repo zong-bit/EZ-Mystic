@@ -26,7 +26,7 @@ export default function PricingPage() {
 
       {/* Pricing Cards */}
       <section className="py-12 px-6">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Free */}
           <div className="glass-card p-8 flex flex-col">
             <span className="text-text-tertiary text-sm uppercase tracking-wider">Free</span>
@@ -161,54 +161,7 @@ export default function PricingPage() {
             </Link>
           </div>
 
-          {/* Premium */}
-          <div className="glass-card p-8 flex flex-col border-gold-primary/40">
-            <span className="text-text-tertiary text-sm uppercase tracking-wider">Premium · Lifetime</span>
-            <div className="my-4">
-              <span className="font-display text-5xl font-bold text-text-primary">$29</span>
-              <span className="text-text-secondary">.99</span>
-              <span className="text-text-tertiary text-sm ml-1">one-time</span>
-            </div>
-            <p className="text-text-secondary text-sm mb-6">Everything in Pro + extras — pay once, keep forever</p>
-            <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
-              <li className="flex items-start gap-2">
-                <span className="text-gold-primary">✓</span>
-                <span>Everything in Pro</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-gold-primary">✓</span>
-                <span>Yearly forecast report</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-gold-primary">✓</span>
-                <span>Relationship compatibility analysis</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-gold-primary">✓</span>
-                <span>Feng Shui basics for your chart</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-gold-primary">✓</span>
-                <span>Priority support</span>
-              </li>
-            </ul>
 
-            {/* Deliverables — Premium */}
-            <div className="mb-6 p-3 border border-gold-primary/20 rounded bg-gold-primary/5">
-              <p className="text-xs text-gold-primary font-semibold uppercase tracking-wider mb-1">You Will Receive:</p>
-              <ul className="text-xs text-text-secondary space-y-1">
-                <li>✦ Full AI deep interpretation report</li>
-                <li>✦ Complete Destiny Book PDF download</li>
-                <li>✦ Great Fortune &amp; Annual Luck analysis</li>
-                <li>✦ Yearly forecast report</li>
-                <li>✦ Relationship compatibility analysis</li>
-              </ul>
-            </div>
-
-            <Link href="/payment?plan=premium" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
-              Upgrade →
-            </Link>
-          </div>
         </div>
       </section>
 
