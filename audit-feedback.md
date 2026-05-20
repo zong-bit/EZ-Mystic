@@ -1,52 +1,35 @@
+# 审计反馈（2026-05-20 19:29）
+
+## ✅ 一切正常
+
+- **bornchart.app** → HTTP 200 ✅（首页、/pricing、/bazi、/blog、/chat、/contact 全部正常，0.27-0.37s）
+- ez-mystic.vercel.app → 404（已迁移至 bornchart.app，预期行为）
+- PM last_check: 19:29（活跃）
+- 连续正常第119次 ≈ 1882min（31.37h）🎉
+- 无新增审计/UX反馈
+- 无新增BUG
+- 阻塞项不变（Paddle产品发布+Webhook，CEO操作）
+
+## 📋 巡检摘要
+- ✅ 无新BUG
+- ✅ 无新审计/UX反馈
+- ✅ 网站健康，全部6页快速响应
+- ⏳ 阻塞项：Paddle Dashboard发布+Webhook配置（需CEO操作）
 
 ---
 
-# 审计反馈（2026-05-20 19:14）
+# 审计反馈（2026-05-20 19:19）
 
-## ⏱ 本次检查（19:14）
-- 检查时间: 2026-05-20 19:14 CST
-- 6页全部HTTP 200（响应时间0.30-0.70s 🚀 较上次大幅改善）
-  - 首页: 200 (0.70s)
-  - /pricing: 200 (0.30s)
-  - /bazi: 200 (0.56s)
-  - /blog: 200 (0.38s ✅ 从6.59s降至0.38s，恢复正常)
-  - /chat: 200 (0.52s)
-  - /contact: 200 (0.30s)
-- 连续正常: **第118次**（+1867min，≈31.12h连续稳定）🎉🎉
-- **ux-auditor**: 仍未覆盖ez-mystic（自5/16起无活动，末次修改5/15），状态不变
-- **ux反馈**: 无新反馈涉及ez-mystic
-- **auditor (crew-ceo)**: 末次报告 5/15（无新增反馈，项目卡在CEO操作），状态不变
-- Git: HEAD `ac1555b`（tree clean — 末次commit为18:59 cron审计）
-- 🆕 **CEO新功能（不变）**: Referral System Phase 1 — 邀请/注册/7天试用
-- 🛠️ **referral.ts改进(已commit)**: 添加DB碰撞检查 + MAX_ATTEMPTS=10
-- ✅ **/blog恢复正常**: 响应时间从6.59s降至0.38s，冷启动后缓存命中
-- 阻塞项: 无变化（Paddle产品发布+Webhook，CEO操作）
-- 一切正常 ✅
+## ✅ 一切正常
 
----
+- **bornchart.app** → HTTP 200 ✅（首页、/pricing、/bazi、/blog、/chat、/contact 全部正常）
+- ez-mystic.vercel.app → 404（已迁移至 bornchart.app，预期行为）
+- 首页有Pro/Pricing入口 ✅（"View Pricing →"→/pricing、"Get Destiny Book →"→/payment?plan=pro、"Upgrade →"→/payment?plan=premium）
+- PM last_check: 19:14（活跃）
+- 连续正常第118次
+- 阻塞项不变（Paddle产品发布+Webhook，CEO操作）
 
-# 审计反馈（2026-05-20 18:59）
-
-## ⏱ 本次检查（18:59）
-- 检查时间: 2026-05-20 18:59 CST
-- 6页全部HTTP 200（响应时间0.87-6.59s）
-  - 首页: 200 (1.37s)
-  - /pricing: 200 (1.11s)
-  - /bazi: 200 (1.06s)
-  - /blog: 200 (6.59s ⚠️ 较慢)
-  - /chat: 200 (1.07s)
-  - /contact: 200 (0.87s)
-- 连续正常: **第117次**（+1852min，≈30.87h连续稳定）🎉🎉
-- **ux-auditor**: 仍未覆盖ez-mystic（自5/16起无活动），状态不变
-- **ux反馈**: 无新反馈涉及ez-mystic（末次UX报告 5/20 10:10，评分3/5，问题基本已解决）
-- **auditor (crew-ceo)**: 末次报告 5/15（无新增反馈，3个项目均卡在CEO操作）
-- Git: HEAD `e60b05b`（tree clean — 末次commit为18:44 cron审计）
-- 🆕 **CEO新功能（不变）**: Referral System Phase 1 — 邀请/注册/7天试用
-  - DB迁移: referral_codes, referral_events, referral_rewards表
-  - API: /api/referral/code, /verify, /claim, /stats
-  - UI: ReferralCard, ReferralHistory, ReferralModal组件
-  - Security: crypto randomBytes, refund revocation, unique constraint
-- 🛠️ **referral.ts改进(已commit)**: 添加DB碰撞检查 + MAX_ATTEMPTS=10
-- ⚠️ **/blog响应时间6.59s**，但仍在200范围内，其他页面均<1.4s
-- 阻塞项: 无变化（Paddle产品发布+Webhook，CEO操作）
-- 一切正常 ✅
+## 📋 巡检摘要
+- ✅ 无新增BUG
+- ✅ 无新增审计/UX反馈
+- ✅ 网站健康，内容部署正常
