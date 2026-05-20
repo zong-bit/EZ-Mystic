@@ -10,18 +10,18 @@
   "domain_registered": true,
   "status": "up",
   "phase": "feature-complete",
-  "last_check": "2026-05-20T18:59:00+08:00",
-  "last_report": "✅bornchart.app持续正常HTTP 200(6页,0.87-6.59s)。第117次连续≈30.87h稳定🎉🎉。HEAD e60b05b，无新CEO活动。无新审计/UX反馈。/blog响应6.59s略慢。阻塞项不变: Paddle产品发布+Webhook(CEO操作)。",
+  "last_check": "2026-05-20T19:14:00+08:00",
+  "last_report": "✅bornchart.app持续正常HTTP 200(6页,0.30-0.70s)。第118次连续≈31.12h稳定🎉🎉。HEAD ac1555b，无新CEO活动。无新审计/UX反馈。/blog已恢复正常(0.38s)。阻塞项不变: Paddle产品发布+Webhook(CEO操作)。",
   "code_review": {
     "status": "solid",
     "issues": [],
-    "notes": "Audit 2026-05-20T18:59:00+08:00: ✅bornchart.app持续稳定HTTP 200(6页,0.87-6.59s,第117次连续≈30.87h🎉🎉)。HEAD e60b05b，无新CEO活动。/blog响应6.59s较慢。阻塞项仅剩Paddle Dashboard发布+Webhook(CEO操作)。"
+    "notes": "Audit 2026-05-20T19:14:00+08:00: ✅bornchart.app持续稳定HTTP 200(6页,0.30-0.70s,第118次连续≈31.12h🎉🎉)。HEAD ac1555b，无新CEO活动。/blog已恢复正常(0.38s)。阻塞项仅剩Paddle Dashboard发布+Webhook(CEO操作)。"
   },
   "updates_count_since_down": 0,
-  "last_seen_up": "2026-05-20T18:59:00+08:00",
+  "last_seen_up": "2026-05-20T19:14:00+08:00",
   "down_since": null,
   "down_accumulated_hours": 0,
-  "consecutive_passes": 117,
+  "consecutive_passes": 118,
   "deploy_status": "live-migrated",
   "payment": "Migrated from Gumroad to Paddle. Checkout URLs filled (b2d074c). Products need publishing in Paddle dashboard (CEO action).",
   "paddle_products": {
@@ -90,7 +90,7 @@
     "Paddle products not published in dashboard (CEO action)",
     "Paddle webhook URL not configured in dashboard (CEO action)"
   ],
-  "notes": "✅bornchart.app持续正常HTTP 200(6页,0.87-6.59s)。第117次连续≈30.87h稳定🎉🎉。HEAD e60b05b，无新CEO活动。referral.ts碰撞检查已commit。/blog响应6.59s略慢。阻塞项:仅剩Paddle产品发布+Webhook(CEO操作)。",
+  "notes": "✅bornchart.app持续正常HTTP 200(6页,0.30-0.70s)。第118次连续≈31.12h稳定🎉🎉。HEAD ac1555b，无新CEO活动。referral.ts碰撞检查已commit。/blog已恢复正常(0.38s)。阻塞项:仅剩Paddle产品发布+Webhook(CEO操作)。",
   "deployed_pages": [
     "/ (home)",
     "/bazi",
@@ -111,6 +111,11 @@
     "GUMROAD_WEBHOOK_SECRET": "set (added 2026-05-15)"
   },
   "audit_history": [
+    {
+      "time": "2026-05-20T19:14:00+08:00",
+      "status": "up",
+      "note": "✅bornchart.app持续正常HTTP 200(6页,0.30-0.70s)。第118次连续≈31.12h稳定🎉🎉。HEAD ac1555b，/blog恢复正常(0.38s)。无新审计/UX反馈。阻塞项不变: Paddle产品发布+Webhook(CEO操作)。"
+    },
     {
       "time": "2026-05-20T18:59:00+08:00",
       "status": "up",
