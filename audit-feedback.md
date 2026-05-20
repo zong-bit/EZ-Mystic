@@ -1,4 +1,72 @@
-# 审计反馈（2026-05-20 11:28）
+# 审计反馈（2026-05-20 12:58）
+
+## ⏱ 本次检查（12:58）
+- 检查时间: 2026-05-20 12:58 CST
+- 6页全部HTTP 200（响应时间0.28-0.63s）
+  - 首页: 200 (0.55s)
+  - /pricing: 200 (0.33s)
+  - /bazi: 200 (0.29s)
+  - /blog: 200 (0.63s)
+  - /chat: 200 (0.28s)
+  - /contact: 200 (0.30s)
+- 连续正常: **第95次**（+1491min，≈24.85h连续稳定）🎉
+- **ux-auditor**: 仍未覆盖ez-mystic（自5/16起无活动），状态不变
+- **auditor (crew-ceo)**: 末次报告 5/15（无新增反馈，无新BUG）
+- **ux反馈**: 无新反馈涉及ez-mystic
+- Git: HEAD 1ca64b0 (tree dirty—本地audit文件)
+- 新变化: 无新CEO活动（末次commit 1ca64b0 移除Premium Lifetime）
+- 阻塞项: 无变化（Paddle产品发布+Webhook，CEO操作）
+- 一切正常 ✅
+
+---
+
+# 审计反馈（2026-05-20 12:43）
+
+## ⏱ 本次检查（12:43）
+- 检查时间: 2026-05-20 12:43 CST
+- 6页全部HTTP 200（响应时间0.77-1.15s）
+  - 首页: 200 (1.14s)
+  - /pricing: 200 (1.11s)
+  - /bazi: 200 (0.86s)
+  - /blog: 200 (0.95s)
+  - /chat: 200 (1.15s)
+  - /contact: 200 (0.77s)
+- 连续正常: **第94次**（+1476min，≈24.6h连续稳定）🎉
+- **ux-auditor**: 仍未覆盖ez-mystic（自5/16起无活动），状态不变
+- **auditor (crew-ceo)**: 末次报告 5/20 11:43（全站正常 ✅）
+- **ux反馈**: 无新反馈涉及ez-mystic
+- Git: HEAD 1ca64b0 (tree dirty—本地audit文件), 新增CEO commit `1ca64b0 fix: remove Premium lifetime tier, keep Free/Pro Monthly/Pro Yearly`
+- 新变化: CEO将定价简化为Free/Pro Monthly/Pro Yearly三项，移除了Premium Lifetime一次性支付选项
+- 阻塞项: 无变化（Paddle产品发布+Webhook，CEO操作）
+- 一切正常 ✅
+
+---
+
+# 审计反馈（2026-05-20 11:58）
+
+## ⏱ 本次检查（11:58）
+- 检查时间: 2026-05-20 11:58 CST
+- 6页全部HTTP 200（响应时间0.81-1.19s）
+  - 首页: 200 (1.19s)
+  - /pricing: 200 (1.12s)
+  - /bazi: 200 (1.09s)
+  - /blog: 200 (1.02s)
+  - /chat: 200 (0.81s)
+  - /contact: 200 (0.84s)
+- 连续正常: **第91次**（+1446min，≈24.1h连续稳定）🎉
+- **ux-auditor**: 今日有报告但仍未覆盖ez-mystic（仅paper-summarizer, score=4/3）
+- 无新审计/UX反馈涉及ez-mystic
+- Git: HEAD 4c96367 (tree clean)
+  - `e467b33` CEO: fix hide email address
+  - `aacea31` CEO: feat add contact page
+  - `4c96367` **PM: fix broken contact form with fake "Message Sent!"** 🛠️
+- **🛠️ Bug fixed (本次)**: contact表单使用`mailto:` action + 假"Message Sent!"提示已被修复
+  - 问题: form的action="mailto:..."不会真正发送邮件，但onSubmit设置submitted=true显示"Message Sent!"
+  - 修复: 删除整个表单，替换为直接mailto链接（打开用户邮件客户端）
+  - 注意: 后端邮件API（SendGrid/Resend）仍为空缺，但非前端代码bug——仅剩阻塞项（CEO操作）
+- 阻塞项: 无变化（Paddle产品发布+Webhook，CEO操作）
+
+## 审计反馈（2026-05-20 11:28）
 
 ## ⏱ 本次检查（11:28）
 - 检查时间: 2026-05-20 11:28 CST
