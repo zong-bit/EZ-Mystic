@@ -6,30 +6,17 @@ import { useAuth } from './auth/auth-context';
 
 export default function HomePage() {
   const { user } = useAuth();
+  const [userCount, setUserCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch('/api/user-count')
+      .then(r => r.json())
+      .then(d => { if (d.count > 0) setUserCount(d.count) })
+      .catch(() => {})
+  }, [])
+
   return (
     <div className="min-h-screen">
-      {/* Top Stats Bar */}
-      <section className="relative py-3 px-6 border-b border-gold-primary/10 bg-gold-primary/[0.03]">
-        <div className="max-w-6xl mx-auto flex items-center justify-center gap-8 md:gap-16 text-sm">
-          <div className="flex items-center gap-2 text-text-secondary">
-            <span className="text-gold-primary">📊</span>
-            <span className="font-display font-semibold text-gold-primary">10,000+</span>
-            <span className="text-text-tertiary">charts generated</span>
-          </div>
-          <div className="w-px h-4 bg-text-tertiary/30" />
-          <div className="flex items-center gap-2 text-text-secondary">
-            <span className="text-gold-primary">🌍</span>
-            <span className="font-display font-semibold text-gold-primary">50+</span>
-            <span className="text-text-tertiary">countries</span>
-          </div>
-          <div className="w-px h-4 bg-text-tertiary/30" />
-          <Link href="/signup" className="flex items-center gap-2 text-text-secondary hover:text-gold-primary transition-colors">
-            <span className="text-gold-primary">🎁</span>
-            <span className="font-semibold">Share to earn</span>
-          </Link>
-        </div>
-      </section>
-
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background decoration */}
@@ -56,23 +43,13 @@ export default function HomePage() {
             <span className="text-text-tertiary text-base">Millennia of Eastern wisdom, revealed by artificial intelligence</span>
           </p>
 
-          {/* Social proof */}
-          <div className="flex items-center justify-center gap-6 mb-8 text-text-tertiary text-sm">
-            <div className="flex items-center gap-1">
-              <span className="text-gold-primary">★★★★★</span>
-              <span className="text-text-secondary">4.8/5</span>
+          {/* Real user count */}
+          {userCount !== null && userCount > 0 && (
+            <div className="mb-8 text-text-tertiary text-sm">
+              <span className="text-gold-primary font-semibold">{userCount.toLocaleString()}</span>
+              <span className="text-text-tertiary"> members</span>
             </div>
-            <span className="text-text-tertiary/50">·</span>
-            <div className="flex items-center gap-1">
-              <span>📊</span>
-              <span>10,000+ charts generated</span>
-            </div>
-            <span className="text-text-tertiary/50">·</span>
-            <div className="flex items-center gap-1">
-              <span>🌍</span>
-              <span>50+ countries</span>
-            </div>
-          </div>
+          )}
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/bazi" className="btn-primary glow-pulse text-lg px-12 py-4">
@@ -199,17 +176,18 @@ export default function HomePage() {
               </Link>
             </div>
 
-            {/* Pro */}
+            {/* Pro Monthly */}
             <div className="glass-card p-8 flex flex-col relative border-gold-primary/40">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-primary text-dark text-xs px-4 py-1 rounded-full font-semibold">
                 Most Popular
               </div>
               <div className="mb-4 mt-2">
-                <span className="text-gold-primary text-sm uppercase tracking-wider">Pro</span>
+                <span className="text-gold-primary text-sm uppercase tracking-wider">Pro · Monthly</span>
               </div>
               <div className="mb-6">
                 <span className="font-display text-4xl font-bold text-gold-primary">$9</span>
                 <span className="text-text-secondary">.99</span>
+                <span className="text-text-tertiary text-sm ml-1">/month</span>
               </div>
               <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
                 <li>✓ Everything in Free</li>
@@ -223,24 +201,29 @@ export default function HomePage() {
               </Link>
             </div>
 
-            {/* Premium */}
-            <div className="glass-card p-8 flex flex-col">
-              <div className="mb-4">
-                <span className="text-text-tertiary text-sm uppercase tracking-wider">Premium</span>
+            {/* Pro Yearly */}
+            <div className="glass-card p-8 flex flex-col relative border-gold-primary/40">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-primary text-dark text-xs px-4 py-1 rounded-full font-semibold">
+                Best Value
+              </div>
+              <div className="mb-4 mt-2">
+                <span className="text-gold-primary text-sm uppercase tracking-wider">Pro · Yearly</span>
               </div>
               <div className="mb-6">
-                <span className="font-display text-4xl font-bold text-text-primary">$29</span>
+                <span className="font-display text-4xl font-bold text-gold-primary">$79</span>
                 <span className="text-text-secondary">.99</span>
+                <span className="text-text-tertiary text-sm ml-1">/year</span>
               </div>
+              <p className="text-gold-primary text-sm font-semibold mb-2">Save 34% — just $6.67/month</p>
               <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
-                <li>✓ Everything in Pro</li>
-                <li>✓ Yearly forecast report</li>
-                <li>✓ Relationship compatibility</li>
-                <li>✓ Feng Shui basics</li>
-                <li>✓ Priority support</li>
+                <li>✓ Everything in Free</li>
+                <li>✓ Full AI deep interpretation</li>
+                <li>✓ Complete Destiny Book (PDF)</li>
+                <li>✓ Great Fortune & Annual Luck</li>
+                <li>✓ Open Luck guidance</li>
               </ul>
-              <Link href="/payment?plan=premium" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
-                Upgrade →
+              <Link href="/payment?plan=pro-yearly" className="btn-primary w-full text-center py-3">
+                Get Destiny Book →
               </Link>
             </div>
           </div>
@@ -251,10 +234,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Why EZ-Mystic */}
+      {/* Why FateWise */}
       <section className="py-24 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="font-display text-3xl font-bold text-center mb-16">Why EZ-Mystic</h2>
+          <h2 className="font-display text-3xl font-bold text-center mb-16">Why FateWise</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="text-center">
               <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gold-primary/10 flex items-center justify-center">
