@@ -243,6 +243,22 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Invite Friends CTA */}
+      <section className="py-24 px-6">
+        <div className="max-w-3xl mx-auto text-center glass-card p-12 border-gold-primary/30">
+          <div className="text-gold-primary text-3xl mb-4">✦</div>
+          <h2 className="font-display text-3xl font-bold mb-4 text-gold-glow">
+            Invite Friends, Earn Free Pro
+          </h2>
+          <p className="text-text-secondary mb-8 max-w-xl mx-auto leading-relaxed">
+            Share FateWise with friends — you both get 7 days of Pro for every friend who signs up. When they upgrade, you get Pro too.
+          </p>
+          <Link href="/signup" className="btn-primary text-lg px-10 py-4">
+            Start Sharing →
+          </Link>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-24 px-6">
         <div className="max-w-3xl mx-auto text-center glass-card p-12">

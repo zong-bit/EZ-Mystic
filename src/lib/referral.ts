@@ -33,7 +33,7 @@ export async function getOrCreateReferralCode(userId: string): Promise<{ code: s
   if (existing?.code) {
     return {
       code: existing.code,
-      link: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bornchart.app'}/register?ref=${existing.code}`,
+      link: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bornchart.app'}/signup?ref=${existing.code}`,
     }
   }
 
@@ -62,7 +62,7 @@ export async function getOrCreateReferralCode(userId: string): Promise<{ code: s
 
   return {
     code,
-    link: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bornchart.app'}/register?ref=${code}`,
+    link: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bornchart.app'}/signup?ref=${code}`,
   }
 }
 
@@ -197,7 +197,7 @@ export async function getReferralStats(userId: string): Promise<{
   const referralCode = codeData?.code || null
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bornchart.app'
   const referralLink = referralCode
-    ? `${baseUrl}/register?ref=${referralCode}`
+    ? `${baseUrl}/signup?ref=${referralCode}`
     : null
 
   // Count total invites (all signup events)
