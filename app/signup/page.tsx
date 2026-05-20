@@ -1,22 +1,82 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { getSupabaseClient } from '../../src/lib/supabase';
+import ReferralModal from '../components/referral/ReferralModal';
 
-export default function SignupPage() {
+export const dynamic = 'force-dynamic';
+
+function SignupContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [referralCode, setReferralCode] = useState<string | null>(null);
+  const [claimResult, setClaimResult] = useState<{ success: boolean; error?: string } | null>(null);
+
+  // Extract ref code from URL
+  useEffect(() => {
+    const ref = searchParams.get('ref');
+    if (ref) {
+      setReferralCode(ref.toUpperCase());
+    }
+  }, [searchParams]);
+
+  // Handle referral claim after signup
+  const handleClaimReferral = async (success: boolean, errorMsg?: string) => {
+    if (!success) {
+      if (errorMsg === 'cancelled') {
+        setClaimResult(null);
+      }
+      return;
+    }
+
+    if (!referralCode) return;
+
+    setLoading(true);
+    setError(null);
+    setClaimResult(null);
+
+    try {
+      const supabase = getSupabaseClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        setClaimResult({ success: false, error: 'Not logged in' });
+        return;
+      }
+
+      const res = await fetch('/api/referral/claim', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({ code: referralCode }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setClaimResult({ success: true });
+      } else {
+        setClaimResult({ success: false, error: data.error || 'Failed to apply referral code' });
+      }
+    } catch (e: any) {
+      setClaimResult({ success: false, error: e.message || 'Claim failed' });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
     setSuccess(false);
+    setClaimResult(null);
 
     if (!email.trim() || !password.trim()) {
       setError('Please fill in all fields');
@@ -126,7 +186,42 @@ export default function SignupPage() {
             Sign in
           </Link>
         </p>
+
+        {/* Claim result */}
+        {claimResult && (
+          <div className={`mt-4 p-4 rounded-xl text-sm text-center ${
+            claimResult.success
+              ? 'bg-jade-green/10 border border-jade-green/20 text-jade-green'
+              : 'bg-cinnabar-red/10 border border-cinnabar-red/20 text-cinnabar-red'
+          }`}>
+            {claimResult.success
+              ? '✓ Referral code applied! 7-day free trial activated.'
+              : claimResult.error || 'Failed to apply referral code.'
+            }
+          </div>
+        )}
       </div>
+
+      {/* Referral modal */}
+      <ReferralModal
+        defaultCode={referralCode}
+        onClaimed={handleClaimReferral}
+      />
     </div>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-bg-primary flex items-center justify-center">
+        <div className="text-center">
+          <span className="text-gold-primary text-4xl taiji-loader inline-block">☯</span>
+          <p className="text-text-secondary text-sm mt-4">Loading...</p>
+        </div>
+      </div>
+    }>
+      <SignupContent />
+    </Suspense>
   );
 }

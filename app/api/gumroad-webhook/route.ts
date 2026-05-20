@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
 import { getSupabaseAdmin } from '@/lib/supabase'
 import { createFatewiseToken, FATEWISE_PLANS, FatewisePlanId } from '@/lib/fatewise-tokens'
+import { processPaymentReward } from '@/lib/referral'
 
 const GUMROAD_WEBHOOK_SECRET = process.env.GUMROAD_WEBHOOK_SECRET || ''
 
@@ -160,6 +161,18 @@ export async function POST(request: NextRequest) {
 
     if (insertResult.error) {
       console.error('[FateWise Webhook] Failed to record sale:', insertResult.error)
+    }
+
+    // Process referral reward: check if buyer was referred and reward the referrer
+    const isYearly = planId === 'premium-lifetime'
+    try {
+      const rewardResult = await processPaymentReward(email, saleId, planId, isYearly)
+      if (!rewardResult.success) {
+        console.warn('[FateWise Webhook] Referral reward failed:', rewardResult.error)
+      }
+    } catch (rewardErr) {
+      console.error('[FateWise Webhook] Referral reward error:', rewardErr)
+      // Don't fail the webhook — reward processing is best-effort
     }
 
     console.log(`[FateWise Webhook] ✅ Processed: ${email} -> ${tokenEntry.token} (${planId})`)

@@ -3,7 +3,10 @@
 import { useAuth } from '../auth/auth-context';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { getSupabaseClient } from '../../src/lib/supabase';
+import ReferralCard from '../components/referral/ReferralCard';
+import ReferralHistory from '../components/referral/ReferralHistory';
 
 export default function DashboardPage() {
   const { user, loading, signOut } = useAuth();
@@ -30,6 +33,15 @@ export default function DashboardPage() {
 
   const email = user.email || '';
   const createdAt = user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A';
+  const [token, setToken] = useState<string | null>(null);
+
+  // Get session token for API calls
+  useEffect(() => {
+    const supabase = getSupabaseClient();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setToken(session?.access_token || null);
+    });
+  }, []);
 
   return (
     <div className="min-h-screen bg-bg-primary">
@@ -89,6 +101,23 @@ export default function DashboardPage() {
                 </div>
               </div>
             </Link>
+          </div>
+
+          {/* Referral Section */}
+          <div className="mt-8 space-y-6">
+            <h2 className="font-display text-lg font-semibold text-text-primary flex items-center gap-2">
+              <span className="text-gold-primary">✦</span> Referral Program
+            </h2>
+            {token ? (
+              <>
+                <ReferralCard token={token} />
+                <ReferralHistory token={token} />
+              </>
+            ) : (
+              <div className="glass-card p-6 text-center">
+                <p className="text-text-secondary text-sm">Sign in to view your referral stats</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
