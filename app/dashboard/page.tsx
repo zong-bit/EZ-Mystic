@@ -4,7 +4,6 @@ import { useAuth } from '../auth/auth-context';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import ReferralCard from '../components/referral/ReferralCard';
 
 export default function DashboardPage() {
   const { user, loading, signOut } = useAuth();
@@ -56,11 +55,6 @@ export default function DashboardPage() {
               <h3 className="text-gold-primary text-sm font-semibold mb-1">User ID</h3>
               <p className="text-text-primary text-xs break-all font-mono">{user.id}</p>
             </div>
-          </div>
-
-          {/* Referral Section */}
-          <div className="mb-8">
-            <ReferralCard />
           </div>
 
           <div className="space-y-3">
