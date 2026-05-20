@@ -26,6 +26,7 @@ export default function Navbar({ currentPage }: NavbarProps) {
     { href: '/blog', label: 'Blog' },
     { href: '/zen', label: 'Zen' },
     { href: '/pricing', label: 'Pricing' },
+    { href: '/contact', label: 'Contact' },
   ];
 
   const legalLinks = [

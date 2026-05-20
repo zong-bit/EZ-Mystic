@@ -21,6 +21,10 @@ export default function Footer() {
           <Link href="/refund" className="text-text-tertiary hover:text-gold-primary transition-colors">
             Refund Policy
           </Link>
+          <span className="text-text-tertiary/30">·</span>
+          <Link href="/contact" className="text-text-tertiary hover:text-gold-primary transition-colors">
+            Contact
+          </Link>
         </div>
 
         <p className="text-text-tertiary text-sm mb-2">
