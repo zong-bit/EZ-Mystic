@@ -34,12 +34,12 @@ export default function ContactPage() {
           <div className="glass-card p-8">
             <h2 className="font-display text-xl font-bold text-gold-primary mb-4">Email Support</h2>
             <p className="text-text-secondary leading-relaxed mb-4">
-              The fastest way to reach us is by email. We typically respond within 24 hours.
+              The fastest way to reach us is by email. We&apos;ll respond within 24 hours.
             </p>
             <p className="text-text-secondary leading-relaxed">
-              <strong>Email:</strong>{' '}
-              <a href="mailto:support@bornchart.app" className="text-gold-primary hover:underline">
-                support@bornchart.app
+              <strong>Send us a message</strong>{' '}
+              <a href="mailto:selina_zxw@qq.com" className="text-gold-primary hover:underline">
+                using the form below ↓
               </a>
             </p>
           </div>
@@ -51,17 +51,17 @@ export default function ContactPage() {
               <div className="bg-white/5 rounded-lg p-4">
                 <h3 className="font-display text-sm font-semibold text-text-primary mb-1">Billing &amp; Subscriptions</h3>
                 <p className="text-text-tertiary text-sm mb-2">For payment, refund, or account questions:</p>
-                <a href="mailto:support@bornchart.app" className="text-gold-primary text-sm hover:underline">support@bornchart.app</a>
+                <a href="mailto:selina_zxw@qq.com" className="text-gold-primary text-sm hover:underline">Contact us →</a>
               </div>
               <div className="bg-white/5 rounded-lg p-4">
                 <h3 className="font-display text-sm font-semibold text-text-primary mb-1">Technical Issues</h3>
                 <p className="text-text-tertiary text-sm mb-2">Bugs, errors, or feature requests:</p>
-                <a href="mailto:support@bornchart.app" className="text-gold-primary text-sm hover:underline">support@bornchart.app</a>
+                <a href="mailto:selina_zxw@qq.com" className="text-gold-primary text-sm hover:underline">Contact us →</a>
               </div>
               <div className="bg-white/5 rounded-lg p-4">
                 <h3 className="font-display text-sm font-semibold text-text-primary mb-1">Business Inquiries</h3>
                 <p className="text-text-tertiary text-sm mb-2">Partnerships, collaborations, or press:</p>
-                <a href="mailto:support@bornchart.app" className="text-gold-primary text-sm hover:underline">support@bornchart.app</a>
+                <a href="mailto:selina_zxw@qq.com" className="text-gold-primary text-sm hover:underline">Contact us →</a>
               </div>
               <div className="bg-white/5 rounded-lg p-4">
                 <h3 className="font-display text-sm font-semibold text-text-primary mb-1">FAQ</h3>
@@ -88,7 +88,7 @@ export default function ContactPage() {
               </div>
             ) : (
               <form
-                action="mailto:support@bornchart.app"
+                action="mailto:selina_zxw@qq.com"
                 method="POST"
                 encType="text/plain"
                 onSubmit={handleSubmit}
