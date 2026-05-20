@@ -37,14 +37,22 @@ export async function getOrCreateReferralCode(userId: string): Promise<{ code: s
     }
   }
 
-  // Generate unique code
+  // Generate unique code — retry if collision (extremely rare with 30^8 space)
   let code: string
   let attempts = 0
+  const MAX_ATTEMPTS = 10
   do {
     code = generateReferralCode()
     attempts++
-    if (attempts > 50) throw new Error('Failed to generate unique referral code')
-  } while (attempts < 50)
+    if (attempts > MAX_ATTEMPTS) throw new Error('Failed to generate unique referral code')
+    // Check if code already exists in DB
+    const { data: existing } = await supabase
+      .from('referral_codes')
+      .select('id')
+      .eq('code', code)
+      .maybeSingle()
+    if (!existing) break // code is unique
+  } while (attempts < MAX_ATTEMPTS)
 
   const { error } = await supabase
     .from('referral_codes')
