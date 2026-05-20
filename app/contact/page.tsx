@@ -1,15 +1,6 @@
-'use client';
-
-import { useState } from 'react';
 import Link from 'next/link';
 
 export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
 
   return (
     <div className="min-h-screen bg-bg-primary">
@@ -37,9 +28,9 @@ export default function ContactPage() {
               The fastest way to reach us is by email. We&apos;ll respond within 24 hours.
             </p>
             <p className="text-text-secondary leading-relaxed">
-              <strong>Send us a message</strong>{' '}
+              <strong>Send us a message</strong> —{' '}
               <a href="mailto:selina_zxw@qq.com" className="text-gold-primary hover:underline">
-                using the form below ↓
+                selina_zxw@qq.com
               </a>
             </p>
           </div>
@@ -71,81 +62,24 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Contact form */}
+          {/* Contact form - direct email link (no backend email API available) */}
           <div className="glass-card p-8">
             <h2 className="font-display text-xl font-bold text-gold-primary mb-4">Send a Message</h2>
-            {submitted ? (
-              <div className="text-center py-8">
-                <span className="text-gold-primary text-4xl mb-4 block">✦</span>
-                <p className="text-text-primary font-display text-lg mb-2">Message Sent!</p>
-                <p className="text-text-secondary text-sm">Thank you for reaching out. We&apos;ll get back to you shortly.</p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="mt-6 text-gold-primary text-sm hover:underline"
-                >
-                  Send another message
-                </button>
-              </div>
-            ) : (
-              <form
-                action="mailto:selina_zxw@qq.com"
-                method="POST"
-                encType="text/plain"
-                onSubmit={handleSubmit}
-                className="space-y-5"
+            <p className="text-text-secondary leading-relaxed mb-6">
+              Click the button below to send us an email directly from your email client.
+            </p>
+            <div className="flex flex-col items-center gap-6 py-4">
+              <a
+                href="mailto:selina_zxw@qq.com"
+                className="btn-primary inline-flex items-center gap-2"
+                style={{ padding: '14px 40px', fontSize: '16px' }}
               >
-                <div>
-                  <label htmlFor="name" className="block text-sm text-text-secondary mb-1.5">Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    placeholder="Your name"
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-text-primary placeholder:text-text-tertiary/50 focus:outline-none focus:border-gold-primary/50 transition-colors"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm text-text-secondary mb-1.5">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    placeholder="you@example.com"
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-text-primary placeholder:text-text-tertiary/50 focus:outline-none focus:border-gold-primary/50 transition-colors"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="subject" className="block text-sm text-text-secondary mb-1.5">Subject</label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    placeholder="What is this about?"
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-text-primary placeholder:text-text-tertiary/50 focus:outline-none focus:border-gold-primary/50 transition-colors"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm text-text-secondary mb-1.5">Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={6}
-                    required
-                    placeholder="Tell us what's on your mind..."
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-text-primary placeholder:text-text-tertiary/50 focus:outline-none focus:border-gold-primary/50 transition-colors resize-none"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="btn-primary"
-                  style={{ padding: '12px 32px', fontSize: '15px' }}
-                >
-                  Send Message
-                </button>
-              </form>
-            )}
+                ✦ Send us an Email
+              </a>
+              <p className="text-text-tertiary text-sm">
+                Or write to: <a href="mailto:selina_zxw@qq.com" className="text-gold-primary hover:underline">selina_zxw@qq.com</a>
+              </p>
+            </div>
           </div>
         </div>
       </section>
