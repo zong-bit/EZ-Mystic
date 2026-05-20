@@ -26,7 +26,7 @@ export default function PricingPage() {
 
       {/* Pricing Cards */}
       <section className="py-12 px-6">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Free */}
           <div className="glass-card p-8 flex flex-col">
             <span className="text-text-tertiary text-sm uppercase tracking-wider">Free</span>
@@ -61,14 +61,11 @@ export default function PricingPage() {
             </Link>
           </div>
 
-          {/* Pro */}
-          <div className="glass-card p-8 flex flex-col relative border-gold-primary/40">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-primary text-dark text-xs px-4 py-1 rounded-full font-semibold">
-              Most Popular
-            </div>
-            <span className="text-gold-primary text-sm uppercase tracking-wider mt-2">Pro</span>
+          {/* Pro Monthly */}
+          <div className="glass-card p-8 flex flex-col">
+            <span className="text-text-tertiary text-sm uppercase tracking-wider">Pro · Monthly</span>
             <div className="my-4">
-              <span className="font-display text-5xl font-bold text-gold-primary">$9</span>
+              <span className="font-display text-5xl font-bold text-text-primary">$9</span>
               <span className="text-text-secondary">.99</span>
               <span className="text-text-tertiary text-sm ml-1">/month</span>
             </div>
@@ -107,13 +104,65 @@ export default function PricingPage() {
               </ul>
             </div>
 
-            <Link href="/payment?plan=pro" className="btn-primary w-full text-center py-3">
+            <Link href="/payment?plan=pro" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
+              Get Destiny Book →
+            </Link>
+          </div>
+
+          {/* Pro Yearly */}
+          <div className="glass-card p-8 flex flex-col relative border-gold-primary/40">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-primary text-dark text-xs px-4 py-1 rounded-full font-semibold">
+              Best Value
+            </div>
+            <span className="text-gold-primary text-sm uppercase tracking-wider mt-2">Pro</span>
+            <div className="my-4">
+              <span className="font-display text-5xl font-bold text-gold-primary">$79</span>
+              <span className="text-text-secondary">.99</span>
+              <span className="text-text-tertiary text-sm ml-1">/year</span>
+            </div>
+            <p className="text-gold-primary text-sm font-semibold mb-1">Save 34% — just $6.67/month</p>
+            <p className="text-text-secondary text-sm mb-6">Your complete destiny profile — billed annually</p>
+            <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
+              <li className="flex items-start gap-2">
+                <span className="text-gold-primary">✓</span>
+                <span>Everything in Free</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-gold-primary">✓</span>
+                <span>Full AI deep interpretation (career, wealth, love)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-gold-primary">✓</span>
+                <span>Complete Destiny Book PDF download</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-gold-primary">✓</span>
+                <span>Great Fortune &amp; Annual Luck cycles</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-gold-primary">✓</span>
+                <span>Open Luck (Ten Gods) guidance</span>
+              </li>
+            </ul>
+
+            {/* Deliverables — Pro Yearly */}
+            <div className="mb-6 p-3 border border-gold-primary/20 rounded bg-gold-primary/5">
+              <p className="text-xs text-gold-primary font-semibold uppercase tracking-wider mb-1">You Will Receive:</p>
+              <ul className="text-xs text-text-secondary space-y-1">
+                <li>✦ Full AI deep interpretation report</li>
+                <li>✦ Complete Destiny Book PDF download</li>
+                <li>✦ Great Fortune &amp; Annual Luck analysis</li>
+                <li>✦ Open Luck (Ten Gods) guidance</li>
+              </ul>
+            </div>
+
+            <Link href="/payment?plan=pro-yearly" className="btn-primary w-full text-center py-3">
               Get Destiny Book →
             </Link>
           </div>
 
           {/* Premium */}
-          <div className="glass-card p-8 flex flex-col">
+          <div className="glass-card p-8 flex flex-col border-gold-primary/40">
             <span className="text-text-tertiary text-sm uppercase tracking-wider">Premium · Lifetime</span>
             <div className="my-4">
               <span className="font-display text-5xl font-bold text-text-primary">$29</span>
