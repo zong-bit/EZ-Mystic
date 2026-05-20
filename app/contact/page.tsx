@@ -30,7 +30,7 @@ export default function ContactPage() {
             <p className="text-text-secondary leading-relaxed">
               <strong>Send us a message</strong> —{' '}
               <a href="mailto:selina_zxw@qq.com" className="text-gold-primary hover:underline">
-                selina_zxw@qq.com
+                Send us a message
               </a>
             </p>
           </div>
@@ -77,7 +77,7 @@ export default function ContactPage() {
                 ✦ Send us an Email
               </a>
               <p className="text-text-tertiary text-sm">
-                Or write to: <a href="mailto:selina_zxw@qq.com" className="text-gold-primary hover:underline">selina_zxw@qq.com</a>
+                Or send us an email
               </p>
             </div>
           </div>

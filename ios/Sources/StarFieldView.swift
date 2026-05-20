@@ -12,10 +12,14 @@ struct StarFieldView: UIViewRepresentable {
     
     func updateUIView(_ uiView: SKView, context: Context) {
         if uiView.scene == nil {
-            let scene = TaiChiScene(size: uiView.bounds.size)
-            scene.backgroundColor = .clear
-            scene.scaleMode = .resizeFill
-            uiView.presentScene(scene)
+            // Defer one frame so layout is complete and bounds are real
+            DispatchQueue.main.async { [weak uiView] in
+                guard let uiView = uiView, uiView.scene == nil else { return }
+                let scene = TaiChiScene(size: uiView.bounds.size)
+                scene.backgroundColor = .clear
+                scene.scaleMode = .resizeFill
+                uiView.presentScene(scene)
+            }
         }
     }
 }
@@ -41,7 +45,7 @@ class TaiChiScene: SKScene {
     
     override func didMove(to view: SKView) {
         backgroundColor = .clear
-        guard size.width > 0, size.height > 0 else { return }
+        guard size.width > 50, size.height > 50 else { return }
         createParticles()
         startAnimations()
     }
@@ -52,7 +56,7 @@ class TaiChiScene: SKScene {
         let count = 120
         
         for i in 0..<count {
-            let r = CGFloat.random(in: 1.0...2.0)
+            let r: CGFloat = 1.0 + CGFloat.random(in: 0.0...1.0)
             let star = SKShapeNode(circleOfRadius: r)
             
             let isGold = i % 3 == 0
@@ -60,13 +64,15 @@ class TaiChiScene: SKScene {
                 star.fillColor = UIColor(red: 0.788, green: 0.659, blue: 0.325, alpha: 1)
                 star.strokeColor = UIColor(red: 0.788, green: 0.659, blue: 0.325, alpha: 0.3)
             } else {
-                let b = CGFloat.random(in: 0.6...1.0)
+                let b = CGFloat.random(in: 0.6...min(1.0, max(0.6, (size.width + size.height) / 1000)))
                 star.fillColor = UIColor(white: b, alpha: 1)
                 star.strokeColor = .clear
             }
             
             let angle = CGFloat.random(in: 0...(2 * .pi))
-            let dist = CGFloat.random(in: 30...max(size.width, size.height) * 0.6)
+            let maxDim = max(size.width, size.height)
+            let safeMaxDist = max(maxDim * 0.6, 31.0)
+            let dist = CGFloat.random(in: 30...safeMaxDist)
             let hx = center.x + cos(angle) * dist
             let hy = center.y + sin(angle) * dist
             star.position = CGPoint(x: hx, y: hy)
@@ -74,7 +80,7 @@ class TaiChiScene: SKScene {
             
             // Gold glow for some stars
             if isGold {
-                let glow = SKShapeNode(circleOfRadius: r * 4)
+                let glow = SKShapeNode(circleOfRadius: max(r * 4, 1.0))
                 glow.fillColor = UIColor(red: 0.788, green: 0.659, blue: 0.325, alpha: 0.08)
                 glow.strokeColor = .clear
                 star.addChild(glow)
