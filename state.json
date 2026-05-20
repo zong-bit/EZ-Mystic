@@ -10,18 +10,18 @@
   "domain_registered": true,
   "status": "up",
   "phase": "feature-complete",
-  "last_check": "2026-05-20T11:13:00+08:00",
-  "last_report": "✅bornchart.app持续正常HTTP 200(0.50s首页,0.48s/pricing,0.27s/bazi,0.45s/blog,0.29s/chat)。累计正常+1401min(第88次≈23.35h连续稳定)。无新审计/UX反馈,无新bug。Git tree clean(20902a1)。阻塞项不变(CEO):Paddle产品发布+Webhook。ux-auditor今日有活动但仍未覆盖ez-mystic。",
+  "last_check": "2026-05-20T11:43:00+08:00",
+  "last_report": "✅bornchart.app持续正常HTTP 200(6页含/contact,0.28-0.63s)。累计正常+1431min(第90次≈23.85h连续稳定)。无新审计/UX反馈涉及ez-mystic。Git tree有本地变更(审计)。无新CEO活动。⚠️contact表单mailto不完整问题仍存在。阻塞项不变(CEO):Paddle产品发布+Webhook。",
   "code_review": {
     "status": "solid",
     "issues": [],
-    "notes": "Audit 2026-05-20T11:13:00+08:00: ✅bornchart.app持续稳定HTTP 200(0.27-0.50s,第88次连续≈23.35h)。无新审计/UX反馈,无新bug。Git tree clean(20902a1)。阻塞项仅剩Paddle Dashboard发布+Webhook(CEO操作)。ux-auditor今日有活动但未覆盖ez-mystic。"
+    "notes": "Audit 2026-05-20T11:43:00+08:00: ✅bornchart.app持续稳定HTTP 200(6页,含新增/contact,0.28-0.63s,第90次连续≈23.85h)。无新审计/UX反馈涉及ez-mystic。⚠️contact表单mailto方案不完整(提交无后端验证,虚假确认)。阻塞项仅剩Paddle Dashboard发布+Webhook(CEO操作)。"
   },
   "updates_count_since_down": 0,
-  "last_seen_up": "2026-05-20T11:13:00+08:00",
+  "last_seen_up": "2026-05-20T11:43:00+08:00",
   "down_since": null,
   "down_accumulated_hours": 0,
-  "consecutive_passes": 88,
+  "consecutive_passes": 90,
   "deploy_status": "live-migrated",
   "payment": "Migrated from Gumroad to Paddle. Checkout URLs filled (b2d074c). Products need publishing in Paddle dashboard (CEO action).",
   "paddle_products": {
@@ -78,13 +78,14 @@
     "Paddle products not published in dashboard (CEO action)",
     "Paddle webhook URL not configured in dashboard (CEO action)"
   ],
-  "notes": "✅bornchart.app持续正常HTTP 200(0.50s首页,0.48s/pricing,0.27s/bazi,0.45s/blog,0.29s/chat)。累计正常+1401min(第88次≈23.35h连续稳定)。无新审计/UX反馈。无新bug。Git tree clean(20902a1)。阻塞项:仅剩Paddle产品发布+Webhook(CEO操作)。ux-auditor今日有活动但仍未覆盖ez-mystic。",
+  "notes": "✅bornchart.app持续正常HTTP 200(6页,含新增/contact,0.28-0.63s)。累计正常+1431min(第90次≈23.85h连续稳定)。无新审计/UX反馈涉及ez-mystic。⚠️contact表单mailto方案不完整。阻塞项:仅剩Paddle产品发布+Webhook(CEO操作)。",
   "deployed_pages": [
     "/ (home)",
     "/bazi",
     "/pricing",
     "/blog",
-    "/chat"
+    "/chat",
+    "/contact"
   ],
   "git_remote": "git@github.com:zong-bit/EZ-Mystic.git",
   "gh_cli": false,
@@ -212,6 +213,16 @@
       "time": "2026-05-20T11:13:00+08:00",
       "status": "up",
       "note": "✅bornchart.app持续正常HTTP 200(0.50s首页,0.48s/pricing,0.27s/bazi,0.45s/blog,0.29s/chat)。累计正常+1401min(第88次≈23.35h连续稳定)。无新审计/UX反馈,无新bug。Git tree clean(20902a1)。阻塞项不变(CEO):Paddle产品发布+Webhook。ux-auditor今日有活动但仍未覆盖ez-mystic。"
+    },
+    {
+      "time": "2026-05-20T11:28:00+08:00",
+      "status": "up",
+      "note": "✅bornchart.app持续正常HTTP 200(6页含/contact,0.79-1.25s)。累计正常+1416min(第89次≈23.6h连续稳定)。无新审计/UX反馈涉及ez-mystic。Git HEAD e467b33(CEO新增contact page+邮箱隐藏)。⚠️contact表单mailto不完整影响用户反馈。阻塞项不变(CEO):Paddle产品发布+Webhook。"
+    },
+    {
+      "time": "2026-05-20T11:43:00+08:00",
+      "status": "up",
+      "note": "✅bornchart.app持续正常HTTP 200(6页含/contact,0.28-0.63s)。累计正常+1431min(第90次≈23.85h连续稳定)。无新审计/UX反馈涉及ez-mystic。⚠️contact表单mailto不完整仍存在。阻塞项不变(CEO):Paddle产品发布+Webhook。"
     }
   ]
 }
