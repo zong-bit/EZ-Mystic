@@ -1,17 +1,18 @@
 // src/lib/referral.ts — Referral system utilities for FateWise
 
+import crypto from 'crypto'
 import { getSupabaseAdmin } from './supabase'
 
-// Characters that exclude easily confused ones (0/O, 1/I/l)
-const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-
 /**
- * Generate an 8-character random referral code.
+ * Generate an 8-character cryptographically secure random referral code.
+ * Uses uppercase letters (no O/I/l to avoid confusion) and digits (no 0/1).
  */
 function generateReferralCode(): string {
+  const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+  const buf = crypto.randomBytes(8)
   let code = ''
   for (let i = 0; i < 8; i++) {
-    code += CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)]
+    code += CODE_CHARS[buf[i] % CODE_CHARS.length]
   }
   return code
 }
@@ -258,27 +259,20 @@ export async function processPaymentReward(
     return { success: true }
   }
 
-  // Find the referee (buyer) by email in referral_events
-  const { data: referee } = await supabase
-    .from('referral_events')
-    .select('referee_id, referrer_id, referral_code')
-    .eq('event_type', 'signup')
-    .limit(1)
-    .maybeSingle()
-
-  // We need to look up the user by email first
+  // Look up the user by email — use .maybeSingle() for safety.
+  // If emails are not unique, this could return multiple rows; we guard below.
   const { data: users } = await supabase
     .from('users')
     .select('id')
     .eq('email', orderEmail)
-    .limit(1)
+    .maybeSingle()
 
-  if (!users || users.length === 0) {
+  if (!users) {
     console.warn(`[Referral] No user found for email ${orderEmail}`)
     return { success: true } // Not an error — user might not exist yet
   }
 
-  const refereeId = users[0].id
+  const refereeId = users.id
 
   // Check if this user has a referrer
   const { data: referral } = await supabase

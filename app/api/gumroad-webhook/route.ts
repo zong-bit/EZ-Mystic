@@ -101,8 +101,23 @@ export async function POST(request: NextRequest) {
       const saleId = payload.sale_id || payload.id || payload.sale?.id
       if (saleId) {
         const supabase = getSupabaseAdmin()
+
+        // Mark the sale as refunded
         await supabase.from('gumroad_sales').update({ refunded: true }).eq('sale_id', saleId)
-        console.log(`[FateWise Webhook] Sale ${saleId} refunded`)
+
+        // Revoke any pro extensions granted to referrers for this order
+        const { error: revokeErr } = await supabase
+          .from('referral_rewards')
+          .update({ status: 'cancelled' })
+          .eq('order_id', saleId)
+          .eq('reward_type', 'pro_extension')
+          .in('status', ['active', 'pending'])
+
+        if (revokeErr) {
+          console.error('[FateWise Webhook] Failed to revoke referrer rewards for refund:', revokeErr)
+        } else {
+          console.log(`[FateWise Webhook] Revoked pro extensions for refunded order ${saleId}`)
+        }
       }
       return NextResponse.json({ success: true })
     }
