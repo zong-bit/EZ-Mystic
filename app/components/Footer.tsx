@@ -74,11 +74,6 @@ export default function Footer() {
                   Contact
                 </Link>
               </li>
-              <li>
-                <a href="mailto:support@bornchart.app" className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
-                  support@bornchart.app
-                </a>
-              </li>
             </ul>
           </div>
         </div>

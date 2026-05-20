@@ -8,6 +8,28 @@ export default function HomePage() {
   const { user } = useAuth();
   return (
     <div className="min-h-screen">
+      {/* Top Stats Bar */}
+      <section className="relative py-3 px-6 border-b border-gold-primary/10 bg-gold-primary/[0.03]">
+        <div className="max-w-6xl mx-auto flex items-center justify-center gap-8 md:gap-16 text-sm">
+          <div className="flex items-center gap-2 text-text-secondary">
+            <span className="text-gold-primary">📊</span>
+            <span className="font-display font-semibold text-gold-primary">10,000+</span>
+            <span className="text-text-tertiary">charts generated</span>
+          </div>
+          <div className="w-px h-4 bg-text-tertiary/30" />
+          <div className="flex items-center gap-2 text-text-secondary">
+            <span className="text-gold-primary">🌍</span>
+            <span className="font-display font-semibold text-gold-primary">50+</span>
+            <span className="text-text-tertiary">countries</span>
+          </div>
+          <div className="w-px h-4 bg-text-tertiary/30" />
+          <Link href="/signup" className="flex items-center gap-2 text-text-secondary hover:text-gold-primary transition-colors">
+            <span className="text-gold-primary">🎁</span>
+            <span className="font-semibold">Share to earn</span>
+          </Link>
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background decoration */}
@@ -83,6 +105,22 @@ export default function HomePage() {
               <div className="text-xs mt-1">Possibilities</div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Invite Friends CTA — position 2, after Hero */}
+      <section className="py-24 px-6">
+        <div className="max-w-3xl mx-auto text-center glass-card p-12 border-gold-primary/30">
+          <div className="text-gold-primary text-3xl mb-4">✦</div>
+          <h2 className="font-display text-3xl font-bold mb-4 text-gold-glow">
+            Invite Friends, Earn Free Pro
+          </h2>
+          <p className="text-text-secondary mb-8 max-w-xl mx-auto leading-relaxed">
+            Share FateWise with friends — you both get 7 days of Pro for every friend who signs up. When they upgrade, you get Pro too.
+          </p>
+          <Link href="/signup" className="btn-primary text-lg px-10 py-4">
+            Start Sharing →
+          </Link>
         </div>
       </section>
 
@@ -240,22 +278,6 @@ export default function HomePage() {
               <p className="text-text-secondary text-sm">All data processing happens locally — your birth information never leaves your device</p>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Invite Friends CTA */}
-      <section className="py-24 px-6">
-        <div className="max-w-3xl mx-auto text-center glass-card p-12 border-gold-primary/30">
-          <div className="text-gold-primary text-3xl mb-4">✦</div>
-          <h2 className="font-display text-3xl font-bold mb-4 text-gold-glow">
-            Invite Friends, Earn Free Pro
-          </h2>
-          <p className="text-text-secondary mb-8 max-w-xl mx-auto leading-relaxed">
-            Share FateWise with friends — you both get 7 days of Pro for every friend who signs up. When they upgrade, you get Pro too.
-          </p>
-          <Link href="/signup" className="btn-primary text-lg px-10 py-4">
-            Start Sharing →
-          </Link>
         </div>
       </section>
 
