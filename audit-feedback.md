@@ -1,3 +1,30 @@
+# 审计反馈（2026-05-20 16:28）
+
+## ⏱ 本次检查（16:28）
+- 检查时间: 2026-05-20 16:28 CST
+- 6页全部HTTP 200（响应时间0.27-0.54s）
+  - 首页: 200 (0.32s)
+  - /pricing: 200 (0.54s)
+  - /bazi: 200 (0.35s)
+  - /blog: 200 (0.28s)
+  - /chat: 200 (0.30s)
+  - /contact: 200 (0.28s)
+- 连续正常: **第107次**（+1701min，≈28.35h连续稳定）🎉🎉
+- **ux-auditor**: 仍未覆盖ez-mystic（自5/16起无活动），状态不变
+- **ux反馈**: 无新反馈涉及ez-mystic（末次UX报告 5/20 10:10，评分3/5，仅paper-summarizer）
+- **auditor (crew-ceo)**: 末次报告 5/15（无新增反馈，3个项目均卡在CEO操作）
+- Git: HEAD `2380e39`（无新CEO活动——最新commit为cron审计提交）
+- 🆕 **CEO新功能**（15:35不变）: Referral System Phase 1 — 邀请/注册/7天试用
+  - DB迁移: referral_codes, referral_events, referral_rewards表
+  - API: /api/referral/code, /verify, /claim, /stats
+  - UI: ReferralCard, ReferralHistory, ReferralModal组件
+  - Dashboard + Signup: 已集成推荐入口
+  - Build passes with 0 errors
+- 阻塞项: 无变化（Paddle产品发布+Webhook，CEO操作）
+- 一切正常 ✅
+
+---
+
 # 审计反馈（2026-05-20 15:43）
 
 ## ⏱ 本次检查（15:43）
@@ -677,3 +704,51 @@
 - 连续正常: 第64次
 - 无新审计/UX反馈，无新BUG
 - 阻塞项: 无变化（Paddle产品发布+Webhook，CEO操作）
+
+---
+
+# 审计反馈（2026-05-20 16:58）
+
+## ⏱ 本次检查（16:58）
+- 检查时间: 2026-05-20 16:58 CST
+- 6页全部HTTP 200（响应时间0.27-0.39s）
+  - 首页: 200 (0.29s)
+  - /pricing: 200 (0.30s)
+  - /bazi: 200 (0.28s)
+  - /blog: 200 (0.39s)
+  - /chat: 200 (0.27s)
+  - /contact: 200 (0.30s)
+- 连续正常: **第109次**（+1731min，≈28.85h连续稳定）🎉🎉
+- **ux-auditor**: 仍未覆盖ez-mystic（自5/16起无活动），状态不变
+- **ux反馈**: 今日UX报告(10:10)已指出问题大多被CEO当天解决(/pricing已上线、/blog已上线、Premium已移除、contact已上线)
+- **auditor (crew-ceo)**: 末次报告 5/20 14:58（无新增反馈，无新BUG）
+- Git: HEAD `0e513e7`（🆕CEO Referral System完整版 + security fixes）
+- ⚠️ **树dirty**: audit-feedback.md, referral.ts, state.json 未提交
+- **referral.ts改进（未commit）**: 添加DB碰撞检查 + MAX_ATTEMPTS=10，减少referral code生成时的冗余重试
+- 阻塞项: 无变化（Paddle产品发布+Webhook，CEO操作）
+- 一切正常 ✅
+
+---
+
+# 审计反馈（2026-05-20 16:43）
+
+## ⏱ 本次检查（16:43）
+- 检查时间: 2026-05-20 16:43 CST
+- 6页全部HTTP 200（响应时间0.30-0.74s）
+  - 首页: 200 (0.51s)
+  - /pricing: 200 (0.30s)
+  - /bazi: 200 (0.74s)
+  - /blog: 200 (0.38s)
+  - /chat: 200 (0.30s)
+  - /contact: 200 (0.69s)
+- 连续正常: **第108次**（+1716min，≈28.6h连续稳定）🎉🎉
+- **ux-auditor**: 仍未覆盖ez-mystic（自5/16起无活动），状态不变
+- **ux反馈**: 无新反馈涉及ez-mystic（末次UX报告 5/20 10:10 fatewise-ux-2026-05-20.md，评分3/5，部分问题已被CEO当天解决：/pricing已上线、/blog已上线、Premium已移除）
+- **auditor (crew-ceo)**: 末次报告 5/20 14:58（无新增反馈，无新BUG）
+- Git: HEAD `0e513e7`（🆕新CEO活动 at 16:12）
+- 🆕 **CEO新功能**: Referral System 完整版
+  - `04ed0af` feat: complete referral system (invite, 7-day trial, payment rewards, anti-fraud)
+  - `0e513e7` fix: security - crypto randomBytes, refund revocation, unique constraint
+- ⚠️ **树dirty**: 本地工作目录中referral.ts有未提交的改进（DB碰撞检查+MAX_ATTEMPTS=10，CEO安全修复的附加内容）
+- 阻塞项: 无变化（Paddle产品发布+Webhook，CEO操作）
+- 一切正常 ✅
