@@ -4,13 +4,15 @@ options:
   deploymentTarget:
     iOS: "16.0"
   xcodeVersion: "16.0"
+  xcodeLinkStyles: true
 settings:
   base:
     TARGETED_DEVICE_FAMILY: "1,2"
     INFOPLIST_FILE: FateWise/Info.plist
-    DEVELOPMENT_TEAM: ""
+    DEVELOPMENT_TEAM: ""  # ⚠️ 需要填入 Apple Developer Team ID
     SWIFT_VERSION: "5.9"
-    IPHONEOS_DEPLOYMENT_TARGET: "16.0"
+    IPHONEOS_DEPLOY_TARGET: "16.0"
+    PRODUCT_BUNDLE_IDENTIFIER: com.fatewise.app
 
 targets:
   FateWise:
@@ -22,6 +24,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.fatewise.app
         INFOPLIST_FILE: FateWise/Info.plist
+        SWIFT_VERSION: "5.9"
+        IPHONEOS_DEPLOY_TARGET: "16.0"
     info:
       path: FateWise/Info.plist
       properties:
@@ -32,3 +36,12 @@ targets:
         UIViewControllerBasedStatusBarAppearance: true
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+        CFBundleAllowMixedLocalizations: true
+        UISceneConfiguration:
+          UISceneConfigurationName: "Default Configuration"
+          UISceneClassName: "UIWindowSceneSession"

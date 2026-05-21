@@ -11,9 +11,13 @@ const config: CapacitorConfig = {
     cleartext: true,
     allowNavigation: [
       'bornchart.app',
+      'www.bornchart.app',
       'selinazw.gumroad.com',
       'checkout.paddle.com',
       'api.gumroad.com',
+      'api.paddle.com',
+      '*.supabase.co',
+      '*.vercel.app',
     ],
   },
   ios: {
@@ -26,12 +30,19 @@ const config: CapacitorConfig = {
   },
   plugins: {
     SplashScreen: {
-      launchShowDuration: 1000,
+      launchShowDuration: 2000,
+      launchAutoHide: true,
       backgroundColor: '#0d0d1a',
       androidSplashResourceName: 'splash',
       androidScaleType: 'CENTER_CROP',
       splashFullScreen: true,
       splashImmersive: true,
+      launchShowDurationAndroid: 2000,
+    },
+    StatusBar: {
+      style: 'light',
+      backgroundColor: '#0d0d1a',
+      overlaysWebView: false,
     },
   },
 };

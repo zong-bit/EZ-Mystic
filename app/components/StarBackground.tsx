@@ -16,6 +16,9 @@ interface Star {
   /** Home scatter position (cartesian offset from canvas center) */
   homeX: number;
   homeY: number;
+  /** Original home position (never changes, for reset) */
+  originX: number;
+  originY: number;
   /** Screen position cache (set each frame before draw) */
   orbitR: number;
   orbitA: number;
@@ -207,6 +210,8 @@ function createStars(width: number, height: number): Star[] {
       taiChiA,
       homeX,
       homeY,
+      originX: homeX,
+      originY: homeY,
       orbitR: 0,
       orbitA: 0,
       size,
@@ -434,12 +439,22 @@ function drawStar(ctx: CanvasRenderingContext2D, s: Star, time: number): void {
 // Animation state machine
 // ──────────────────────────────────────────
 
+interface PrevState {
+  state: AnimState;
+  stateStartAt: number;
+  duration: number;
+}
+
 interface AnimStateMachine {
   state: AnimState;
   /** Timestamp (performance.now) when this state began */
   stateStartAt: number;
   /** Total duration of this state in ms */
   duration: number;
+  /** Previous state for cross-fade transitions */
+  prevState?: PrevState;
+  /** When cross-fade started (performance.now) */
+  crossfadeStartAt?: number;
 }
 
 const STATE_DURATIONS: Record<AnimState, number> = {
@@ -451,6 +466,14 @@ const STATE_DURATIONS: Record<AnimState, number> = {
 
 const STATE_ORDER: AnimState[] = ['wander', 'attract', 'spin', 'burst'];
 
+/** Cross-fade durations per transition (ms). 0 = no cross-fade. */
+const CROSSFADE_DURATIONS: Record<string, number> = {
+  'wander->attract': 2000,
+  'attract->spin': 1500,
+  'spin->burst': 0,
+  'burst->wander': 1500,
+};
+
 function getNextState(current: AnimState): AnimState {
   const idx = STATE_ORDER.indexOf(current);
   return STATE_ORDER[(idx + 1) % STATE_ORDER.length];
@@ -458,6 +481,118 @@ function getNextState(current: AnimState): AnimState {
 
 function getStateProgress(now: number, sm: AnimStateMachine): number {
   return clamp((now - sm.stateStartAt) / sm.duration, 0, 1);
+}
+
+/**
+ * Compute a star's position + colour for a given state at a given progress.
+ * Does NOT mutate the star — returns a plain result object.
+ */
+interface StateRenderResult {
+  wx: number;
+  wy: number;
+  hue: number;
+  sat: number;
+  light: number;
+  baseAlpha: number;
+}
+
+function calcStateAt(
+  state: AnimState,
+  progress: number,
+  star: Star,
+  time: number,
+  cx: number,
+  cy: number,
+  rot: number,
+  scaleFactor: number,
+  spinAccel: number,
+): StateRenderResult {
+  const wobble = Math.sin(time * star.wobbleSpeed + star.wobblePhase) * star.wobbleAmount;
+  const taiChiAngleFull = star.taiChiA + rot;
+  const taiChiDistScaled = Math.max(0.01, star.taiChiR * scaleFactor + wobble);
+  const taiChiWX = cx + Math.cos(taiChiAngleFull) * taiChiDistScaled;
+  const taiChiWY = cy + Math.sin(taiChiAngleFull) * taiChiDistScaled;
+  const homeWX = cx + star.homeX;
+  const homeWY = cy + star.homeY;
+
+  switch (state) {
+    case 'wander': {
+      const driftX = Math.sin(time * 0.0004 + star.twinklePhase) * 5;
+      const driftY = Math.cos(time * 0.0003 + star.twinklePhase * 1.3) * 5;
+      return {
+        wx: homeWX + driftX,
+        wy: homeWY + driftY,
+        hue: star.homeHue,
+        sat: star.homeSat,
+        light: star.homeLight,
+        baseAlpha: star.homeAlpha,
+      };
+    }
+    case 'attract': {
+      const off = star.convergePhase;
+      const rawP = clamp((progress + off * 0.15 - off * 0.075) / (1 + off * 0.075), 0, 1);
+      const e = easeInOutCubic(rawP);
+      const homeDist = Math.sqrt(star.homeX * star.homeX + star.homeY * star.homeY);
+      const targetDist = star.taiChiR * scaleFactor;
+      const currentDist = lerp(homeDist, targetDist, e);
+      const homeAngle = Math.atan2(star.homeY, star.homeX);
+      let angleDiff = taiChiAngleFull - homeAngle;
+      while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
+      while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
+      const sweepDir = angleDiff >= 0 ? 1 : -1;
+      const sweepAmount = Math.cos(e * Math.PI * 0.5) * Math.PI * 0.8 * sweepDir;
+      const currentAngle = homeAngle + angleDiff * e + sweepAmount;
+      const wx = cx + Math.cos(currentAngle) * currentDist;
+      const wy = cy + Math.sin(currentAngle) * currentDist;
+      return {
+        wx,
+        wy,
+        hue: lerp(star.homeHue, star.taiChiHue, e),
+        sat: lerp(star.homeSat, star.taiChiSat, e),
+        light: lerp(star.homeLight, star.taiChiLight, e),
+        baseAlpha: lerp(star.homeAlpha, star.taiChiAlpha, e),
+      };
+    }
+    case 'spin': {
+      return {
+        wx: taiChiWX,
+        wy: taiChiWY,
+        hue: star.taiChiHue,
+        sat: star.taiChiSat,
+        light: star.taiChiLight,
+        baseAlpha: star.taiChiAlpha,
+      };
+    }
+    case 'burst': {
+      const implodeFraction = 0.35;
+      if (progress < implodeFraction) {
+        const rawImplode = progress / implodeFraction;
+        const eImp = easeOutExpo(rawImplode);
+        return {
+          wx: lerp(taiChiWX, cx, eImp),
+          wy: lerp(taiChiWY, cy, eImp),
+          hue: star.taiChiHue,
+          sat: lerp(star.taiChiSat, 0, eImp),
+          light: lerp(star.taiChiLight, 3, eImp),
+          baseAlpha: lerp(star.taiChiAlpha, 0.5, eImp),
+        };
+      } else {
+        // For burst crossfade, we need the star's current screen position
+        // which depends on accumulated explosion velocities — can't be pure function
+        // Caller will handle this by passing pre-computed wx/wy
+        return {
+          wx: taiChiWX, // placeholder
+          wy: taiChiWY,
+          hue: star.homeHue,
+          sat: star.homeSat,
+          light: star.homeLight,
+          baseAlpha: star.homeAlpha,
+        };
+      }
+    }
+    default:
+      return { wx: homeWX, wy: homeWY, hue: star.homeHue, sat: star.homeSat, light: star.homeLight, baseAlpha: star.homeAlpha };
+  }
 }
 
 // ──────────────────────────────────────────
@@ -480,6 +615,14 @@ export default function StarBackground() {
     stateStartAt: 0,
     duration: STATE_DURATIONS.wander,
   });
+  /** Ref to avoid recreating crossfade state objects */
+  const crossfadeStateRef = useRef<{
+    active: boolean;
+    prevState: AnimState;
+    nextState: AnimState;
+    startAt: number;
+    duration: number;
+  }>({ active: false, prevState: 'wander', nextState: 'wander', startAt: 0, duration: 0 });
   let bgGradientKey = '';
 
   // ── Main draw loop ──
@@ -524,8 +667,19 @@ export default function StarBackground() {
     function recordExplosionAsHome(stars: Star[], cx: number, cy: number): void {
       for (let i = 0; i < stars.length; i++) {
         const s = stars[i];
-        s.homeX = s.orbitR - cx;
-        s.homeY = s.orbitA - cy;
+        const dx = s.orbitR - cx;
+        const dy = s.orbitA - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const originDist = Math.sqrt(s.originX * s.originX + s.originY * s.originY);
+        if (dist > 1 && originDist > 1) {
+          // 保持爆炸方向，但拉伸到原始 home 距离
+          const scale = originDist / dist;
+          s.homeX = dx * scale;
+          s.homeY = dy * scale;
+        } else {
+          s.homeX = s.originX;
+          s.homeY = s.originY;
+        }
         s.vx = 0;
         s.vy = 0;
       }
@@ -560,8 +714,25 @@ export default function StarBackground() {
       // ── Animation state machine — advance ──
       const sm = smRef.current;
       const elapsed = time - sm.stateStartAt;
+      const crossfadeStart = sm.crossfadeStartAt ?? sm.stateStartAt;
+      const crossfadeDuration = sm.prevState ? CROSSFADE_DURATIONS[`${sm.prevState}->${sm.state}`] ?? 0 : 0;
+      const crossfading = sm.prevState !== undefined && (time - crossfadeStart) < crossfadeDuration && crossfadeDuration > 0;
+
       if (elapsed >= sm.duration) {
+        const prev = sm.state;
         const next = getNextState(sm.state);
+
+        // Set up crossfade if there's a transition that needs it
+        if (crossfadeDuration > 0) {
+          crossfadeStateRef.current = {
+            active: true,
+            prevState: prev,
+            nextState: next,
+            startAt: time,
+            duration: crossfadeDuration,
+          };
+        }
+
         smRef.current = {
           state: next,
           stateStartAt: time,
@@ -633,6 +804,7 @@ export default function StarBackground() {
 
       // ── Draw stars ──
       const stars = starsRef.current;
+      const cf = crossfadeStateRef.current;
 
       for (let i = 0; i < stars.length; i++) {
         const s = stars[i];
@@ -644,124 +816,80 @@ export default function StarBackground() {
         let light: number;
         let baseAlpha: number;
 
-        // Tai-Chi target position (with rotation + wobble)
-        const wobble = Math.sin(time * s.wobbleSpeed + s.wobblePhase) * s.wobbleAmount;
-        const taiChiAngleFull = s.taiChiA + rot;
-        const taiChiDistScaled = Math.max(0.01, s.taiChiR * scaleFactor + wobble);
-        const taiChiWX = cx + Math.cos(taiChiAngleFull) * taiChiDistScaled;
-        const taiChiWY = cy + Math.sin(taiChiAngleFull) * taiChiDistScaled;
-
-        // Home world position
-        const homeWX = cx + s.homeX;
-        const homeWY = cy + s.homeY;
-
-        switch (sm.state) {
-          // ═══════════════════════════
-          case 'wander': {
-            // Gentle drift at home positions, all golden
-            const driftX = Math.sin(time * 0.0004 + s.twinklePhase) * 5;
-            const driftY = Math.cos(time * 0.0003 + s.twinklePhase * 1.3) * 5;
-            wx = homeWX + driftX;
-            wy = homeWY + driftY;
-            hue = s.homeHue;
-            sat = s.homeSat;
-            light = s.homeLight;
-            baseAlpha = s.homeAlpha;
-            break;
-          }
-
-          // ═══════════════════════════
-          case 'attract': {
-            // Stars orbit inward along a spiral — no reversal, always same direction
-            // Individual phase offset for organic feel
-            const off = s.convergePhase;
-            const rawP = clamp((progress + off * 0.15 - off * 0.075) / (1 + off * 0.075), 0, 1);
-            const e = easeInOutCubic(rawP);
-
-            // Radius: from home distance → scaled tai chi distance
-            const homeDist = Math.sqrt(s.homeX * s.homeX + s.homeY * s.homeY);
-
-            // Only apply scaleFactor to the target tai chi radius
-            const targetDist = s.taiChiR * scaleFactor;
-            const currentDist = lerp(homeDist, targetDist, e);
-
-            // Angle: from home angle → tai chi angle (continuous, no reversal)
-            const homeAngle = Math.atan2(s.homeY, s.homeX);
-            let angleDiff = taiChiAngleFull - homeAngle;
-            while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
-            while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
-
-            // Orbital sweep: strongest at start, decays to zero — always same sign as rotation
-            // Multiply by the sign of angleDiff so sweep direction matches the shortest path
-            const sweepDir = angleDiff >= 0 ? 1 : -1;
-            const sweepAmount = Math.cos(e * Math.PI * 0.5) * Math.PI * 0.8 * sweepDir;
-            const currentAngle = homeAngle + angleDiff * e + sweepAmount;
-
-            wx = cx + Math.cos(currentAngle) * currentDist;
-            wy = cy + Math.sin(currentAngle) * currentDist;
-
-            // Colour: golden home → tai chi colours (yang=brighter gold, yin=blue)
-            hue = lerp(s.homeHue, s.taiChiHue, e);
-            sat = lerp(s.homeSat, s.taiChiSat, e);
-            light = lerp(s.homeLight, s.taiChiLight, e);
-            baseAlpha = lerp(s.homeAlpha, s.taiChiAlpha, e);
-            break;
-          }
-
-          // ═══════════════════════════
-          case 'spin': {
-            // Tai chi at 1/3 size, accelerating rotation
-            wx = taiChiWX;
-            wy = taiChiWY;
+        // ── Current state position ──
+        if (sm.state === 'burst') {
+          // Burst accumulates position per-frame; compute it directly
+          const implodeFraction = 0.35;
+          // Compute tai chi target for this star (same as calcStateAt does)
+          const wobble = Math.sin(time * s.wobbleSpeed + s.wobblePhase) * s.wobbleAmount;
+          const taiChiAngleFull = s.taiChiA + rot;
+          const taiChiDistScaled = Math.max(0.01, s.taiChiR * scaleFactor + wobble);
+          const taiChiWX = cx + Math.cos(taiChiAngleFull) * taiChiDistScaled;
+          const taiChiWY = cy + Math.sin(taiChiAngleFull) * taiChiDistScaled;
+          if (progress < implodeFraction) {
+            const rawImplode = progress / implodeFraction;
+            const eImp = easeOutExpo(rawImplode);
+            wx = lerp(taiChiWX, cx, eImp);
+            wy = lerp(taiChiWY, cy, eImp);
             hue = s.taiChiHue;
-            sat = s.taiChiSat;
-            light = s.taiChiLight;
-            baseAlpha = s.taiChiAlpha;
-            break;
+            sat = lerp(s.taiChiSat, 0, eImp);
+            light = lerp(s.taiChiLight, 3, eImp);
+            baseAlpha = lerp(s.taiChiAlpha, 0.5, eImp);
+          } else {
+            s.orbitR += s.vx * dt * 0.06;
+            s.orbitA += s.vy * dt * 0.06;
+            s.vx *= 0.985;
+            s.vy *= 0.985;
+            wx = s.orbitR;
+            wy = s.orbitA;
+            const explosionElapsed = (progress - implodeFraction) / (1 - implodeFraction);
+            const eEase = easeOutCubic(explosionElapsed);
+            hue = lerp(s.taiChiHue, s.homeHue, eEase);
+            sat = lerp(s.taiChiSat, s.homeSat, eEase);
+            light = lerp(s.taiChiLight, s.homeLight, eEase);
+            baseAlpha = lerp(s.taiChiAlpha, s.homeAlpha, eEase);
           }
+        } else {
+          const result = calcStateAt(sm.state, progress, s, time, cx, cy, rot, scaleFactor, spinAccelRef.current);
+          wx = result.wx;
+          wy = result.wy;
+          hue = result.hue;
+          sat = result.sat;
+          light = result.light;
+          baseAlpha = result.baseAlpha;
+        }
 
-          // ═══════════════════════════
-          case 'burst': {
-            const implodeFraction = 0.35; // first 35% = implosion toward center
+        // ── Crossfade: lerp with previous state ──
+        if (cf.active && cf.nextState === sm.state) {
+          const fadeElapsed = time - cf.startAt;
+          const fadeT = clamp(fadeElapsed / cf.duration, 0, 1);
 
-            if (progress < implodeFraction) {
-              // ── Implosion: stars race toward center ──
-              const rawImplode = progress / implodeFraction;
-              const eImp = easeOutExpo(rawImplode);
-              wx = lerp(taiChiWX, cx, eImp);
-              wy = lerp(taiChiWY, cy, eImp);
-              // Fade toward dark center
-              hue = s.taiChiHue;
-              sat = lerp(s.taiChiSat, 0, eImp);
-              light = lerp(s.taiChiLight, 3, eImp);
-              baseAlpha = lerp(s.taiChiAlpha, 0.5, eImp);
-            } else {
-              // ── Explosion: fly outward, return to golden ──
-              s.orbitR += s.vx * dt * 0.06;
-              s.orbitA += s.vy * dt * 0.06;
-              s.vx *= 0.985;
-              s.vy *= 0.985;
-              wx = s.orbitR;
-              wy = s.orbitA;
+          if (fadeT >= 1) {
+            // Crossfade complete
+            cf.active = false;
+            sm.prevState = undefined;
+            sm.crossfadeStartAt = undefined;
+          } else {
+            // Compute previous state position
+            const prevProgress = fadeT; // 0→1 during crossfade
+            const prevResult = calcStateAt(cf.prevState, prevProgress, s, time, cx, cy, rot, scaleFactor, spinAccelRef.current);
 
-              const explosionElapsed = (progress - implodeFraction) / (1 - implodeFraction);
-              const eEase = easeOutCubic(explosionElapsed);
-              // Transition back to golden home colors
-              hue = lerp(s.taiChiHue, s.homeHue, eEase);
-              sat = lerp(s.taiChiSat, s.homeSat, eEase);
-              light = lerp(s.taiChiLight, s.homeLight, eEase);
-              baseAlpha = lerp(s.taiChiAlpha, s.homeAlpha, eEase);
+            // For burst prev state, use the star's current accumulated position
+            let prevWx = prevResult.wx;
+            let prevWy = prevResult.wy;
+            if (cf.prevState === 'burst') {
+              prevWx = s.orbitR;
+              prevWy = s.orbitA;
             }
-            break;
-          }
 
-          default: {
-            wx = homeWX;
-            wy = homeWY;
-            hue = s.homeHue;
-            sat = s.homeSat;
-            light = s.homeLight;
-            baseAlpha = s.homeAlpha;
+            // Lerp position
+            wx = lerp(prevWx, wx, fadeT);
+            wy = lerp(prevWy, wy, fadeT);
+            // Lerp colour
+            hue = lerp(prevResult.hue, hue, fadeT);
+            sat = lerp(prevResult.sat, sat, fadeT);
+            light = lerp(prevResult.light, light, fadeT);
+            baseAlpha = lerp(prevResult.baseAlpha, baseAlpha, fadeT);
           }
         }
 
