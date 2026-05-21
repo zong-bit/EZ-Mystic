@@ -12,10 +12,15 @@ struct StarFieldView: UIViewRepresentable {
     
     func updateUIView(_ uiView: SKView, context: Context) {
         if uiView.scene == nil {
-            // Defer one frame so layout is complete and bounds are real
             DispatchQueue.main.async { [weak uiView] in
                 guard let uiView = uiView, uiView.scene == nil else { return }
-                let scene = TaiChiScene(size: uiView.bounds.size)
+                let size = uiView.bounds.size
+                // 防止 size 为 .zero
+                let safeSize = CGSize(
+                    width: max(size.width, 320),
+                    height: max(size.height, 480)
+                )
+                let scene = TaiChiScene(size: safeSize)
                 scene.backgroundColor = .clear
                 scene.scaleMode = .resizeFill
                 uiView.presentScene(scene)
@@ -51,37 +56,35 @@ class TaiChiScene: SKScene {
     }
     
     private func createParticles() {
+        guard size.width > 50, size.height > 50 else { return }
         let center = CGPoint(x: size.width / 2, y: size.height / 2)
         let maxR = min(size.width, size.height) * 0.35
         let count = 120
+        let goldColor = UIColor(red: 0.788, green: 0.659, blue: 0.325, alpha: 1)
         
         for i in 0..<count {
-            let r: CGFloat = 1.0 + CGFloat.random(in: 0.0...1.0)
+            let r: CGFloat = 0.8 + CGFloat.random(in: 0...1.2)
             let star = SKShapeNode(circleOfRadius: r)
             
             let isGold = i % 3 == 0
             if isGold {
-                star.fillColor = UIColor(red: 0.788, green: 0.659, blue: 0.325, alpha: 1)
-                star.strokeColor = UIColor(red: 0.788, green: 0.659, blue: 0.325, alpha: 0.3)
+                star.fillColor = goldColor
+                star.strokeColor = goldColor.withAlphaComponent(0.3)
             } else {
-                let b = CGFloat.random(in: 0.6...min(1.0, max(0.6, (size.width + size.height) / 1000)))
-                star.fillColor = UIColor(white: b, alpha: 1)
+                star.fillColor = UIColor(white: CGFloat.random(in: 0.5...0.9), alpha: 1)
                 star.strokeColor = .clear
             }
             
             let angle = CGFloat.random(in: 0...(2 * .pi))
-            let maxDim = max(size.width, size.height)
-            let safeMaxDist = max(maxDim * 0.6, 31.0)
-            let dist = CGFloat.random(in: 30...safeMaxDist)
-            let hx = center.x + cos(angle) * dist
-            let hy = center.y + sin(angle) * dist
-            star.position = CGPoint(x: hx, y: hy)
+            let scatterR = min(size.width, size.height) * 0.45
+            let dist = CGFloat.random(in: 20...scatterR)
+            star.position = CGPoint(x: center.x + cos(angle) * dist,
+                                   y: center.y + sin(angle) * dist)
             star.alpha = CGFloat.random(in: 0.3...0.9)
             
-            // Gold glow for some stars
             if isGold {
-                let glow = SKShapeNode(circleOfRadius: max(r * 4, 1.0))
-                glow.fillColor = UIColor(red: 0.788, green: 0.659, blue: 0.325, alpha: 0.08)
+                let glow = SKShapeNode(circleOfRadius: max(r * 4, 2.0))
+                glow.fillColor = goldColor.withAlphaComponent(0.08)
                 glow.strokeColor = .clear
                 star.addChild(glow)
             }
@@ -89,7 +92,9 @@ class TaiChiScene: SKScene {
             addChild(star)
             
             particles.append(Particle(
-                node: star, homeX: hx, homeY: hy,
+                node: star,
+                homeX: star.position.x,
+                homeY: star.position.y,
                 targetAngle: CGFloat(i) / CGFloat(count) * 2 * .pi,
                 targetRadius: maxR,
                 twinkleSpeed: Double.random(in: 0.5...3.0),
@@ -106,7 +111,8 @@ class TaiChiScene: SKScene {
         
         // State cycle
         let states: [AnimState] = [.wander, .attract, .spin, .burst]
-        let durations: [TimeInterval] = [6, 3, 5, 2]
+        // 用更合理的时长，避免太快
+        let durations: [TimeInterval] = [8, 10, 5, 3]
         var actions: [SKAction] = []
         for (i, s) in states.enumerated() {
             actions.append(SKAction.run { [weak self] in self?.state = s })
@@ -156,17 +162,23 @@ class TaiChiScene: SKScene {
                 let dx = n.position.x - center.x
                 let dy = n.position.y - center.y
                 let dist = sqrt(dx * dx + dy * dy)
-                if dist > 0 {
+                let screenDiag = max(size.width, size.height)
+                if dist > screenDiag * 1.5 {
+                    // 飞远了：淡出后回到 home 位置（不瞬移）
+                    n.alpha = max(0, n.alpha - 0.05)
+                    if n.alpha <= 0 {
+                        n.position = CGPoint(x: p.homeX, y: p.homeY)
+                        n.alpha = 0.3
+                        n.setScale(1.0)
+                    }
+                } else if dist > 0 {
+                    // 继续向外飞
+                    let speed: CGFloat = 4 + dist / screenDiag * 3
                     n.position = CGPoint(
-                        x: n.position.x + dx / dist * 4,
-                        y: n.position.y + dy / dist * 4
+                        x: n.position.x + dx / dist * speed,
+                        y: n.position.y + dy / dist * speed
                     )
-                }
-                n.alpha = max(0.1, n.alpha - 0.02)
-                if dist > max(size.width, size.height) {
-                    n.position = CGPoint(x: p.homeX, y: p.homeY)
-                    n.alpha = 0.5
-                    n.setScale(1.0)
+                    n.alpha = max(0.15, n.alpha - 0.008)
                 }
             }
         }

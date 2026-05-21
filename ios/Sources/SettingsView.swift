@@ -1,4 +1,5 @@
 import SwiftUI
+import WebKit
 
 /// 原生设置页面
 struct SettingsView: View {
@@ -163,6 +164,3 @@ private func linkRow(icon: String, title: String, url: String) -> some View {
         .padding(.vertical, 8)
     }
 }
-
-// 需要导入 WebKit 用于清缓存
-import WebKit
