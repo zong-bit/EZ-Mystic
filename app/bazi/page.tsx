@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
+import ShareModal from '../components/ShareModal';
 import Link from 'next/link';
 import { CITIES, type CityData } from './cities';
 import {
@@ -1228,6 +1229,9 @@ export default function BaziPage() {
                 </div>
               </div>
             )}
+
+            {/* Share invite modal - appears 5s after results */}
+            <ShareModal />
 
             {/* Disclaimer */}
             <p className="text-center text-text-muted text-xs">
