@@ -1,0 +1,228 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C7563986947E6F5203AB9D36 /* FateWiseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D233364D104BD2973824FF3F /* FateWiseApp.swift */; };
+		A1535BE721B8972A00283D20 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7E91D297DFC3461513AD42 /* Constants.swift */; };
+		F9F90E1FFF9E7220908CB774 /* StarFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9618E28133F86C86B51B5E4 /* StarFieldView.swift */; };
+		49BA75C7AB696BB44187A74F /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97BA952A41660778603BC23 /* WebView.swift */; };
+		CD5EB7298D109D6E63044316 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CE8E7549DE3557601D0879 /* SplashView.swift */; };
+		42D755136027E3040A176EB5 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F54392934B1E8A40FDE54E2 /* MainTabView.swift */; };
+		1D36A4261C5437709A223D6D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D4DBDD27984E782C60C99F /* SettingsView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D233364D104BD2973824FF3F /* FateWiseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FateWiseApp.swift; sourceTree = "<group>"; };
+		5E7E91D297DFC3461513AD42 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D9618E28133F86C86B51B5E4 /* StarFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarFieldView.swift; sourceTree = "<group>"; };
+		A97BA952A41660778603BC23 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		B8CE8E7549DE3557601D0879 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		3F54392934B1E8A40FDE54E2 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		18D4DBDD27984E782C60C99F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E503B88588DB8CA2F5F9AD82 /* FateWise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FateWise.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		88CC2428FC87BDC780D9BDFB = {
+			isa = PBXGroup;
+			children = (
+				D233364D104BD2973824FF3F /* FateWiseApp.swift */,
+				5E7E91D297DFC3461513AD42 /* Constants.swift */,
+				D9618E28133F86C86B51B5E4 /* StarFieldView.swift */,
+				A97BA952A41660778603BC23 /* WebView.swift */,
+				B8CE8E7549DE3557601D0879 /* SplashView.swift */,
+				3F54392934B1E8A40FDE54E2 /* MainTabView.swift */,
+				18D4DBDD27984E782C60C99F /* SettingsView.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		9DE86C893314FA1523E37C5F = {
+			isa = PBXGroup;
+			children = (
+				88CC2428FC87BDC780D9BDFB /* Sources */,
+				E503B88588DB8CA2F5F9AD82 /* FateWise.app */,
+			);
+			name = FateWise;
+			sourceTree = "<group>";
+		};
+		D819DA1AB5596E7C8C4907E9 = {
+			isa = PBXGroup;
+			children = (
+				9DE86C893314FA1523E37C5F /* FateWise */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FB2A6A98F435BDB4E8A176B5 /* FateWise */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4801EC44C28239652EC9E9F5 /* Build configuration list for PBXNativeTarget "FateWise" */;
+			buildPhases = (
+				A5515AA3B95019C0376E756D /* Sources */,
+				6F579D68685E6A6C24558C1D /* Frameworks */,
+				B4C46F8A9FE9CF67D91712FD /* Resources */,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = FateWise;
+			productName = FateWise;
+			productReference = E503B88588DB8CA2F5F9AD82 /* FateWise.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AF920977832779FBDF955368 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftMigrationCheck = 1600;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetCompatibility = "9.6";
+				ORGANIZATIONNAME = "FateWise";
+			};
+			buildConfigurationList = 291F3DBEB1A0F1AD19E58CFD /* Build configuration list for PBXProject "FateWise" */;
+			compatibilityVersion = "Xcode 16.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (en, Base);
+			mainGroup = D819DA1AB5596E7C8C4907E9;
+			productRefGroup = E503B88588DB8CA2F5F9AD82 /* FateWise.app */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FB2A6A98F435BDB4E8A176B5 /* FateWise */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A5515AA3B95019C0376E756D = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C7563986947E6F5203AB9D36 /* FateWiseApp.swift in Sources */,
+				A1535BE721B8972A00283D20 /* Constants.swift in Sources */,
+				F9F90E1FFF9E7220908CB774 /* StarFieldView.swift in Sources */,
+				49BA75C7AB696BB44187A74F /* WebView.swift in Sources */,
+				CD5EB7298D109D6E63044316 /* SplashView.swift in Sources */,
+				42D755136027E3040A176EB5 /* MainTabView.swift in Sources */,
+				1D36A4261C5437709A223D6D /* SettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6F579D68685E6A6C24558C1D = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B4C46F8A9FE9CF67D91712FD = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2DE559CFBF2EBC93F7AD13C0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_LAUNCH_SCREEN_NAME = LaunchScreen;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";  /* ⚠️ 需要填入 Apple Developer Team ID */
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FateWise/Info.plist;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_ipad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fatewise.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FE81E663FBAB9609526981F8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_LAUNCH_SCREEN_NAME = LaunchScreen;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";  /* ⚠️ 需要填入 Apple Developer Team ID */
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FateWise/Info.plist;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_ipad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.fatewise.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		291F3DBEB1A0F1AD19E58CFD /* Build configuration list for PBXProject "FateWise" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DE559CFBF2EBC93F7AD13C0 /* Debug */,
+				FE81E663FBAB9609526981F8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4801EC44C28239652EC9E9F5 /* Build configuration list for PBXNativeTarget "FateWise" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DE559CFBF2EBC93F7AD13C0 /* Debug */,
+				FE81E663FBAB9609526981F8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = AF920977832779FBDF955368 /* Project object */;
+}

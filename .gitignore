@@ -35,3 +35,9 @@ next-env.d.ts
 agency-agents-zh/
 memory/
 ios-custom-backup/
+ios-custom-backup/
+www/
+*.xcuserdata
+Pods/
+.build/
+DerivedData/
