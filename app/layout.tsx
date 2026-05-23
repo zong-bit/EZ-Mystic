@@ -1,83 +1,90 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
+import { GoogleAnalytics } from '@next/third-parties/google';
+import Script from 'next/script';
 import AuthProviderWrapper from './auth/provider';
 import Navbar from './components/Navbar';
 import StarBackground from './components/StarBackground';
 import Footer from './components/Footer';
 
-export const metadata: Metadata = {
-  title: 'FateWise — Online Bazi Chart · AI Destiny Reading · Eastern Wisdom',
-  description:
-    'FateWise offers precise Bazi (Four Pillars) charting, AI-powered deep interpretation, and complete Destiny Book PDF reports. Based on true solar time correction, millennia of Eastern wisdom revealed by AI.',
-  keywords: [
-    'Bazi chart',
-    'Four Pillars of Destiny',
-    'AI destiny reading',
-    'true solar time',
-    'Chinese astrology',
-    'feng shui',
-    'destiny book',
-    'fate analysis',
-    'online Bazi',
-    'BaZi reading',
-  ],
-  authors: [{ name: 'FateWise' }],
-  creator: 'FateWise',
-  publisher: 'FateWise',
-  metadataBase: new URL('https://bornchart.app'),
-  verification: {
-    google: 'iZdsDRFA8lc9MPxrgudfQKuLKwrnDijPuuuBbEkILE4',
-  },
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    title: 'FateWise — Online Bazi Chart · AI Destiny Reading',
+export function generateMetadata({ params }: { params?: { slug?: string } }): Metadata {
+  // Dynamic canonical URL based on pathname
+  const canonical = params?.slug ? `https://bornchart.app/blog/${params.slug}` : 'https://bornchart.app';
+
+  return {
+    title: 'FateWise — Online Bazi Chart · AI Destiny Reading · Eastern Wisdom',
     description:
-      'Precise Bazi charting, AI deep interpretation, complete Destiny Book PDF reports. Based on true solar time correction, millennia of Eastern wisdom revealed by AI.',
-    url: 'https://bornchart.app',
-    siteName: 'FateWise',
-    type: 'website',
-    locale: 'en_US',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'FateWise - Online Bazi Chart',
-      },
+      'FateWise offers precise Bazi (Four Pillars) charting, AI-powered deep interpretation, and complete Destiny Book PDF reports. Based on true solar time correction, millennia of Eastern wisdom revealed by AI.',
+    keywords: [
+      'Bazi chart',
+      'Four Pillars of Destiny',
+      'AI destiny reading',
+      'true solar time',
+      'Chinese astrology',
+      'feng shui',
+      'destiny book',
+      'fate analysis',
+      'online Bazi',
+      'BaZi reading',
     ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'FateWise — Online Bazi Chart · AI Destiny Reading',
-    description:
-      'Precise Bazi charting, AI deep interpretation, complete Destiny Book PDF reports. Based on true solar time correction, millennia of Eastern wisdom revealed by AI.',
-    images: ['/og-image.png'],
-    creator: '@fatewise',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+    authors: [{ name: 'FateWise' }],
+    creator: 'FateWise',
+    publisher: 'FateWise',
+    metadataBase: new URL('https://bornchart.app'),
+    verification: {
+      google: 'iZdsDRFA8lc9MPxrgudfQKuLKwrnDijPuuuBbEkILE4',
+    },
+    alternates: {
+      canonical: canonical,
+    },
+    openGraph: {
+      title: 'FateWise — Online Bazi Chart · AI Destiny Reading',
+      description:
+        'Precise Bazi charting, AI deep interpretation, complete Destiny Book PDF reports. Based on true solar time correction, millennia of Eastern wisdom revealed by AI.',
+      url: canonical,
+      siteName: 'FateWise',
+      type: 'website',
+      locale: 'en_US',
+      images: [
+        {
+          url: '/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: 'FateWise - Online Bazi Chart',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'FateWise — Online Bazi Chart · AI Destiny Reading',
+      description:
+        'Precise Bazi charting, AI deep interpretation, complete Destiny Book PDF reports. Based on true solar time correction, millennia of Eastern wisdom revealed by AI.',
+      images: ['/og-image.png'],
+      creator: '@fatewise',
+    },
+    robots: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
-  },
-  icons: {
-    icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-    ],
-    apple: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-    ],
-  },
-  manifest: '/site.webmanifest',
-};
+    icons: {
+      icon: [
+        { url: '/favicon.svg', type: 'image/svg+xml' },
+      ],
+      apple: [
+        { url: '/favicon.svg', type: 'image/svg+xml' },
+      ],
+    },
+    manifest: '/site.webmanifest',
+  };
+}
 
 export default function RootLayout({
   children,
@@ -99,10 +106,46 @@ export default function RootLayout({
         <StarBackground />
         <AuthProviderWrapper>
           <Navbar />
-          {children}
+          <div className="flex-grow min-h-[calc(100vh-16rem)]">
+            {children}
+          </div>
           <Footer />
         </AuthProviderWrapper>
         <Analytics />
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-XXXXXXXXXX'} />
+        {/* Schema.org structured data */}
+        <Script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: "FateWise",
+              applicationCategory: "EducationApplication",
+              operatingSystem: "Web",
+              description: "AI-powered Chinese Astrology Bazi Chart and Destiny Reading platform",
+              url: "https://bornchart.app",
+              offers: {
+                "@type": "Offer",
+                price: "9.99",
+                priceCurrency: "USD",
+                availability: "https://schema.org/InStock",
+              },
+            }),
+          }}
+        />
+        <Script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "FateWise",
+              url: "https://bornchart.app",
+              sameAs: [],
+            }),
+          }}
+        />
       </body>
     </html>
   );

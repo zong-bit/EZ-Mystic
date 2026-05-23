@@ -223,6 +223,17 @@ select.input-field {
   margin: 0 0 12px 0;
 }
 
+/* 宜忌颜色 */
+.text-yi-green { color: #2D8B57; }
+.bg-yi-green\/10 { background-color: rgba(45, 139, 87, 0.1); }
+.border-yi-green\/20 { border-color: rgba(45, 139, 87, 0.2); }
+
+.text-yi-red { color: #C23B22; }
+.bg-yi-red\/10 { background-color: rgba(194, 59, 34, 0.1); }
+.border-yi-red\/20 { border-color: rgba(194, 59, 34, 0.2); }
+
+.text-text-muted { color: #6B6560; }
+
 /* 浮动动画 */
 @keyframes float {
   0%, 100% { transform: translateY(0); }

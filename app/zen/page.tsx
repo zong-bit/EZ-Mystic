@@ -1,15 +1,12 @@
 'use client';
 
-import StarBackground from '../components/StarBackground';
-
 export default function ZenPage() {
   return (
-    <>
-      <div className="fixed inset-0 bg-black">
-        <StarBackground />
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-white mb-4">Zen Mode</h1>
+        <p className="text-gray-400">Focus without distractions.</p>
       </div>
-      {/* 空白占位，Footer 在下面 */}
-      <div className="min-h-screen"></div>
-    </>
+    </div>
   );
 }

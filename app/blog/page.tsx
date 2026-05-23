@@ -74,11 +74,20 @@ export const metadata: Metadata = {
     siteName: 'FateWise',
     type: 'website',
     locale: 'en_US',
+    images: [
+      {
+        url: '/og-blog.png',
+        width: 1200,
+        height: 630,
+        alt: 'FateWise Blog — Eastern Wisdom & Bazi Guide',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'FateWise Blog — Eastern Wisdom & Bazi Guide',
     description: 'Explore Chinese astrology, Bazi, and Eastern wisdom.',
+    images: ['/og-blog.png'],
   },
 };
 

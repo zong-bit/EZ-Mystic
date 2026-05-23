@@ -146,6 +146,84 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Life Tools */}
+      <section className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="font-display text-3xl font-bold text-center mb-4">Life Tools</h2>
+          <p className="text-text-secondary text-center mb-16 max-w-xl mx-auto">
+            Practical daily tools based on ancient Chinese wisdom
+          </p>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {/* Diet Guide */}
+            <Link href="/diet" className="glass-card p-6 hover:scale-[1.02] transition-transform group">
+              <div className="text-3xl mb-3">🍜</div>
+              <h3 className="font-display text-lg font-semibold mb-2 text-gold-primary group-hover:text-gold-light transition-colors">
+                Diet Guide
+              </h3>
+              <p className="text-text-secondary text-sm leading-relaxed">
+                Five Elements diet recommendations based on seasonal energy.
+              </p>
+            </Link>
+
+            {/* Color Match */}
+            <Link href="/colors" className="glass-card p-6 hover:scale-[1.02] transition-transform group">
+              <div className="text-3xl mb-3">🎨</div>
+              <h3 className="font-display text-lg font-semibold mb-2 text-gold-primary group-hover:text-gold-light transition-colors">
+                Color Match
+              </h3>
+              <p className="text-text-secondary text-sm leading-relaxed">
+                Find the colors that harmonize with your Five Elements energy.
+              </p>
+            </Link>
+
+            {/* Exercise */}
+            <Link href="/exercise" className="glass-card p-6 hover:scale-[1.02] transition-transform group">
+              <div className="text-3xl mb-3">🏃</div>
+              <h3 className="font-display text-lg font-semibold mb-2 text-gold-primary group-hover:text-gold-light transition-colors">
+                Exercise
+              </h3>
+              <p className="text-text-secondary text-sm leading-relaxed">
+                Mind-body exercises matched to your elemental profile.
+              </p>
+            </Link>
+
+            {/* Direction */}
+            <Link href="/direction" className="glass-card p-6 hover:scale-[1.02] transition-transform group">
+              <div className="text-3xl mb-3">🧭</div>
+              <h3 className="font-display text-lg font-semibold mb-2 text-gold-primary group-hover:text-gold-light transition-colors">
+                Direction
+              </h3>
+              <p className="text-text-secondary text-sm leading-relaxed">
+                Feng Shui directions for your living and working space.
+              </p>
+            </Link>
+
+            {/* Luck Boost */}
+            <Link href="/luck" className="glass-card p-6 hover:scale-[1.02] transition-transform group">
+              <div className="text-3xl mb-3">🍀</div>
+              <h3 className="font-display text-lg font-semibold mb-2 text-gold-primary group-hover:text-gold-light transition-colors">
+                Luck Boost
+              </h3>
+              <p className="text-text-secondary text-sm leading-relaxed">
+                Daily lucky colors, numbers, directions, and wealth items.
+              </p>
+            </Link>
+
+            {/* Compatibility */}
+            <Link href="/compatibility" className="glass-card p-6 hover:scale-[1.02] transition-transform group">
+              <div className="text-3xl mb-3">💑</div>
+              <h3 className="font-display text-lg font-semibold mb-2 text-gold-primary group-hover:text-gold-light transition-colors">
+                Compatibility
+              </h3>
+              <p className="text-text-secondary text-sm leading-relaxed">
+                Five Elements compatibility between two people or energies.
+              </p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Live Stats */}
       <LiveStats />
 

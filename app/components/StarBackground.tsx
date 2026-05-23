@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // ──────────────────────────────────────────
 // Types
@@ -600,6 +600,18 @@ function calcStateAt(
 // ──────────────────────────────────────────
 
 export default function StarBackground() {
+  const [show, setShow] = useState(true);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    setShow(window.innerWidth >= 768);
+    const handler = () => setShow(window.innerWidth >= 768);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+
+  if (!show) return null;
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const starsRef = useRef<Star[]>([]);
   const animRef = useRef<number>(0);
