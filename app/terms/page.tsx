@@ -86,11 +86,11 @@ export default function TermsPage() {
           <div className="glass-card p-8">
             <h2 className="font-display text-xl font-bold text-gold-primary mb-4">5. Payments and Subscriptions</h2>
             <p className="text-text-secondary leading-relaxed mb-3">
-              Paid features (Pro monthly subscription and Premium lifetime access) are processed through our payment partners, including Paddle. By purchasing, you agree to their terms of service as well.
+              Paid features (Pro monthly and yearly subscriptions) are processed through our payment partners, including Paddle. By purchasing, you agree to their terms of service as well.
             </p>
             <ul className="text-text-secondary text-sm space-y-2 list-disc pl-5">
               <li>Pro plan: $9.99/month, renews automatically until cancelled</li>
-              <li>Premium plan: $29.99 one-time payment, lifetime access</li>
+              <li>Pro Yearly plan: $79.99/year, renews annually</li>
               <li>All prices are in US Dollars and may be subject to applicable taxes</li>
               <li>You can cancel your subscription at any time from your account dashboard</li>
               <li>Refunds are handled according to our Refund Policy</li>
