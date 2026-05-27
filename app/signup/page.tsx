@@ -130,7 +130,6 @@ function SignupContent() {
         <div className="text-center mb-8">
           <span className="text-gold-primary text-3xl">✦</span>
           <h1 className="font-display text-2xl font-bold text-gold-primary mt-2">Create Account</h1>
-          <p className="text-text-secondary text-sm mt-1">Join FateWise for unlimited AI metaphysics consultations</p>
         </div>
 
         {success && (

@@ -21,14 +21,54 @@ function hasAuthCookie(request: NextRequest): boolean {
   return false;
 }
 
+// Open routes that do NOT require authentication
+const OPEN_PATHS = [
+  '/login',
+  '/signup',
+  '/api/',
+  '/privacy',
+  '/terms',
+  '/refund',
+  '/contact',
+  '/pricing',
+];
+
+// Open static file patterns
+const OPEN_STATIC_PATTERNS = [
+  '/_next/',
+  '/favicon',
+  '/og-image',
+  '/manifest',
+  '/.well-known/',
+];
+
+function isPublicPath(pathname: string): boolean {
+  // Check exact open paths
+  for (const p of OPEN_PATHS) {
+    if (pathname === p || pathname.startsWith(p + '/')) {
+      return true;
+    }
+  }
+  // Check static file patterns
+  for (const p of OPEN_STATIC_PATTERNS) {
+    if (pathname.startsWith(p)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Protected routes — redirect to login if not authenticated
-  if (pathname.startsWith('/dashboard')) {
-    if (!hasAuthCookie(request)) {
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
+  // Allow all public paths
+  if (isPublicPath(pathname)) {
+    return NextResponse.next();
+  }
+
+  // All other routes require authentication
+  if (!hasAuthCookie(request)) {
+    return NextResponse.redirect(new URL('/login', request.url));
   }
 
   // Redirect logged-in users away from login/signup
@@ -42,5 +82,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/signup'],
+  matcher: ['/((?!.*\\..*|_next|favicon.ico|.*\\.png$|.*\\.jpg$|.*\\.jpeg$|.*\\.gif$|.*\\.svg$|.*\\.css$|.*\\.js$).*)'],
 };
