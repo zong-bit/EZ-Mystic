@@ -31,6 +31,7 @@ const OPEN_PATHS = [
   '/refund',
   '/contact',
   '/pricing',
+  '/blog',
 ];
 
 // Open static file patterns
@@ -40,6 +41,31 @@ const OPEN_STATIC_PATTERNS = [
   '/og-image',
   '/manifest',
   '/.well-known/',
+  '/images/',
+  '/fonts/',
+  '/icons/',
+  '/og/',
+  '/sitemap',
+  '/robots.txt',
+];
+
+// Open file extension patterns (static assets)
+const OPEN_FILE_EXTENSIONS = [
+  '.svg',
+  '.png',
+  '.jpg',
+  '.jpeg',
+  '.webp',
+  '.gif',
+  '.ico',
+  '.css',
+  '.js',
+  '.json',
+  '.xml',
+  '.woff',
+  '.woff2',
+  '.ttf',
+  '.eot',
 ];
 
 function isPublicPath(pathname: string): boolean {
@@ -52,6 +78,12 @@ function isPublicPath(pathname: string): boolean {
   // Check static file patterns
   for (const p of OPEN_STATIC_PATTERNS) {
     if (pathname.startsWith(p)) {
+      return true;
+    }
+  }
+  // Check file extensions
+  for (const ext of OPEN_FILE_EXTENSIONS) {
+    if (pathname.endsWith(ext)) {
       return true;
     }
   }
