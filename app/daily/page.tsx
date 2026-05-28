@@ -1,41 +1,43 @@
 import type { Metadata } from 'next';
 import { TIAN_GAN, DI_ZHI } from '@/bazi/ganzhi';
+import { Solar } from 'lunar-javascript';
 
-// ─── Metadata ────────────────────────────────────────────────────────────────
+// CJS library can't be statically analyzed — force dynamic rendering
+export const dynamic = 'force-dynamic';
 
-export function generateMetadata(): Metadata {
-  return {
+// ─── Metadata (static — page is 'use client') ────────────────────────────────
+
+export const metadata: Metadata = {
+  title: 'FateWise — Daily Chinese Almanac · Yi Ji',
+  description:
+    'Today\'s Chinese almanac: heavenly stem and earthly branch, auspicious activities, inauspicious activities, lucky hours, and zodiac clash. Updated daily.',
+  openGraph: {
     title: 'FateWise — Daily Chinese Almanac · Yi Ji',
-    description:
-      'Today\'s Chinese almanac: heavenly stem and earthly branch, auspicious activities, inauspicious activities, lucky hours, and zodiac clash. Updated daily.',
-    openGraph: {
-      title: 'FateWise — Daily Chinese Almanac · Yi Ji',
-      description: 'Today\'s Yi Ji (宜忌): auspicious and inauspicious activities based on the Chinese calendar.',
-      url: 'https://bornchart.app/daily',
-      siteName: 'FateWise',
-      type: 'website',
-      locale: 'en_US',
-      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'FateWise Daily Almanac' }],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'FateWise — Daily Chinese Almanac · Yi Ji',
-      description: 'Today\'s Yi Ji: auspicious and inauspicious activities based on the Chinese calendar.',
-      images: ['/og-image.png'],
-    },
-    robots: {
+    description: 'Today\'s Yi Ji (宜忌): auspicious and inauspicious activities based on the Chinese calendar.',
+    url: 'https://bornchart.app/daily',
+    siteName: 'FateWise',
+    type: 'website',
+    locale: 'en_US',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'FateWise Daily Almanac' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'FateWise — Daily Chinese Almanac · Yi Ji',
+    description: 'Today\'s Yi Ji: auspicious and inauspicious activities based on the Chinese calendar.',
+    images: ['/og-image.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
       index: true,
       follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
     },
-  };
-}
+  },
+};
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -99,9 +101,7 @@ const ZHI_ANIMAL: Record<string, string> = {
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function getDayGanZhi(year: number, month: number, day: number): { gan: string; zhi: string; ganIndex: number; zhiIndex: number } {
-  // Use lunar-javascript to get the exact Chinese calendar day pillar
-  const { Solar } = require('lunar-javascript');
-  const solar = Solar.fromYmd(year, month, day);
+  const solar = Solar.fromYmdHms(year, month, day, 0, 0, 0);
   const lunar = solar.getLunar();
   const dayPillar = lunar.getDayInGanZhi(); // e.g. "甲辰"
   return {
@@ -127,9 +127,8 @@ interface ChineseDate {
 }
 
 function getChineseDate(date: Date): ChineseDate {
-  const { Solar } = require('lunar-javascript');
-  const solar = Solar.fromYmd(date.getFullYear(), date.getMonth() + 1, date.getDate());
-  const lunar = solar.getLunar();
+  const solar = Solar.fromYmdHms(date.getFullYear(), date.getMonth() + 1, date.getDate(), 0, 0, 0);
+  const lunar: any = solar.getLunar();
   return {
     year: lunar.getYearInChinese(),
     month: lunar.getMonthInChinese(),

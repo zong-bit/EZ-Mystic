@@ -13,34 +13,32 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [checking, setChecking] = useState(true);
 
-  // Check if user already has a session — redirect if so
+  // Cookie-only session check — zero network calls.
+  // getSession() hangs on China→Supabase connections, so we never call it here.
+  // Middleware already enforces auth; this is purely a UX optimization for logged-in users.
   useEffect(() => {
     let cancelled = false;
-    const supabase = getSupabaseClient();
-    
-    // Timeout: if getSession hangs (e.g. network issues in China), show login form anyway
-    const timeout = setTimeout(() => {
+
+    // Supabase stores the auth cookie as sb-{projectRef}-auth-token
+    const hasAuthCookie = document.cookie.includes('sb-xgaxejeaxfhlupguqteu-auth-token');
+
+    if (hasAuthCookie) {
+      // Cookie present — user is likely logged in. Trigger a server-side check.
+      // This uses the existing cookie, so no new network to Supabase.
+      router.refresh();
+      // After refresh, middleware will handle any server-side redirect.
+      // If we still see the login page, the cookie was stale — show the form.
+    }
+
+    // Always show the form after a short delay to avoid flash
+    const t = setTimeout(() => {
       if (!cancelled) setChecking(false);
-    }, 3000);
-    
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!cancelled) {
-        clearTimeout(timeout);
-        if (session) {
-          router.push('/account');
-          router.refresh();
-        } else {
-          setChecking(false);
-        }
-      }
-    }).catch(() => {
-      if (!cancelled) {
-        clearTimeout(timeout);
-        setChecking(false);
-      }
-    });
-    
-    return () => { cancelled = true; };
+    }, 500);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(t);
+    };
   }, [router]);
 
   const handleSubmit = async (e: FormEvent) => {

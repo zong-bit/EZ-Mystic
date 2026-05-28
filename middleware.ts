@@ -23,6 +23,7 @@ function hasAuthCookie(request: NextRequest): boolean {
 
 // Open routes that do NOT require authentication
 const OPEN_PATHS = [
+  '/',
   '/login',
   '/signup',
   '/api/',
@@ -32,6 +33,7 @@ const OPEN_PATHS = [
   '/contact',
   '/pricing',
   '/blog',
+  '/bazi',
 ];
 
 // Open static file patterns
@@ -71,7 +73,8 @@ const OPEN_FILE_EXTENSIONS = [
 function isPublicPath(pathname: string): boolean {
   // Check exact open paths
   for (const p of OPEN_PATHS) {
-    if (pathname === p || pathname.startsWith(p + '/')) {
+    // Use p directly (not p + '/') so '/api/' matches '/api/bazi'
+    if (pathname === p || pathname.startsWith(p)) {
       return true;
     }
   }

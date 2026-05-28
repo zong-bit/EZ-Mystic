@@ -19,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'true-solar-time-chinese-astrology-birth-location',
     'understanding-your-day-master-the-key-to-reading-bazi',
     'what-is-bazi-four-pillars-of-destiny-guide',
+    'bazi-nobleman-stars-activate-guide',
   ]
   const entries = [
     ...pages.map(p => ({
