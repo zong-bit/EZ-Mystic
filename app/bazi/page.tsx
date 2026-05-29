@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import ShareModal from '../components/ShareModal';
@@ -655,9 +656,15 @@ export default function BaziPage() {
         };
       }
 
+      // Read activation token from localStorage (set by login/signup auto-detect)
+      const token = typeof window !== 'undefined' ? localStorage.getItem('fatewise_token') : null;
+
       const response = await fetch('/api/bazi', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'X-Fatewise-Token': token } : {}),
+        },
         body: JSON.stringify(body),
       });
 

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 // Gumroad product links
 const GUMROAD_MONTHLY = 'https://selinazw.gumroad.com/l/lcrujk';
-const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/hjtmej';
+const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/wejaix';
 
 // Paddle checkout URLs (update after creating in Paddle dashboard)
 const PADDLE_CHECKOUT_PRO = 'https://checkout.paddle.com/checkout/price/pri_01krwnhrp61mddw9hb4rj7k40b';
@@ -102,9 +102,9 @@ export default function PricingPage() {
               </ul>
             </div>
 
-            <Link href="/payment?plan=pro" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
-              Get Destiny Book →
-            </Link>
+            <a href={GUMROAD_MONTHLY} target="_blank" rel="noopener noreferrer" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
+              Get Destiny Book Monthly →
+            </a>
           </div>
 
           {/* Pro Yearly */}
@@ -154,12 +154,26 @@ export default function PricingPage() {
               </ul>
             </div>
 
-            <Link href="/payment?plan=pro-yearly" className="btn-primary w-full text-center py-3">
-              Get Destiny Book →
-            </Link>
+            <a href={GUMROAD_YEARLY} target="_blank" rel="noopener noreferrer" className="btn-primary w-full text-center py-3">
+              Get Destiny Book Yearly →
+            </a>
           </div>
 
 
+        </div>
+      </section>
+
+      {/* Activate License CTA */}
+      <section className="py-12 px-6">
+        <div className="max-w-2xl mx-auto text-center glass-card p-8">
+          <span className="text-gold-primary text-lg">✦</span>
+          <h2 className="font-display text-xl font-bold text-gold-primary mt-2 mb-2">Already Have an Activation Code?</h2>
+          <p className="text-text-secondary text-sm mb-5">
+            Enter your Gumroad purchase code below to unlock Pro features instantly.
+          </p>
+          <Link href="/activate" className="btn-primary inline-flex items-center gap-2 px-8 py-3">
+            Activate License
+          </Link>
         </div>
       </section>
 

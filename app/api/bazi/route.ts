@@ -38,58 +38,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // AI interpretation is optional — skip it in the main bazi call to avoid
-    // Vercel serverless timeout (10s on Hobby plan, US→China DeepSeek API).
-    // Users can call /api/interpret separately if they want AI-generated reading.
-    const aiEnabled = body.ai === true;
-    let aiInterpretation = '';
-
-    if (aiEnabled) {
-      try {
-        const prompt = buildBaziInterpretPrompt(bazi, name);
-        const apiKey = process.env.DEEPSEEK_API_KEY;
-        const apiUrl = process.env.DEEPSEEK_API_URL || 'https://api.deepseek.com/v1/chat/completions';
-
-        if (apiKey) {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s budget
-
-          let response;
-          try {
-            response = await fetch(apiUrl, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`,
-              },
-              body: JSON.stringify({
-                model: 'deepseek-chat',
-                messages: [
-                  { role: 'system', content: 'You are an AI astrologer proficient in traditional Chinese Bazi (Four Pillars of Destiny). Provide interpretations in English. Use a professional and warm tone. Output in Markdown format.' },
-                  { role: 'user', content: prompt },
-                ],
-                temperature: 0.7,
-                max_tokens: 2000,
-              }),
-              signal: controller.signal,
-            });
-          } finally {
-            clearTimeout(timeoutId);
-          }
-
-          if (response?.ok) {
-            const data = await response.json();
-            aiInterpretation = data.choices?.[0]?.message?.content || '';
-          }
-        }
-        if (!aiInterpretation) {
-          aiInterpretation = generateMockInterpretation(bazi);
-        }
-      } catch (aiError) {
-        console.error('AI interpretation failed:', aiError);
-        aiInterpretation = generateMockInterpretation(bazi);
-      }
-    }
+    // AI interpretation: DISABLED — DeepSeek API from Vercel US Hobby
+    // frequently exceeds 10s serverless timeout, causing empty response body.
+    // Users get mock interpretation instead. Can re-enable when we migrate to
+    // a reliable provider (e.g. local Ollama, or Vercel Pro plan with longer timeout).
+    const aiInterpretation = generateMockInterpretation(bazi);
 
     // Track usage in Supabase (fire & forget)
     trackUsage({

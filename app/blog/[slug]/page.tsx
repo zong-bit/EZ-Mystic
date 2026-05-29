@@ -285,9 +285,9 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             {post.title}
           </h1>
           <div className="flex items-center justify-center gap-4 text-sm text-text-tertiary">
-            <span>By <span className="text-text-secondary">{post.author}</span></span>
+            <span>By FateWise Team</span>
             <span>·</span>
-            <span>{post.date}</span>
+            <span>Updated {post.date}</span>
           </div>
         </div>
       </section>

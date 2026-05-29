@@ -61,6 +61,25 @@ export default function LoginPage() {
 
       if (authError) throw authError;
 
+      // Auto-detect Gumroad purchase and activate Pro
+      try {
+        const { data: sale } = await supabase
+          .from('gumroad_sales')
+          .select('token, plan')
+          .eq('email', email.toLowerCase().trim())
+          .eq('refunded', false)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single();
+
+        if (sale?.token) {
+          localStorage.setItem('fatewise_token', sale.token);
+          localStorage.setItem('fatewise_plan', sale.plan || 'pro');
+        }
+      } catch {
+        // Gumroad lookup failure is non-fatal
+      }
+
       router.push('/account');
       router.refresh();
     } catch (err: any) {
