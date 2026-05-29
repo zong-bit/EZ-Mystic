@@ -1,4 +1,6 @@
 import { MetadataRoute } from 'next'
+import fs from 'fs'
+import path from 'path'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://bornchart.app'
@@ -43,6 +45,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'bazi-students-major-career-path-guide',
     'bazi-resource-guide-tools-books-communities',
   ]
+  // Chinese blog posts from content/blog/zh/
+  const zhBlogDir = path.join(process.cwd(), 'content/blog/zh')
+  const zhBlogPosts: string[] = []
+  if (fs.existsSync(zhBlogDir)) {
+    fs.readdirSync(zhBlogDir)
+      .filter(f => f.endsWith('.md'))
+      .forEach(f => zhBlogPosts.push(f.replace(/\.md$/, '')))
+  }
   const entries = [
     ...pages.map(p => ({
       url: `${baseUrl}${p}`,
@@ -52,6 +62,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...blogPosts.map(slug => ({
       url: `${baseUrl}/blog/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
+    ...zhBlogPosts.map(slug => ({
+      url: `${baseUrl}/zh/blog/${slug}`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 0.6,
