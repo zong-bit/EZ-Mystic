@@ -34,6 +34,8 @@ const OPEN_PATHS = [
   '/pricing',
   '/blog',
   '/bazi',
+  '/zh',
+  '/zh/blog',
 ];
 
 // Open static file patterns
