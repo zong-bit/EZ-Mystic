@@ -263,6 +263,10 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const { post, allSlugs } = result;
   const renderedContent = renderMarkdown(post.content);
 
+  // Check if English version exists
+  const enBlogDir = path.join(process.cwd(), 'content/blog');
+  const hasEnglish = fs.existsSync(path.join(enBlogDir, `${params.slug}.md`));
+
   // Related posts (exclude current)
   const relatedPosts = allSlugs.filter(s => s !== params.slug).slice(0, 3);
 
@@ -277,6 +281,16 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <Link href="/zh/blog" className="text-text-tertiary hover:text-gold-primary transition-colors text-sm inline-block mb-6">
             ← 返回博客
           </Link>
+          {/* Language switch */}
+          {hasEnglish && (
+            <div className="flex justify-center mb-4">
+              <Link
+                href={`/blog/${params.slug}`}
+                className="text-gold-primary border border-gold-primary/30 rounded-full px-4 py-1 text-sm hover:bg-gold-primary/10 transition">
+                Read in English
+              </Link>
+            </div>
+          )}
           <span className="text-xs text-gold-primary font-semibold uppercase tracking-widest bg-gold-primary/10 px-3 py-1 rounded-full">
             {post.category}
           </span>

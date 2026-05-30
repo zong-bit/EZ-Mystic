@@ -278,6 +278,20 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <Link href="/blog" className="text-text-tertiary hover:text-gold-primary transition-colors text-sm inline-block mb-6">
             ← Back to Blog
           </Link>
+          {/* Language switch */}
+          {(() => {
+            const zhBlogDir = path.join(process.cwd(), 'content/blog/zh');
+            const zhExists = fs.existsSync(path.join(zhBlogDir, `${params.slug}.md`));
+            return zhExists ? (
+              <div className="flex justify-center mb-4">
+                <Link
+                  href={`/zh/blog/${params.slug}`}
+                  className="text-gold-primary border border-gold-primary/30 rounded-full px-4 py-1 text-sm hover:bg-gold-primary/10 transition">
+                  阅读中文版本
+                </Link>
+              </div>
+            ) : null;
+          })()}
           <span className="text-xs text-gold-primary font-semibold uppercase tracking-widest bg-gold-primary/10 px-3 py-1 rounded-full">
             {post.category}
           </span>

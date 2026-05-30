@@ -103,6 +103,14 @@ export default function BlogPage() {
         <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-gold-primary/5 rounded-full blur-3xl" />
 
         <div className="relative z-10 max-w-3xl mx-auto">
+          {/* Language switch */}
+          <div className="flex justify-center mb-6">
+            <Link
+              href="/blog"
+              className="text-gold-primary border border-gold-primary/30 rounded-full px-4 py-1 text-sm hover:bg-gold-primary/10 transition">
+              English
+            </Link>
+          </div>
           <span className="text-gold-primary text-lg font-display tracking-widest">✦ 为好奇者准备的智慧 ✦</span>
           <h1 className="font-display font-bold text-5xl md:text-6xl mt-6 mb-6 text-gold-glow">
             东方智慧博客
