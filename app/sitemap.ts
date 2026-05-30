@@ -7,6 +7,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pages = [
     '', '/bazi', '/chat', '/blog', '/pricing', '/zen',
     '/contact', '/terms', '/privacy', '/refund', '/signup', '/login',
+    '/about', '/fatebook', '/account', '/activate', '/dashboard',
+  ]
+  const zhPages = [
+    '/zh', '/zh/bazi', '/zh/chat', '/zh/blog', '/zh/pricing', '/zh/zen',
+    '/zh/contact', '/zh/terms', '/zh/privacy', '/zh/refund', '/zh/signup', '/zh/login',
+    '/zh/about', '/zh/fatebook', '/zh/account', '/zh/activate', '/zh/dashboard',
   ]
   const blogPosts = [
     'bazi-career-guide-how-to-read-your-chart',
@@ -59,6 +65,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: p === '' ? 'weekly' as const : 'monthly' as const,
       priority: p === '' ? 1 : 0.8,
+    })),
+    ...zhPages.map(p => ({
+      url: `${baseUrl}${p}`,
+      lastModified: new Date(),
+      changeFrequency: p === '/zh' ? 'weekly' as const : 'monthly' as const,
+      priority: p === '/zh' ? 1 : 0.8,
     })),
     ...blogPosts.map(slug => ({
       url: `${baseUrl}/blog/${slug}`,

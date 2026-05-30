@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '../auth/auth-context';
+import LangSwitch from './LangSwitch';
 
 interface NavbarProps {
   currentPage?: string;
@@ -14,36 +15,57 @@ export default function Navbar({ currentPage }: NavbarProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
+  const isChinese = pathname.startsWith('/zh');
 
   const isActive = (path: string) => {
     if (currentPage) return currentPage === path;
     return pathname === path;
   };
 
-  const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/bazi', label: 'Bazi Chart' },
-    { href: '/daily', label: 'Daily' },
-    { href: '/chat', label: 'Chat' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/zen', label: 'Zen' },
-    { href: '/pricing', label: 'Pricing' },
-    { href: '/contact', label: 'Contact' },
-  ];
+  const navLinks = isChinese
+    ? [
+        { href: '/zh', label: '首页' },
+        { href: '/zh/bazi', label: '八字命盘' },
+        { href: '/zh/daily', label: '每日运势' },
+        { href: '/zh/chat', label: 'AI 咨询' },
+        { href: '/zh/blog', label: '博客' },
+        { href: '/zh/zen', label: '禅' },
+        { href: '/zh/pricing', label: '定价' },
+        { href: '/zh/contact', label: '联系我们' },
+      ]
+    : [
+        { href: '/', label: 'Home' },
+        { href: '/bazi', label: 'Bazi Chart' },
+        { href: '/daily', label: 'Daily' },
+        { href: '/chat', label: 'Chat' },
+        { href: '/blog', label: 'Blog' },
+        { href: '/zen', label: 'Zen' },
+        { href: '/pricing', label: 'Pricing' },
+        { href: '/contact', label: 'Contact' },
+      ];
 
-  const toolsLinks = [
-    { href: '/diet', label: 'Diet Guide' },
-    { href: '/colors', label: 'Color Match' },
-    { href: '/exercise', label: 'Exercise' },
-    { href: '/direction', label: 'Direction' },
-    { href: '/luck', label: 'Luck Boost' },
-    { href: '/compatibility', label: 'Compatibility' },
-  ];
+  const toolsLinks = isChinese
+    ? [
+        { href: '/zh/diet', label: '饮食指南' },
+        { href: '/zh/colors', label: '色彩匹配' },
+        { href: '/zh/exercise', label: '运动指南' },
+        { href: '/zh/direction', label: '方位指南' },
+        { href: '/zh/luck', label: '运势提升' },
+        { href: '/zh/compatibility', label: '合婚匹配' },
+      ]
+    : [
+        { href: '/diet', label: 'Diet Guide' },
+        { href: '/colors', label: 'Color Match' },
+        { href: '/exercise', label: 'Exercise' },
+        { href: '/direction', label: 'Direction' },
+        { href: '/luck', label: 'Luck Boost' },
+        { href: '/compatibility', label: 'Compatibility' },
+      ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass" style={{ backdropFilter: 'blur(12px)', background: 'rgba(18,18,26,0.72)' }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
+        <Link href={isChinese ? '/zh' : '/'} className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
           <span className="text-gold-primary text-xl font-display font-bold text-gold-glow">✦</span>
           <span className="text-text-primary font-display font-semibold text-lg">FateWise</span>
         </Link>
@@ -56,6 +78,9 @@ export default function Navbar({ currentPage }: NavbarProps) {
               {link.label}
             </Link>
           ))}
+          {/* Language switch */}
+          <LangSwitch />
+
           {/* Tools dropdown */}
           <div
             className="relative"
@@ -68,7 +93,7 @@ export default function Navbar({ currentPage }: NavbarProps) {
                 toolsOpen ? 'text-gold-primary' : 'text-text-tertiary hover:text-text-secondary'
               }`}
             >
-              Tools
+              {isChinese ? '工具' : 'Tools'}
               <svg className="w-3 h-3 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ transform: toolsOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
@@ -95,15 +120,19 @@ export default function Navbar({ currentPage }: NavbarProps) {
 
           {user ? (
             <>
-              <Link href="/dashboard" className="text-sm text-text-tertiary hover:text-text-secondary transition-colors">Dashboard</Link>
-              <Link href="/account" className="text-sm text-text-tertiary hover:text-text-secondary transition-colors">Account</Link>
+              <Link href={isChinese ? '/zh/dashboard' : '/dashboard'} className="text-sm text-text-tertiary hover:text-text-secondary transition-colors">
+                {isChinese ? '仪表盘' : 'Dashboard'}
+              </Link>
+              <Link href={isChinese ? '/zh/account' : '/account'} className="text-sm text-text-tertiary hover:text-text-secondary transition-colors">
+                {isChinese ? '账户' : 'Account'}
+              </Link>
               <button onClick={signOut} className="text-sm text-text-tertiary hover:text-text-secondary transition-colors">
-                {user.user_metadata?.name || 'Sign Out'}
+                {user.user_metadata?.name || (isChinese ? '退出登录' : 'Sign Out')}
               </button>
             </>
           ) : (
-            <Link href="/signup" className="btn-primary text-sm" style={{ padding: '8px 20px', fontSize: '14px' }}>
-              Begin Your Journey →
+            <Link href={isChinese ? '/zh/signup' : '/signup'} className="btn-primary text-sm" style={{ padding: '8px 20px', fontSize: '14px' }}>
+              {isChinese ? '开始探索命运 →' : 'Begin Your Journey →'}
             </Link>
           )}
         </div>
@@ -132,9 +161,15 @@ export default function Navbar({ currentPage }: NavbarProps) {
                 {link.label}
               </Link>
             ))}
+            {/* Language switch in mobile */}
+            <div className="flex justify-center py-2">
+              <LangSwitch />
+            </div>
             {/* Tools links in mobile */}
             <div className="border-t border-white/5 pt-2 mt-2">
-              <div className="px-3 py-1 text-xs font-semibold text-gold-primary uppercase tracking-wider">Five Elements Tools</div>
+              <div className="px-3 py-1 text-xs font-semibold text-gold-primary uppercase tracking-wider">
+                {isChinese ? '五行工具' : 'Five Elements Tools'}
+              </div>
               {toolsLinks.map(link => (
                 <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
                   className={`block py-2 px-4 rounded-lg text-sm transition-colors ${isActive(link.href) ? 'text-gold-primary bg-gold-primary/5' : 'text-text-secondary hover:text-text-primary hover:bg-white/5'}`}>
@@ -144,16 +179,20 @@ export default function Navbar({ currentPage }: NavbarProps) {
             </div>
             {user ? (
               <div className="border-t border-white/5 pt-2 mt-2">
-                <Link href="/dashboard" onClick={() => setMenuOpen(false)}
-                  className="block py-3 px-4 rounded-lg text-sm text-text-secondary hover:text-text-primary hover:bg-white/5">Dashboard</Link>
+                <Link href={isChinese ? '/zh/dashboard' : '/dashboard'} onClick={() => setMenuOpen(false)}
+                  className="block py-3 px-4 rounded-lg text-sm text-text-secondary hover:text-text-primary hover:bg-white/5">
+                  {isChinese ? '仪表盘' : 'Dashboard'}
+                </Link>
                 <button onClick={() => { signOut(); setMenuOpen(false); }}
-                  className="block w-full text-left py-3 px-4 rounded-lg text-sm text-red-400 hover:bg-red-500/5">Sign Out</button>
+                  className="block w-full text-left py-3 px-4 rounded-lg text-sm text-red-400 hover:bg-red-500/5">
+                  {isChinese ? '退出登录' : 'Sign Out'}
+                </button>
               </div>
             ) : (
               <div className="border-t border-white/5 pt-2 mt-2">
-                <Link href="/signup" onClick={() => setMenuOpen(false)}
+                <Link href={isChinese ? '/zh/signup' : '/signup'} onClick={() => setMenuOpen(false)}
                   className="block py-3 px-4 rounded-lg text-sm text-center btn-primary">
-                  Begin Your Journey →
+                  {isChinese ? '开始探索命运 →' : 'Begin Your Journey →'}
                 </Link>
               </div>
             )}
