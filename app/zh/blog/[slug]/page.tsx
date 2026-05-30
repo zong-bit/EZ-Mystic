@@ -35,10 +35,10 @@ function getPost(slug: string): { post: BlogPostFrontmatter & { content: string 
   const body = bodyStart > 0 ? content.slice(bodyStart + 2) : '';
 
   const frontmatter: BlogPostFrontmatter = {
-    title: titleMatch?.[1]?.trim() || 'Untitled',
+    title: titleMatch?.[1]?.trim() || '无标题',
     date: dateMatch?.[1]?.trim() || '',
     author: authorMatch?.[1]?.trim() || 'FateWise',
-    category: categoryMatch?.[1]?.trim() || 'General',
+    category: categoryMatch?.[1]?.trim() || '综合',
     keywords: keywordsMatch?.[1]?.trim() || '',
     excerpt: excerptMatch?.[1]?.trim() || '',
   };
@@ -201,7 +201,7 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const result = getPost(params.slug);
   if (!result) {
-    return { title: 'Post Not Found', robots: 'noindex' };
+    return { title: '文章未找到', robots: 'noindex' };
   }
 
   const { post } = result;
@@ -209,7 +209,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const canonicalUrl = `https://bornchart.app/zh/blog/${params.slug}`;
 
   return {
-    title: `${post.title} | FateWise Blog`,
+    title: `${post.title} | FateWise 博客`,
     description: post.excerpt,
     keywords,
     alternates: { canonical: canonicalUrl },
@@ -253,7 +253,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-bg-primary">
         <div className="text-center">
-          <h1 className="font-display text-3xl font-bold text-gold-primary mb-4">Post Not Found</h1>
+          <h1 className="font-display text-3xl font-bold text-gold-primary mb-4">文章未找到</h1>
           <Link href="/zh/blog" className="text-gold-primary hover:underline">← 返回博客</Link>
         </div>
       </div>
@@ -287,7 +287,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
               <Link
                 href={`/blog/${params.slug}`}
                 className="text-gold-primary border border-gold-primary/30 rounded-full px-4 py-1 text-sm hover:bg-gold-primary/10 transition">
-                Read in English
+                阅读英文版
               </Link>
             </div>
           )}
@@ -298,7 +298,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             {post.title}
           </h1>
           <div className="flex items-center justify-center gap-4 text-sm text-text-tertiary">
-            <span>By FateWise Team</span>
+            <span>作者：FateWise 团队</span>
             <span>·</span>
             <span>更新于 {post.date}</span>
           </div>
@@ -364,10 +364,10 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             <span className="font-display font-semibold text-text-primary">FateWise</span>
           </div>
           <p className="text-text-tertiary text-sm mb-2">
-            © 2026 BornChart · FateWise. All rights reserved.
+            © 2026 BornChart · FateWise. 保留所有权利。
           </p>
           <p className="text-text-muted text-xs">
-            Disclaimer: The content on this website is for entertainment and educational purposes only.
+            免责声明：本网站内容仅供娱乐和教育参考。
           </p>
         </div>
       </footer>

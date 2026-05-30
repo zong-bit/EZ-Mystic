@@ -2,13 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'About FateWise — AI + Chinese Bazi Destiny Analysis',
+  title: '关于 FateWise — AI + 中国八字/BaZi 命运分析',
   description:
-    'FateWise combines millennia of Chinese Bazi wisdom with modern AI to deliver precise, personalized destiny analysis. Learn about our mission, team, and the technology behind your chart.',
+    'FateWise 将千年中国八字/BaZi智慧与现代AI相结合，提供精准、个性化的命运分析。了解我们的使命、团队及背后的技术。',
   alternates: { canonical: 'https://bornchart.app/about' },
   openGraph: {
-    title: 'About FateWise',
-    description: 'AI-powered Chinese Bazi destiny analysis rooted in 6,000 years of Eastern wisdom.',
+    title: '关于 FateWise',
+    description: '以6000年东方智慧为根基的AI驱动中国八字/BaZi命运分析。',
     url: 'https://bornchart.app/about',
     siteName: 'FateWise',
     type: 'website',
@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About FateWise',
-    description: 'AI-powered Chinese Bazi destiny analysis rooted in 6,000 years of Eastern wisdom.',
+    title: '关于 FateWise',
+    description: '以6000年东方智慧为根基的AI驱动中国八字/BaZi命运分析。',
   },
 };
 
@@ -32,13 +32,13 @@ export default function AboutPage() {
 
         <div className="relative z-10 max-w-3xl mx-auto">
           <span className="text-xs text-gold-primary font-semibold uppercase tracking-widest bg-gold-primary/10 px-3 py-1 rounded-full">
-            Our Story
+            我们的故事
           </span>
           <h1 className="font-display font-bold text-3xl md:text-5xl mt-6 mb-6 text-gold-glow leading-tight">
-            Ancient Wisdom, Modern Intelligence
+            古老智慧，现代智能
           </h1>
           <p className="text-text-secondary text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-            FateWise was born from a simple belief: <span className="text-text-primary font-medium">6,000 years of Chinese destiny wisdom should be accessible to everyone</span>, not locked behind expensive readings or language barriers.
+            FateWise 源于一个简单的信念：<span className="text-text-primary font-medium">6000年的中国八字/BaZi命运智慧应当人人可及</span>，而不被昂贵的解读或语言壁垒所封锁。
           </p>
         </div>
       </section>
@@ -48,17 +48,17 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto">
           <div className="glass-card p-8 md:p-10">
             <h2 className="font-display text-xl font-bold text-gold-primary mb-6 gold-divider pb-2">
-              Our Mission
+              我们的使命
             </h2>
             <div className="text-text-primary text-sm leading-relaxed space-y-4">
               <p>
-                Chinese Bazi (八字) — the Four Pillars of Destiny — is one of the most sophisticated systems of self-analysis ever created. It maps the interplay of elemental forces at the moment of your birth to reveal your innate strengths, relationship patterns, career timing, and life cycles.
+                中国八字/BaZi — 四柱命理 — 是有史以来最精妙的自我分析体系之一。它描绘了你出生时刻元素力量的相互作用，揭示你天生的优势、关系模式、职业时机和人生周期。
               </p>
               <p>
-                But for centuries, accurate Bazi analysis has required years of study, a skilled practitioner, and often a significant fee. <span className="text-gold-primary font-medium">FateWise changes that.</span>
+                但几个世纪以来，准确的八字/BaZi分析需要多年研究、熟练的从业者，而且通常费用不菲。<span className="text-gold-primary font-medium">FateWise 改变了这一点。</span>
               </p>
               <p>
-                We combine <span className="text-text-primary">precise astronomical calculations</span> (including true solar time correction) with <span className="text-text-primary">advanced AI interpretation</span> to deliver personalized destiny analysis that is both accurate and accessible. Our goal is not to replace human masters, but to make the foundational knowledge available to anyone, anywhere, at any time.
+                我们将<span className="text-text-primary">精确的天文计算</span>（包括真太阳时/True Solar Time校正）与<span className="text-text-primary">先进的AI解读</span>相结合，提供既准确又便捷的个性化命运分析。我们的目标不是取代人类大师，而是让基础知识在任何时间、任何地点对任何人都可及。
               </p>
             </div>
           </div>
@@ -69,31 +69,31 @@ export default function AboutPage() {
       <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto">
           <h2 className="font-display text-xl font-bold text-gold-primary mb-8 text-center gold-divider pb-2">
-            How FateWise Works
+            FateWise 的工作原理
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Step 1 */}
             <div className="glass-card p-6 text-center">
               <div className="text-gold-primary text-3xl font-display font-bold mb-3">01</div>
-              <h3 className="font-display font-semibold text-text-primary mb-3">True Solar Time</h3>
+              <h3 className="font-display font-semibold text-text-primary mb-3">真太阳时/True Solar Time</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                We correct your birth time using your exact GPS coordinates to calculate true solar time — the foundation of accurate Bazi.
+                我们根据你的精确GPS坐标校正出生时间，计算真太阳时/True Solar Time——这是准确八字/BaZi的基础。
               </p>
             </div>
             {/* Step 2 */}
             <div className="glass-card p-6 text-center">
               <div className="text-gold-primary text-3xl font-display font-bold mb-3">02</div>
-              <h3 className="font-display font-semibold text-text-primary mb-3">Four Pillars Calculation</h3>
+              <h3 className="font-display font-semibold text-text-primary mb-3">四柱计算</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                Your birth year, month, day, and hour are converted into the Eight Characters (八字) using the traditional Heavenly Stems and Earthly Branches system.
+                你的出生年、月、日、时通过传统的天干地支体系转换为八个字（八字/BaZi）。
               </p>
             </div>
             {/* Step 3 */}
             <div className="glass-card p-6 text-center">
               <div className="text-gold-primary text-3xl font-display font-bold mb-3">03</div>
-              <h3 className="font-display font-semibold text-text-primary mb-3">AI Interpretation</h3>
+              <h3 className="font-display font-semibold text-text-primary mb-3">AI 解读</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                AI analyzes your chart against millennia of classical Bazi theory — Five Elements, Ten Gods, Luck Pillars — to generate your personalized reading.
+                AI 根据数千年的经典八字/BaZi理论——五行/Five Elements、十神、大运——分析你的命盘，生成个性化解读。
               </p>
             </div>
           </div>
@@ -105,17 +105,17 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto">
           <div className="glass-card p-8 md:p-10">
             <h2 className="font-display text-xl font-bold text-gold-primary mb-6 gold-divider pb-2">
-              The Team
+              团队
             </h2>
             <div className="text-text-primary text-sm leading-relaxed space-y-4">
               <p>
-                FateWise is built by a small team of engineers, data scientists, and Chinese metaphysics researchers who share a passion for bridging Eastern and Western knowledge systems.
+                FateWise 由一支由工程师、数据科学家和中国玄学研究者组成的小团队打造，他们共同致力于融合东方与西方知识体系。
               </p>
               <p>
-                Our team includes practitioners of traditional Bazi study who ensure the theoretical foundation is sound, and AI engineers who bring modern computational power to bear on centuries-old interpretive frameworks. The result is a tool that respects tradition while embracing innovation.
+                我们的团队包括传统八字/BaZi研习者，确保理论基础的扎实；以及AI工程师，将现代计算能力应用于几个世纪以来的解读框架。结果是诞生了一个尊重传统、拥抱创新的工具。
               </p>
               <p>
-                We believe that technology should democratize access to wisdom, not replace the human judgment that has always been essential to destiny analysis. FateWise is a starting point — an invitation to explore one of humanity's greatest systems of self-understanding.
+                我们相信，技术应当让智慧触手可及，而不是取代命运分析中始终不可或缺的人类判断。FateWise 是一个起点——邀请你探索人类最伟大的自我认知体系之一。
               </p>
             </div>
           </div>
@@ -126,31 +126,31 @@ export default function AboutPage() {
       <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto">
           <h2 className="font-display text-xl font-bold text-gold-primary mb-8 text-center gold-divider pb-2">
-            Our Principles
+            我们的原则
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="glass-card p-6">
-              <h3 className="font-display font-semibold text-gold-primary mb-3">Accuracy First</h3>
+              <h3 className="font-display font-semibold text-gold-primary mb-3">精度至上</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                Every chart calculation is verified against classical astronomical algorithms. True solar time correction ensures your chart reflects the actual sky at your birthplace.
+                每个命盘计算都经过经典天文算法的验证。真太阳时/True Solar Time校正确保你的命盘反映出生地的真实天象。
               </p>
             </div>
             <div className="glass-card p-6">
-              <h3 className="font-display font-semibold text-gold-primary mb-3">Respect for Tradition</h3>
+              <h3 className="font-display font-semibold text-gold-primary mb-3">尊重传统</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                Our AI models are trained on classical Bazi texts and validated by experienced practitioners. We honor the tradition while making it accessible.
+                我们的AI模型基于经典八字/BaZi文献训练，并由经验丰富的从业者验证。我们尊重传统，同时使其易于理解。
               </p>
             </div>
             <div className="glass-card p-6">
-              <h3 className="font-display font-semibold text-gold-primary mb-3">Transparency</h3>
+              <h3 className="font-display font-semibold text-gold-primary mb-3">透明公开</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                We explain the reasoning behind interpretations. Your chart is not a black box — every insight is traceable to classical Bazi principles.
+                我们解释每个解读背后的推理。你的命盘不是黑箱——每条洞察都可追溯至经典八字/BaZi原理。
               </p>
             </div>
             <div className="glass-card p-6">
-              <h3 className="font-display font-semibold text-gold-primary mb-3">Empowerment</h3>
+              <h3 className="font-display font-semibold text-gold-primary mb-3">赋能成长</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                Our goal is not dependency, but self-understanding. We provide the tools for you to learn Bazi yourself and grow your practice over time.
+                我们的目标不是依赖，而是自我认知。我们提供工具，让你自己学习八字/BaZi，并随着时间的推移精进实践。
               </p>
             </div>
           </div>
@@ -162,13 +162,13 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto">
           <div className="glass-card p-8 md:p-10 text-center">
             <h3 className="font-display text-lg font-bold text-gold-primary mb-3">
-              Ready to explore your destiny?
+              准备好探索你的命运了吗？
             </h3>
             <p className="text-text-secondary text-sm mb-6">
-              Get your free Bazi chart and discover the Four Pillars written at your birth.
+              获取免费八字/BaZi命盘，发现你出生时写下的四柱。
             </p>
             <Link href="/bazi" className="btn-primary text-base px-10 py-3 inline-block">
-              ✨ Get Your Free Bazi Chart
+              ✨ 免费获取八字/BaZi命盘
             </Link>
           </div>
         </div>
@@ -182,10 +182,10 @@ export default function AboutPage() {
             <span className="font-display font-semibold text-text-primary">FateWise</span>
           </div>
           <p className="text-text-tertiary text-sm mb-2">
-            © 2026 BornChart · FateWise. All rights reserved.
+            © 2026 BornChart · FateWise 版权所有。
           </p>
           <p className="text-text-muted text-xs">
-            Disclaimer: The content on this website is for entertainment and educational purposes only.
+            免责声明：本网站内容仅供娱乐和教育用途。
           </p>
         </div>
       </footer>

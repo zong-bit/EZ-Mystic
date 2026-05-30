@@ -90,12 +90,12 @@ function renderInline(text: string): React.ReactNode {
 
 // Quick prompt suggestions
 const SUGGESTIONS = [
-  { icon: '📊', text: 'How to read my Bazi chart?', sub: '八字排盘入门' },
-  { icon: '💼', text: 'Tell me about the Ten Deities (十神)', sub: '十神解析' },
-  { icon: '🔮', text: 'What is Day Master (日主)?', sub: '日主概念' },
-  { icon: '🏠', text: 'Feng Shui tips for my home', sub: '风水建议' },
-  { icon: '⚡', text: 'Explain the Five Elements (五行)', sub: '五行相生相克' },
-  { icon: '🎯', text: 'How to improve my luck?', sub: '改运方法' },
+  { icon: '📊', text: '如何解读我的八字命盘？', sub: '八字排盘入门' },
+  { icon: '💼', text: '介绍一下十神（十神）', sub: '十神解析' },
+  { icon: '🔮', text: '什么是日主（日主）？', sub: '日主概念' },
+  { icon: '🏠', text: '家居风水建议', sub: '风水建议' },
+  { icon: '⚡', text: '解释五行（五行）相生相克', sub: '五行相生相克' },
+  { icon: '🎯', text: '如何提升运势？', sub: '改运方法' },
 ];
 
 export default function ChatPage() {
@@ -219,7 +219,7 @@ export default function ChatPage() {
       }
 
       if (!data.success) {
-        throw new Error(data.error || 'Failed to get response');
+        throw new Error(data.error || '获取回复失败');
       }
 
       // Consume limit on successful message
@@ -247,7 +247,7 @@ export default function ChatPage() {
 
       setMessages(prev => [...prev, assistantMsg]);
     } catch (err: any) {
-      setError(err.message || 'Request failed');
+      setError(err.message || '请求失败');
     } finally {
       setLoading(false);
     }
@@ -271,10 +271,10 @@ export default function ChatPage() {
             <div className="flex flex-col items-center justify-center h-full min-h-[60vh] text-center">
               <div className="text-6xl mb-6">☯</div>
               <h1 className="font-display text-2xl md:text-3xl font-bold text-gold-primary mb-3">
-                Master Yuanfang (玄方大师)
+                玄方大师（Master Yuanfang）
               </h1>
               <p className="text-text-secondary text-base mb-8 max-w-md">
-                Ask about Bazi (八字), Feng Shui (风水), I Ching (易经), or any Eastern metaphysics topic.
+                咨询八字（BaZi）、风水（Feng Shui）、易经（I Ching）或任何东方命理话题。
               </p>
 
               {/* Suggestion Cards */}
@@ -313,7 +313,7 @@ export default function ChatPage() {
                     {msg.role === 'assistant' && (
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-sm">☯</span>
-                        <span className="text-xs text-gold-primary font-medium">Master Yuanfang</span>
+                        <span className="text-xs text-gold-primary font-medium">玄方大师</span>
                       </div>
                     )}
                     <div className="text-text-primary">
@@ -329,7 +329,7 @@ export default function ChatPage() {
                   <div className="glass-card rounded-2xl px-4 py-3">
                     <div className="flex items-center gap-2">
                       <span className="text-gold-primary taiji-loader inline-block">☯</span>
-                      <span className="text-text-tertiary text-sm">Master Yuanfang is thinking...</span>
+                      <span className="text-text-tertiary text-sm">玄方大师正在思考...</span>
                     </div>
                   </div>
                 </div>
@@ -353,7 +353,7 @@ export default function ChatPage() {
             <textarea
               ref={inputRef}
               className="flex-1 bg-transparent text-text-primary text-sm placeholder-text-tertiary resize-none outline-none min-h-[44px] max-h-[120px] py-2"
-              placeholder="Ask about Bazi, Feng Shui, I Ching..."
+              placeholder="向玄方大师提问八字、风水、易经..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -369,7 +369,7 @@ export default function ChatPage() {
                   <span className="taiji-loader inline-block">☯</span>
                 </span>
               ) : (
-                'Send'
+                '发送'
               )}
             </button>
           </div>
@@ -379,17 +379,17 @@ export default function ChatPage() {
         {!isPro && remaining !== null && (
           <p className="text-center text-text-tertiary text-xs mt-2">
             {remaining > 0
-              ? `${remaining} free message${remaining > 1 ? 's' : ''} remaining`
-              : 'Free limit reached · '}
+              ? `剩余 ${remaining} 条免费消息`
+              : '免费额度已用完 · '}
             <Link href="/pricing" className="text-gold-primary hover:underline">
-              {remaining > 0 ? 'upgrade to Pro' : 'upgrade to Pro'}
+              {remaining > 0 ? '升级至Pro' : '升级至Pro'}
             </Link>
           </p>
         )}
 
         {/* Disclaimer */}
         <p className="text-center text-text-tertiary text-[10px] mt-3">
-          AI-generated content for reference only · For entertainment purposes
+          AI生成内容仅供参考 · 仅供娱乐
         </p>
       </div>
 
@@ -401,48 +401,48 @@ export default function ChatPage() {
             <button
               onClick={() => setShowPayment(false)}
               className="absolute top-4 right-4 text-text-tertiary hover:text-text-primary transition-colors text-xl"
-              aria-label="Close">
+              aria-label="关闭">
               ✕
             </button>
 
             <div className="text-center">
               <div className="text-5xl mb-4">☯</div>
               <h2 className="font-display text-2xl font-bold text-gold-primary mb-2">
-                Want to learn more? Upgrade to Pro to continue
+                想了解更多？升级至Pro继续
               </h2>
               <p className="text-text-secondary text-sm mb-6">
-                You've used your free message. Upgrade to unlock unlimited AI metaphysics consultations with Master Yuanfang.
+                您已用完免费消息。升级即可解锁与玄方大师（Master Yuanfang）的无限制AI命理咨询。
               </p>
 
               {/* Pro features */}
               <div className="text-left space-y-2 mb-8">
                 <div className="flex items-center gap-2 text-sm text-text-secondary">
                   <span className="text-gold-primary">✓</span>
-                  <span>Unlimited AI deep interpretation</span>
+                  <span>无限制AI深度解读</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-text-secondary">
                   <span className="text-gold-primary">✓</span>
-                  <span>Complete Destiny Book PDF</span>
+                  <span>完整命运书PDF</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-text-secondary">
                   <span className="text-gold-primary">✓</span>
-                  <span>Great Fortune & Annual Luck cycles</span>
+                  <span>大运与流年运势</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-text-secondary">
                   <span className="text-gold-primary">✓</span>
-                  <span>Feng Shui & compatibility analysis</span>
+                  <span>风水与合盘分析</span>
                 </div>
               </div>
 
               {/* CTA buttons */}
               <div className="space-y-3">
                 <Link href="/pricing" className="btn-primary w-full text-center py-3 block text-base">
-                  View Plans & Pricing →
+                  查看方案与定价 →
                 </Link>
                 <Link
                   href="/payment?plan=pro"
                   className="block text-center text-gold-primary text-sm hover:underline">
-                  Get Pro for $9.99/mo
+                  每月$9.99获取Pro
                 </Link>
               </div>
             </div>

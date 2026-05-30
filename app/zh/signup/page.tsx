@@ -19,7 +19,7 @@ function SignupContent() {
   const [referralCode, setReferralCode] = useState<string | null>(null);
   const [claimResult, setClaimResult] = useState<{ success: boolean; error?: string } | null>(null);
 
-  // Extract ref code from URL
+  // 从 URL 提取推荐码
   useEffect(() => {
     const ref = searchParams.get('ref');
     if (ref) {
@@ -27,7 +27,7 @@ function SignupContent() {
     }
   }, [searchParams]);
 
-  // Handle referral claim after signup
+  // 注册后处理推荐认领
   const handleClaimReferral = async (success: boolean, errorMsg?: string) => {
     if (!success) {
       if (errorMsg === 'cancelled') {
@@ -46,7 +46,7 @@ function SignupContent() {
       const supabase = getSupabaseClient();
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
-        setClaimResult({ success: false, error: 'Not logged in' });
+        setClaimResult({ success: false, error: '未登录' });
         return;
       }
 
@@ -63,10 +63,10 @@ function SignupContent() {
       if (data.success) {
         setClaimResult({ success: true });
       } else {
-        setClaimResult({ success: false, error: data.error || 'Failed to apply referral code' });
+        setClaimResult({ success: false, error: data.error || '应用推荐码失败' });
       }
     } catch (e: any) {
-      setClaimResult({ success: false, error: e.message || 'Claim failed' });
+      setClaimResult({ success: false, error: e.message || '认领失败' });
     } finally {
       setLoading(false);
     }
@@ -79,12 +79,12 @@ function SignupContent() {
     setClaimResult(null);
 
     if (!email.trim() || !password.trim()) {
-      setError('Please fill in all fields');
+      setError('请填写所有字段');
       return;
     }
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setError('密码至少需要 6 个字符');
       return;
     }
 
@@ -99,7 +99,7 @@ function SignupContent() {
 
       if (authError) throw authError;
 
-      // Auto-detect Gumroad purchase and activate Pro
+      // 自动检测 Gumroad 购买并激活 Pro
       try {
         const { data: sale } = await supabase
           .from('gumroad_sales')
@@ -115,19 +115,19 @@ function SignupContent() {
           localStorage.setItem('fatewise_plan', sale.plan || 'pro');
         }
       } catch {
-        // Gumroad lookup failure is non-fatal
+        // Gumroad 查询失败不影响注册
       }
 
       if (data.session) {
-        // Auto-login if session returned (email confirmation disabled)
+        // 如果返回 session 则自动登录（邮件确认已禁用）
         router.push('/bazi');
         router.refresh();
       } else {
-        // Email confirmation required
+        // 需要邮件确认
         setSuccess(true);
       }
     } catch (err: any) {
-      setError(err.message || 'Registration failed');
+      setError(err.message || '注册失败');
     } finally {
       setLoading(false);
     }
@@ -135,13 +135,13 @@ function SignupContent() {
 
   return (
     <div className="min-h-screen bg-bg-primary flex items-center justify-center px-4">
-      {/* Background decoration */}
+      {/* 背景装饰 */}
       <div className="absolute inset-0 starry-bg opacity-30" />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold-primary/5 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-star-dust/5 rounded-full blur-3xl" />
 
       <div className="relative glass-card max-w-md w-full p-8 page-enter">
-        {/* Close / back link */}
+        {/* 关闭 / 返回链接 */}
         <Link href="/" className="absolute top-4 right-4 text-text-tertiary hover:text-text-primary transition-colors text-xl">
           ✕
         </Link>
@@ -205,7 +205,7 @@ function SignupContent() {
           </Link>
         </p>
 
-        {/* Claim result */}
+        {/* 认领结果 */}
         {claimResult && (
           <div className={`mt-4 p-4 rounded-xl text-sm text-center ${
             claimResult.success
@@ -220,7 +220,7 @@ function SignupContent() {
         )}
       </div>
 
-      {/* Referral modal */}
+      {/* 推荐弹窗 */}
       <ReferralModal
         defaultCode={referralCode}
         onClaimed={handleClaimReferral}
@@ -235,7 +235,7 @@ export default function SignupPage() {
       <div className="min-h-screen bg-bg-primary flex items-center justify-center">
         <div className="text-center">
           <span className="text-gold-primary text-4xl taiji-loader inline-block">☯</span>
-          <p className="text-text-secondary text-sm mt-4">Loading...</p>
+          <p className="text-text-secondary text-sm mt-4">加载中...</p>
         </div>
       </div>
     }>

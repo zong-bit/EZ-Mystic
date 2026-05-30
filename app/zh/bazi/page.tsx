@@ -493,7 +493,7 @@ function GrandFortuneTimeline({ gf }: { gf: GrandFortune }) {
 
               {isCurrent && (
                 <div className="text-[10px] text-gold-primary font-semibold px-2 py-0.5 rounded-full bg-gold-primary/10">
-                  Current
+                  当前
                 </div>
               )}
             </div>

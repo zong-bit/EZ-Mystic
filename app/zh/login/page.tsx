@@ -46,7 +46,7 @@ export default function LoginPage() {
     setError(null);
 
     if (!email.trim() || !password.trim()) {
-      setError('Please fill in all fields');
+      setError('请填写所有字段');
       return;
     }
 
@@ -83,7 +83,7 @@ export default function LoginPage() {
       router.push('/account');
       router.refresh();
     } catch (err: any) {
-      setError(err.message || 'Login failed');
+      setError(err.message || '登录失败');
     } finally {
       setLoading(false);
     }
@@ -125,7 +125,7 @@ export default function LoginPage() {
               <input
                 type="email"
                 className="input-field"
-                placeholder="your@email.com"
+                placeholder="您的邮箱"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required

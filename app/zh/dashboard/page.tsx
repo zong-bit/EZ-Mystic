@@ -23,7 +23,7 @@ export default function DashboardPage() {
       <div className="min-h-screen bg-bg-primary flex items-center justify-center">
         <div className="text-center">
           <span className="text-gold-primary text-4xl taiji-loader inline-block">☯</span>
-          <p className="text-text-secondary text-sm mt-4">Loading...</p>
+          <p className="text-text-secondary text-sm mt-4">加载中...</p>
         </div>
       </div>
     );
@@ -53,24 +53,24 @@ export default function DashboardPage() {
               <span className="text-gold-primary text-2xl">☯</span>
             </div>
             <div>
-              <h1 className="font-display text-2xl font-bold text-text-primary">Welcome to FateWise</h1>
-              <p className="text-text-secondary text-sm">Member since {createdAt}</p>
+              <h1 className="font-display text-2xl font-bold text-text-primary">欢迎来到 FateWise</h1>
+              <p className="text-text-secondary text-sm">自 {createdAt} 起成为会员</p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
             <div className="glass-card p-5">
-              <h3 className="text-gold-primary text-sm font-semibold mb-1">Email</h3>
+              <h3 className="text-gold-primary text-sm font-semibold mb-1">邮箱</h3>
               <p className="text-text-primary text-sm break-all">{email}</p>
             </div>
             <div className="glass-card p-5">
-              <h3 className="text-gold-primary text-sm font-semibold mb-1">User ID</h3>
+              <h3 className="text-gold-primary text-sm font-semibold mb-1">用户 ID</h3>
               <p className="text-text-primary text-xs break-all font-mono">{user.id}</p>
             </div>
           </div>
 
           <div className="space-y-3">
-            <h2 className="font-display text-lg font-semibold text-text-primary">Quick Links</h2>
+            <h2 className="font-display text-lg font-semibold text-text-primary">快速链接</h2>
 
             <Link
               href="/chat"
@@ -80,9 +80,9 @@ export default function DashboardPage() {
                 <span className="text-2xl">💬</span>
                 <div>
                   <div className="text-text-primary font-medium group-hover:text-gold-primary transition-colors">
-                    Chat with Master Yuanfang
+                    与袁方大师交流
                   </div>
-                  <div className="text-text-tertiary text-sm">Unlimited AI metaphysics consultations</div>
+                  <div className="text-text-tertiary text-sm">无限次AI玄学咨询</div>
                 </div>
               </div>
             </Link>
@@ -95,9 +95,9 @@ export default function DashboardPage() {
                 <span className="text-2xl">📊</span>
                 <div>
                   <div className="text-text-primary font-medium group-hover:text-gold-primary transition-colors">
-                    Bazi Chart
+                    八字命盘 (Bazi Chart)
                   </div>
-                  <div className="text-text-tertiary text-sm">Generate your Four Pillars chart</div>
+                  <div className="text-text-tertiary text-sm">生成您的四柱命盘 (Four Pillars chart)</div>
                 </div>
               </div>
             </Link>
@@ -106,7 +106,7 @@ export default function DashboardPage() {
           {/* Referral Section */}
           <div className="mt-8 space-y-6">
             <h2 className="font-display text-lg font-semibold text-text-primary flex items-center gap-2">
-              <span className="text-gold-primary">✦</span> Referral Program
+              <span className="text-gold-primary">✦</span> 推荐计划
             </h2>
             {token ? (
               <>
@@ -115,7 +115,7 @@ export default function DashboardPage() {
               </>
             ) : (
               <div className="glass-card p-6 text-center">
-                <p className="text-text-secondary text-sm">Sign in to view your referral stats</p>
+                <p className="text-text-secondary text-sm">登录查看您的推荐统计</p>
               </div>
             )}
           </div>

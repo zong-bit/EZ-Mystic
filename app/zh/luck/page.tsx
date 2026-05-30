@@ -26,7 +26,7 @@ const getDailyLuck = (date: Date) => {
 
   const seed = (day * 31 + month * 17) % 100;
 
-  const elements = ['Wood', 'Fire', 'Earth', 'Metal', 'Water'];
+  const elements = ['木', '火', '土', '金', '水'];
   const currentElement = elements[seed % 5];
 
   const attributes: Record<
@@ -41,57 +41,57 @@ const getDailyLuck = (date: Date) => {
       tip: string;
     }
   > = {
-    Wood: {
+    '木': {
       luckyColors: ['#22c55e', '#16a34a'],
       luckyNumbers: [3, 8],
-      luckyDirection: 'East',
-      luckyItem: 'Bamboo Plant',
+      luckyDirection: '东方',
+      luckyItem: '竹盆栽',
       luckyIcon: Leaf,
-      avoid: 'White/Metal (Chopping Wood)',
-      tip: 'Great day for growth and new beginnings.',
+      avoid: '白色/金属色 (砍木)',
+      tip: '非常适合成长和新开始的一天。',
     },
-    Fire: {
+    '火': {
       luckyColors: ['#ef4444', '#f97316'],
       luckyNumbers: [2, 7],
-      luckyDirection: 'South',
-      luckyItem: 'Candle Light',
+      luckyDirection: '南方',
+      luckyItem: '烛光',
       luckyIcon: Sun,
-      avoid: 'Black/Water (Extinguishing Fire)',
-      tip: 'High energy day. Ideal for social activities.',
+      avoid: '黑色/水色 (灭火)',
+      tip: '精力充沛的一天，适合社交活动。',
     },
-    Earth: {
+    '土': {
       luckyColors: ['#854d0e', '#a8a29e'],
       luckyNumbers: [5, 0],
-      luckyDirection: 'Center / Southwest',
-      luckyItem: 'Ceramic Vase',
+      luckyDirection: '中央 / 西南',
+      luckyItem: '陶瓷花瓶',
       luckyIcon: Gem,
-      avoid: 'Green/Wood (Roots in Earth)',
-      tip: 'Stability is key. Focus on grounding exercises.',
+      avoid: '绿色/木色 (扎根于土)',
+      tip: '稳定性是关键。专注于接地练习。',
     },
-    Metal: {
+    '金': {
       luckyColors: ['#f5f5f4', '#94a3b8'],
       luckyNumbers: [4, 9],
-      luckyDirection: 'West',
-      luckyItem: 'Silver Jewelry',
+      luckyDirection: '西方',
+      luckyItem: '银饰',
       luckyIcon: ShieldAlert,
-      avoid: 'Red/Fire (Melting Metal)',
-      tip: 'Time for precision and decision making.',
+      avoid: '红色/火色 (熔金)',
+      tip: '是精准与决策的时刻。',
     },
-    Water: {
+    '水': {
       luckyColors: ['#1e3a8a', '#3b82f6'],
       luckyNumbers: [1, 6],
-      luckyDirection: 'North',
-      luckyItem: 'Sea Salt Bowl',
+      luckyDirection: '北方',
+      luckyItem: '海盐碗',
       luckyIcon: Moon,
-      avoid: 'Yellow/Earth (Blocking Water)',
-      tip: 'Trust your intuition today. Good for planning.',
+      avoid: '黄色/土色 (堵水)',
+      tip: '今天相信你的直觉。适合规划。',
     },
   };
 
   return {
     element: currentElement,
     ...attributes[currentElement],
-    dateStr: date.toLocaleDateString('en-US', {
+    dateStr: date.toLocaleDateString('zh-CN', {
       weekday: 'long',
       month: 'long',
       day: 'numeric',
@@ -208,19 +208,18 @@ export default function LuckPage() {
         <header className="text-center mb-12 space-y-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-gold-primary mb-4">
             <Sparkles size={12} />
-            <span>Daily Fortune</span>
+            <span>每日运势</span>
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-text-primary mb-4 font-display">
-            Your{' '}
+            你的{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-gold-light via-amber-glow to-nebula-purple">
-              Daily Luck
+              每日运势
             </span>
           </h1>
 
           <p className="text-lg text-text-tertiary max-w-2xl mx-auto leading-relaxed">
-            Align your actions with the flow of the universe. Discover your lucky
-            elements, directions, and colors for the day.
+            让你的行动与宇宙的流动同步。发现你今日的幸运五行 (五行/Five Elements)、方向和颜色。
           </p>
         </header>
 
@@ -229,17 +228,17 @@ export default function LuckPage() {
           <button
             onClick={handlePrevDay}
             className="p-2 rounded-full hover:bg-white/5 text-text-tertiary hover:text-text-primary transition-colors"
-            aria-label="Previous day"
+            aria-label="前一天"
           >
             <ArrowRight className="rotate-180" size={20} />
           </button>
 
           <div className="flex flex-col items-center">
             <span className="text-sm font-medium text-text-muted uppercase tracking-widest mb-1">
-              Date
+              日期
             </span>
             <span className="text-xl font-semibold text-text-primary font-display">
-              {currentDate.toLocaleDateString('en-US', {
+              {currentDate.toLocaleDateString('zh-CN', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',
@@ -250,7 +249,7 @@ export default function LuckPage() {
           <button
             onClick={handleNextDay}
             className="p-2 rounded-full hover:bg-white/5 text-text-tertiary hover:text-text-primary transition-colors"
-            aria-label="Next day"
+            aria-label="后一天"
           >
             <ArrowRight size={20} />
           </button>
@@ -267,7 +266,7 @@ export default function LuckPage() {
                 </div>
                 <div>
                   <h2 className="text-sm font-medium text-text-muted uppercase tracking-wider">
-                    Dominant Element
+                    主导五行
                   </h2>
                   <p className="text-2xl font-bold text-text-primary">
                     {luckData.element}
@@ -282,8 +281,8 @@ export default function LuckPage() {
 
             <div className="pt-6 border-t border-white/5">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-text-muted">Element Cycle</span>
-                <span className="text-gold-primary font-mono">Active</span>
+                <span className="text-text-muted">五行循环</span>
+                <span className="text-gold-primary font-mono">活跃</span>
               </div>
             </div>
           </GlassCard>
@@ -292,27 +291,27 @@ export default function LuckPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <LuckyItemCard
               icon={Palette}
-              label="Lucky Colors"
-              value="Wear These"
+              label="幸运颜色"
+              value="穿戴这些"
               colorHex={luckData.luckyColors.join(',')}
             />
             <LuckyItemCard
               icon={Hash}
-              label="Lucky Numbers"
+              label="幸运数字"
               value={luckData.luckyNumbers.join(' - ')}
-              subtext="Use for decisions"
+              subtext="用于决策"
             />
             <LuckyItemCard
               icon={MapPin}
-              label="Lucky Direction"
+              label="幸运方向"
               value={luckData.luckyDirection}
-              subtext="Face this way"
+              subtext="朝此方向"
             />
             <LuckyItemCard
               icon={Gem}
-              label="Open Wealth Item"
+              label="招财物件"
               value={luckData.luckyItem}
-              subtext="Keep nearby"
+              subtext="随身携带"
             />
           </div>
         </div>
@@ -325,20 +324,20 @@ export default function LuckPage() {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-text-primary mb-2">
-                Things to Avoid
+                注意事项
               </h3>
               <p className="text-text-tertiary leading-relaxed">
-                Today, the energy of{' '}
+                今日，
                 <strong className="text-text-secondary">
                   {luckData.element}
-                </strong>{' '}
-                is strong. Avoid colors like{' '}
+                </strong>
+                的能量强劲。避免颜色如
                 <strong className="text-text-secondary">
                   {luckData.avoid.split('/')[0]}
-                </strong>{' '}
-                as they may clash with your personal resonance. Be cautious
-                with financial decisions in the{' '}
-                <strong className="text-text-secondary">North</strong> sector.
+                </strong>
+                ，它们可能与你的个人气场冲突。在
+                <strong className="text-text-secondary">北方</strong>
+                位谨慎进行财务决策。
               </p>
             </div>
           </div>
@@ -348,12 +347,12 @@ export default function LuckPage() {
         <div className="text-center space-y-6">
           <div className="inline-flex items-center gap-2 text-sm text-text-muted">
             <Coffee size={16} />
-            <span>Pro tip: Drink water facing North to enhance clarity.</span>
+            <span>小提示：朝北方喝水可提升清晰度。</span>
           </div>
 
           <button className="group relative inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-b from-gold-primary to-gold-secondary px-8 font-medium text-ink-black shadow-[0_10px_20px_rgba(212,168,83,0.2)] transition-all hover:from-gold-light hover:to-gold-primary hover:shadow-[0_15px_25px_rgba(212,168,83,0.3)] active:scale-95">
             <span className="relative z-10 flex items-center gap-2">
-              Unlock Full Fortune Report
+              解锁完整运势报告
               <ArrowRight
                 size={18}
                 className="transition-transform group-hover:translate-x-1"
@@ -366,13 +365,13 @@ export default function LuckPage() {
         <div className="mt-12 text-center">
           <div className="inline-block glass-card px-8 py-6 border-gold-primary/30">
             <p className="text-text-secondary mb-3">
-              Want personalized advice?
+              想要个性化建议？
             </p>
             <a
               href="/chat"
               className="text-gold-primary font-semibold hover:text-gold-light transition-colors text-lg"
             >
-              Talk to our AI Master for free →
+              免费咨询我们的AI大师 →
             </a>
           </div>
         </div>

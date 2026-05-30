@@ -16,7 +16,7 @@ export default function ActivatePage() {
     setSuccess(false);
 
     if (!code.trim()) {
-      setError('Please enter your activation code');
+      setError('请输入您的激活码');
       return;
     }
 
@@ -32,7 +32,7 @@ export default function ActivatePage() {
       const data = await res.json();
 
       if (!data.success) {
-        setError(data.error || 'Invalid activation code');
+        setError(data.error || '无效的激活码');
         return;
       }
 
@@ -43,7 +43,7 @@ export default function ActivatePage() {
       setSuccess(true);
       setTimeout(() => router.push('/bazi'), 2000);
     } catch (e: any) {
-      setError('Activation failed. Please try again later.');
+      setError('激活失败，请稍后重试。');
     } finally {
       setLoading(false);
     }
@@ -51,45 +51,47 @@ export default function ActivatePage() {
 
   return (
     <div className="min-h-screen bg-bg-primary flex items-center justify-center px-4">
-      {/* Background decoration */}
+      {/* 背景装饰 */}
       <div className="absolute inset-0 starry-bg opacity-30" />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold-primary/5 rounded-full blur-3xl" />
 
       <div className="relative glass-card max-w-md w-full p-8 page-enter">
-        {/* Close / back link */}
-        <Link href="/" className="absolute top-4 right-4 text-text-tertiary hover:text-text-primary transition-colors text-xl">
+        {/* 关闭/返回链接 */}
+        <Link href="/" className="absolute top-4 right-4 text-text-tertiary hover:text-text-primary transition-colors text-xl" aria-label="关闭">
           ✕
         </Link>
 
         <div className="text-center mb-8">
-          <span className="text-gold-primary text-3xl">✦</span>
-          <h1 className="font-display text-2xl font-bold text-gold-primary mt-2">Activate Your License</h1>
-          <p className="text-text-secondary text-sm mt-1">Enter your Gumroad activation code to unlock Pro</p>
+          <span className="text-gold-primary text-3xl" aria-hidden="true">✦</span>
+          <h1 className="font-display text-2xl font-bold text-gold-primary mt-2">激活您的许可证</h1>
+          <p className="text-text-secondary text-sm mt-1">输入您的Gumroad激活码以解锁Pro版本</p>
         </div>
 
         {success && (
-          <div className="mb-6 p-4 rounded-xl bg-jade-green/10 border border-jade-green/20 text-jade-green text-sm text-center">
-            ✓ Activation successful! Redirecting to your chart...
+          <div className="mb-6 p-4 rounded-xl bg-jade-green/10 border border-jade-green/20 text-jade-green text-sm text-center" role="alert">
+            ✓ 激活成功！正在跳转到您的命盘（八字/BaZi）...
           </div>
         )}
 
         {error && (
-          <div className="mb-6 p-4 rounded-xl bg-cinnabar-red/10 border border-cinnabar-red/20 text-cinnabar-red text-sm text-center">
+          <div className="mb-6 p-4 rounded-xl bg-cinnabar-red/10 border border-cinnabar-red/20 text-cinnabar-red text-sm text-center" role="alert">
             {error}
           </div>
         )}
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm text-text-secondary mb-1.5">Activation Code</label>
+            <label className="block text-sm text-text-secondary mb-1.5" htmlFor="activation-code">激活码</label>
             <input
+              id="activation-code"
               type="text"
               className="input-field font-mono"
-              placeholder="Enter your activation code"
+              placeholder="请输入您的激活码"
               value={code}
               onChange={(e) => setCode(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') handleActivate(); }}
               disabled={loading}
+              aria-label="激活码输入框"
             />
           </div>
 
@@ -98,15 +100,16 @@ export default function ActivatePage() {
             onClick={handleActivate}
             disabled={loading}
             className="btn-primary w-full py-3 text-base disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label={loading ? '正在激活...' : '立即激活'}
           >
-            {loading ? 'Activating...' : 'Activate Now'}
+            {loading ? '正在激活...' : '立即激活'}
           </button>
         </div>
 
         <p className="text-center text-text-tertiary text-xs mt-6">
-          Don't have a code?{' '}
+          还没有激活码？{' '}
           <Link href="/pricing" className="text-gold-primary hover:underline">
-            View plans
+            查看套餐
           </Link>
         </p>
       </div>

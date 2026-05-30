@@ -104,7 +104,7 @@ export default function AccountPage() {
         .order('created_at', { ascending: false });
       setTokens(tokenData || []);
     } catch (err: any) {
-      setError(err?.message || 'Failed to load account data');
+      setError(err?.message || '无法加载账户数据');
     } finally {
       setLoading(false);
     }
@@ -130,7 +130,7 @@ export default function AccountPage() {
       <div className="min-h-screen bg-bg-primary flex items-center justify-center">
         <div className="text-center">
           <span className="text-gold-primary text-4xl taiji-loader inline-block">☯</span>
-          <p className="text-text-secondary text-sm mt-4">Loading...</p>
+          <p className="text-text-secondary text-sm mt-4">加载中...</p>
         </div>
       </div>
     );
@@ -154,40 +154,40 @@ export default function AccountPage() {
           </div>
         )}
 
-        {/* Welcome */}
+        {/* 欢迎语 */}
         <div className="mb-8 page-enter">
           <h1 className="font-display text-2xl font-bold text-text-primary">
-            Welcome{profile?.name ? `, ${profile.name}` : ''}! 🔮
+            欢迎{profile?.name ? `，${profile.name}` : ''}！🔮
           </h1>
-          <p className="text-text-secondary text-sm mt-1">Manage your account and usage</p>
+          <p className="text-text-secondary text-sm mt-1">管理您的账户和使用情况</p>
         </div>
 
-        {/* First-time guide */}
+        {/* 首次使用引导 */}
         {!subscription && (
           <div className="glass-card p-8 mb-6 border-gold-primary/30 page-enter">
             <div className="text-center">
               <span className="text-3xl mb-3 block">✨</span>
-              <h2 className="font-display text-xl font-bold text-gold-primary mb-2">First time here?</h2>
+              <h2 className="font-display text-xl font-bold text-gold-primary mb-2">第一次来吗？</h2>
               <p className="text-text-secondary text-sm mb-4">
-                Discover what your birth time reveals about your destiny. Start with a free Bazi chart reading!
+                发现您的出生时间如何揭示命运。从一次免费的八字（BaZi）命盘解读开始吧！
               </p>
               <Link href="/bazi" className="btn-primary inline-block px-8 py-3">
-                ✨ Try Your Free Bazi Reading
+                ✨ 尝试您的免费八字（BaZi）解读
               </Link>
               <p className="text-text-tertiary text-xs mt-3">
-                No credit card required · Takes 30 seconds
+                无需信用卡 · 只需30秒
               </p>
             </div>
           </div>
         )}
 
-        {/* Plan Card */}
+        {/* 套餐卡片 */}
         <div className="glass-card p-6 mb-6 page-enter">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-lg font-semibold text-text-primary">Your Plan</h2>
+              <h2 className="text-lg font-semibold text-text-primary">您的套餐</h2>
               <p className="text-text-secondary text-sm">
-                {subscription?.plan === 'pro' ? 'Pro' : 'Free'}
+                {subscription?.plan === 'pro' ? '专业版' : '免费版'}
               </p>
             </div>
             {subscription?.plan === 'free' && (
@@ -195,36 +195,36 @@ export default function AccountPage() {
                 href="/payment/pro"
                 className="px-4 py-2 btn-primary text-sm"
               >
-                Upgrade to Pro
+                升级到专业版
               </Link>
             )}
           </div>
 
-          {/* Subscription expiry info */}
+          {/* 订阅到期信息 */}
           {subscription?.status === 'active' && subscription?.expires_at && (
             <div className="text-sm mb-2">
               {new Date(subscription.expires_at) <= new Date() ? (
                 <p className="text-cinnabar-red">
-                  Expired on {new Date(subscription.expires_at).toLocaleDateString()}
+                  过期于 {new Date(subscription.expires_at).toLocaleDateString()}
                 </p>
               ) : (
                 <p className="text-text-secondary">
-                  Valid until {new Date(subscription.expires_at).toLocaleDateString()}
+                  有效至 {new Date(subscription.expires_at).toLocaleDateString()}
                 </p>
               )}
             </div>
           )}
           {subscription?.status === 'active' && !subscription?.expires_at && (
-            <p className="text-sm text-text-secondary">Lifetime</p>
+            <p className="text-sm text-text-secondary">终身</p>
           )}
           {subscription?.status === 'expired' && (
-            <p className="text-cinnabar-red text-sm">Subscription expired</p>
+            <p className="text-cinnabar-red text-sm">订阅已过期</p>
           )}
 
           {subscription?.plan === 'free' && (
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-text-secondary">Free summaries today</span>
+                <span className="text-text-secondary">今日免费摘要</span>
                 <span className="text-text-primary font-medium">{usedRequests} / 3</span>
               </div>
               <div className="w-full bg-white/10 rounded-full h-2.5">
@@ -235,8 +235,8 @@ export default function AccountPage() {
               </div>
               <p className="text-xs text-text-secondary">
                 {remainingRequests === 0
-                  ? 'Daily limit reached. Upgrade to Pro for unlimited access.'
-                  : `${remainingRequests} free summaries remaining today`}
+                  ? '已达到每日限制。升级到专业版以无限访问。'
+                  : `今天剩余${remainingRequests}次免费摘要`}
               </p>
             </div>
           )}
@@ -244,38 +244,38 @@ export default function AccountPage() {
           {subscription?.plan === 'pro' && (
             <div className="flex items-center gap-2 text-jade-green text-sm">
               <span>✓</span>
-              <span>Unlimited access</span>
+              <span>无限访问</span>
             </div>
           )}
         </div>
 
-        {/* Account Info */}
+        {/* 账户信息 */}
         <div className="glass-card p-6 mb-6 page-enter">
-          <h2 className="text-lg font-semibold text-text-primary mb-4">Account Info</h2>
+          <h2 className="text-lg font-semibold text-text-primary mb-4">账户信息</h2>
           <div className="space-y-3 text-sm">
             <div className="flex justify-between">
-              <span className="text-text-secondary">Email</span>
+              <span className="text-text-secondary">邮箱</span>
               <span className="text-text-primary break-all">{profile?.email}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-text-secondary">Name</span>
-              <span className="text-text-primary">{profile?.name || 'Not set'}</span>
+              <span className="text-text-secondary">姓名</span>
+              <span className="text-text-primary">{profile?.name || '未设置'}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-text-secondary">Member since</span>
+              <span className="text-text-secondary">加入时间</span>
               <span className="text-text-primary">
                 {profile?.created_at
                   ? new Date(profile.created_at).toLocaleDateString()
-                  : 'N/A'}
+                  : '无'}
               </span>
             </div>
           </div>
         </div>
 
-        {/* Active Tokens */}
+        {/* 有效令牌 */}
         {tokens.length > 0 && (
           <div className="glass-card p-6 mb-6 page-enter">
-            <h2 className="text-lg font-semibold text-text-primary mb-4">Active Tokens</h2>
+            <h2 className="text-lg font-semibold text-text-primary mb-4">有效令牌</h2>
             <div className="space-y-3">
               {tokens.map((tok) => {
                 const isExpired = tok.expires_at && new Date(tok.expires_at) < new Date();
@@ -289,13 +289,13 @@ export default function AccountPage() {
                       <span className={`text-xs px-2 py-0.5 rounded-full ${
                         isExpired ? 'bg-cinnabar-red/10 text-cinnabar-red' : 'bg-jade-green/10 text-jade-green'
                       }`}>
-                        {isExpired ? 'Expired' : 'Active'}
+                        {isExpired ? '已过期' : '有效'}
                       </span>
                     </div>
                     {tok.max_requests > 0 && (
                       <div className="space-y-1">
                         <div className="flex justify-between text-xs text-text-secondary">
-                          <span>Usage</span>
+                          <span>使用量</span>
                           <span>{tok.used_requests} / {tok.max_requests}</span>
                         </div>
                         <div className="w-full bg-white/10 rounded-full h-1.5">
@@ -308,7 +308,7 @@ export default function AccountPage() {
                     )}
                     {tok.expires_at && (
                       <p className="text-xs text-text-secondary">
-                        Expires: {new Date(tok.expires_at).toLocaleDateString()}
+                        过期：{new Date(tok.expires_at).toLocaleDateString()}
                       </p>
                     )}
                   </div>
@@ -318,33 +318,33 @@ export default function AccountPage() {
           </div>
         )}
 
-        {/* Quick Links */}
+        {/* 快速链接 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 page-enter">
           <Link
             href="/chat"
             className="glass-card p-6 text-center hover:border-gold-primary/30 transition-all group"
           >
             <div className="text-3xl mb-2">💬</div>
-            <div className="text-text-primary font-semibold group-hover:text-gold-primary transition-colors">Chat with Master</div>
-            <div className="text-sm text-text-secondary mt-1">Start your journey</div>
+            <div className="text-text-primary font-semibold group-hover:text-gold-primary transition-colors">与大师对话</div>
+            <div className="text-sm text-text-secondary mt-1">开始你的旅程</div>
           </Link>
           <Link
             href="/pricing"
             className="glass-card p-6 text-center hover:border-gold-primary/30 transition-all group"
           >
             <div className="text-3xl mb-2">⭐</div>
-            <div className="text-text-primary font-semibold group-hover:text-gold-primary transition-colors">Upgrade to Pro</div>
-            <div className="text-sm text-text-secondary mt-1">Get unlimited access</div>
+            <div className="text-text-primary font-semibold group-hover:text-gold-primary transition-colors">升级到专业版</div>
+            <div className="text-sm text-text-secondary mt-1">获取无限访问</div>
           </Link>
         </div>
 
-        {/* Sign Out */}
+        {/* 退出登录 */}
         <div className="text-center pb-8">
           <button
             onClick={handleSignOut}
             className="px-6 py-2 text-cinnabar-red hover:bg-cinnabar-red/10 rounded-xl transition-colors font-medium"
           >
-            Sign Out
+            退出登录
           </button>
         </div>
       </div>
