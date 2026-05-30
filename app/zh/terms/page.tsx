@@ -36,7 +36,7 @@ export default function TermsPage() {
           <div className="glass-card p-8">
             <h2 className="font-display text-xl font-bold text-gold-primary mb-4">1. 条款接受</h2>
             <p className="text-text-secondary leading-relaxed mb-3">
-              FateWise由<strong>ZONG XINWEI（宗新伟）</strong>（个体经营者）运营。通过访问或使用FateWise（“服务”、“我们”、“我们的”）于bornchart.app，即表示您同意受这些服务条款（“条款”）的约束。如果您不同意这些条款，请勿使用本服务。
+              FateWise由<strong>ZONG XINWEI（宗馨薇）</strong>（个体经营者）运营。通过访问或使用FateWise（“服务”、“我们”、“我们的”）于bornchart.app，即表示您同意受这些服务条款（“条款”）的约束。如果您不同意这些条款，请勿使用本服务。
             </p>
             <p className="text-text-secondary leading-relaxed">
               我们保留随时修改这些条款的权利。变更内容将发布在此页面，并更新“最后更新”日期。在变更后继续使用本服务即表示您接受修订后的条款。
@@ -139,7 +139,7 @@ export default function TermsPage() {
               如果您对这些条款有任何疑问，请通过以下方式联系我们：
             </p>
             <p className="text-text-secondary leading-relaxed mb-2">
-              <strong>运营者：</strong> ZONG XINWEI（宗新伟）（个体经营者）
+              <strong>运营者：</strong> ZONG XINWEI（宗馨薇）（个体经营者）
             </p>
             <p className="text-text-secondary leading-relaxed mb-2">
               <strong>电子邮件：</strong> <span className="text-gold-primary">support@bornchart.app</span>
@@ -148,7 +148,7 @@ export default function TermsPage() {
               <strong>网站：</strong> <span className="text-gold-primary">https://bornchart.app</span>
             </p>
             <p className="text-text-secondary leading-relaxed mt-3 text-sm text-text-tertiary">
-              FateWise由ZONG XINWEI（宗新伟）（个体经营者）独立运营。使用本服务即表示您与以FateWise和BornChart品牌名称运营的个体经营者签订合同。
+              FateWise由ZONG XINWEI（宗馨薇）（个体经营者）独立运营。使用本服务即表示您与以FateWise和BornChart品牌名称运营的个体经营者签订合同。
             </p>
           </div>
         </div>

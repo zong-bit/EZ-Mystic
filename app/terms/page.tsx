@@ -36,7 +36,7 @@ export default function TermsPage() {
           <div className="glass-card p-8">
             <h2 className="font-display text-xl font-bold text-gold-primary mb-4">1. Acceptance of Terms</h2>
             <p className="text-text-secondary leading-relaxed mb-3">
-              FateWise is operated by <strong>ZONG XINWEI (宗新伟)</strong>, a sole proprietor. By accessing or using FateWise (&ldquo;the Service&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) at bornchart.app, you agree to be bound by these Terms of Service (&ldquo;Terms&rdquo;). If you do not agree to these Terms, please do not use the Service.
+              FateWise is operated by <strong>ZONG XINWEI (宗馨薇)</strong>, a sole proprietor. By accessing or using FateWise (&ldquo;the Service&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) at bornchart.app, you agree to be bound by these Terms of Service (&ldquo;Terms&rdquo;). If you do not agree to these Terms, please do not use the Service.
             </p>
             <p className="text-text-secondary leading-relaxed">
               We reserve the right to modify these Terms at any time. Changes will be posted on this page with an updated &ldquo;Last updated&rdquo; date. Continued use of the Service after changes constitutes acceptance of the revised Terms.
@@ -139,7 +139,7 @@ export default function TermsPage() {
               If you have any questions about these Terms, please contact us:
             </p>
             <p className="text-text-secondary leading-relaxed mb-2">
-              <strong>Operator:</strong> ZONG XINWEI (宗新伟) (Sole Proprietor)
+              <strong>Operator:</strong> ZONG XINWEI (宗馨薇) (Sole Proprietor)
             </p>
             <p className="text-text-secondary leading-relaxed mb-2">
               <strong>Email:</strong> <span className="text-gold-primary">support@bornchart.app</span>
@@ -148,7 +148,7 @@ export default function TermsPage() {
               <strong>Website:</strong> <span className="text-gold-primary">https://bornchart.app</span>
             </p>
             <p className="text-text-secondary leading-relaxed mt-3 text-sm text-text-tertiary">
-              FateWise is independently operated by ZONG XINWEI (宗新伟), a sole proprietor. By using this Service, you are contracting with an individual sole proprietor operating under the brand name FateWise and BornChart.
+              FateWise is independently operated by ZONG XINWEI (宗馨薇), a sole proprietor. By using this Service, you are contracting with an individual sole proprietor operating under the brand name FateWise and BornChart.
             </p>
           </div>
         </div>
