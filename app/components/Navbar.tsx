@@ -46,6 +46,7 @@ export default function Navbar({ currentPage }: NavbarProps) {
 
   const toolsLinks = isChinese
     ? [
+        { href: '/zh/bagua', label: '八卦起卦' },
         { href: '/zh/diet', label: '饮食指南' },
         { href: '/zh/colors', label: '色彩匹配' },
         { href: '/zh/exercise', label: '运动指南' },
@@ -54,6 +55,7 @@ export default function Navbar({ currentPage }: NavbarProps) {
         { href: '/zh/compatibility', label: '合婚匹配' },
       ]
     : [
+        { href: '/bagua', label: 'Bagua Divination' },
         { href: '/diet', label: 'Diet Guide' },
         { href: '/colors', label: 'Color Match' },
         { href: '/exercise', label: 'Exercise' },

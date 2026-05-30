@@ -34,6 +34,7 @@ const OPEN_PATHS = [
   '/pricing',
   '/blog',
   '/bazi',
+  '/bagua',
   '/zh',
   '/zh/blog',
 ];
