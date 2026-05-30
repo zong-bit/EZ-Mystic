@@ -125,10 +125,10 @@ const WUXING_ICONS: Record<string, string> = {
 };
 
 const PILLAR_LABELS: Record<string, string> = {
-  year: 'Year Pillar',
-  month: 'Month Pillar',
-  day: 'Day Pillar',
-  hour: 'Hour Pillar',
+  year: '年柱 (Year Pillar)',
+  month: '月柱 (Month Pillar)',
+  day: '日柱 (Day Pillar)',
+  hour: '时柱 (Hour Pillar)',
 };
 
 const WUXING_CYCLE = ['木', '火', '土', '金', '水'];
@@ -1003,7 +1003,7 @@ export default function BaziPage() {
 
             {/* Info */}
             <div className="mt-6 flex justify-center gap-6 text-xs text-text-tertiary">
-              <span>🐉 Precise to the Shichen</span>
+              <span>🐉 精确到时辰 (Shichen)</span>
               <span>🌍 True Solar Time</span>
               <span>🤖 AI Deep Interpretation</span>
             </div>
@@ -1017,7 +1017,7 @@ export default function BaziPage() {
           <div className="max-w-4xl mx-auto space-y-8">
             {/* Personal Info */}
             <div className="glass-card p-6 md:p-8">
-              <h2 className="font-display text-xl font-bold text-gold-primary mb-4">Subject Information</h2>
+              <h2 className="font-display text-xl font-bold text-gold-primary mb-4">命主信息 (Subject Information)</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="text-center">
                   <div className="text-xs text-text-tertiary mb-1">Name</div>
@@ -1028,7 +1028,7 @@ export default function BaziPage() {
                   <div className="text-text-primary font-medium">{form.gender === 'male' ? 'Male' : 'Female'}</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-xs text-text-tertiary mb-1">Zodiac</div>
+                  <div className="text-xs text-text-tertiary mb-1">生肖 (Zodiac)</div>
                   <div className="text-text-primary font-medium">{result.bazi.zodiac}</div>
                 </div>
                 <div className="text-center">
@@ -1054,7 +1054,7 @@ export default function BaziPage() {
               </div>
               {/* Nayin */}
               <div className="mt-4 flex flex-wrap gap-3 justify-center">
-                {['Year Pillar', 'Month Pillar', 'Day Pillar', 'Hour Pillar'].map((label, idx) => {
+                {['年柱 (Year Pillar)', '月柱 (Month Pillar)', '日柱 (Day Pillar)', '时柱 (Hour Pillar)'].map((label, idx) => {
                   const nayinKey = result.bazi.nayin[idx];
                   const nayinLabel = NAYIN_TRANSLATIONS[nayinKey] || nayinKey;
                   return (
@@ -1204,7 +1204,7 @@ export default function BaziPage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="font-display font-semibold text-gold-primary text-base mb-1">
-                      Unlock Your Full Destiny Profile
+                      解锁你的完整命运档案 (Unlock Your Full Destiny Profile)
                     </h3>
                     <p className="text-text-secondary text-sm mb-3">
                       Get in-depth analysis: yearly fortune, career peak years, relationship compatibility,
@@ -1242,7 +1242,7 @@ export default function BaziPage() {
 
             {/* Disclaimer */}
             <p className="text-center text-text-muted text-xs">
-              ⚠️ This reading is AI-generated, for reference and entertainment only, not a basis for life decisions.
+              ⚠️ 本命理分析由AI生成，仅供参考与娱乐，不作为人生决策依据。
             </p>
           </div>
         </section>

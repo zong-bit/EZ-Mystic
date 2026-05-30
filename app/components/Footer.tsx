@@ -1,6 +1,34 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Footer() {
+  const pathname = usePathname();
+  const isChinese = pathname.startsWith('/zh');
+
+  const t = (zh: string, en: string) => isChinese ? zh : en;
+
+  const links = isChinese ? {
+    home: '/zh',
+    bazi: '/zh/bazi',
+    pricing: '/zh/pricing',
+    blog: '/zh/blog',
+    terms: '/zh/terms',
+    privacy: '/zh/privacy',
+    refund: '/zh/refund',
+    contact: '/zh/contact',
+  } : {
+    home: '/',
+    bazi: '/bazi',
+    pricing: '/pricing',
+    blog: '/blog',
+    terms: '/terms',
+    privacy: '/privacy',
+    refund: '/refund',
+    contact: '/contact',
+  };
+
   return (
     <footer className="relative z-10 border-t border-white/5 py-16 px-6">
       <div className="max-w-6xl mx-auto">
@@ -12,32 +40,32 @@ export default function Footer() {
               <span className="font-display font-semibold text-text-primary text-lg">FateWise</span>
             </div>
             <p className="text-text-tertiary text-sm leading-relaxed">
-              AI-powered Chinese astrology platform. Discover your destiny through BaZi chart analysis.
+              {t('AI 驱动的中国占星术平台。通过八字命盘分析发现你的命运。', 'AI-powered Chinese astrology platform. Discover your destiny through BaZi chart analysis.')}
             </p>
           </div>
 
           {/* Product */}
           <div>
-            <h4 className="font-display font-semibold text-text-primary mb-4 text-sm uppercase tracking-wider">Product</h4>
+            <h4 className="font-display font-semibold text-text-primary mb-4 text-sm uppercase tracking-wider">{t('产品', 'Product')}</h4>
             <ul className="space-y-3">
               <li>
-                <Link href="/" className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
-                  Home
+                <Link href={links.home} className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
+                  {t('首页', 'Home')}
                 </Link>
               </li>
               <li>
-                <Link href="/bazi" className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
-                  Bazi Chart
+                <Link href={links.bazi} className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
+                  {t('八字命盘', 'Bazi Chart')}
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
-                  Pricing
+                <Link href={links.pricing} className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
+                  {t('定价', 'Pricing')}
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
-                  Blog
+                <Link href={links.blog} className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
+                  {t('博客', 'Blog')}
                 </Link>
               </li>
             </ul>
@@ -45,21 +73,21 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <h4 className="font-display font-semibold text-text-primary mb-4 text-sm uppercase tracking-wider">Legal</h4>
+            <h4 className="font-display font-semibold text-text-primary mb-4 text-sm uppercase tracking-wider">{t('法律', 'Legal')}</h4>
             <ul className="space-y-3">
               <li>
-                <Link href="/terms" className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
-                  Terms of Service
+                <Link href={links.terms} className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
+                  {t('服务条款', 'Terms of Service')}
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
-                  Privacy Policy
+                <Link href={links.privacy} className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
+                  {t('隐私政策', 'Privacy Policy')}
                 </Link>
               </li>
               <li>
-                <Link href="/refund" className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
-                  Refund Policy
+                <Link href={links.refund} className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
+                  {t('退款政策', 'Refund Policy')}
                 </Link>
               </li>
             </ul>
@@ -67,11 +95,11 @@ export default function Footer() {
 
           {/* Support */}
           <div>
-            <h4 className="font-display font-semibold text-text-primary mb-4 text-sm uppercase tracking-wider">Support</h4>
+            <h4 className="font-display font-semibold text-text-primary mb-4 text-sm uppercase tracking-wider">{t('支持', 'Support')}</h4>
             <ul className="space-y-3">
               <li>
-                <Link href="/contact" className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
-                  Contact
+                <Link href={links.contact} className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
+                  {t('联系我们', 'Contact')}
                 </Link>
               </li>
             </ul>
@@ -84,10 +112,10 @@ export default function Footer() {
         {/* Bottom */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-text-tertiary">
           <p>
-            © {new Date().getFullYear()} BornChart · FateWise. All rights reserved.
+            © {new Date().getFullYear()} BornChart · FateWise. {t('保留所有权利。', 'All rights reserved.')}
           </p>
           <p className="text-xs text-text-tertiary/60 text-center md:text-right max-w-md">
-            Disclaimer: The content on this website is for entertainment and educational purposes only and does not constitute professional advice for life decisions.
+            {t('免责声明：本网站内容仅供娱乐和教育目的，不构成专业人生决策建议。', 'Disclaimer: The content on this website is for entertainment and educational purposes only and does not constitute professional advice for life decisions.')}
           </p>
         </div>
       </div>

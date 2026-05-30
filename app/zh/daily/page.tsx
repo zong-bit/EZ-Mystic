@@ -8,21 +8,21 @@ export const dynamic = 'force-dynamic';
 // ─── Metadata (static — page is 'use client') ────────────────────────────────
 
 export const metadata: Metadata = {
-  title: 'FateWise — Daily Chinese Almanac · Yi Ji',
+  title: 'FateWise — 每日黄历 · 宜忌',
   description:
     'Today\'s Chinese almanac: heavenly stem and earthly branch, auspicious activities, inauspicious activities, lucky hours, and zodiac clash. Updated daily.',
   openGraph: {
-    title: 'FateWise — Daily Chinese Almanac · Yi Ji',
+    title: 'FateWise — 每日黄历 · 宜忌',
     description: 'Today\'s Yi Ji (宜忌): auspicious and inauspicious activities based on the Chinese calendar.',
     url: 'https://bornchart.app/daily',
     siteName: 'FateWise',
     type: 'website',
     locale: 'en_US',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'FateWise Daily Almanac' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'FateWise 每日黄历' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'FateWise — Daily Chinese Almanac · Yi Ji',
+    title: 'FateWise — 每日黄历 · 宜忌',
     description: 'Today\'s Yi Ji: auspicious and inauspicious activities based on the Chinese calendar.',
     images: ['/og-image.png'],
   },
@@ -42,16 +42,16 @@ export const metadata: Metadata = {
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const YI_JI_BY_GAN: Record<string, { yi: string[]; ji: string[] }> = {
-  '甲': { yi: ['Signing Contracts', 'Travel', 'Job Hunting'], ji: ['Breaking Ground', 'Burial'] },
-  '乙': { yi: ['Renovation', 'Studying', 'Making Friends'], ji: ['Litigation', 'Travel'] },
-  '丙': { yi: ['Grand Opening', 'Celebration', 'Travel'], ji: ['Setting Bed', 'Breaking Ground'] },
-  '丁': { yi: ['Worship', 'Seeking Medical Help', 'Studying'], ji: ['Marriage', 'Moving'] },
-  '戊': { yi: ['Business Transactions', 'Signing Contracts', 'Job Hunting'], ji: ['Travel', 'Breaking Ground'] },
-  '己': { yi: ['Renovation', 'Worship', 'Studying'], ji: ['Grand Opening', 'Marriage'] },
-  '庚': { yi: ['Litigation', 'Travel', 'Job Hunting'], ji: ['Breaking Ground', 'Burial'] },
-  '辛': { yi: ['Worship', 'Seeking Medical Help', 'Moving'], ji: ['Grand Opening', 'Marriage'] },
-  '壬': { yi: ['Business Transactions', 'Travel', 'Studying'], ji: ['Breaking Ground', 'Burial'] },
-  '癸': { yi: ['Worship', 'Seeking Medical Help', 'Studying'], ji: ['Travel', 'Marriage'] },
+  '甲': { yi: ['签约', '出行', '求职'], ji: ['动土', '安葬'] },
+  '乙': { yi: ['装修', '学习', '交友'], ji: ['诉讼', '出行'] },
+  '丙': { yi: ['开业', '庆祝', '出行'], ji: ['安床', '动土'] },
+  '丁': { yi: ['祭祀', '求医', '学习'], ji: ['嫁娶', '搬家'] },
+  '戊': { yi: ['交易', '签约', '求职'], ji: ['Travel', 'Breaking Ground'] },
+  '己': { yi: ['装修', '祭祀', '学习'], ji: ['开业', '嫁娶'] },
+  '庚': { yi: ['诉讼', '出行', 'Job Hunting'], ji: ['动土', '安葬'] },
+  '辛': { yi: ['Worship', 'Seeking Medical Help', 'Moving'], ji: ['开业', '嫁娶'] },
+  '壬': { yi: ['Business Transactions', 'Travel', 'Studying'], ji: ['动土', '安葬'] },
+  '癸': { yi: ['祭祀', '求医', '学习'], ji: ['Travel', 'Marriage'] },
 };
 
 const LUCKY_SHICHEN: [number, number, string][] = [
@@ -69,14 +69,14 @@ const LUCKY_SHICHEN: [number, number, string][] = [
 ];
 
 const CHONG_ZHI: Record<string, string> = {
-  '子': '午 (Rat clashes with Horse)',
-  '丑': '未 (Ox clashes with Goat)',
-  '寅': '申 (Tiger clashes with Monkey)',
-  '卯': '酉 (Rabbit clashes with Rooster)',
-  '辰': '戌 (Dragon clashes with Dog)',
-  '巳': '亥 (Snake clashes with Pig)',
-  '午': '子 (Horse clashes with Rat)',
-  '未': '丑 (Goat clashes with Ox)',
+  '子': '子午相冲 (Rat clashes with Horse)',
+  '丑': '丑未相冲 (Ox clashes with Goat)',
+  '寅': '寅申相冲 (Tiger clashes with Monkey)',
+  '卯': '卯酉相冲 (Rabbit clashes with Rooster)',
+  '辰': '辰戌相冲 (Dragon clashes with Dog)',
+  '巳': '巳亥相冲 (Snake clashes with Pig)',
+  '午': '午子相冲 (Horse clashes with Rat)',
+  '未': '未丑相冲 (Goat clashes with Ox)',
   '申': '寅 (Monkey clashes with Tiger)',
   '酉': '卯 (Rooster clashes with Rabbit)',
   '戌': '辰 (Dog clashes with Dragon)',
