@@ -65,89 +65,89 @@ const exerciseData = [
   {
     element: 'metal',
     title: '金 (Metal)',
-    subtitle: 'Respiratory System · Lung Health',
+     subtitle: '呼吸系统 · 肺健康',
     description:
-      'Metal governs descent, corresponding to the lungs and large intestine. Suitable for steady-paced exercises focusing on breath control to enhance lung capacity and concentration.',
+      '金主收敛，对应肺与大肠。适合节奏稳定的呼吸训练运动，增强肺活量与专注力。',
     activities: [
-      { name: 'Tai Chi', benefit: 'Harmonizes qi and blood, improves balance and flexibility.' },
+      { name: 'Tai Chi',  benefit: '调和气血，改善平衡与灵活性。' },
       { name: 'Yoga', benefit: 'Enhances lung function through postures and breathing techniques.' },
-      { name: 'Deep Breathing Exercises', benefit: 'Directly strengthens respiratory muscles, relieves anxiety.' },
+      { name: 'Deep Breathing Exercises',  benefit: '直接强化呼吸肌群，缓解焦虑。' },
     ],
     icon: Wind,
   },
   {
     element: 'wood',
     title: '木 (Wood)',
-    subtitle: 'Liver · Meridian Stretching',
+     subtitle: '肝 · 经络拉伸',
     description:
       'Wood governs growth, corresponding to the liver and gallbladder. Suitable for highly stretching exercises that help unblock meridians, release stress, and promote qi and blood flow.',
     activities: [
       {
         name: 'Stretching',
-        benefit: 'Relaxes tense muscles, increases joint mobility.' },
+        benefit: '放松紧张肌肉，增加关节灵活性。' },
       {
         name: 'Dancing',
-        benefit: 'Flexibilizes muscles and bones, boosts mood and coordination.' },
+         benefit: '活动筋骨，提升情绪与协调性。' },
       {
         name: 'Climbing',
-        benefit: 'Challenges yourself, strengthens full-body muscle endurance.' },
+        benefit: '挑战自我，增强全身肌肉耐力。' },
     ],
     icon: TreePine,
   },
   {
     element: 'water',
     title: '水 (Water)',
-    subtitle: 'Kidneys · Bladder Detox',
+     subtitle: '肾 · 膀胱排毒',
     description:
       'Water governs storage, corresponding to the kidneys and bladder. Suitable for fluid, relaxing exercises that help with energy recovery and meditation.',
     activities: [
       {
         name: 'Swimming',
-        benefit: 'Full-body low-impact exercise, strengthens heart and lungs.' },
+        benefit: '全身低冲击运动，强化心肺功能。' },
       {
         name: 'Brisk Walking',
-        benefit: 'Promotes blood circulation, gently exercises the legs.' },
+        benefit: '促进血液循环，温和锻炼腿部。' },
       {
         name: 'Meditation',
-        benefit: 'Calm the mind, regulate nervous system balance.' },
+         benefit: '静心养神，调节神经系统平衡。' },
     ],
     icon: Droplets,
   },
   {
     element: 'fire',
     title: '火 (Fire)',
-    subtitle: 'Heart · Small Intestine Circulation',
+     subtitle: '心 · 小肠循环',
     description:
-      'Fire governs upward movement, corresponding to the heart and small intestine. Suitable for high-intensity exercises that elevate heart rate, ignite passion, and promote blood circulation.',
+      '火主上升，对应心脏和小肠。适合高强度运动，提升心率、点燃激情、促进血液循环。',
     activities: [
       {
         name: 'Running',
-        benefit: 'Efficient fat burning, enhances cardiovascular health.' },
+         benefit: '高效燃脂，增强心血管健康。' },
       {
         name: 'Aerobics',
-        benefit: 'Strong rhythm, improves heart and lung endurance.' },
+        benefit: '节奏强烈，提高心肺耐力。' },
       {
         name: 'HIIT (High-Intensity Interval Training)',
-        benefit: 'Short-duration efficient fat burning, boosts metabolism.' },
+        benefit: '短时高效燃脂，促进新陈代谢。' },
     ],
     icon: Flame,
   },
   {
     element: 'earth',
     title: '土 (Earth)',
-    subtitle: 'Spleen & Stomach · Core Strength',
+     subtitle: '脾与胃 · 核心力量',
     description:
       'Earth governs transformation, corresponding to the spleen and stomach. Suitable for stable, core-focused exercises that support digestive health and body stability.',
     activities: [
       {
         name: 'Weight Lifting',
-        benefit: 'Strengthens muscles and bones, boosts basal metabolism.' },
+        benefit: '强健筋骨，提高基础代谢。' },
       {
         name: 'Core Training',
-        benefit: 'Stabilizes the torso, improves posture and balance.' },
+        benefit: '稳定躯干，改善姿态和平衡。' },
       {
         name: 'Pilates',
-        benefit: 'Strengthens deep muscles, improves body control.' },
+        benefit: '强化深层肌肉，提高身体控制力。' },
     ],
     icon: Mountain,
   },
@@ -274,20 +274,20 @@ export default function ExercisePage() {
         <header className="text-center mb-16 md:mb-24 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-gold-primary mb-6 uppercase tracking-widest">
             <span className="w-2 h-2 rounded-full bg-gold-primary animate-pulse" />
-            Mind-Body Balance Guide
+            身心平衡指南
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-text-primary mb-6 font-display">
-            Five Elements{' '}
+            五行{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-gold-light via-amber-glow to-gold-primary">
               Exercise
             </span>{' '}
-            Recommendations
+            运动建议
           </h1>
 
           <p className="text-lg text-text-tertiary leading-relaxed">
-            According to Traditional Chinese Medicine Five Elements theory, different elements correspond to different organs and energy states.
-            Choose exercises that match your current Five Elements energy for mind-body harmony and balance.
+            According to Traditional Chinese Medicine 五行 theory, different elements correspond to different organs and energy states.
+            Choose exercises that match your current 五行 energy for mind-body harmony and balance.
           </p>
         </header>
 
@@ -303,13 +303,13 @@ export default function ExercisePage() {
               <HeartPulse className="w-8 h-8 text-text-muted" />
             </div>
             <h3 className="text-lg font-semibold text-text-secondary mb-2">
-              Need Personalized Advice?
+              需要个性化建议？
             </h3>
             <p className="text-sm text-text-muted mb-6">
-              View your birth chart to get a custom exercise prescription based on your missing and excess Five Elements.
+              View your birth chart to get a custom exercise prescription based on your missing and excess 五行.
             </p>
             <button className="group flex items-center gap-2 text-sm font-medium text-gold-primary hover:text-gold-light transition-colors">
-              View My Chart
+              查看我的命盘
               <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
@@ -318,8 +318,8 @@ export default function ExercisePage() {
         {/* 底部说明 */}
         <footer className="mt-24 text-center">
           <p className="text-xs text-text-muted max-w-2xl mx-auto">
-            * This page provides general health advice based on Traditional Chinese Medicine Five Elements theory, not medical advice.
-            For health concerns, consult a professional doctor or physical therapist.
+            * This page provides general health advice based on Traditional Chinese Medicine 五行 theory, not medical advice.
+            如有健康问题，请咨询专业医生或物理治疗师。
           </p>
         </footer>
 
@@ -327,13 +327,13 @@ export default function ExercisePage() {
         <div className="mt-8 text-center">
           <div className="inline-block glass-card px-8 py-6 border-gold-primary/30">
             <p className="text-text-secondary mb-3">
-              Want personalized advice?
+              想要个性化建议？
             </p>
             <a
               href="/chat"
               className="text-gold-primary font-semibold hover:text-gold-light transition-colors text-lg"
             >
-              Talk to our AI Master for free →
+              免费咨询我们的AI大师 →
             </a>
           </div>
         </div>

@@ -14,10 +14,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'FateWise — 每日黄历 · 宜忌',
     description: 'Today\'s Yi Ji (宜忌): auspicious and inauspicious activities based on the Chinese calendar.',
-    url: 'https://bornchart.app/daily',
+     url: '/zh/daily',
     siteName: 'FateWise',
     type: 'website',
-    locale: 'en_US',
+     locale: 'zh_CN',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'FateWise 每日黄历' }],
   },
   twitter: {
@@ -46,56 +46,56 @@ const YI_JI_BY_GAN: Record<string, { yi: string[]; ji: string[] }> = {
   '乙': { yi: ['装修', '学习', '交友'], ji: ['诉讼', '出行'] },
   '丙': { yi: ['开业', '庆祝', '出行'], ji: ['安床', '动土'] },
   '丁': { yi: ['祭祀', '求医', '学习'], ji: ['嫁娶', '搬家'] },
-  '戊': { yi: ['交易', '签约', '求职'], ji: ['Travel', 'Breaking Ground'] },
+  '戊': { yi: ['交易', '签约', '求职'], ji: ['出行', '动土'] },
   '己': { yi: ['装修', '祭祀', '学习'], ji: ['开业', '嫁娶'] },
-  '庚': { yi: ['诉讼', '出行', 'Job Hunting'], ji: ['动土', '安葬'] },
-  '辛': { yi: ['Worship', 'Seeking Medical Help', 'Moving'], ji: ['开业', '嫁娶'] },
-  '壬': { yi: ['Business Transactions', 'Travel', 'Studying'], ji: ['动土', '安葬'] },
-  '癸': { yi: ['祭祀', '求医', '学习'], ji: ['Travel', 'Marriage'] },
+  '庚': { yi: ['诉讼', '出行', '求职'], ji: ['动土', '安葬'] },
+  '辛': { yi: ['祭祀', '求医', '搬家'], ji: ['开业', '嫁娶'] },
+  '壬': { yi: ['交易', '出行', '学习'], ji: ['动土', '安葬'] },
+  '癸': { yi: ['祭祀', '求医', '学习'], ji: ['出行', '嫁娶'] },
 };
 
 const LUCKY_SHICHEN: [number, number, string][] = [
-  [1, 3, '子时 Zi (23:00–01:00)'],
-  [3, 5, '丑时 Chou (01:00–03:00)'],
-  [5, 7, '寅时 Yin (03:00–05:00)'],
-  [7, 9, '卯时 Mao (05:00–07:00)'],
-  [9, 11, '辰时 Chen (07:00–09:00)'],
-  [11, 13, '午时 Wu (11:00–13:00)'],
-  [13, 15, '未时 Wei (13:00–15:00)'],
-  [15, 17, '申时 Shen (15:00–17:00)'],
-  [17, 19, '酉时 You (17:00–19:00)'],
-  [19, 21, '戌时 Xu (19:00–21:00)'],
-  [21, 23, '亥时 Hai (19:00–23:00)'],
+  [1, 3,  '子时（23:00–01:00）'],
+  [3, 5,  '丑时（01:00–03:00）'],
+  [5, 7,  '寅时（03:00–05:00）'],
+  [7, 9,  '卯时（05:00–07:00）'],
+  [9, 11,  '辰时（07:00–09:00）'],
+  [11, 13,  '午时（11:00–13:00）'],
+  [13, 15,  '未时（13:00–15:00）'],
+  [15, 17,  '申时（15:00–17:00）'],
+  [17, 19,  '酉时（17:00–19:00）'],
+  [19, 21,  '戌时（19:00–21:00）'],
+  [21, 23,  '亥时（19:00–23:00）'],
 ];
 
 const CHONG_ZHI: Record<string, string> = {
-  '子': '子午相冲 (Rat clashes with Horse)',
-  '丑': '丑未相冲 (Ox clashes with Goat)',
-  '寅': '寅申相冲 (Tiger clashes with Monkey)',
-  '卯': '卯酉相冲 (Rabbit clashes with Rooster)',
-  '辰': '辰戌相冲 (Dragon clashes with Dog)',
-  '巳': '巳亥相冲 (Snake clashes with Pig)',
-  '午': '午子相冲 (Horse clashes with Rat)',
-  '未': '未丑相冲 (Goat clashes with Ox)',
-  '申': '寅 (Monkey clashes with Tiger)',
-  '酉': '卯 (Rooster clashes with Rabbit)',
-  '戌': '辰 (Dog clashes with Dragon)',
-  '亥': '巳 (Pig clashes with Snake)',
+  '子': '子午相冲（鼠冲马）',
+  '丑': '丑未相冲（牛冲羊）',
+  '寅': '寅申相冲（虎冲猴）',
+  '卯': '卯酉相冲（兔冲鸡）',
+  '辰': '辰戌相冲（龙冲狗）',
+  '巳': '巳亥相冲（蛇冲猪）',
+  '午': '午子相冲（马冲鼠）',
+  '未': '未丑相冲（羊冲牛）',
+  '申': '寅（猴冲虎）',
+  '酉': '卯（鸡冲兔）',
+  '戌': '辰（狗冲龙）',
+  '亥': '巳（猪冲蛇）',
 };
 
 const ZHI_ANIMAL: Record<string, string> = {
-  '子': '鼠 Rat',
-  '丑': '牛 Ox',
-  '寅': '虎 Tiger',
-  '卯': '兔 Rabbit',
-  '辰': '龙 Dragon',
-  '巳': '蛇 Snake',
-  '午': '马 Horse',
-  '未': '羊 Goat',
-  '申': '猴 Monkey',
-  '酉': '鸡 Rooster',
-  '戌': '狗 Dog',
-  '亥': '猪 Pig',
+   '子': '鼠',
+   '丑': '牛',
+   '寅': '虎',
+   '卯': '兔',
+   '辰': '龙',
+   '巳': '蛇',
+   '午': '马',
+   '未': '羊',
+   '申': '猴',
+   '酉': '鸡',
+   '戌': '狗',
+   '亥': '猪',
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -209,16 +209,16 @@ export default function DailyPage() {
 
         <div className="relative z-10 max-w-4xl mx-auto text-center pt-8">
           <div className="mb-3">
-            <span className="text-gold-primary text-sm font-display tracking-widest">✦ DAILY ALMANAC ✦</span>
+            <span className="text-gold-primary text-sm font-display tracking-widest">✦ 每日黄历 ✦</span>
           </div>
           <h1 className="font-display font-bold text-4xl md:text-5xl mb-3 text-gold-glow">
-            Daily Yi Ji
+            每日宜忌
           </h1>
           <p className="text-text-secondary text-base max-w-lg mx-auto">
-            Today&apos;s Heavenly Stem &amp; Earthly Branch · Auspicious &amp; Inauspicious Activities
+            今日天干地支 · 宜忌活动
           </p>
           <div className="mt-4 text-sm text-text-tertiary">
-            {chineseDate.month} · {chineseDate.day} · {chineseDate.shengxiao} Year (Chinese Calendar)
+            {chineseDate.month} · {chineseDate.day} · {chineseDate.shengxiao} 年（农历）
           </div>
         </div>
       </section>
@@ -245,13 +245,13 @@ export default function DailyPage() {
               subtitle={`${year} · ${chineseDate.shengxiao}`}
             />
             <InfoCard
-              title="Day Element"
+              title="日元素"
               value={['木', '火', '土', '金', '水'][TIAN_GAN.indexOf(dayGz.gan) % 5]}
               subtitle={['Wood', 'Fire', 'Earth', 'Metal', 'Water'][TIAN_GAN.indexOf(dayGz.gan) % 5]}
             />
-            {/* Day Element: Chinese character kept as cultural reference; subtitle provides English */}
+            {/* 日元素：中文汉字作为文化参考 */}
             <InfoCard
-              title="Day Branch"
+              title="日支"
               value={clashAnimal}
               subtitle={clash}
             />
@@ -266,20 +266,20 @@ export default function DailyPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <YiJiSection
               items={yiJi.yi}
-              label="YI · Auspicious"
+              label="宜 · 吉"
               color="text-yi-green"
             />
             <YiJiSection
               items={yiJi.ji}
-              label="JI · Inauspicious"
+              label="忌 · 凶"
               color="text-yi-red"
             />
           </div>
 
-          {/* Lucky Hours */}
+          {/* 吉时 */}
           <div className="glass-card p-6">
             <div className="text-lg font-display font-bold text-gold-primary mb-4">
-              Lucky Hours
+              吉时
             </div>
             <div className="flex flex-wrap gap-3">
               {luckyShichen.map(([start, end, label], i) => (
@@ -292,35 +292,35 @@ export default function DailyPage() {
             </div>
           </div>
 
-          {/* Clash */}
+          {/* 冲煞 */}
           <div className="glass-card p-6">
             <div className="text-lg font-display font-bold text-yi-red mb-2">
-              Clash
+              冲煞
             </div>
             <div className="text-text-primary text-sm leading-relaxed">
               Today&apos;s clash: {clashAnimal} · {clash}
             </div>
             <div className="text-text-tertiary text-xs mt-2">
-              People born in the year of {clashAnimalFull} should avoid major decisions today.
+              {clashAnimalFull}年生人今日宜避免重大决策。
             </div>
           </div>
 
           {/* Disclaimer */}
           <div className="text-center text-text-muted text-xs py-4">
-            ⚠️ Based on traditional Chinese almanac rules, for reference and entertainment only.
+            ⚠️ 基于传统黄历规则，仅供参考与娱乐。
           </div>
 
           {/* CTA */}
           <div className="text-center py-8">
             <div className="inline-block glass-card px-8 py-6 border-gold-primary/30">
               <p className="text-text-secondary mb-3">
-                Want personalized advice?
+                想要个性化建议？
               </p>
               <a
                 href="/chat"
                 className="text-gold-primary font-semibold hover:text-gold-light transition-colors text-lg"
               >
-                Talk to our AI Master for free →
+                免费咨询我们的AI大师 →
               </a>
             </div>
           </div>

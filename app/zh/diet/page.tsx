@@ -23,18 +23,18 @@ const ELEMENTS = [
     borderColor: 'border-metal-white/30',
     bgColor: 'bg-metal-white/10',
     icon: Mountain,
-    season: 'Autumn',
-    organ: 'Lungs / Large Intestine',
-    flavor: 'Pungent (Spicy)',
+    season: '秋季',
+    organ: '肺 / 大肠',
+    flavor: '辛味（辛辣）',
     foods: [
-      'White Radish (Daikon)',
-      'Onions & Garlic',
-      'Almonds & Walnuts',
-      'White Mushrooms',
-      'Chicken & Pork',
+      '白萝卜',
+      '洋葱与大蒜',
+      '杏仁与核桃',
+      '白蘑菇',
+      '鸡肉与猪肉',
     ],
     advice:
-      'Focus on warming, cooked foods to protect lung energy. Avoid excessive raw/cold foods.',
+      '注重温热熟食以护肺气，避免过多生冷食物。',
   },
   {
     key: 'wood',
@@ -43,18 +43,18 @@ const ELEMENTS = [
     borderColor: 'border-wood/30',
     bgColor: 'bg-wood/10',
     icon: Leaf,
-    season: 'Spring',
-    organ: 'Liver / Gallbladder',
-    flavor: 'Sour',
+    season: '春季',
+    organ: '肝 / 胆',
+    flavor: '酸味',
     foods: [
-      'Leafy Greens (Spinach/Kale)',
-      'Lemons & Lime',
-      'Cruciferous Vegetables',
-      'Fermented Foods (Kimchi)',
-      'Buckwheat',
+      '绿叶蔬菜（菠菜/羽衣甘蓝）',
+      '柠檬与青柠',
+      '十字花科蔬菜',
+      '发酵食品（泡菜）',
+      '荞麦',
     ],
     advice:
-      'Eat fresh, sprouting foods to support detoxification. Incorporate sour flavors to nourish the liver.',
+      '多吃新鲜芽菜类食物帮助排毒，适当酸味养肝。',
   },
   {
     key: 'water',
@@ -63,18 +63,18 @@ const ELEMENTS = [
     borderColor: 'border-water/30',
     bgColor: 'bg-water/10',
     icon: Droplets,
-    season: 'Winter',
-    organ: 'Kidneys / Bladder',
-    flavor: 'Salty',
+    season: '冬季',
+     organ: '肾 / 膀胱',
+     flavor: '咸味',
     foods: [
-      'Black Beans & Sesame',
-      'Seaweed & Kelp',
-      'Fish & Seafood',
-      'Dark Chocolate',
-      'Bone Broth',
+       '黑豆与芝麻',
+      '海藻与海带',
+      '鱼类与海鲜',
+       '黑巧克力',
+       '骨汤',
     ],
     advice:
-      'Consume warming, salty foods to store energy. Avoid excessive cold drinks that drain kidney essence.',
+      '食用温热、咸味食物以藏精，避免过多冷饮耗伤肾精。',
   },
   {
     key: 'fire',
@@ -83,18 +83,18 @@ const ELEMENTS = [
     borderColor: 'border-fire/30',
     bgColor: 'bg-fire/10',
     icon: Flame,
-    season: 'Summer',
-    organ: 'Heart / Small Intestine',
-    flavor: 'Bitter',
+     season: '夏季',
+     organ: '心 / 小肠',
+     flavor: '苦味',
     foods: [
-      'Red Berries & Cherries',
-      'Tomatoes & Red Peppers',
-      'Bitter Melon',
-      'Coffee & Dark Roast',
-      'Lean Beef',
+       '红莓与樱桃',
+       '番茄与红椒',
+       '苦瓜',
+       '咖啡与深焙咖啡',
+       '瘦牛肉',
     ],
     advice:
-      'Keep cool and hydrated. Eat light, bitter foods to clear heart heat. Avoid overly spicy foods.',
+      '保持清凉补水，食用清淡苦味食物以清心火，避免过度辛辣。',
   },
   {
     key: 'earth',
@@ -103,18 +103,18 @@ const ELEMENTS = [
     borderColor: 'border-earth-brown/30',
     bgColor: 'bg-earth/10',
     icon: Wheat,
-    season: 'Late Summer',
-    organ: 'Spleen / Stomach',
-    flavor: 'Sweet',
+     season: '长夏',
+     organ: '脾 / 胃',
+     flavor: '甜味',
     foods: [
-      'Squash & Pumpkin',
-      'Sweet Potatoes',
-      'Brown Rice & Millet',
-      'Dates & Figs',
-      'Ginger & Turmeric',
+       '南瓜与冬瓜',
+       '红薯',
+       '糙米与小米',
+       '红枣与无花果',
+       '生姜与姜黄',
     ],
     advice:
-      'Eat warm, cooked, easy-to-digest meals. Avoid raw salads and excessive dairy that creates dampness.',
+      '食用温热、熟食、易消化的餐食，避免生冷沙拉和过多乳制品以祛湿。',
   },
 ];
 
@@ -209,18 +209,18 @@ export default function DietPage() {
         <header className="text-center mb-16 space-y-6">
           <div>
             <span className="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-gold-primary uppercase bg-gold-primary/10 rounded-full border border-gold-primary/20">
-              Five Elements Diet
+              五行饮食
             </span>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-text-primary mb-4 font-display">
-              Nourish Your{' '}
+              滋养你的{' '}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-gold-light via-amber-glow to-nebula-purple">
                 Destiny
               </span>
             </h1>
             <p className="text-lg text-text-tertiary max-w-2xl mx-auto leading-relaxed">
-              Align your diet with the cosmic rhythms of the Five Elements.
-              Discover which foods support your body&apos;s natural energy flow
-              based on the current season.
+              将饮食与五行宇宙节律相协调。
+              发现哪些食物能支持你身体自然的能量流动
+              基于当前季节。
             </p>
           </div>
         </header>
@@ -271,7 +271,7 @@ export default function DietPage() {
                   <div>
                     <h3 className="text-sm font-semibold text-text-secondary mb-2 flex items-center gap-2">
                       <HeartPulse className="h-4 w-4 text-gold-primary" />
-                      Associated Organs
+                      关联器官
                     </h3>
                     <p className="text-text-tertiary font-mono text-sm">
                       {currentData.organ}
@@ -281,7 +281,7 @@ export default function DietPage() {
                   <div>
                     <h3 className="text-sm font-semibold text-text-secondary mb-2 flex items-center gap-2">
                       <UtensilsCrossed className="h-4 w-4 text-gold-primary" />
-                      Primary Flavor
+                      主要口味
                     </h3>
                     <p className="text-text-tertiary font-mono text-sm">
                       {currentData.flavor}
@@ -292,7 +292,7 @@ export default function DietPage() {
 
               <div className="mt-8 pt-6 border-t border-white/5">
                 <h3 className="text-sm font-semibold text-text-secondary mb-3">
-                  Dietary Principle
+                  饮食原则
                 </h3>
                 <p className="text-text-tertiary leading-relaxed text-sm">
                   &quot;{currentData.advice}&quot;
@@ -306,7 +306,7 @@ export default function DietPage() {
             <GlassCard className="p-8 h-full">
               <h3 className="text-xl font-bold text-text-primary mb-6 flex items-center gap-2">
                 <Sparkles className={`h-5 w-5 ${currentData.color}`} />
-                Recommended Foods
+                推荐食物
               </h3>
               <ul className="space-y-4">
                 {currentData.foods.map((food, index) => (
@@ -342,13 +342,13 @@ export default function DietPage() {
         <div className="mt-12 text-center">
           <div className="inline-block glass-card px-8 py-6 border-gold-primary/30">
             <p className="text-text-secondary mb-3">
-              Want personalized advice?
+              想要个性化建议？
             </p>
             <a
               href="/chat"
               className="text-gold-primary font-semibold hover:text-gold-light transition-colors text-lg"
             >
-              Talk to our AI Master for free →
+              免费咨询我们的AI大师 →
             </a>
           </div>
         </div>

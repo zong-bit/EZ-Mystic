@@ -5,14 +5,14 @@ export const metadata: Metadata = {
   title: '关于 FateWise — AI + 中国八字/BaZi 命运分析',
   description:
     'FateWise 将千年中国八字/BaZi智慧与现代AI相结合，提供精准、个性化的命运分析。了解我们的使命、团队及背后的技术。',
-  alternates: { canonical: 'https://bornchart.app/about' },
+  alternates: { canonical: '/zh/about' },
   openGraph: {
     title: '关于 FateWise',
     description: '以6000年东方智慧为根基的AI驱动中国八字/BaZi命运分析。',
     url: 'https://bornchart.app/about',
     siteName: 'FateWise',
     type: 'website',
-    locale: 'en_US',
+     locale: 'zh_CN',
   },
   twitter: {
     card: 'summary_large_image',

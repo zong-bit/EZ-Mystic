@@ -7,63 +7,63 @@ import { Compass, Home, Briefcase, Heart, Shield, Moon } from 'lucide-react';
 const directionData = [
   {
     element: '木',
-    direction: 'East',
+    direction: '东方',
     color: 'text-wood',
     bgColor: 'bg-wood/10',
     borderColor: 'border-wood/20',
     icon: Home,
-    fengshui: 'Represents health, family, and new beginnings',
+    fengshui: '代表健康、家庭与新的开始',
     activities: ['Bedroom Orientation', 'Children\'s Room Design', 'Family Gathering Area'],
     description:
-      'The East is where the sun rises, symbolizing new beginnings and vitality. In Feng Shui, the Wood element is closely related to family harmony and personal health.',
+      '东方是太阳升起的方向，象征新的开始与活力。在风水中，木元素与家庭和谐和个人健康密切相关。',
   },
   {
     element: '火',
-    direction: 'South',
+    direction: '南方',
     color: 'text-fire',
     bgColor: 'bg-fire/10',
     borderColor: 'border-fire/20',
     icon: Moon,
-    fengshui: 'Represents fame, reputation, and achievement',
-    activities: ['Office Seat Orientation', 'Living Room Main Wall', 'Achievement Display Area'],
+    fengshui: '代表名声、声誉与成就',
+    activities: ['办公座位朝向', '客厅主墙', '成就展示区'],
     description:
-      'The South belongs to Fire, symbolizing fame and social status. Strengthening the energy of this direction helps enhance personal influence and career achievements.',
+      '南方属火，象征名声与社会地位。加强此方位的能量有助于提升个人影响力与事业成就。',
   },
   {
     element: '土',
-    direction: 'Southwest / Northeast',
+    direction: '西南 / 东北',
     color: 'text-earth',
     bgColor: 'bg-earth/10',
     borderColor: 'border-earth/20',
     icon: Shield,
-    fengshui: 'Represents stability, relationships, and trust',
-    activities: ['Bedroom Layout', 'Marriage Palace', 'Stable Work Area'],
+    fengshui: '代表稳定、人际关系与信任',
+    activities: ['卧室布局', '婚姻宫位', '稳定工作区'],
     description:
-      'The Earth element is at the center, representing stability and inclusiveness. The Southwest relates to women and marriage, the Northeast to wisdom and knowledge, forming the foundation of trust.',
+      '土元素居于中央，象征稳定与包容。西南方对应女性和婚姻，东北方对应智慧与知识，构成信任的基础。',
   },
   {
     element: '金',
-    direction: 'West / Northwest',
+    direction: '西方 / 西北',
     color: 'text-metal-white',
     bgColor: 'bg-metal-white/10',
     borderColor: 'border-metal-white/20',
     icon: Briefcase,
-    fengshui: 'Represents creativity, children, and helpful people',
+    fengshui: '代表创造力、子女与贵人',
     activities: ['Creative Studio', 'Children\'s Play Area', 'Benefactor Position'],
     description:
-      'The Metal element is pure and resolute. The West represents creativity and children luck, the Northwest represents helpful people and leadership. Suitable for inspiring creativity and expanding networks.',
+      '金属性刚毅果断。西方代表创造力和子女运，西北方代表贵人和领导力。适合激发创意和拓展人脉。',
   },
   {
     element: '水',
-    direction: 'North',
+    direction: '北方',
     color: 'text-water',
     bgColor: 'bg-water/10',
     borderColor: 'border-water/20',
     icon: Compass,
-    fengshui: 'Represents career, wisdom, and flow',
-    activities: ['Study Orientation', 'Financial Planning Area', 'Meditation Corner'],
+    fengshui: '代表事业、智慧与流动',
+    activities: ['书房朝向', '理财规划区', '冥想角落'],
     description:
-      'The North belongs to Water, symbolizing wisdom and the flow of career. Keeping this direction tidy with appropriate water element decorations helps smooth career fortune.',
+      '北方属水，象征智慧与事业流动。保持此方位整洁并配以适当的水元素装饰，有助于事业运势顺畅。',
   },
 ];
 
@@ -79,15 +79,15 @@ export default function DirectionPage() {
         <div className="text-center mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-text-tertiary uppercase tracking-wider mb-4">
             <Compass className="w-3 h-3" />
-            <span>Feng Shui Guide</span>
+            <span>风水指南</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-text-primary font-display">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-gold-primary via-gold-light to-nebula-purple">
-              Five Elements Direction Guide
+              五行方位指南
             </span>
           </h1>
           <p className="text-lg text-text-tertiary max-w-2xl mx-auto leading-relaxed">
-            Explore the resonance between spatial energy and personal destiny. Optimize your life trajectory by adjusting Five Elements in your living and working environment.
+            探索空间能量与个人命运的共鸣。通过调整生活和工作环境中的五行，优化人生轨迹。
           </p>
         </div>
 
@@ -160,10 +160,10 @@ export default function DirectionPage() {
               Unsure of Your Chart\'s Five Elements?
             </h2>
             <p className="text-text-tertiary mb-6">
-              Generate your personalized birth chart to receive Feng Shui direction advice based on your BaZi.
+              生成个性化命盘，获取基于八字的方位风水建议。
             </p>
             <button className="group relative inline-flex h-11 items-center justify-center rounded-full bg-gradient-to-b from-gold-primary to-gold-secondary px-8 font-medium text-ink-black shadow-[0_10px_20px_rgba(212,168,83,0.3)] transition-all hover:from-gold-light hover:to-gold-primary hover:shadow-[0_15px_25px_rgba(212,168,83,0.4)] active:scale-95">
-              <span className="relative z-10">Generate My Chart</span>
+              <span className="relative z-10">生成我的命盘</span>
               <div className="absolute inset-0 -z-10 rounded-full bg-gradient-to-b from-gold-primary to-gold-secondary opacity-0 blur-md transition-opacity group-hover:opacity-30" />
             </button>
           </div>
@@ -173,13 +173,13 @@ export default function DirectionPage() {
         <div className="mt-8 text-center">
           <div className="inline-block glass-card px-8 py-6 border-gold-primary/30">
             <p className="text-text-secondary mb-3">
-              Want personalized advice?
+              想要个性化建议？
             </p>
             <a
               href="/chat"
               className="text-gold-primary font-semibold hover:text-gold-light transition-colors text-lg"
             >
-              Talk to our AI Master for free →
+              免费咨询我们的AI大师 →
             </a>
           </div>
         </div>

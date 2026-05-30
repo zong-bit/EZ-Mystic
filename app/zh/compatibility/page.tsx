@@ -5,9 +5,9 @@ import { WU_XING_MAP } from '@/bazi/ganzhi';
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'FateWise — Heavenly Stems Compatibility · Five Elements Matching',
+     title: 'FateWise — 天干相合 · 五行匹配',
     description:
-      'Explore the Five Elements (Wu Xing) compatibility between the 10 Heavenly Stems. Discover your best matches and compatibility percentages based on traditional Chinese metaphysics.',
+      '探索十天干之间的五行相合关系，发现你的最佳匹配与相合百分比。',
     keywords: [
       'heavenly stems compatibility',
       'Wu Xing matching',
@@ -23,30 +23,30 @@ export function generateMetadata(): Metadata {
     publisher: 'FateWise',
     metadataBase: new URL('https://bornchart.app'),
     alternates: {
-      canonical: 'https://bornchart.app/compatibility',
+       canonical: '/zh/compatibility',
     },
     openGraph: {
-      title: 'FateWise — Heavenly Stems Compatibility · Five Elements Matching',
-      description:
-        'Explore the Five Elements compatibility between the 10 Heavenly Stems. Discover your best matches based on traditional Chinese metaphysics.',
-      url: 'https://bornchart.app/compatibility',
+       title: 'FateWise — 天干相合 · 五行匹配',
+       description:
+        '探索十天干之间的五行相合关系，基于传统中国玄学发现你的最佳匹配。',
+       url: '/zh/compatibility',
       siteName: 'FateWise',
       type: 'website',
-      locale: 'en_US',
+       locale: 'zh_CN',
       images: [
         {
           url: '/og-image.png',
           width: 1200,
           height: 630,
-          alt: 'FateWise - Heavenly Stems Compatibility',
+          alt: 'FateWise - 天干相合',
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'FateWise — Heavenly Stems Compatibility · Five Elements Matching',
-      description:
-        'Explore the Five Elements compatibility between the 10 Heavenly Stems. Discover your best matches based on traditional Chinese metaphysics.',
+       title: 'FateWise — 天干相合 · 五行匹配',
+       description:
+        '探索十天干之间的五行相合关系，基于传统中国玄学发现你的最佳匹配。',
       images: ['/og-image.png'],
       creator: '@fatewise',
     },
@@ -290,13 +290,13 @@ export default function CompatibilityPage() {
 
         <div className="relative z-10 max-w-4xl mx-auto text-center pt-8">
           <div className="mb-3">
-            <span className="text-gold-primary text-sm font-display tracking-widest">✦ WU XING MATCHING ✦</span>
+            <span className="text-gold-primary text-sm font-display tracking-widest">✦ 五行匹配 ✦</span>
           </div>
           <h1 className="font-display font-bold text-4xl md:text-5xl mb-3 text-gold-glow">
-            Heavenly Stems Compatibility
+            天干相合
           </h1>
           <p className="text-text-secondary text-base max-w-lg mx-auto">
-            Explore the Five Elements (Wu Xing) compatibility between the 10 Heavenly Stems. Discover your best matches based on traditional Chinese metaphysics.
+            探索十天干之间的五行相合关系，基于传统中国玄学发现你的最佳匹配。
           </p>
         </div>
       </section>
@@ -334,14 +334,14 @@ export default function CompatibilityPage() {
 
           {/* Disclaimer */}
           <div className="text-center text-text-muted text-xs py-8">
-            ⚠️ Based on traditional Chinese metaphysics and Five Elements theory, for reference and entertainment only.
+            ⚠️ 基于传统中国玄学与五行理论，仅供参考与娱乐。
           </div>
 
           {/* CTA */}
           <div className="text-center py-8">
             <div className="inline-block glass-card px-8 py-6 border-gold-primary/30">
               <p className="text-text-secondary mb-3">
-                Want personalized compatibility analysis?
+                想要个性化相合分析？
               </p>
               <a
                 href="/chat"

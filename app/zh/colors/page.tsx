@@ -30,32 +30,32 @@ const wuxingData: WuxingData[] = [
   {
     id: 'metal',
     element: '金',
-    colorName: 'White / Gold',
+    colorName: '白/金色',
     colors: [
-      { name: 'Pure White', hex: '#ffffff' },
-      { name: 'Gold', hex: '#d4af37' },
-      { name: 'Silver White', hex: '#c0c0c0' },
+      { name:  '纯白', hex: '#ffffff' },
+      { name:  '金色', hex: '#d4af37' },
+      { name:  '银白', hex: '#c0c0c0' },
     ],
     description:
-      'The Metal element represents gathering, clearing, and transformation. In colors, it corresponds to white, gold, and silver, symbolizing purity, nobility, and wealth.',
-    meaning: 'Symbolizes authority, order, and wealth. Suitable for enhancing decision-making and execution.',
-    applications: ['Office Environment', 'Financial Industry'],
+      '金元素代表收敛、肃杀与变革。在色彩中对应白色、金色和银色，象征纯洁、尊贵与财富。',
+    meaning: '象征权威、秩序与财富。适合提升决策力与执行力。',
+    applications: ['办公环境', '金融行业'],
     icon: <Sun className="w-6 h-6" />,
     gradient: 'from-gray-100 via-white to-gold-light',
   },
   {
     id: 'wood',
     element: '木',
-    colorName: 'Green / Cyan',
+    colorName:  '绿/青色',
     colors: [
-      { name: 'Emerald Green', hex: '#10b981' },
+      { name:  '翡翠绿', hex: '#10b981' },
       { name: 'Cyan', hex: '#06b6d4' },
-      { name: 'Dark Green', hex: '#065f46' },
+      { name:  '深绿', hex: '#065f46' },
     ],
     description:
-      'The Wood element represents growth, development, and benevolence. In colors, it corresponds to green and cyan, symbolizing life, vitality, and health.',
-    meaning: 'Symbolizes growth, health, and harmony. Suitable for fostering creativity and interpersonal relationships.',
-    applications: ['Home Decoration', 'Health & Wellness'],
+      '木元素代表生长、发展与仁德。在色彩中对应绿色和青色，象征生命、活力与健康。',
+    meaning: '象征生长、健康与和谐。适合培养创造力与人际关系。',
+    applications: ['家居装饰', '健康养生'],
     icon: <Wind className="w-6 h-6" />,
     gradient: 'from-aurora-green via-wood to-cosmic-blue',
   },
@@ -64,15 +64,15 @@ const wuxingData: WuxingData[] = [
     element: '水',
     colorName: 'Black / Blue',
     colors: [
-      { name: 'Deep Blue', hex: '#1e3a8a' },
+      { name:  '深蓝', hex: '#1e3a8a' },
       { name: 'Black', hex: '#18181b' },
-      { name: 'Navy', hex: '#0f172a' },
+      { name:  '藏青', hex: '#0f172a' },
     ],
     description:
-      'The Water element represents wisdom, flow, and adaptability. In colors, it corresponds to black and blue, symbolizing depth, tranquility, and wisdom.',
+      '水元素代表智慧、流动与适应力。在色彩中对应黑色和蓝色，象征深邃、宁静与智慧。',
     meaning:
       'Symbolizes wisdom, flow, and wealth (water represents wealth). Suitable for meditation, thinking, and communication.',
-    applications: ['Meditation Space', 'Creative Work'],
+    applications: ['冥想空间', '创意工作'],
     icon: <Droplets className="w-6 h-6" />,
     gradient: 'from-water via-star-dust to-bg-primary',
   },
@@ -81,14 +81,14 @@ const wuxingData: WuxingData[] = [
     element: '火',
     colorName: 'Red / Purple',
     colors: [
-      { name: 'Bright Red', hex: '#ef4444' },
+      { name:  '正红', hex: '#ef4444' },
       { name: 'Purple', hex: '#a855f7' },
-      { name: 'Orange Red', hex: '#f97316' },
+      { name:  '橙红', hex: '#f97316' },
     ],
     description:
-      'The Fire element represents passion, etiquette, and brightness. In colors, it corresponds to red, purple, and orange, symbolizing vitality, passion, and nobility.',
+      '火元素代表热情、礼仪与光耀。在色彩中对应红色、紫色和橙色，象征活力、热情与高贵。',
     meaning: 'Symbolizes passion, vitality, and fame. Suitable for boosting self-confidence and social charm.',
-    applications: ['Social Events', 'Food & Beverage Industry'],
+    applications: ['社交活动', '餐饮行业'],
     icon: <Flame className="w-6 h-6" />,
     gradient: 'from-amber-glow via-cinnabar-red to-nebula-purple',
   },
@@ -97,14 +97,14 @@ const wuxingData: WuxingData[] = [
     element: '土',
     colorName: 'Yellow / Brown',
     colors: [
-      { name: 'Yellow', hex: '#eab308' },
-      { name: 'Brown', hex: '#78350f' },
-      { name: 'Off-White', hex: '#f5f5f4' },
+      { name:  '黄色', hex: '#eab308' },
+      { name:  '棕色', hex: '#78350f' },
+      { name:  '米白', hex: '#f5f5f4' },
     ],
     description:
-      'The Earth element represents stability, inclusiveness, and bearing. In colors, it corresponds to yellow, brown, and beige, symbolizing steadiness, trust, and foundation.',
-    meaning: 'Symbolizes stability, trust, and foundation. Suitable for building a sense of security and long-term planning.',
-    applications: ['Bedroom Layout', 'Stability Planning'],
+      '土元素代表稳定、包容与承载。在色彩中对应黄色、棕色和米色，象征踏实、信任与根基。',
+    meaning: '象征稳定、信任与根基。适合营造安全感和长期规划。',
+    applications: ['卧室布局', '稳定规划'],
     icon: <Mountain className="w-6 h-6" />,
     gradient: 'from-gold-light via-earth to-amber-glow',
   },
@@ -153,14 +153,14 @@ export default function ColorsPage() {
         <div className="text-center mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-text-tertiary mb-4">
             <Palette className="w-3 h-3" />
-            <span>Five Elements Color Theory</span>
+            <span>五行色彩理论</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-text-primary font-display">
-            Five Elements Color Matching
+            五行色彩匹配
           </h1>
           <p className="text-lg text-text-tertiary max-w-2xl mx-auto leading-relaxed">
-            Explore the mysterious connections between the Five Elements (Metal, Wood, Water, Fire, Earth) and the Five Colors (White, Green, Black, Red, Yellow).
-            Enhance your energy field and life fortune through color balance.
+            探索五行（金、木、水、火、土）与五色（白、绿、黑、红、黄）之间的神秘联系。
+            通过色彩平衡提升能量场与运势。
           </p>
         </div>
 
@@ -169,7 +169,7 @@ export default function ColorsPage() {
           {/* 左侧: 五行选择器 */}
           <div className="lg:col-span-5 space-y-4">
             <h2 className="text-sm font-semibold text-text-tertiary uppercase tracking-wider mb-4">
-              Choose Your Element
+              选择你的五行
             </h2>
             <div className="space-y-3">
               {wuxingData.map((item) => (
@@ -260,7 +260,7 @@ export default function ColorsPage() {
                   {/* 颜色展示 */}
                   <div className="mb-8">
                     <h4 className="text-sm font-semibold text-text-tertiary uppercase tracking-wider mb-4">
-                      Corresponding Colors
+                      对应色彩
                     </h4>
                     <div className="flex flex-wrap gap-4">
                       {activeData.colors.map((color) => (
@@ -288,7 +288,7 @@ export default function ColorsPage() {
                       <Info className="w-5 h-5 text-gold-primary mt-1 flex-shrink-0" />
                       <div>
                         <h4 className="text-sm font-semibold text-text-secondary mb-2">
-                          Feng Shui Meaning
+                          风水寓意
                         </h4>
                         <p className="text-text-tertiary text-sm leading-relaxed">
                           {activeData.meaning}
@@ -300,7 +300,7 @@ export default function ColorsPage() {
                   {/* 适用场景 */}
                   <div className="mt-auto">
                     <h4 className="text-sm font-semibold text-text-tertiary uppercase tracking-wider mb-4">
-                      Suitable Scenarios
+                      适用场景
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {activeData.applications.map((app, idx) => (
@@ -314,50 +314,50 @@ export default function ColorsPage() {
                       {activeId === 'metal' && (
                         <>
                           <span className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs text-text-tertiary">
-                            Office Environment
+                            办公环境
                           </span>
                           <span className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs text-text-tertiary">
-                            Financial Industry
+                            金融行业
                           </span>
                         </>
                       )}
                       {activeId === 'wood' && (
                         <>
                           <span className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs text-text-tertiary">
-                            Home Decoration
+                            家居装饰
                           </span>
                           <span className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs text-text-tertiary">
-                            Health & Wellness
+                            健康养生
                           </span>
                         </>
                       )}
                       {activeId === 'water' && (
                         <>
                           <span className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs text-text-tertiary">
-                            Meditation Space
+                            冥想空间
                           </span>
                           <span className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs text-text-tertiary">
-                            Creative Work
+                            创意工作
                           </span>
                         </>
                       )}
                       {activeId === 'fire' && (
                         <>
                           <span className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs text-text-tertiary">
-                            Social Events
+                            社交活动
                           </span>
                           <span className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs text-text-tertiary">
-                            Food & Beverage Industry
+                            餐饮行业
                           </span>
                         </>
                       )}
                       {activeId === 'earth' && (
                         <>
                           <span className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs text-text-tertiary">
-                            Bedroom Layout
+                            卧室布局
                           </span>
                           <span className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs text-text-tertiary">
-                            Stability Planning
+                            稳定规划
                           </span>
                         </>
                       )}
@@ -374,13 +374,13 @@ export default function ColorsPage() {
       <div className="text-center py-12">
         <div className="inline-block glass-card px-8 py-6 border-gold-primary/30">
           <p className="text-text-secondary mb-3">
-            Want personalized advice?
+            想要个性化建议？
           </p>
           <a
             href="/chat"
             className="text-gold-primary font-semibold hover:text-gold-light transition-colors text-lg"
           >
-            Talk to our AI Master for free →
+            免费咨询我们的AI大师 →
           </a>
         </div>
       </div>
