@@ -16,353 +16,594 @@ export default function HomePage() {
   }, [])
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute inset-0 starry-bg opacity-50" />
-        <div className="absolute top-1/4 left-0 w-96 h-96 bg-gold-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-0 w-64 h-64 bg-star-dust/5 rounded-full blur-3xl" />
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--color-bg-base)' }}>
 
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-          <div className="mb-6">
-            <span className="text-gold-primary text-lg font-display tracking-widest">✦ Free Bazi Calculator · AI-Powered Chinese Astrology ✦</span>
+      {/* ── Hero ── */}
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        {/* Subtle radial glow — gold, not blue/purple */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 60% 50% at 55% 45%, rgba(212,175,55,0.04) 0%, transparent 100%)',
+          }}
+        />
+
+        <div className="relative z-10 w-full max-w-5xl mx-auto px-8 md:px-12 py-32">
+          {/* Top label — narrow gold line */}
+          <div className="flex items-center gap-3 mb-10">
+            <span
+              className="block"
+              style={{ width: 40, height: 1, backgroundColor: 'var(--color-primary)' }}
+            />
+            <span
+              className="text-sm tracking-[0.3em] uppercase"
+              style={{ color: 'var(--color-text-muted)' }}
+            >
+              Free Bazi Calculator · AI-Powered Chinese Astrology
+            </span>
           </div>
 
-          <h1 className="font-display font-bold text-5xl md:text-7xl mb-6 leading-tight text-gold-glow">
-            Free Bazi Calculator &
+          {/* Title — serif, large, asymmetric */}
+          <h1
+            className="font-display font-bold leading-[1.15] mb-8"
+            style={{
+              fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+              color: 'var(--color-text-primary)',
+              fontFamily: 'var(--font-family-serif)',
+            }}
+          >
+            Read Your Destiny
             <br />
-            <span className="bg-gradient-to-r from-gold-primary via-gold-light to-gold-primary bg-clip-text text-transparent">
-              Chinese Astrology Reading
+            <span style={{ color: 'var(--color-primary)' }}>
+              with Four Pillars
             </span>
           </h1>
 
-          <p className="text-text-secondary text-lg md:text-xl mb-6 max-w-2xl mx-auto leading-relaxed">
-            Calculate your BaZi (Four Pillars of Destiny) chart instantly — free, accurate, and AI-powered.
+          {/* Subtitle — generous line-height */}
+          <p
+            className="max-w-xl mb-12 leading-[1.9]"
+            style={{
+              fontSize: '1.125rem',
+              color: 'var(--color-text-secondary)',
+              fontFamily: 'var(--font-family-sans)',
+            }}
+          >
+            Calculate your BaZi (Four Pillars of Destiny) chart instantly.
             <br />
-            <span className="text-text-tertiary text-base">Millennia of Eastern wisdom, revealed by artificial intelligence</span>
+            Millennia of Eastern wisdom, interpreted with precision.
           </p>
 
-          {/* Real user count */}
+          {/* CTA — asymmetric: primary left, secondary right */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+            <Link
+              href="/bazi"
+              className="inline-flex items-center gap-2 text-base font-semibold transition-all hover:translate-y-[-1px]"
+              style={{
+                padding: '14px 36px',
+                backgroundColor: 'var(--color-primary)',
+                color: 'var(--color-text-inverse)',
+                boxShadow: '0 0 24px rgba(212,175,55,0.15)',
+              }}
+            >
+              Get Your Free Bazi Chart
+            </Link>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center gap-1 text-base transition-colors"
+              style={{
+                color: 'var(--color-text-muted)',
+                borderBottom: '1px solid rgba(212,175,55,0.2)',
+                paddingBottom: 2,
+              }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-text-secondary)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text-muted)')}
+            >
+              View Pricing
+              <span className="text-lg leading-none">→</span>
+            </Link>
+          </div>
+
+          {/* Social proof — minimal */}
           {userCount !== null && userCount > 0 && (
-            <div className="mb-8 text-text-tertiary text-sm">
-              <span className="text-gold-primary font-semibold">{userCount.toLocaleString()}</span>
-              <span className="text-text-tertiary"> members</span>
+            <div className="mt-16 flex items-center gap-3" style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>
+              <span style={{ color: 'var(--color-primary)', fontWeight: 600 }}>
+                {userCount.toLocaleString()}
+              </span>
+              <span>charts generated</span>
             </div>
           )}
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/bazi" className="btn-primary glow-pulse text-lg px-12 py-4">
-              ✨ Get Your Free Bazi Chart
-            </Link>
-            <Link href="/pricing" className="glass px-8 py-4 text-text-secondary hover:text-text-primary transition-colors text-lg">
-              View Pricing →
-            </Link>
-          </div>
-
-          {/* Decorative elements */}
-          <div className="mt-16 flex justify-center gap-8 text-text-tertiary">
-            <div className="text-center">
-              <div className="text-3xl font-display font-bold text-gold-primary">4</div>
-              <div className="text-xs mt-1">Pillars</div>
-            </div>
-            <div className="w-px bg-text-tertiary/30" />
-            <div className="text-center">
-              <div className="text-3xl font-display font-bold text-gold-primary">10</div>
-              <div className="text-xs mt-1">Heavenly Stems</div>
-            </div>
-            <div className="w-px bg-text-tertiary/30" />
-            <div className="text-center">
-              <div className="text-3xl font-display font-bold text-gold-primary">12</div>
-              <div className="text-xs mt-1">Earthly Branches</div>
-            </div>
-            <div className="w-px bg-text-tertiary/30" />
-            <div className="text-center">
-              <div className="text-3xl font-display font-bold text-gold-primary">∞</div>
-              <div className="text-xs mt-1">Possibilities</div>
-            </div>
+          {/* Decorative bottom line */}
+          <div className="mt-24 flex gap-12">
+            {[
+              { num: '4', label: 'Pillars' },
+              { num: '10', label: 'Heavenly Stems' },
+              { num: '12', label: 'Earthly Branches' },
+            ].map(item => (
+              <div key={item.label} className="flex flex-col">
+                <span
+                  className="font-display font-bold"
+                  style={{
+                    fontSize: '2rem',
+                    color: 'var(--color-primary)',
+                    fontFamily: 'var(--font-family-serif)',
+                  }}
+                >
+                  {item.num}
+                </span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', letterSpacing: '0.1em', marginTop: 4 }}>
+                  {item.label}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Invite Friends CTA — position 2, after Hero */}
-      <section className="py-24 px-6">
-        <div className="max-w-3xl mx-auto text-center glass-card p-12 border-gold-primary/30">
-          <div className="text-gold-primary text-3xl mb-4">✦</div>
-          <h2 className="font-display text-3xl font-bold mb-4 text-gold-glow">
-            Invite Friends, Earn Free Pro
+      {/* ── Divider ── */}
+      <div className="max-w-5xl mx-auto px-8">
+        <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent)' }} />
+      </div>
+
+      {/* ── Features — asymmetric grid ── */}
+      <section className="py-32 px-8">
+        <div className="max-w-5xl mx-auto">
+          {/* Section label */}
+          <div className="flex items-center gap-3 mb-6">
+            <span className="block" style={{ width: 24, height: 1, backgroundColor: 'var(--color-primary)' }} />
+            <span style={{ fontSize: '0.75rem', letterSpacing: '0.3em', color: 'var(--color-text-muted)' }}>
+              CORE FEATURES
+            </span>
+          </div>
+
+          {/* Title */}
+          <h2
+            className="font-display font-bold mb-20"
+            style={{
+              fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
+              color: 'var(--color-text-primary)',
+              lineHeight: 1.3,
+            }}
+          >
+            A Complete Destiny
+            <br />
+            Analysis Experience
           </h2>
-          <p className="text-text-secondary mb-8 max-w-xl mx-auto leading-relaxed">
-            Share FateWise with friends — you both get 7 days of Pro for every friend who signs up. When they upgrade, you get Pro too.
-          </p>
-          <Link href="/signup" className="btn-primary text-lg px-10 py-4">
-            Start Sharing →
-          </Link>
-        </div>
-      </section>
 
-      {/* Feature Cards */}
-      <section className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="font-display text-3xl font-bold text-center mb-4">Core Features</h2>
-          <p className="text-text-secondary text-center mb-16 max-w-xl mx-auto">
-            From precise charting to deep interpretation — a complete destiny analysis experience
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Bazi Chart */}
-            <Link href="/bazi" className="glass-card p-8 hover:scale-[1.02] transition-transform group">
-              <div className="text-4xl mb-4">🜁</div>
-              <h3 className="font-display text-xl font-semibold mb-3 text-gold-primary group-hover:text-gold-light transition-colors">
-                Bazi Chart
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                Precise charting based on true solar time correction, supporting solar/lunar calendar conversion, covering 1900–2100.
-              </p>
-            </Link>
-
-            {/* AI Interpretation */}
-            <div className="glass-card p-8">
-              <div className="text-4xl mb-4">🜂</div>
-              <h3 className="font-display text-xl font-semibold mb-3 text-gold-primary">
-                AI Deep Interpretation
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                An AI astrologer analyzes your Bazi chart across multiple dimensions — personality, career, wealth, relationships, and more.
-              </p>
+          {/* Asymmetric feature rows */}
+          <div className="space-y-20">
+            {/* Feature 1 — wide left, narrow right */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start">
+              <div>
+                <Link href="/bazi" className="group inline-block">
+                  <h3
+                    className="font-display font-bold mb-4 transition-colors"
+                    style={{
+                      fontSize: '1.5rem',
+                      color: 'var(--color-primary)',
+                      fontFamily: 'var(--font-family-serif)',
+                    }}
+                  >
+                    Bazi Chart
+                  </h3>
+                  <p
+                    className="leading-[1.9]"
+                    style={{ color: 'var(--color-text-secondary)', fontSize: '0.9375rem' }}
+                  >
+                    Precise charting based on true solar time correction, supporting solar/lunar calendar conversion, covering 1900–2100.
+                  </p>
+                </Link>
+              </div>
+              <div
+                className="p-8"
+                style={{
+                  borderTop: '1px solid rgba(212,175,55,0.15)',
+                  backgroundColor: 'var(--color-bg-surface)',
+                }}
+              >
+                <div style={{ fontSize: '2rem', color: 'var(--color-primary)', marginBottom: 12 }}>🜁</div>
+                <p style={{ fontSize: '0.8125rem', color: 'var(--color-text-muted)', lineHeight: 1.8 }}>
+                  Four Pillars · Year · Month · Day · Hour
+                  <br />
+                  Each pillar reveals a dimension of your destiny.
+                </p>
+              </div>
             </div>
 
-            {/* Destiny Book PDF */}
-            <div className="glass-card p-8">
-              <div className="text-4xl mb-4">🜄</div>
-              <h3 className="font-display text-xl font-semibold mb-3 text-gold-primary">
-                Complete Destiny Book
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                Generate a beautifully formatted PDF Destiny Book report with Great Fortune cycles, annual luck analysis, and open-luck guidance.
-              </p>
+            {/* Feature 2 — reversed: narrow left, wide right */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start">
+              <div
+                className="p-8 md:order-1"
+                style={{
+                  borderTop: '1px solid rgba(212,175,55,0.15)',
+                  backgroundColor: 'var(--color-bg-surface)',
+                  marginRight: 'auto',
+                }}
+              >
+                <div style={{ fontSize: '2rem', color: 'var(--color-primary)', marginBottom: 12 }}>🜂</div>
+                <p style={{ fontSize: '0.8125rem', color: 'var(--color-text-muted)', lineHeight: 1.8 }}>
+                  Personality · Career · Wealth · Relationships
+                  <br />
+                  Multiple dimensions of destiny analysis.
+                </p>
+              </div>
+              <div className="md:order-2">
+                <h3
+                  className="font-display font-bold mb-4"
+                  style={{
+                    fontSize: '1.5rem',
+                    color: 'var(--color-text-primary)',
+                    fontFamily: 'var(--font-family-serif)',
+                  }}
+                >
+                  AI Deep Interpretation
+                </h3>
+                <p
+                  className="leading-[1.9]"
+                  style={{ color: 'var(--color-text-secondary)', fontSize: '0.9375rem' }}
+                >
+                  An AI astrologer analyzes your Bazi chart across multiple dimensions — personality, career, wealth, relationships, and more.
+                </p>
+              </div>
+            </div>
+
+            {/* Feature 3 — full width */}
+            <div
+              className="p-10 md:p-14"
+              style={{
+                borderTop: '1px solid rgba(212,175,55,0.15)',
+                backgroundColor: 'var(--color-bg-surface)',
+              }}
+            >
+              <div className="flex flex-col md:flex-row md:items-center md:gap-12">
+                <div>
+                  <div style={{ fontSize: '2rem', color: 'var(--color-primary)', marginBottom: 12 }}>🜄</div>
+                  <h3
+                    className="font-display font-bold"
+                    style={{
+                      fontSize: '1.5rem',
+                      color: 'var(--color-text-primary)',
+                      fontFamily: 'var(--font-family-serif)',
+                    }}
+                  >
+                    Complete Destiny Book
+                  </h3>
+                </div>
+                <p
+                  className="md:flex-1 mt-4 md:mt-0 leading-[1.9]"
+                  style={{ color: 'var(--color-text-secondary)', fontSize: '0.9375rem' }}
+                >
+                  Generate a beautifully formatted PDF Destiny Book report with Great Fortune cycles, annual luck analysis, and open-luck guidance.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Life Tools */}
-      <section className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="font-display text-3xl font-bold text-center mb-4">Life Tools</h2>
-          <p className="text-text-secondary text-center mb-16 max-w-xl mx-auto">
-            Practical daily tools based on ancient Chinese wisdom
-          </p>
+      {/* ── Divider ── */}
+      <div className="max-w-5xl mx-auto px-8">
+        <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent)' }} />
+      </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-            {/* Diet Guide */}
-            <Link href="/diet" className="glass-card p-6 hover:scale-[1.02] transition-transform group">
-              <div className="text-3xl mb-3">🍜</div>
-              <h3 className="font-display text-lg font-semibold mb-2 text-gold-primary group-hover:text-gold-light transition-colors">
-                Diet Guide
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                Five Elements diet recommendations based on seasonal energy.
-              </p>
-            </Link>
+      {/* ── Life Tools — minimal list layout, no cards ── */}
+      <section className="py-32 px-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="block" style={{ width: 24, height: 1, backgroundColor: 'var(--color-primary)' }} />
+            <span style={{ fontSize: '0.75rem', letterSpacing: '0.3em', color: 'var(--color-text-muted)' }}>
+              LIFE TOOLS
+            </span>
+          </div>
 
-            {/* Color Match */}
-            <Link href="/colors" className="glass-card p-6 hover:scale-[1.02] transition-transform group">
-              <div className="text-3xl mb-3">🎨</div>
-              <h3 className="font-display text-lg font-semibold mb-2 text-gold-primary group-hover:text-gold-light transition-colors">
-                Color Match
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                Find the colors that harmonize with your Five Elements energy.
-              </p>
-            </Link>
+          <h2
+            className="font-display font-bold mb-16"
+            style={{
+              fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
+              color: 'var(--color-text-primary)',
+              lineHeight: 1.3,
+            }}
+          >
+            Ancient Wisdom for
+            <br />
+            Daily Life
+          </h2>
 
-            {/* Exercise */}
-            <Link href="/exercise" className="glass-card p-6 hover:scale-[1.02] transition-transform group">
-              <div className="text-3xl mb-3">🏃</div>
-              <h3 className="font-display text-lg font-semibold mb-2 text-gold-primary group-hover:text-gold-light transition-colors">
-                Exercise
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                Mind-body exercises matched to your elemental profile.
-              </p>
-            </Link>
-
-            {/* Direction */}
-            <Link href="/direction" className="glass-card p-6 hover:scale-[1.02] transition-transform group">
-              <div className="text-3xl mb-3">🧭</div>
-              <h3 className="font-display text-lg font-semibold mb-2 text-gold-primary group-hover:text-gold-light transition-colors">
-                Direction
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                Feng Shui directions for your living and working space.
-              </p>
-            </Link>
-
-            {/* Luck Boost */}
-            <Link href="/luck" className="glass-card p-6 hover:scale-[1.02] transition-transform group">
-              <div className="text-3xl mb-3">🍀</div>
-              <h3 className="font-display text-lg font-semibold mb-2 text-gold-primary group-hover:text-gold-light transition-colors">
-                Luck Boost
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                Daily lucky colors, numbers, directions, and wealth items.
-              </p>
-            </Link>
-
-            {/* Compatibility */}
-            <Link href="/compatibility" className="glass-card p-6 hover:scale-[1.02] transition-transform group">
-              <div className="text-3xl mb-3">💑</div>
-              <h3 className="font-display text-lg font-semibold mb-2 text-gold-primary group-hover:text-gold-light transition-colors">
-                Compatibility
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                Five Elements compatibility between two people or energies.
-              </p>
-            </Link>
+          {/* List layout instead of card grid */}
+          <div className="space-y-0">
+            {[
+              { href: '/diet', icon: '🍜', title: 'Diet Guide', desc: 'Five Elements diet recommendations based on seasonal energy.' },
+              { href: '/colors', icon: '🎨', title: 'Color Match', desc: 'Find the colors that harmonize with your Five Elements energy.' },
+              { href: '/exercise', icon: '🏃', title: 'Exercise', desc: 'Mind-body exercises matched to your elemental profile.' },
+              { href: '/direction', icon: '🧭', title: 'Direction', desc: 'Feng Shui directions for your living and working space.' },
+              { href: '/luck', icon: '🍀', title: 'Luck Boost', desc: 'Daily lucky colors, numbers, directions, and wealth items.' },
+              { href: '/compatibility', icon: '💑', title: 'Compatibility', desc: 'Five Elements compatibility between two people or energies.' },
+            ].map(item => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="group flex items-start gap-6 py-7 block"
+                style={{
+                  borderTop: '1px solid rgba(255,255,255,0.04)',
+                  color: 'inherit',
+                  textDecoration: 'none',
+                }}
+              >
+                <span
+                  className="flex-shrink-0 mt-0.5"
+                  style={{ fontSize: '1.25rem', color: 'var(--color-primary)', opacity: 0.7 }}
+                >
+                  {item.icon}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-3 mb-1">
+                    <span
+                      className="font-display font-semibold transition-colors"
+                      style={{
+                        fontSize: '1.0625rem',
+                        color: 'var(--color-text-primary)',
+                        fontFamily: 'var(--font-family-serif)',
+                      }}
+                    >
+                      {item.title}
+                    </span>
+                    <span
+                      className="text-lg transition-all opacity-0 group-hover:opacity-100"
+                      style={{ color: 'var(--color-primary)' }}
+                    >
+                      →
+                    </span>
+                  </div>
+                  <p
+                    className="leading-[1.8]"
+                    style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}
+                  >
+                    {item.desc}
+                  </p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Live Stats */}
+      {/* ── Live Stats ── */}
       <LiveStats />
 
-      {/* Pricing */}
-      <section className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="font-display text-3xl font-bold text-center mb-4">Pricing</h2>
-          <p className="text-text-secondary text-center mb-16 max-w-xl mx-auto">
-            Start free, unlock your full destiny profile
-          </p>
+      {/* ── Divider ── */}
+      <div className="max-w-5xl mx-auto px-8">
+        <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent)' }} />
+      </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* ── Pricing — minimal, no cards, text-first ── */}
+      <section className="py-32 px-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="block" style={{ width: 24, height: 1, backgroundColor: 'var(--color-primary)' }} />
+            <span style={{ fontSize: '0.75rem', letterSpacing: '0.3em', color: 'var(--color-text-muted)' }}>
+              PRICING
+            </span>
+          </div>
+
+          <h2
+            className="font-display font-bold mb-4"
+            style={{
+              fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
+              color: 'var(--color-text-primary)',
+              lineHeight: 1.3,
+            }}
+          >
+            Start Free,
+            <br />
+            Unlock Your Destiny
+          </h2>
+
+          {/* Pricing rows */}
+          <div className="mt-16 space-y-0">
             {/* Free */}
-            <div className="glass-card p-8 flex flex-col">
-              <div className="mb-4">
-                <span className="text-text-tertiary text-sm uppercase tracking-wider">Free</span>
+            <div
+              className="flex flex-col md:flex-row md:items-center md:gap-12 py-8"
+              style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}
+            >
+              <div className="flex items-baseline gap-3 mb-4 md:mb-0">
+                <span
+                  className="font-display font-bold"
+                  style={{ fontSize: '2rem', color: 'var(--color-text-primary)', fontFamily: 'var(--font-family-serif)' }}
+                >
+                  Free
+                </span>
               </div>
-              <div className="mb-6">
-                <span className="font-display text-4xl font-bold text-text-primary">$0</span>
+              <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
+                <span>✓ Basic Bazi chart</span>
+                <span>✓ Four Pillars overview</span>
+                <span>✓ AI element analysis</span>
               </div>
-              <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
-                <li>✓ Basic Bazi chart</li>
-                <li>✓ Four Pillars overview</li>
-                <li>✓ AI element analysis</li>
-              </ul>
-              <Link href="/bazi" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
-                Get Started
+              <Link
+                href="/bazi"
+                className="mt-4 md:mt-0 whitespace-nowrap text-sm font-semibold"
+                style={{
+                  color: 'var(--color-primary)',
+                  borderBottom: '1px solid rgba(212,175,55,0.3)',
+                  paddingBottom: 2,
+                }}
+              >
+                Get Started →
               </Link>
             </div>
 
             {/* Pro Monthly */}
-            <div className="glass-card p-8 flex flex-col relative border-gold-primary/40">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-primary text-dark text-xs px-4 py-1 rounded-full font-semibold">
-                Most Popular
+            <div
+              className="flex flex-col md:flex-row md:items-center md:gap-12 py-8"
+              style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}
+            >
+              <div className="flex items-baseline gap-3 mb-4 md:mb-0">
+                <span
+                  className="font-display font-bold"
+                  style={{ fontSize: '2rem', color: 'var(--color-primary)', fontFamily: 'var(--font-family-serif)' }}
+                >
+                  $9.99
+                </span>
+                <span style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>/month</span>
               </div>
-              <div className="mb-4 mt-2">
-                <span className="text-gold-primary text-sm uppercase tracking-wider">Pro · Monthly</span>
+              <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
+                <span>✓ Everything in Free</span>
+                <span>✓ Full AI deep interpretation</span>
+                <span>✓ Complete Destiny Book (PDF)</span>
+                <span>✓ Great Fortune & Annual Luck</span>
+                <span>✓ Open Luck guidance</span>
               </div>
-              <div className="mb-6">
-                <span className="font-display text-4xl font-bold text-gold-primary">$9</span>
-                <span className="text-text-secondary">.99</span>
-                <span className="text-text-tertiary text-sm ml-1">/month</span>
-              </div>
-              <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
-                <li>✓ Everything in Free</li>
-                <li>✓ Full AI deep interpretation</li>
-                <li>✓ Complete Destiny Book (PDF)</li>
-                <li>✓ Great Fortune & Annual Luck</li>
-                <li>✓ Open Luck guidance</li>
-              </ul>
-              <Link href="/payment?plan=pro" className="btn-primary w-full text-center py-3">
+              <Link
+                href="/payment?plan=pro"
+                className="mt-4 md:mt-0 inline-flex items-center gap-2 text-sm font-semibold"
+                style={{
+                  color: 'var(--color-primary)',
+                  borderBottom: '1px solid rgba(212,175,55,0.3)',
+                  paddingBottom: 2,
+                }}
+              >
                 Get Destiny Book →
               </Link>
             </div>
 
             {/* Pro Yearly */}
-            <div className="glass-card p-8 flex flex-col relative border-gold-primary/40">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-primary text-dark text-xs px-4 py-1 rounded-full font-semibold">
-                Best Value
+            <div
+              className="flex flex-col md:flex-row md:items-center md:gap-12 py-8"
+              style={{ borderTop: '1px solid rgba(255,255,255,0.04)' }}
+            >
+              <div className="flex items-baseline gap-3 mb-4 md:mb-0">
+                <span
+                  className="font-display font-bold"
+                  style={{ fontSize: '2rem', color: 'var(--color-primary)', fontFamily: 'var(--font-family-serif)' }}
+                >
+                  $79.99
+                </span>
+                <span style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>/year</span>
+                <span
+                  className="text-xs font-semibold"
+                  style={{ color: 'var(--color-primary)', background: 'var(--color-primary-alpha-10)', padding: '2px 8px' }}
+                >
+                  Save 34%
+                </span>
               </div>
-              <div className="mb-4 mt-2">
-                <span className="text-gold-primary text-sm uppercase tracking-wider">Pro · Yearly</span>
+              <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
+                <span>✓ Everything in Free</span>
+                <span>✓ Full AI deep interpretation</span>
+                <span>✓ Complete Destiny Book (PDF)</span>
+                <span>✓ Great Fortune & Annual Luck</span>
+                <span>✓ Open Luck guidance</span>
               </div>
-              <div className="mb-6">
-                <span className="font-display text-4xl font-bold text-gold-primary">$79</span>
-                <span className="text-text-secondary">.99</span>
-                <span className="text-text-tertiary text-sm ml-1">/year</span>
-              </div>
-              <p className="text-gold-primary text-sm font-semibold mb-2">Save 34% — just $6.67/month</p>
-              <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
-                <li>✓ Everything in Free</li>
-                <li>✓ Full AI deep interpretation</li>
-                <li>✓ Complete Destiny Book (PDF)</li>
-                <li>✓ Great Fortune & Annual Luck</li>
-                <li>✓ Open Luck guidance</li>
-              </ul>
-              <Link href="/payment?plan=pro-yearly" className="btn-primary w-full text-center py-3">
+              <Link
+                href="/payment?plan=pro-yearly"
+                className="mt-4 md:mt-0 inline-flex items-center gap-2 text-sm font-semibold"
+                style={{
+                  color: 'var(--color-primary)',
+                  borderBottom: '1px solid rgba(212,175,55,0.3)',
+                  paddingBottom: 2,
+                }}
+              >
                 Get Destiny Book →
               </Link>
             </div>
           </div>
 
-          <p className="text-center text-text-tertiary text-xs mt-12">
+          <p className="mt-12 text-xs" style={{ color: 'var(--color-text-muted)' }}>
             Secure payment via Gumroad & Paddle · 14-day money-back guarantee
           </p>
         </div>
       </section>
 
-      {/* Why FateWise */}
-      <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="font-display text-3xl font-bold text-center mb-16">Why FateWise</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gold-primary/10 flex items-center justify-center">
-                <span className="text-gold-primary text-xl">📐</span>
+      {/* ── Why FateWise ── */}
+      <section className="py-32 px-8">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="block" style={{ width: 24, height: 1, backgroundColor: 'var(--color-primary)' }} />
+            <span style={{ fontSize: '0.75rem', letterSpacing: '0.3em', color: 'var(--color-text-muted)' }}>
+              WHY FATEWISE
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            {[
+              { title: 'Precise Charting', desc: 'True solar time correction + accurate solar term data ensures 100% chart accuracy' },
+              { title: 'AI Deep Interpretation', desc: 'An AI astrologer rooted in ancient wisdom, providing professional and profound destiny readings' },
+              { title: 'Privacy & Security', desc: 'All data processing happens locally — your birth information never leaves your device' },
+            ].map(item => (
+              <div key={item.title}>
+                <h3
+                  className="font-display font-semibold mb-3"
+                  style={{
+                    fontSize: '1.125rem',
+                    color: 'var(--color-text-primary)',
+                    fontFamily: 'var(--font-family-serif)',
+                  }}
+                >
+                  {item.title}
+                </h3>
+                <p
+                  className="leading-[1.9]"
+                  style={{ color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}
+                >
+                  {item.desc}
+                </p>
               </div>
-              <h3 className="font-display font-semibold mb-2">Precise Charting</h3>
-              <p className="text-text-secondary text-sm">True solar time correction + accurate solar term data ensures 100% chart accuracy</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gold-primary/10 flex items-center justify-center">
-                <span className="text-gold-primary text-xl">🧬</span>
-              </div>
-              <h3 className="font-display font-semibold mb-2">AI Deep Interpretation</h3>
-              <p className="text-text-secondary text-sm">An AI astrologer rooted in ancient wisdom, providing professional and profound destiny readings</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gold-primary/10 flex items-center justify-center">
-                <span className="text-gold-primary text-xl">🔒</span>
-              </div>
-              <h3 className="font-display font-semibold mb-2">Privacy & Security</h3>
-              <p className="text-text-secondary text-sm">All data processing happens locally — your birth information never leaves your device</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-24 px-6">
-        <div className="max-w-3xl mx-auto text-center glass-card p-12">
-          <h2 className="font-display text-3xl font-bold mb-4">
-            Ready to Explore Your Destiny?
+      {/* ── CTA — minimal ── */}
+      <section className="py-32 px-8">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2
+            className="font-display font-bold mb-6"
+            style={{
+              fontSize: 'clamp(1.75rem, 4vw, 2.25rem)',
+              color: 'var(--color-text-primary)',
+              lineHeight: 1.3,
+            }}
+          >
+            Ready to Explore
+            <br />
+            Your Destiny?
           </h2>
-          <p className="text-text-secondary mb-8">
-            Enter your birth information and receive your personalized Bazi chart and AI interpretation instantly
+          <p
+            className="mb-10 leading-[1.9]"
+            style={{ color: 'var(--color-text-secondary)', fontSize: '1rem' }}
+          >
+            Enter your birth information and receive your personalized Bazi chart
+            <br />
+            and AI interpretation instantly.
           </p>
-          <Link href="/bazi" className="btn-primary text-lg px-12 py-4">
-            ✨ Start Free Chart Reading
+          <Link
+            href="/bazi"
+            className="inline-flex items-center gap-2 text-base font-semibold"
+            style={{
+              padding: '14px 36px',
+              backgroundColor: 'var(--color-primary)',
+              color: 'var(--color-text-inverse)',
+              boxShadow: '0 0 24px rgba(212,175,55,0.15)',
+            }}
+          >
+            Start Free Chart Reading
           </Link>
         </div>
       </section>
 
-      {/* Business description for payment partner compliance */}
-      <section className="pb-16 px-6">
-        <div className="max-w-3xl mx-auto p-4 border border-gold-primary/20 rounded-lg bg-gold-primary/5">
-          <p className="text-text-secondary text-sm leading-relaxed text-center">
-            <strong className="text-gold-primary">FateWise</strong> (operated as <strong className="text-gold-primary">BornChart</strong>) is an AI-powered Chinese astrology platform that generates personalized Bazi (Four Pillars of Destiny) charts, provides in-depth AI interpretation across personality, career, wealth, and relationships, and delivers beautifully formatted Destiny Book PDF reports with Great Fortune cycles and annual luck analysis.
-          </p>
+      {/* ── Footer compliance ── */}
+      <section className="pb-16 px-8">
+        <div className="max-w-3xl mx-auto">
+          <div
+            className="p-6"
+            style={{
+              borderTop: '1px solid rgba(212,175,55,0.15)',
+              color: 'var(--color-text-secondary)',
+              fontSize: '0.8125rem',
+              lineHeight: 1.8,
+            }}
+          >
+            <span style={{ color: 'var(--color-primary)', fontWeight: 600 }}>FateWise</span> (operated as{' '}
+            <span style={{ color: 'var(--color-primary)', fontWeight: 600 }}>BornChart</span>) is an AI-powered Chinese astrology platform that generates personalized Bazi (Four Pillars of Destiny) charts, provides in-depth AI interpretation across personality, career, wealth, and relationships, and delivers beautifully formatted Destiny Book PDF reports with Great Fortune cycles and annual luck analysis.
+          </div>
         </div>
       </section>
 
@@ -390,24 +631,35 @@ function LiveStats() {
   if (!stats) return null
 
   return (
-    <section className="py-12 px-6">
+    <section className="py-16 px-8">
       <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-6">
-          <h2 className="text-text-tertiary tracking-wide uppercase text-xs font-semibold">📊 Live Stats</h2>
+        <div className="text-center mb-8">
+          <h2 className="tracking-wide uppercase text-xs font-semibold" style={{ color: 'var(--color-text-muted)' }}>
+            📊 Live Stats
+          </h2>
         </div>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="glass-card p-4 text-center">
-            <div className="text-2xl font-display font-bold text-gold-primary">{stats.today}</div>
-            <div className="text-xs text-text-tertiary mt-1">charts generated today</div>
-          </div>
-          <div className="glass-card p-4 text-center">
-            <div className="text-2xl font-display font-bold text-gold-primary">{stats.uniqueIps}</div>
-            <div className="text-xs text-text-tertiary mt-1">active users this week</div>
-          </div>
-          <div className="glass-card p-4 text-center">
-            <div className="text-2xl font-display font-bold text-gold-primary">{stats.total}</div>
-            <div className="text-xs text-text-tertiary mt-1">total charts generated</div>
-          </div>
+        <div className="grid grid-cols-3 gap-8">
+          {[
+            { val: stats.today, label: 'charts generated today' },
+            { val: stats.uniqueIps, label: 'active users this week' },
+            { val: stats.total, label: 'total charts generated' },
+          ].map(item => (
+            <div key={item.label} className="text-center">
+              <div
+                className="font-display font-bold"
+                style={{
+                  fontSize: '2rem',
+                  color: 'var(--color-primary)',
+                  fontFamily: 'var(--font-family-serif)',
+                }}
+              >
+                {item.val}
+              </div>
+              <div className="text-xs mt-1" style={{ color: 'var(--color-text-muted)' }}>
+                {item.label}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
