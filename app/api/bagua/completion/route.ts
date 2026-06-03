@@ -13,12 +13,26 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Hexagram information is required' }, { status: 400 });
     }
 
+    // Detect language from referer: /zh/ → Chinese, otherwise English
+    const referer = request.headers.get('referer') || '';
+    const isChinese = referer.includes('/zh/');
+
     let content = '';
     try {
       const apiKey = process.env.DEEPSEEK_API_KEY;
       const apiUrl = process.env.DEEPSEEK_API_URL || 'https://api.deepseek.com/v1/chat/completions';
 
-      const systemPrompt = `You are a senior I Ching (易经) scholar and divination master. You provide professional, insightful interpretations of I Ching hexagrams.
+      const systemPrompt = isChinese
+        ? `你是一位资深的易经学者和占卜大师。你提供专业的、深刻的易经卦象解读。
+
+规则：
+- 使用中文 Markdown 格式回复
+- 具体说明卦象含义、上下卦的构成及其相互作用
+- 如果用户提出了问题，将解读与用户的问题联系起来
+- 提供基于卦象智慧的实用建议
+- 保持学术性但通俗易懂的语气
+- 不要做出任何医疗、法律或财务承诺`
+        : `You are a senior I Ching (易经) scholar and divination master. You provide professional, insightful interpretations of I Ching hexagrams.
 
 Rules:
 - Respond in Markdown format
@@ -28,7 +42,30 @@ Rules:
 - Maintain a scholarly yet accessible tone
 - Never make medical, legal, or financial promises`;
 
-      const userPrompt = `Please interpret the following I Ching hexagram:
+      const userPrompt = isChinese
+        ? `请解读以下易经卦象：
+
+**卦名：${hexagramName}**
+${hexagramDesc ? `描述：${hexagramDesc}` : ''}
+
+**上卦（乾/坤等）：${upperTrigram?.name} (${upperTrigram?.symbol})**
+- 五行：${upperTrigram?.element}
+- 属性：${upperTrigram?.nature}
+- 方位：${upperTrigram?.direction}
+
+**下卦（乾/坤等）：${lowerTrigram?.name} (${lowerTrigram?.symbol})**
+- 五行：${lowerTrigram?.element}
+- 属性：${lowerTrigram?.nature}
+- 方位：${lowerTrigram?.direction}
+
+${question ? `**用户问题：** ${question}` : '未提出具体问题。'}
+
+请提供综合解读，涵盖：
+1. 此卦的含义
+2. 上下卦的相互作用
+3. 对用户问题的指引（如有）
+4. 针对当前情况的实用建议`
+        : `Please interpret the following I Ching hexagram:
 
 **Hexagram: ${hexagramName}**
 ${hexagramDesc ? `Description: ${hexagramDesc}` : ''}
