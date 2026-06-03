@@ -31,6 +31,7 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 /* 星空背景 */
@@ -50,35 +51,38 @@ body {
   background-repeat: repeat;
 }
 
-/* 毛玻璃 */
+/* 毛玻璃 — iOS 透明化 */
 .glass {
-  background: rgba(18, 18, 26, 0.72);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(18, 18, 26, 0.30);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
 }
 
 .glass-card {
   background: linear-gradient(
     135deg,
-    rgba(18, 18, 26, 0.80) 0%,
-    rgba(26, 26, 40, 0.60) 100%
+    rgba(18, 18, 26, 0.55) 0%,
+    rgba(26, 26, 40, 0.35) 100%
   );
-  backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-/* 金色按钮 */
+/* 金色按钮 — 玻璃滑动光泽 */
 .btn-primary {
+  position: relative;
+  overflow: hidden;
   background: linear-gradient(135deg, #D4A853, #C49A3C);
   color: #1A1A1A;
   font-weight: 600;
   padding: 12px 28px;
   border-radius: 10px;
   box-shadow: 0 0 24px rgba(212, 168, 83, 0.2);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   border: none;
   font-size: 16px;

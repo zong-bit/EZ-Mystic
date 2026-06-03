@@ -1,3 +1,7 @@
 {
-  "buildCommand": "npx next build"
+  "buildCommand": "npx next build",
+  "functions": {
+    "app/api/bagua/completion/route.ts": { "maxDuration": 60 },
+    "app/api/interpret/route.ts": { "maxDuration": 60 }
+  }
 }

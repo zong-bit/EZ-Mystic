@@ -4,6 +4,9 @@ import { buildFateBookPrompt } from '@/bazi/ai-prompt';
 import type { BaziResult } from '@/bazi/types';
 import { trackUsage } from '@/lib/usage-tracker';
 
+// Vercel Hobby plan default timeout is 10s; DeepSeek can take >10s
+export const maxDuration = 60;
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
