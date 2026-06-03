@@ -5,20 +5,83 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
 
 :root {
-  --bg-primary: #0A0A0F;
-  --bg-secondary: #12121A;
-  --bg-tertiary: #1A1A28;
-  --gold-primary: #D4A853;
-  --gold-light: #E8C97A;
-  --warm-white: #FDF6E3;
-  --text-primary: #F5F0E8;
-  --text-secondary: #A09888;
-  --text-tertiary: #6B6560;
-  --jade-green: #2D8B57;
-  --cinnabar-red: #C23B22;
-  --earth-brown: #8B7355;
-  --metal-white: #C0C0C0;
-  --water-blue: #3B82F6;
+  /* =========================================
+     Celestial Ink Design System
+     ========================================= */
+
+  /* 背景色 - 深邃的夜空蓝 */
+  --color-bg-base: #0B1120;
+  --color-bg-surface: #151E32;
+  --color-bg-elevated: #1E293B;
+
+  /* 文本色 */
+  --color-text-primary: #F1F5F9;
+  --color-text-secondary: #A0AEC0;
+  --color-text-muted: #64748B;
+  --color-text-inverse: #0B1120;
+
+  /* 品牌色 - 香槟金 */
+  --color-primary: #D4AF37;
+  --color-primary-hover: #E5C158;
+  --color-primary-active: #B8962E;
+
+  /* 语义色 - 五行映射 */
+  --color-wuxing-wood: #4ADE80;
+  --color-wuxing-fire: #F87171;
+  --color-wuxing-earth: #FBBF24;
+  --color-wuxing-metal: #E2E8F0;
+  --color-wuxing-water: #60A5FA;
+
+  /* 状态色 */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+
+  /* Alpha 通道变量 */
+  --color-primary-alpha-05: rgba(212, 175, 55, 0.05);
+  --color-primary-alpha-10: rgba(212, 175, 55, 0.10);
+  --color-primary-alpha-20: rgba(212, 175, 55, 0.20);
+  --color-primary-alpha-50: rgba(212, 175, 55, 0.50);
+
+  --color-bg-surface-alpha-80: rgba(21, 30, 50, 0.80);
+  --color-bg-surface-alpha-95: rgba(21, 30, 50, 0.95);
+
+  /* 字体系统 */
+  --font-family-serif: 'Noto Serif SC', 'Songti SC', serif;
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* 间距 */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+
+  /* 圆角 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-gold-glow: 0 0 15px var(--color-primary-alpha-20);
+
+  /* 边框 */
+  --border-subtle: 1px solid rgba(255, 255, 255, 0.08);
+  --border-primary: 1px solid var(--color-primary);
+
+  /* 无障碍焦点 */
+  --focus-ring-color: var(--color-primary);
+  --focus-ring-offset: 2px;
+  --focus-ring-width: 2px;
 }
 
 html {
