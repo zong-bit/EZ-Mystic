@@ -54,22 +54,48 @@ function renderMarkdown(text: string): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
   let key = 0;
   let pendingList: React.ReactNode[] | null = null;
+  let listType: 'ul' | 'ol' | null = null;
+  // Table state tracking
+  let tableHeaders: string[][] = [];
+  let tableRows: string[][] = [];
+  let inTable = false;
 
   function flushList() {
     if (pendingList && pendingList.length > 0) {
-      nodes.push(
-        <ul key={`ul-${key++}`} className="space-y-0.5 my-4">
-          {pendingList}
-        </ul>
-      );
+      if (listType === 'ol') {
+        nodes.push(
+          <ol key={`ol-${key++}`} className="article-list-ordered">
+            {pendingList}
+          </ol>
+        );
+      } else {
+        nodes.push(
+          <ul key={`ul-${key++}`} className="article-list">
+            {pendingList}
+          </ul>
+        );
+      }
       pendingList = null;
+      listType = null;
     }
+  }
+
+  function isListItem(line: string): { type: 'ul' | 'ol'; text: string } | null {
+    if (line.startsWith('- ') || line.startsWith('* ')) {
+      return { type: 'ul', text: line.slice(2) };
+    }
+    const orderedMatch = line.match(/^(\d+)\.\s+(.+)$/);
+    if (orderedMatch) {
+      return { type: 'ol', text: orderedMatch[2] };
+    }
+    return null;
   }
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     const trimmed = line.trim();
 
+    // Empty line → flush list, add spacer
     if (!trimmed) {
       flushList();
       nodes.push(<div key={key++} className="h-3" />);
@@ -77,10 +103,10 @@ function renderMarkdown(text: string): React.ReactNode[] {
     }
 
     // H2
-    if (trimmed.startsWith('## ')) {
+    if (trimmed.startsWith('## ') && !trimmed.startsWith('##[')) {
       flushList();
       nodes.push(
-        <h2 key={key++} className="font-display text-xl font-bold text-gold-primary mt-8 mb-4 gold-divider pb-2">
+        <h2 key={key++} className="article-h2">
           {trimmed.slice(3)}
         </h2>
       );
@@ -91,77 +117,115 @@ function renderMarkdown(text: string): React.ReactNode[] {
     if (trimmed.startsWith('### ')) {
       flushList();
       nodes.push(
-        <h3 key={key++} className="font-display text-lg font-semibold text-gold-light mt-6 mb-3">
+        <h3 key={key++} className="article-h3">
           {trimmed.slice(4)}
         </h3>
       );
       continue;
     }
 
+    // Blockquote
+    if (trimmed.startsWith('> ')) {
+      flushList();
+      // Collect consecutive blockquote lines
+      let bqText = trimmed.slice(2);
+      while (i + 1 < lines.length && lines[i + 1].trim().startsWith('> ')) {
+        i++;
+        bqText += '\n' + lines[i + 1]?.trim().slice(2) || '';
+      }
+      nodes.push(
+        <blockquote key={key++} className="article-blockquote">
+          {renderInline(bqText)}
+        </blockquote>
+      );
+      continue;
+    }
+
     // Unordered list
-    if ((trimmed.startsWith('- ') || trimmed.startsWith('* ')) && !trimmed.startsWith('- [') && !trimmed.startsWith('* [')) {
-      const text = trimmed.slice(2);
+    const ulItem = isListItem(trimmed);
+    if (ulItem && ulItem.type === 'ul') {
+      if (listType && listType !== 'ul') flushList();
+      listType = 'ul';
       if (!pendingList) pendingList = [];
       pendingList.push(
-        <li key={key++} className="flex items-start gap-2 text-text-primary text-sm leading-relaxed">
-          <span className="text-gold-primary mt-1 flex-shrink-0">✦</span>
-          <span>{renderInline(text)}</span>
+        <li key={key++}>
+          <span className="article-list-bullet">✦</span>
+          <span>{renderInline(ulItem.text)}</span>
         </li>
       );
       continue;
     }
 
     // Ordered list
-    if (/^\d+\.\s+/.test(trimmed)) {
-      const text = trimmed.replace(/^\d+\.\s+/, '');
+    const olItem = isListItem(trimmed);
+    if (olItem && olItem.type === 'ol') {
+      if (listType && listType !== 'ol') flushList();
+      listType = 'ol';
       if (!pendingList) pendingList = [];
       pendingList.push(
-        <li key={key++} className="flex items-start gap-2 text-text-primary text-sm leading-relaxed">
-          <span className="text-gold-primary mt-0.5 flex-shrink-0">▸</span>
-          <span>{renderInline(text)}</span>
+        <li key={key++}>
+          <span>{renderInline(olItem.text)}</span>
         </li>
       );
       continue;
     }
 
-    // Table
-    if (trimmed.includes('|') && trimmed.match(/^\|.*\|$/)) {
+    // Table start
+    if (trimmed.includes('|') && trimmed.match(/^\|.*\|$/) && !trimmed.match(/^\|[\s:-]+\|[\s:-]+\|/)) {
       flushList();
       const cells = trimmed.split('|').filter(c => c.trim());
-      if (trimmed.match(/^\|[\s:-]+\|[\s:-]+\|/)) continue;
+      if (!inTable) {
+        inTable = true;
+        tableHeaders = [cells];
+        tableRows = [];
+      } else {
+        tableRows.push(cells);
+      }
+      continue;
+    }
+
+    // Table end (non-table line flushes the table)
+    if (inTable) {
+      inTable = false;
+      const tableKey = key++;
       nodes.push(
-        <div key={key++} className="flex gap-4 py-1.5 text-sm border-b border-white/5">
-          {cells.map((cell, ci) => (
-            <span key={ci} className="text-text-primary flex-1">{renderInline(cell.trim())}</span>
-          ))}
+        <div key={`tw-${tableKey}`} className="article-table-wrap">
+          <table key={`t-${tableKey}`} className="article-table">
+            <thead>
+              <tr>
+                {tableHeaders[0].map((cell, ci) => (
+                  <th key={ci}>{renderInline(cell)}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {tableRows.map((row, ri) => (
+                <tr key={`tr-${ri}`}>
+                  {row.map((cell, ci) => (
+                    <td key={ci}>{renderInline(cell.trim())}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       );
+      tableHeaders = [];
+      tableRows = [];
       continue;
     }
 
     // Separator
     if (trimmed.startsWith('---') || trimmed.startsWith('***')) {
       flushList();
-      nodes.push(<div key={key++} className="gold-divider my-6" />);
+      nodes.push(<hr key={key++} className="article-divider" />);
       continue;
     }
 
-    // Blockquote
-    if (trimmed.startsWith('> ')) {
-      flushList();
-      nodes.push(
-        <blockquote key={key++} className="border-l-2 border-gold-primary/40 pl-4 text-text-secondary text-sm italic my-3 leading-relaxed">
-          {renderInline(trimmed.slice(2))}
-        </blockquote>
-      );
-      continue;
-    }
-
-    // Inline code
     // Paragraph
     flushList();
     nodes.push(
-      <p key={key++} className="text-text-primary text-sm leading-relaxed mb-3">
+      <p key={key++} className="article-p">
         {renderInline(trimmed)}
       </p>
     );
@@ -175,7 +239,7 @@ function renderInline(text: string): React.ReactNode {
   const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*|\[.+?\]\(.+?\))/g);
   return parts.map((part, i) => {
     if (part.startsWith('`') && part.endsWith('`')) {
-      return <code key={i} className="bg-white/10 px-1.5 py-0.5 rounded text-gold-primary text-xs font-mono">{part.slice(1, -1)}</code>;
+      return <code key={i} className="article-code">{part.slice(1, -1)}</code>;
     }
     if (part.startsWith('**') && part.endsWith('**')) {
       return <strong key={i} className="text-gold-primary font-semibold">{part.slice(2, -2)}</strong>;
@@ -267,17 +331,28 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   // Related posts (exclude current)
   const relatedPosts = allSlugs.filter(s => s !== params.slug).slice(0, 3);
 
+  // Detect lead paragraph: first <p> in rendered content
+  let leadDetected = false;
+  const processedContent = renderedContent.map((node, idx) => {
+    if (!leadDetected && typeof node === 'object' && node !== null && 'type' in node && (node as any).type === 'p') {
+      leadDetected = true;
+      return <p key={idx} className="article-lead">{(node as any).children}</p>;
+    }
+    return node;
+  });
+
   return (
     <div className="min-h-screen bg-bg-primary">
-      {/* Article Header */}
-      <section className="pt-32 pb-12 px-6 text-center relative overflow-hidden">
-        <div className="absolute inset-0 starry-bg opacity-20" />
-        <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-gold-primary/5 rounded-full blur-3xl" />
+      {/* Article Hero */}
+      <section className="article-hero relative overflow-hidden">
+        <div className="article-hero-bg" />
+        <div className="article-hero-glow" style={{ top: '15%', left: '35%' }} />
 
         <div className="relative z-10 max-w-3xl mx-auto">
           <Link href="/blog" className="text-text-tertiary hover:text-gold-primary transition-colors text-sm inline-block mb-6">
             ← Back to Blog
           </Link>
+
           {/* Language switch */}
           {(() => {
             const zhBlogDir = path.join(process.cwd(), 'content/blog/zh');
@@ -292,33 +367,44 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
               </div>
             ) : null;
           })()}
-          <span className="text-xs text-gold-primary font-semibold uppercase tracking-widest bg-gold-primary/10 px-3 py-1 rounded-full">
-            {post.category}
-          </span>
-          <h1 className="font-display font-bold text-3xl md:text-5xl mt-6 mb-6 text-gold-glow leading-tight">
+
+          {/* Category tag */}
+          <span className="blog-card-category">{post.category}</span>
+
+          {/* Title */}
+          <h1 className="article-title">
             {post.title}
           </h1>
-          <div className="flex items-center justify-center gap-4 text-sm text-text-tertiary">
-            <span>By FateWise Team</span>
-            <span>·</span>
-            <span>Updated {post.date}</span>
+
+          {/* Meta info */}
+          <div className="article-meta">
+            <span>FateWise Team</span>
+            <span className="article-meta-sep">·</span>
+            <span>{post.date}</span>
+            <span className="article-meta-sep">·</span>
+            <span>{(() => {
+              const bodyStart = post.content.indexOf('\n\n');
+              const body = bodyStart > 0 ? post.content.slice(bodyStart + 2) : '';
+              const wordCount = body.split(/\s+/).length;
+              return `${Math.max(1, Math.ceil(wordCount / 200))} min read`;
+            })()}</span>
           </div>
         </div>
       </section>
 
-      {/* Article Content */}
-      <article className="py-12 px-6">
-        <div className="max-w-3xl mx-auto">
-          <div className="glass-card p-6 md:p-10 prose-invert">
-            {renderedContent}
+      {/* Article Body */}
+      <article className="article-body">
+        <div className="article-body-inner">
+          <div className="glass-card" style={{ padding: '32px 40px' }}>
+            {processedContent}
           </div>
 
-          {/* Inline CTA */}
-          <div className="mt-10 glass-card p-8 text-center">
-            <h3 className="font-display text-lg font-bold text-gold-primary mb-3">
+          {/* Inline CTA — styled with article-cta class */}
+          <div className="article-cta">
+            <h3 className="article-cta-title">
               Want to explore your own destiny?
             </h3>
-            <p className="text-text-secondary text-sm mb-6">
+            <p className="article-cta-desc">
               Get your free Bazi chart and discover the Four Pillars of your destiny.
             </p>
             <Link href="/bazi" className="btn-primary text-base px-10 py-3 inline-block">
@@ -330,11 +416,9 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
       {/* Related Posts */}
       {relatedPosts.length > 0 && (
-        <section className="py-12 px-6 border-t border-white/5">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="font-display text-xl font-bold text-gold-primary mb-6 text-center">
-              Continue Reading
-            </h2>
+        <section className="related-section">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="related-title">Continue Reading</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {relatedPosts.map(slug => {
                 const rel = getPost(slug);
@@ -344,11 +428,15 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                   <Link
                     key={slug}
                     href={`/blog/${slug}`}
-                    className="block glass-card p-5 hover:border-gold-primary/20 transition-all duration-300 group">
-                    <span className="text-xs text-text-tertiary">{rp.date}</span>
-                    <h3 className="font-display text-sm font-semibold text-text-primary group-hover:text-gold-primary transition-colors mt-2 leading-snug">
+                    className="blog-card group"
+                    style={{ padding: '20px' }}>
+                    <span className="blog-card-date">{rp.date}</span>
+                    <h3 className="blog-card-title" style={{ fontSize: '17px', marginBottom: 6 }}>
                       {rp.title}
                     </h3>
+                    <span className="blog-card-cta" style={{ fontSize: '13px' }}>
+                      Read more <span className="blog-card-arrow">→</span>
+                    </span>
                   </Link>
                 );
               })}

@@ -94,13 +94,19 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   const posts = getPosts();
 
+  // Show max 12 posts; paginate if needed
+  const postsPerPage = 12;
+  const totalPages = Math.max(1, Math.ceil(posts.length / postsPerPage));
+  const page = 1; // For now, always page 1; pagination UI for future
+  const displayedPosts = posts.slice(0, postsPerPage);
+
   return (
     <div className="min-h-screen bg-bg-primary">
-      {/* Header */}
-      <section className="pt-32 pb-16 px-6 text-center relative overflow-hidden">
-        <div className="absolute inset-0 starry-bg opacity-30" />
-        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-gold-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-gold-primary/5 rounded-full blur-3xl" />
+      {/* Blog Hero */}
+      <section className="blog-hero relative overflow-hidden">
+        <div className="blog-hero-bg" />
+        <div className="blog-hero-glow" style={{ top: '20%', left: '30%' }} />
+        <div className="blog-hero-glow" style={{ bottom: '20%', right: '25%', width: 192, height: 192 }} />
 
         <div className="relative z-10 max-w-3xl mx-auto">
           {/* Language switch */}
@@ -111,51 +117,71 @@ export default function BlogPage() {
               中文
             </Link>
           </div>
-          <span className="text-gold-primary text-lg font-display tracking-widest">✦ Wisdom for the Curious ✦</span>
-          <h1 className="font-display font-bold text-5xl md:text-6xl mt-6 mb-6 text-gold-glow">
+          <span className="blog-hero-tag">✦ Wisdom for the Curious ✦</span>
+          <h1 className="blog-hero-title">
             Eastern Wisdom Blog
           </h1>
-          <p className="text-text-secondary text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="blog-hero-desc">
             Discover the ancient art of Bazi (Four Pillars of Destiny), the Five Elements theory,
             and the secrets of Chinese astrology — explained clearly for the modern seeker.
           </p>
         </div>
       </section>
 
-      {/* Blog Posts */}
+      {/* Blog Posts Grid */}
       <section className="py-16 px-6">
-        <div className="max-w-4xl mx-auto">
-          {posts.length === 0 ? (
+        <div className="max-w-6xl mx-auto">
+          {displayedPosts.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-text-tertiary text-lg">Blog posts coming soon.</p>
             </div>
           ) : (
-            <div className="space-y-8">
-              {posts.map(post => (
-                <Link
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  className="block glass-card p-6 md:p-8 hover:border-gold-primary/20 transition-all duration-300 group">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-xs text-gold-primary font-semibold uppercase tracking-wider bg-gold-primary/10 px-3 py-1 rounded-full">
-                      {post.category}
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {displayedPosts.map(post => (
+                  <Link
+                    key={post.slug}
+                    href={`/blog/${post.slug}`}
+                    className="blog-card group">
+                    {/* Meta row: category + date + read time */}
+                    <div className="blog-card-meta">
+                      <span className="blog-card-category">{post.category}</span>
+                      <span className="blog-card-date">{post.date}</span>
+                      <span className="blog-card-sep">·</span>
+                      <span className="blog-card-readtime">{post.readTime} min read</span>
+                    </div>
+
+                    {/* Title */}
+                    <h2 className="blog-card-title">{post.title}</h2>
+
+                    {/* Excerpt — 2 line clamp */}
+                    <p className="blog-card-excerpt">{post.excerpt}</p>
+
+                    {/* Read more link */}
+                    <span className="blog-card-cta">
+                      Read more <span className="blog-card-arrow">→</span>
                     </span>
-                    <span className="text-xs text-text-tertiary">{post.date}</span>
-                    <span className="text-xs text-text-tertiary">·</span>
-                    <span className="text-xs text-text-tertiary">{post.readTime} min read</span>
-                  </div>
-                  <h2 className="font-display text-xl md:text-2xl font-bold text-text-primary group-hover:text-gold-primary transition-colors mb-3">
-                    {post.title}
-                  </h2>
-                  <p className="text-text-secondary text-sm leading-relaxed mb-4">
-                    {post.excerpt}
-                  </p>
-                  <span className="text-gold-primary text-sm font-medium group-hover:underline">
-                    Read more →
-                  </span>
-                </Link>
-              ))}
-            </div>
+                  </Link>
+                ))}
+              </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="blog-pagination">
+                  <span className="blog-page-btn active">{page}</span>
+                  {totalPages > 1 && (
+                    <span className="blog-page-btn" style={{ cursor: 'default', opacity: 0.5 }}>
+                      {page + 1}
+                    </span>
+                  )}
+                  {totalPages > 2 && (
+                    <span className="blog-page-btn" style={{ cursor: 'default', opacity: 0.5 }}>
+                      {page + 2}
+                    </span>
+                  )}
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
