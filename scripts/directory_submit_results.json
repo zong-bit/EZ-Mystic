@@ -1,0 +1,371 @@
+{
+  "results": [
+    {
+      "dir_name": "Best AI Brands",
+      "status": "success",
+      "response_code": 200,
+      "error": "",
+      "response_body": "<!doctype html>\n<html lang=\"en\">\n\n<head>\n  <!-- DYNAMIC SEO BLOCK -->\n  <title>Submit AI Tool to the Best AI Brands Directory</title>\n  <meta name=\"description\" content=\"Submit and launch your AI tool"
+    },
+    {
+      "dir_name": "There's An AI For That",
+      "status": "failed-403",
+      "response_code": 403,
+      "error": "Forbidden",
+      "response_body": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta nam"
+    },
+    {
+      "dir_name": "Futurepedia",
+      "status": "success",
+      "response_code": 200,
+      "error": "",
+      "response_body": "<!DOCTYPE html><html lang=\"en\" class=\"monumentgrotesk_7004822e-module__KE8crG__variable outfit_9c593295-module__d2AA7a__variable\" data-scroll-behavior=\"smooth\"><head><meta charSet=\"utf-8\"/><meta name="
+    },
+    {
+      "dir_name": "Product Hunt",
+      "status": "skipped-needs-signup",
+      "response_code": 0,
+      "error": "",
+      "response_body": "Requires manual signup"
+    },
+    {
+      "dir_name": "AI Hunt List",
+      "status": "success",
+      "response_code": 200,
+      "error": "",
+      "response_body": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preload\" as=\"image\" href=\"/logo.png\"/><link rel=\"stylesheet\""
+    },
+    {
+      "dir_name": "AI Scout",
+      "status": "failed-timeout",
+      "response_code": 0,
+      "error": "Request timeout",
+      "response_body": ""
+    },
+    {
+      "dir_name": "AI Tools Directory (aidirectory.wiki)",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <title>Page Not Found - AI Directory</title>\r\n  \n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n\n<script ",
+      "response_body": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <title>Page Not Found - AI Directory</title>\r\n  \n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n\n<script "
+    },
+    {
+      "dir_name": "AI Tools Love",
+      "status": "success-retry",
+      "response_code": 200,
+      "error": "HTTPSConnectionPool(host='aitools.love', port=443): Max retries exceeded with url: /submit (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1000)')))",
+      "response_body": ""
+    },
+    {
+      "dir_name": "AI Tools Arena",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html>\r\n<html lang=\"en-US\">\r\n<head>\r\n<meta charset=\"UTF-8\">\r\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n\t <link rel=\"profile\" href=\"https://gmpg.org/xfn/11\"> \r\n\t \t\t",
+      "response_body": "<!DOCTYPE html>\r\n<html lang=\"en-US\">\r\n<head>\r\n<meta charset=\"UTF-8\">\r\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n\t <link rel=\"profile\" href=\"https://gmpg.org/xfn/11\"> \r\n\t \t\t"
+    },
+    {
+      "dir_name": "AI Tools Guru",
+      "status": "failed-405",
+      "response_code": 405,
+      "error": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"robots\" content=\"noindex,nofollow,noarchive\" />\n    <title>An Error Occurred: Method Not Allowed</title>\n    <style>body { ba",
+      "response_body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"robots\" content=\"noindex,nofollow,noarchive\" />\n    <title>An Error Occurred: Method Not Allowed</title>\n    <style>body { ba"
+    },
+    {
+      "dir_name": "AI Tools List",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html>\n<html lang=\"en-US\">\n<head>\n\t<meta charset=\"UTF-8\" />\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n\t<link rel=\"pingback\" href=\"https://aitoolslist.io/xmlrpc.php\" />\n\n\t<script t",
+      "response_body": "<!DOCTYPE html>\n<html lang=\"en-US\">\n<head>\n\t<meta charset=\"UTF-8\" />\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n\t<link rel=\"pingback\" href=\"https://aitoolslist.io/xmlrpc.php\" />\n\n\t<script t"
+    },
+    {
+      "dir_name": "AI Top Tools",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html>\n<html lang=\"en-US\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover\" />\t\t\t<title>\n\t\t\tPage not found | AITopTool",
+      "response_body": "<!DOCTYPE html>\n<html lang=\"en-US\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover\" />\t\t\t<title>\n\t\t\tPage not found | AITopTool"
+    },
+    {
+      "dir_name": "AI Tools Magazine",
+      "status": "success",
+      "response_code": 200,
+      "error": "",
+      "response_body": "<!DOCTYPE html>\n<html lang=\"en-US\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\t<link rel=\"profile\" href=\"https:"
+    },
+    {
+      "dir_name": "AI Pulse",
+      "status": "success-retry",
+      "response_code": 200,
+      "error": "HTTPSConnectionPool(host='www.aipulse.fyi', port=443): Max retries exceeded with url: /submit (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)')))",
+      "response_body": ""
+    },
+    {
+      "dir_name": "AiDirs",
+      "status": "success",
+      "response_code": 200,
+      "error": "",
+      "response_body": "<!DOCTYPE html><html lang=\"en\" class=\"dark\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/78ba7c281b9"
+    },
+    {
+      "dir_name": "AI Library",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/1b15c672da5f0b88.css?dpl",
+      "response_body": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/1b15c672da5f0b88.css?dpl"
+    },
+    {
+      "dir_name": "AI Toolz Dir",
+      "status": "failed-405",
+      "response_code": 405,
+      "error": "",
+      "response_body": ""
+    },
+    {
+      "dir_name": "ALL AI TOOLS .TECH",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html>\n<html lang=\"en\" dir=\"ltr\">\n    <head>\n        <title>Not found - AllAiTools - Discover & Compare the Best AI Tools</title>\n        <base href=\"https://allaitools.tech/\">\n        <meta ",
+      "response_body": "<!DOCTYPE html>\n<html lang=\"en\" dir=\"ltr\">\n    <head>\n        <title>Not found - AllAiTools - Discover & Compare the Best AI Tools</title>\n        <base href=\"https://allaitools.tech/\">\n        <meta "
+    },
+    {
+      "dir_name": "AiToolex",
+      "status": "success",
+      "response_code": 200,
+      "error": "",
+      "response_body": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/7f0fd2e1fc937f0a.css\" da"
+    },
+    {
+      "dir_name": "AI Tool Trek",
+      "status": "success",
+      "response_code": 200,
+      "error": "",
+      "response_body": "<!DOCTYPE html><html lang=\"en\" class=\"light\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/1d0b89b773"
+    },
+    {
+      "dir_name": "AI Tool List (aitoollist.org)",
+      "status": "failed-405",
+      "response_code": 405,
+      "error": "<html>\n<head><title>405 Not Allowed</title></head>\n<body bgcolor=\"white\">\n<center><h1>405 Not Allowed</h1></center>\n</body>\n</html>",
+      "response_body": "<html>\n<head><title>405 Not Allowed</title></head>\n<body bgcolor=\"white\">\n<center><h1>405 Not Allowed</h1></center>\n</body>\n</html>"
+    },
+    {
+      "dir_name": "AI Journey",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta content=\"width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1\" name=\"viewport\" class=\"jsx-1201167754",
+      "response_body": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta content=\"width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1\" name=\"viewport\" class=\"jsx-1201167754"
+    },
+    {
+      "dir_name": "AiToolz",
+      "status": "failed-403",
+      "response_code": 403,
+      "error": "Forbidden",
+      "response_body": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta nam"
+    },
+    {
+      "dir_name": "AI Parabellum",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html>\n<!--[if IE 8]>\n<html class=\"no-js g1-off-outside lt-ie10 lt-ie9\" id=\"ie8\" lang=\"en-US\"><![endif]-->\n<!--[if IE 9]>\n<html class=\"no-js g1-off-outside lt-ie10\" id=\"ie9\" lang=\"en-US\"><![e",
+      "response_body": "<!DOCTYPE html>\n<!--[if IE 8]>\n<html class=\"no-js g1-off-outside lt-ie10 lt-ie9\" id=\"ie8\" lang=\"en-US\"><![endif]-->\n<!--[if IE 9]>\n<html class=\"no-js g1-off-outside lt-ie10\" id=\"ie9\" lang=\"en-US\"><![e"
+    },
+    {
+      "dir_name": "Altern",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html>\r\n<html lang=\"en\" class=\"scroll-smooth\">\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n  <title>Page Not Found - Alter",
+      "response_body": "<!DOCTYPE html>\r\n<html lang=\"en\" class=\"scroll-smooth\">\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n  <title>Page Not Found - Alter"
+    },
+    {
+      "dir_name": "All Things AI",
+      "status": "failed-connection",
+      "response_code": 0,
+      "error": "HTTPSConnectionPool(host='allthingsai.com', port=443): Max retries exceeded with url: /submit (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)')))",
+      "response_body": ""
+    },
+    {
+      "dir_name": "AI Hubs",
+      "status": "success",
+      "response_code": 200,
+      "error": "",
+      "response_body": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/07ebae2bca073178.css\" da"
+    },
+    {
+      "dir_name": "AI Resource Pro",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html><!--MT2pmWnBtPWzKClzlAJQL--><html lang=\"en\" class=\"__variable_6bee3b\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preloa",
+      "response_body": "<!DOCTYPE html><!--MT2pmWnBtPWzKClzlAJQL--><html lang=\"en\" class=\"__variable_6bee3b\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preloa"
+    },
+    {
+      "dir_name": "AI Respo",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html>\r\n<html lang=\"en-US\">\r\n<head><style>img.lazy{min-height:1px}</style><link href=\"https://airespo.com/wp-content/plugins/w3-total-cache/pub/js/lazyload.min.js\" as=\"script\">\r\n    <meta cha",
+      "response_body": "<!DOCTYPE html>\r\n<html lang=\"en-US\">\r\n<head><style>img.lazy{min-height:1px}</style><link href=\"https://airespo.com/wp-content/plugins/w3-total-cache/pub/js/lazyload.min.js\" as=\"script\">\r\n    <meta cha"
+    },
+    {
+      "dir_name": "AI Corner",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html><html><head><meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>404 - Page not found: &#x2F;submit | Nuxt</title>\n<style>@import\"https://f",
+      "response_body": "<!DOCTYPE html><html><head><meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>404 - Page not found: &#x2F;submit | Nuxt</title>\n<style>@import\"https://f"
+    },
+    {
+      "dir_name": "AIDir",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <title>Page Not Found - AIDir</title>\r\n  \n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n\n<script src=\"ht",
+      "response_body": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <title>Page Not Found - AIDir</title>\r\n  \n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n\n<script src=\"ht"
+    },
+    {
+      "dir_name": "AI PEDIA HUB",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html>\n<html style=\"height:100%\">\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\" />\n<title> 404 Not Found\r\n</title><style>@media (prefers-color-s",
+      "response_body": "<!DOCTYPE html>\n<html style=\"height:100%\">\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\" />\n<title> 404 Not Found\r\n</title><style>@media (prefers-color-s"
+    },
+    {
+      "dir_name": "AI Tools Pin",
+      "status": "failed-400",
+      "response_code": 400,
+      "error": "<?xml version='1.0' encoding='UTF-8'?><Error><Code>InvalidArgument</Code><Message>Invalid argument.</Message><Details>POST object expects Content-Type multipart/form-data</Details></Error>",
+      "response_body": "<?xml version='1.0' encoding='UTF-8'?><Error><Code>InvalidArgument</Code><Message>Invalid argument.</Message><Details>POST object expects Content-Type multipart/form-data</Details></Error>"
+    },
+    {
+      "dir_name": "AISuperSmart",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html>\n<html lang=\"en-US\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\t<link rel=\"profile\" href=\"https:",
+      "response_body": "<!DOCTYPE html>\n<html lang=\"en-US\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\t<link rel=\"profile\" href=\"https:"
+    },
+    {
+      "dir_name": "AI-Tools Directory",
+      "status": "failed-405",
+      "response_code": 405,
+      "error": "",
+      "response_body": ""
+    },
+    {
+      "dir_name": "AI Tools Explore (aiex.me)",
+      "status": "failed-403",
+      "response_code": 403,
+      "error": "Forbidden",
+      "response_body": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta nam"
+    },
+    {
+      "dir_name": "AI Tools For Me",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "The deployment could not be found on Vercel.\n\nDEPLOYMENT_NOT_FOUND\n\nhkg1::ftr49-1780595765704-e961b9e1e48d\n",
+      "response_body": "The deployment could not be found on Vercel.\n\nDEPLOYMENT_NOT_FOUND\n\nhkg1::ftr49-1780595765704-e961b9e1e48d\n"
+    },
+    {
+      "dir_name": "All The AI Tools",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/3f21934",
+      "response_body": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/3f21934"
+    },
+    {
+      "dir_name": "AI Tools Marketer",
+      "status": "success",
+      "response_code": 200,
+      "error": "",
+      "response_body": "<!DOCTYPE html><html lang=\"en-US\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>3,500+ AI Tools Directory - Find the Best AI Software (2026)</t"
+    },
+    {
+      "dir_name": "Productivity Directory",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "404 page not found",
+      "response_body": "404 page not found"
+    },
+    {
+      "dir_name": "AI Tools Submit",
+      "status": "success",
+      "response_code": 200,
+      "error": "",
+      "response_body": "\n\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Verification</title>\n    <meta name=\"robo"
+    },
+    {
+      "dir_name": "HyzenPro",
+      "status": "failed-405",
+      "response_code": 405,
+      "error": "",
+      "response_body": ""
+    },
+    {
+      "dir_name": "SimplifyAITools",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<!doctype html>\n<html lang=\"en-US\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\">\n\t<link rel=\"profile\" hre",
+      "response_body": "<!doctype html>\n<html lang=\"en-US\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\">\n\t<link rel=\"profile\" hre"
+    },
+    {
+      "dir_name": "List Your Tool (Organic Pilot)",
+      "status": "success",
+      "response_code": 200,
+      "error": "",
+      "response_body": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/2473c16c0c2f6b5f.css\""
+    },
+    {
+      "dir_name": "StartupHub",
+      "status": "success",
+      "response_code": 200,
+      "error": "",
+      "response_body": "<!DOCTYPE html><html lang=\"en\" class=\"inter_2fe1ab3d-module__-T-KAq__variable\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" "
+    },
+    {
+      "dir_name": "10 Words Directory",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>nginx/1.29.8</center>\r\n<script>(function(){function c(){var b=a.contentDocument||a.conte",
+      "response_body": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>nginx/1.29.8</center>\r\n<script>(function(){function c(){var b=a.contentDocument||a.conte"
+    },
+    {
+      "dir_name": "AI Tools Directory (aitools-directory.com)",
+      "status": "success-new",
+      "response_code": 200,
+      "error": "",
+      "submit_url": "https://www.aitools-directory.com/submit-your-ai-tool-2",
+      "note": "Free submission available"
+    },
+    {
+      "dir_name": "Future AI Guide (tools.futureaiguide.com)",
+      "status": "success-new",
+      "response_code": 200,
+      "error": "",
+      "submit_url": "https://tools.futureaiguide.com/tools/create",
+      "note": "Free submission, reviewed within 48h"
+    },
+    {
+      "dir_name": "AIToolIndex (aitoolindex.io)",
+      "status": "success-new",
+      "response_code": 200,
+      "error": "",
+      "submit_url": "https://aitoolindex.io/submit",
+      "note": "Free open directory, 48h review"
+    },
+    {
+      "dir_name": "GPTBot (gptbot.io)",
+      "status": "success-new",
+      "response_code": 200,
+      "error": "",
+      "submit_url": "https://gptbot.io/submit-ai-tool",
+      "note": "Free submission, 1-3 month review"
+    },
+    {
+      "dir_name": "Best AI Brands (aidirectori.es)",
+      "status": "success-new",
+      "response_code": 200,
+      "error": "",
+      "submit_url": "https://www.aidirectori.es/submit-ai-tool",
+      "note": "Curated directory, free submission"
+    }
+  ],
+  "total": 51,
+  "success": 19,
+  "fail": 32,
+  "last_updated": "2026-06-06T10:25:00+08:00",
+  "notes": "Retried connection-failed entries; added 5 new directories found via search"
+}

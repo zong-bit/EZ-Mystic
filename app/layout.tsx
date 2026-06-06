@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { GoogleAnalytics } from '@next/third-parties/google';
@@ -6,6 +6,12 @@ import Script from 'next/script';
 import AuthProviderWrapper from './auth/provider';
 import Navbar from './components/Navbar';
 import StarBackground from './components/StarBackground';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+};
 import Footer from './components/Footer';
 
 export function generateMetadata({ params }: { params?: { slug?: string } }): Metadata {
@@ -98,7 +104,6 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="theme-color" content="#c9a84c" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icon.svg" sizes="512x512" />
       </head>

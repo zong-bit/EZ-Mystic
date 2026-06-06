@@ -1,0 +1,374 @@
+{
+  "results": [
+    {
+      "dir_name": "Best AI Brands",
+      "status": "success",
+      "response_code": 200,
+      "response_body": "<!doctype html>\n<html lang=\"en\">\n\n<head>\n  <!-- DYNAMIC SEO BLOCK -->\n  <title>Submit AI Tool to the Best AI Brands Directory</title>\n  <meta name=\"description\" content=\"Submit and launch your AI tool with our community. Share your AI product, resource, or service, and get featured in our AI tools directory at BestAIBrands.com!\" />\n  <meta property=\"og:type\" content=\"website\" />\n  <meta property=\"og:url\" content=\"https://bestaibrands.com/submit\" />\n  <meta property=\"og:title\" content=\"Submit AI ",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "There's An AI For That",
+      "status": "failed-403",
+      "response_code": 403,
+      "response_body": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta name=\"robots\" content=\"noindex,nofollow\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta http-equiv=\"content-security-policy\" content=\"default-src &#39;none&#39;; script-src &#39;nonce-EorssumEupSV27iNbnU13W&#39; &#39;unsafe-eval&#39; https://challenges.cloudflare.com; script-s",
+      "error": "Forbidden",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "Futurepedia",
+      "status": "success",
+      "response_code": 200,
+      "response_body": "<!DOCTYPE html><html lang=\"en\" class=\"monumentgrotesk_7004822e-module__KE8crG__variable outfit_9c593295-module__d2AA7a__variable\" data-scroll-behavior=\"smooth\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, minimum-scale=1, user-scalable=no\"/><link rel=\"preload\" as=\"image\" imageSrcSet=\"/_next/image?url=%2Fdiamond-lattice.webp&amp;w=640&amp;q=75 640w, /_next/image?url=%2Fdiamond-lattice.webp&amp;w=750&amp;q=75 750w, /_next/image?url=%2Fdiamond-lat",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "Product Hunt",
+      "status": "skipped-needs-signup",
+      "response_code": 0,
+      "response_body": "Requires manual signup",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Hunt List",
+      "status": "success",
+      "response_code": 200,
+      "response_body": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preload\" as=\"image\" href=\"/logo.png\"/><link rel=\"stylesheet\" href=\"/_next/static/css/a201ab4f59773877.css\" data-precedence=\"next\"/><link rel=\"stylesheet\" href=\"/_next/static/css/5728b3daf2c7cdd0.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack-57ce480ac104bb9a.js\"/><script src=\"/_next/static/",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Scout",
+      "status": "failed-520",
+      "response_code": 520,
+      "response_body": "<!DOCTYPE html><html lang=en-US><title>ERROR 520</title><meta charset=utf-8><meta content=\"width=device-width,initial-scale=1,shrink-to-fit=no\"name=viewport><style>*{box-sizing:border-box}body,html{height:100%}body{-webkit-text-size-adjust:100%;margin:0;padding:0;line-height:1.6;font-size:1rem;color:#222;background:#f6f6f8}body,button{font-family:-apple-system,system-ui,BlinkMacSystemFont,\"Segoe UI\",Helvetica,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"}a{color:#5e8cda;font-",
+      "error": "<!DOCTYPE html><html lang=en-US><title>ERROR 520</title><meta charset=utf-8><meta content=\"width=device-width,initial-scale=1,shrink-to-fit=no\"name=viewport><style>*{box-sizing:border-box}body,html{he",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Tools Directory (aidirectory.wiki)",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <title>Page Not Found - AI Directory</title>\r\n  \n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n\n<script src=\"https://cdn.tailwindcss.com\"></script>\n\n\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link href=\"https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap\" rel=\"stylesheet\"",
+      "error": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <title>Page Not Found - AI Directory</title>\r\n  \n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n\n<script ",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Tools Love",
+      "status": "failed-connection",
+      "response_code": 0,
+      "response_body": "",
+      "error": "HTTPSConnectionPool(host='aitools.love', port=443): Max retries exceeded with url: /submit (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1000)')))",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Tools Arena",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html>\r\n<html lang=\"en-US\">\r\n<head>\r\n<meta charset=\"UTF-8\">\r\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n\t <link rel=\"profile\" href=\"https://gmpg.org/xfn/11\"> \r\n\t \t\t\t<style>\t\t\t\t\t\t\t\t\n\t\t\t\t\tform#stickyelements-form input::-moz-placeholder{\n\t\t\t\t\t\tcolor: #4F4F4F;\n\t\t\t\t\t} \n\t\t\t\t\tform#stickyelements-form input::-ms-input-placeholder{\n\t\t\t\t\t\tcolor: #4F4F4F\t\t\t\t\t} \n\t\t\t\t\tform#stickyelements-form input::-webkit-input-placeholder{\n\t\t\t\t\t\tcolor: #4F4F4F\t\t\t\t\t}\n\t\t\t\t\tform#stickyele",
+      "error": "<!DOCTYPE html>\r\n<html lang=\"en-US\">\r\n<head>\r\n<meta charset=\"UTF-8\">\r\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n\t <link rel=\"profile\" href=\"https://gmpg.org/xfn/11\"> \r\n\t \t\t",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Tools Guru",
+      "status": "failed-405",
+      "response_code": 405,
+      "response_body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"robots\" content=\"noindex,nofollow,noarchive\" />\n    <title>An Error Occurred: Method Not Allowed</title>\n    <style>body { background-color: #fff; color: #222; font: 16px/1.5 -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif; margin: 0; }\n.container { margin: 30px; max-width: 600px; }\nh1 { color: #dc3545; font-size: 24px; }\nh2 { font-size: 18px; }</style>\n</head>\n<body>\n<div class=",
+      "error": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"robots\" content=\"noindex,nofollow,noarchive\" />\n    <title>An Error Occurred: Method Not Allowed</title>\n    <style>body { ba",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Tools List",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html>\n<html lang=\"en-US\">\n<head>\n\t<meta charset=\"UTF-8\" />\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n\t<link rel=\"pingback\" href=\"https://aitoolslist.io/xmlrpc.php\" />\n\n\t<script type=\"text/javascript\">\n\t\tdocument.documentElement.className = 'js';\n\t</script>\n\t\n\t<title>404 Not Found | aitoolslist.io</title>\n<meta name='robots' content='max-image-preview:large' />\n<script type=\"text/javascript\">\n\t\t\tlet jqueryParams=[],jQuery=function(r){return jqueryParams=[...jqueryParams,r],j",
+      "error": "<!DOCTYPE html>\n<html lang=\"en-US\">\n<head>\n\t<meta charset=\"UTF-8\" />\n<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n\t<link rel=\"pingback\" href=\"https://aitoolslist.io/xmlrpc.php\" />\n\n\t<script t",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Top Tools",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html>\n<html lang=\"en-US\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover\" />\t\t\t<title>\n\t\t\tPage not found | AITopTools\t\t</title>\n\t\t<meta name='robots' content='noindex, follow' />\n\n\t<!-- This site is optimized with the Yoast SEO Premium plugin v26.5 (Yoast SEO v26.5) - https://yoast.com/wordpress/plugins/seo/ -->\n\t<meta property=\"og:locale\" content=\"en_US\" />\n\t<meta property=\"og:title\" content=\"Page not found | AI",
+      "error": "<!DOCTYPE html>\n<html lang=\"en-US\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover\" />\t\t\t<title>\n\t\t\tPage not found | AITopTool",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Tools Magazine",
+      "status": "success",
+      "response_code": 200,
+      "response_body": "<!DOCTYPE html>\n<html lang=\"en-US\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\t<link rel=\"profile\" href=\"https://gmpg.org/xfn/11\"> \n\t<link rel=\"preload\" href=\"https://aitoolsmagazine.com/wp-content/astra-local-fonts/barlow-semi-condensed/wlpigxjLBV1hqnzfr-F8sEYMB0Yybp0mudRfw6-_B2sl.woff2\" as=\"font\" type=\"font/woff2\" crossorigin><link rel=\"preload\" href=\"https://aitoolsmagazine.com/wp-content/astra-local-font",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Pulse",
+      "status": "failed-405",
+      "response_code": 405,
+      "response_body": "",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AiDirs",
+      "status": "success",
+      "response_code": 200,
+      "response_body": "<!DOCTYPE html><html lang=\"en\" class=\"dark\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/78ba7c281b9dc9ed.css\" data-precedence=\"next\"/><link rel=\"stylesheet\" href=\"/_next/static/css/dc530eb19fbaf7a2.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack-d162d174395c6ce1.js\"/><script src=\"/_next/static/chunks/72c85f58-693079cb605f2fd5.js\"",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Library",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/1b15c672da5f0b88.css?dpl=dpl_8jUua1PXpzEWisgDRPoqpSqG9q4X\" data-precedence=\"next\"/><link rel=\"stylesheet\" href=\"/_next/static/css/d197d6d36fcc837d.css?dpl=dpl_8jUua1PXpzEWisgDRPoqpSqG9q4X\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack-ac6d318fca6aa226.js?dpl=",
+      "error": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/1b15c672da5f0b88.css?dpl",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Toolz Dir",
+      "status": "failed-405",
+      "response_code": 405,
+      "response_body": "",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "ALL AI TOOLS .TECH",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html>\n<html lang=\"en\" dir=\"ltr\">\n    <head>\n        <title>Not found - AllAiTools - Discover & Compare the Best AI Tools</title>\n        <base href=\"https://allaitools.tech/\">\n        <meta charset=\"UTF-8\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\" />\n        <meta name=\"2ohDZ\" content=\"2ohDZ\" />\n\n        \n                \n        <!-- Open graph / Twitter markup -->\n<meta property=\"og:type\" content=\"website\" />\n<meta property=\"og:url",
+      "error": "<!DOCTYPE html>\n<html lang=\"en\" dir=\"ltr\">\n    <head>\n        <title>Not found - AllAiTools - Discover & Compare the Best AI Tools</title>\n        <base href=\"https://allaitools.tech/\">\n        <meta ",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AiToolex",
+      "status": "success",
+      "response_code": 200,
+      "response_body": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/7f0fd2e1fc937f0a.css\" data-precedence=\"next\"/><link rel=\"stylesheet\" href=\"/_next/static/css/1645644cc071cf83.css\" data-precedence=\"next\"/><link rel=\"stylesheet\" href=\"/_next/static/css/d81ca9de2b96f7e1.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack-5ff27",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Tool Trek",
+      "status": "success",
+      "response_code": 200,
+      "response_body": "<!DOCTYPE html><html lang=\"en\" class=\"light\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/1d0b89b7736924a1.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack-a64c3a5a4a2e6afe.js\"/><script src=\"/_next/static/chunks/5e2b9c5e-26e6afc86e04224e.js\" async=\"\"></script><script src=\"/_next/static/chunks/666-757ccadfdc3a9a9c.js\" async=\"\"></scr",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Tool List (aitoollist.org)",
+      "status": "failed-405",
+      "response_code": 405,
+      "response_body": "<html>\n<head><title>405 Not Allowed</title></head>\n<body bgcolor=\"white\">\n<center><h1>405 Not Allowed</h1></center>\n</body>\n</html>",
+      "error": "<html>\n<head><title>405 Not Allowed</title></head>\n<body bgcolor=\"white\">\n<center><h1>405 Not Allowed</h1></center>\n</body>\n</html>",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Journey",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta content=\"width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1\" name=\"viewport\" class=\"jsx-1201167754\"/><meta name=\"msvalidate.01\" content=\"4F9C4058B6FEE7D269D86FEC882B6844\" class=\"jsx-1201167754\"/><meta name=\"p:domain_verify\" content=\"24305fa4e9da9ab1a7534d859b7bad0f\" class=\"jsx-1201167754\"/><meta name=\"linksindexer-site-verification\" content=\"4c65e03bf31fb38013a16443c44044e473555550cf8662870549eb",
+      "error": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta content=\"width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1, maximum-scale=1\" name=\"viewport\" class=\"jsx-1201167754",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AiToolz",
+      "status": "failed-403",
+      "response_code": 403,
+      "response_body": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta name=\"robots\" content=\"noindex,nofollow\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta http-equiv=\"content-security-policy\" content=\"default-src &#39;none&#39;; script-src &#39;nonce-UOUVD7VnKSWe32BfMYOciN&#39; &#39;unsafe-eval&#39; https://challenges.cloudflare.com; script-s",
+      "error": "Forbidden",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Parabellum",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html>\n<!--[if IE 8]>\n<html class=\"no-js g1-off-outside lt-ie10 lt-ie9\" id=\"ie8\" lang=\"en-US\"><![endif]-->\n<!--[if IE 9]>\n<html class=\"no-js g1-off-outside lt-ie10\" id=\"ie9\" lang=\"en-US\"><![endif]-->\n<!--[if !IE]><!-->\n<html class=\"no-js g1-off-outside\" lang=\"en-US\"><!--<![endif]-->\n<head>\n\t<meta charset=\"UTF-8\"/>\n\t<link rel=\"profile\" href=\"https://gmpg.org/xfn/11\" />\n\t<link rel=\"pingback\" href=\"https://aiparabellum.com/xmlrpc.php\"/>\n\n\t<meta name='robots' content='noindex, follow' />\n\n<",
+      "error": "<!DOCTYPE html>\n<!--[if IE 8]>\n<html class=\"no-js g1-off-outside lt-ie10 lt-ie9\" id=\"ie8\" lang=\"en-US\"><![endif]-->\n<!--[if IE 9]>\n<html class=\"no-js g1-off-outside lt-ie10\" id=\"ie9\" lang=\"en-US\"><![e",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "Altern",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html>\r\n<html lang=\"en\" class=\"scroll-smooth\">\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n  <title>Page Not Found - Altern</title>\r\n\r\n  \r\n<link rel=\"icon\" type=\"image/png\" href=\"https://cdn.altern.ai/favicon/favicon-96x96.png\" sizes=\"96x96\" />\r\n<link rel=\"icon\" type=\"image/svg+xml\" href=\"https://cdn.altern.ai/favicon/favicon.svg\" />\r\n<link rel=\"shortcut icon\" href=\"https://cdn.altern.ai/favicon/favicon.ico\" />\r\n<link ",
+      "error": "<!DOCTYPE html>\r\n<html lang=\"en\" class=\"scroll-smooth\">\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n  <title>Page Not Found - Alter",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "All Things AI",
+      "status": "failed-connection",
+      "response_code": 0,
+      "response_body": "",
+      "error": "HTTPSConnectionPool(host='allthingsai.com', port=443): Max retries exceeded with url: /submit (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x703cfe3108c0>: Failed to resolve 'allthingsai.com' ([Errno -3] Temporary failure in name resolution)\"))",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Hubs",
+      "status": "success",
+      "response_code": 200,
+      "response_body": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/07ebae2bca073178.css\" data-precedence=\"next\"/><link rel=\"stylesheet\" href=\"/_next/static/css/a534801455af56a0.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack-e0567b49f1d92f50.js\"/><script src=\"/_next/static/chunks/b7ddffa2-35f32d87f8a0ad7e.js\" async=\"\"></s",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Resource Pro",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html><!--MT2pmWnBtPWzKClzlAJQL--><html lang=\"en\" class=\"__variable_6bee3b\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preload\" href=\"/_next/static/media/0484562807a97172-s.p.woff2\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"/><link rel=\"preload\" href=\"/_next/static/media/8888a3826f4a3af4-s.p.woff2\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"/><link rel=\"preload\" href=\"/_next/static/media/b957ea75a84b6ea7-s.p.woff2\" as=\"fon",
+      "error": "<!DOCTYPE html><!--MT2pmWnBtPWzKClzlAJQL--><html lang=\"en\" class=\"__variable_6bee3b\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preloa",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Respo",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html>\r\n<html lang=\"en-US\">\r\n<head><style>img.lazy{min-height:1px}</style><link href=\"https://airespo.com/wp-content/plugins/w3-total-cache/pub/js/lazyload.min.js\" as=\"script\">\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <meta name='robots' content='noindex, follow' />\n<script id=\"cookieyes\" type=\"text/javascript\" src=\"https://cdn-cookieyes.com/client_data/fa3c79f80632ae2d2859f8b5/script.js\"></script>\n\t<!-- This site is op",
+      "error": "<!DOCTYPE html>\r\n<html lang=\"en-US\">\r\n<head><style>img.lazy{min-height:1px}</style><link href=\"https://airespo.com/wp-content/plugins/w3-total-cache/pub/js/lazyload.min.js\" as=\"script\">\r\n    <meta cha",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Corner",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html><html><head><meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>404 - Page not found: &#x2F;submit | Nuxt</title>\n<style>@import\"https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap\";*{box-sizing:border-box;font-display:swap;font-family:IBM Plex Sans,serif;margin:0",
+      "error": "<!DOCTYPE html><html><head><meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>404 - Page not found: &#x2F;submit | Nuxt</title>\n<style>@import\"https://f",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AIDir",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <title>Page Not Found - AIDir</title>\r\n  \n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n\n<script src=\"https://cdn.tailwindcss.com\"></script>\n\n\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link href=\"https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto+Mono:ita",
+      "error": "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <title>Page Not Found - AIDir</title>\r\n  \n<meta charset=\"utf-8\" />\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\n\n<script src=\"ht",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI PEDIA HUB",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html>\n<html style=\"height:100%\">\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\" />\n<title> 404 Not Found\r\n</title><style>@media (prefers-color-scheme:dark){body{background-color:#000!important}}</style></head>\n<body style=\"color: #444; margin:0;font: normal 14px/20px Arial, Helvetica, sans-serif; height:100%; background-color: #fff;\">\n<div style=\"height:auto; min-height:100%; \">     <div style=\"text-align: center; width:800px; margin-left: ",
+      "error": "<!DOCTYPE html>\n<html style=\"height:100%\">\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\" />\n<title> 404 Not Found\r\n</title><style>@media (prefers-color-s",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Tools Pin",
+      "status": "failed-400",
+      "response_code": 400,
+      "response_body": "<?xml version='1.0' encoding='UTF-8'?><Error><Code>InvalidArgument</Code><Message>Invalid argument.</Message><Details>POST object expects Content-Type multipart/form-data</Details></Error>",
+      "error": "<?xml version='1.0' encoding='UTF-8'?><Error><Code>InvalidArgument</Code><Message>Invalid argument.</Message><Details>POST object expects Content-Type multipart/form-data</Details></Error>",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AISuperSmart",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html>\n<html lang=\"en-US\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\t<link rel=\"profile\" href=\"https://gmpg.org/xfn/11\"> \n\t<link rel=\"preload\" as=\"font\" href=\"https://fonts.gstatic.com/s/montserrat/v26/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2\" data-wpacu-preload-font=\"1\" crossorigin>\n<link rel=\"preload\" as=\"font\" href=\"https://fonts.gstatic.com/s/dmsans/v14/rP2Yp2ywxg089UriI5-g4vlH9VoD8Cmcqbu0-K6z9mXg",
+      "error": "<!DOCTYPE html>\n<html lang=\"en-US\" prefix=\"og: https://ogp.me/ns#\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\t<link rel=\"profile\" href=\"https:",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI-Tools Directory",
+      "status": "failed-405",
+      "response_code": 405,
+      "response_body": "",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Tools Explore (aiex.me)",
+      "status": "failed-403",
+      "response_code": 403,
+      "response_body": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=Edge\"><meta name=\"robots\" content=\"noindex,nofollow\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta http-equiv=\"content-security-policy\" content=\"default-src &#39;none&#39;; script-src &#39;nonce-2MwyUebembD9vxYQJUTWh5&#39; &#39;unsafe-eval&#39; https://challenges.cloudflare.com; script-s",
+      "error": "Forbidden",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Tools For Me",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "The deployment could not be found on Vercel.\n\nDEPLOYMENT_NOT_FOUND\n\nsfo1::qbplx-1780712936368-fc4b9795bb47\n",
+      "error": "The deployment could not be found on Vercel.\n\nDEPLOYMENT_NOT_FOUND\n\nsfo1::qbplx-1780712936368-fc4b9795bb47\n",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "All The AI Tools",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/3f21934d924838f7.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack-e2d9271cedb717d6.js\"/><script src=\"/_next/static/chunks/fd9d1056-c5e1b00faccb7f43.js\" async=\"\"></script><script src=\"/_next/static/chunks/3526-eb6fb0366ea7fa12.js\" async=\"\"><",
+      "error": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/3f21934",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Tools Marketer",
+      "status": "success",
+      "response_code": 200,
+      "response_body": "<!DOCTYPE html><html lang=\"en-US\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>3,500+ AI Tools Directory - Find the Best AI Software (2026)</title><link rel=\"preload\" href=\"https://aitoolsmarketer.com/wp-content/uploads/2024/10/ai-tools-logo-small.png\" as=\"image\" fetchpriority=\"high\"><link rel=\"preload\" href=\"https://aitoolsmarketer.com/wp-content/uploads/2026/05/cosupport-scaled.png\" as=\"image\" imagesrcset=\"https://aitoolsmarketer.com/wp",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "Productivity Directory",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "404 page not found",
+      "error": "404 page not found",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "AI Tools Submit",
+      "status": "success",
+      "response_code": 200,
+      "response_body": "\n\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Verification</title>\n    <meta name=\"robots\" content=\"noindex, follow\">\n\n    <!-- TAILWIND -->\n    <script src=\"https://cdn.tailwindcss.com\"></script>\n\n    <style>\n        @keyframes fadeCard {\n            from { opacity: 0; transform: translateY(15px) scale(0.95); }\n            to { opacity: 1; transform: translateY(0) scale(1); }\n       ",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "HyzenPro",
+      "status": "failed-405",
+      "response_code": 405,
+      "response_body": "",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "SimplifyAITools",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<!doctype html>\n<html lang=\"en-US\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\">\n\t<link rel=\"profile\" href=\"https://gmpg.org/xfn/11\">\n\t<link rel=\"preconnect\" href=\"https://cdn-cookieyes.com\" crossorigin>\n<meta name='robots' content='noindex, follow' />\n<script id=\"cookieyes\" type=\"text/javascript\" src=\"https://cdn-cookieyes.com/client_data/ec1c6fcfca5e446e70dd3ecf/script.js\"></script>    <script id=\"sa",
+      "error": "<!doctype html>\n<html lang=\"en-US\">\n<head>\n\t<meta charset=\"UTF-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\">\n\t<link rel=\"profile\" hre",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "List Your Tool (Organic Pilot)",
+      "status": "success",
+      "response_code": 200,
+      "response_body": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/2473c16c0c2f6b5f.css\" data-precedence=\"next\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/8953a6e24282c1ab.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/faf4a0202735b81c.js\"/><script src=\"/_next/static/chunks/97307d3dd5a559a9.js\" async=\"\"></script><scri",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "StartupHub",
+      "status": "success",
+      "response_code": 200,
+      "response_body": "<!DOCTYPE html><html lang=\"en\" class=\"__variable_f367f3\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/081a0afca5a9bd20.css\" data-precedence=\"next\"/><link rel=\"stylesheet\" href=\"/_next/static/css/5b8453975d40ca2a.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack-52b28382c61e4f19.js\"/><script src=\"/_next/static/chunks/4bd1b696-f21c412",
+      "error": "",
+      "submitted_at": ""
+    },
+    {
+      "dir_name": "10 Words Directory",
+      "status": "failed-404",
+      "response_code": 404,
+      "response_body": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>nginx/1.29.8</center>\r\n<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML=\"window.__CF$cv$params={r:'a073fe212a4b5730',t:'MTc4MDcxMzAwMQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);\";b.getElement",
+      "error": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body>\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>nginx/1.29.8</center>\r\n<script>(function(){function c(){var b=a.contentDocument||a.conte",
+      "submitted_at": ""
+    }
+  ],
+  "timestamp": "2026-06-06T10:30:01+0800",
+  "dry_run": false
+}
