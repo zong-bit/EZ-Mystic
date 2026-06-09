@@ -312,6 +312,163 @@ select.input-field {
 }
 
 /* =========================================
+   Pricing Page — 定价页转化优化
+   （CSS-only，不影响JS逻辑）
+   ========================================= */
+
+/* --- 定价页卡片容器（用于范围选择器）--- */
+.pricing-page-section {
+  position: relative;
+}
+
+/* --- 定价卡片通用 hover 效果 --- */
+.pricing-page-section .pricing-card {
+  transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.pricing-page-section .pricing-card:hover {
+  border-color: rgba(212, 175, 55, 0.3);
+  transform: translateY(-4px);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    0 0 24px rgba(212, 175, 55, 0.08);
+}
+
+/* --- 推荐年卡卡片（带 Best Value badge）--- */
+.pricing-page-section .pricing-card-recommended {
+  border-color: rgba(212, 175, 55, 0.35) !important;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 40px rgba(212, 175, 55, 0.12) !important;
+}
+
+.pricing-page-section .pricing-card-recommended:hover {
+  border-color: rgba(212, 175, 55, 0.6) !important;
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 60px rgba(212, 175, 55, 0.2) !important;
+}
+
+/* --- Best Value badge 增强 --- */
+.pricing-page-section .badge-best-value {
+  font-size: 12px !important;
+  padding: 4px 16px !important;
+  background: linear-gradient(135deg, #D4A853, #B8962E) !important;
+  box-shadow: 0 2px 12px rgba(212, 168, 83, 0.4) !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* --- CTA 按钮增强（免费/月付的 glass 按钮）--- */
+.pricing-page-section .cta-btn-glass {
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: var(--color-primary) !important;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.pricing-page-section .cta-btn-glass:hover {
+  background: rgba(212, 175, 55, 0.18) !important;
+  border-color: rgba(212, 175, 55, 0.6) !important;
+  color: var(--color-primary-hover) !important;
+  box-shadow: 0 0 24px rgba(212, 168, 83, 0.2);
+}
+
+.pricing-page-section .cta-btn-glass:active {
+  transform: scale(0.97);
+}
+
+/* --- 推荐年卡 CTA 按钮增强（已有的 btn-primary）--- */
+.pricing-page-section .cta-btn-gold {
+  background: linear-gradient(135deg, #D4A853, #C49A3C) !important;
+  box-shadow: 0 0 28px rgba(212, 168, 83, 0.3) !important;
+}
+
+.pricing-page-section .cta-btn-gold:hover {
+  box-shadow: 0 0 48px rgba(212, 168, 83, 0.45) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+}
+
+/* --- 省钱标签增强 --- */
+.pricing-page-section .savings-label {
+  color: var(--color-primary) !important;
+  font-size: 14px !important;
+  animation: pricing-savings-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pricing-savings-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+
+/* --- FAQ 卡片交互增强 --- */
+.pricing-page-section .faq-item {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pricing-page-section .faq-item:hover {
+  border-color: rgba(212, 175, 55, 0.2);
+}
+
+/* --- 底部 CTA 区域增强 --- */
+.pricing-page-section .bottom-cta-card {
+  border-color: rgba(212, 175, 55, 0.2);
+}
+
+.pricing-page-section .bottom-cta-card:hover {
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+/* --- 底部 CTA 按钮增强 --- */
+.pricing-page-section .cta-btn-bottom {
+  animation: cta-glow-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes cta-glow-pulse {
+  0%, 100% { box-shadow: 0 0 24px rgba(212, 168, 83, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(212, 168, 83, 0.4); }
+}
+
+/* --- 信任条增强 --- */
+.pricing-page-section .trust-bar {
+  transition: transform 0.3s ease;
+}
+
+.pricing-page-section .trust-bar:hover {
+  transform: scale(1.03);
+}
+
+/* --- Feature 对比增强（✓ vs —）--- */
+.pricing-page-section .feature-included {
+  transition: color 0.25s ease;
+}
+
+.pricing-page-section .feature-included:hover {
+  color: var(--color-primary-hover);
+}
+
+/* --- 交付物区块增强 --- */
+.pricing-page-section .deliverables-box {
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.pricing-page-section .deliverables-box:hover {
+  background: rgba(212, 175, 55, 0.08);
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+/* --- License CTA 区域增强 --- */
+.pricing-page-section .license-cta-card {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pricing-page-section .license-cta-card:hover {
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+/* =========================================
    Blog System — 博客系统样式
    ========================================= */
 

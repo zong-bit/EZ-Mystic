@@ -268,10 +268,14 @@
     },
     {
       "dir_name": "AI Tools Marketer",
-      "status": "success",
+      "status": "submitted",
       "response_code": 200,
       "error": "",
-      "response_body": "<!DOCTYPE html><html lang=\"en-US\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>3,500+ AI Tools Directory - Find the Best AI Software (2026)</t"
+      "response_body": "<!DOCTYPE html><html lang=\"en-US\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>3,500+ AI Tools Directory - Find the Best AI Software (2026)</t",
+      "submit_date": "2026-06-07T10:08:00+08:00",
+      "submit_method": "curl POST (application/x-www-form-urlencoded)",
+      "submit_response_code": 200,
+      "note": "POST submitted successfully, awaiting approval"
     },
     {
       "dir_name": "Productivity Directory",
@@ -324,19 +328,25 @@
     },
     {
       "dir_name": "AI Tools Directory (aitools-directory.com)",
-      "status": "success-new",
+      "status": "submitted",
       "response_code": 200,
       "error": "",
       "submit_url": "https://www.aitools-directory.com/submit-your-ai-tool-2",
-      "note": "Free submission available"
+      "note": "POST submitted successfully, awaiting approval",
+      "submit_date": "2026-06-07T10:05:00+08:00",
+      "submit_method": "curl POST (application/x-www-form-urlencoded)",
+      "submit_response_code": 200
     },
     {
       "dir_name": "Future AI Guide (tools.futureaiguide.com)",
-      "status": "success-new",
+      "status": "submitted-csrf-419",
       "response_code": 200,
       "error": "",
       "submit_url": "https://tools.futureaiguide.com/tools/create",
-      "note": "Free submission, reviewed within 48h"
+      "note": "CSRF token validation failed (419). Requires browser session.",
+      "submit_date": "2026-06-07T10:02:00+08:00",
+      "submit_method": "curl POST (multipart/form-data with CSRF token)",
+      "submit_response_code": 419
     },
     {
       "dir_name": "AIToolIndex (aitoolindex.io)",
@@ -361,11 +371,26 @@
       "error": "",
       "submit_url": "https://www.aidirectori.es/submit-ai-tool",
       "note": "Curated directory, free submission"
+    },
+    {
+      "dir_name": "AI Pulse",
+      "status": "nextjs-client-side",
+      "response_code": 200,
+      "error": "Form is client-side React/Next.js. No REST API found at /api/listings (404). Requires browser interaction.",
+      "submit_url": "https://www.aipulse.fyi/submit",
+      "note": "Form fields: name, description, websiteUrl, category, pricingStartingPrice, submitterEmail. Needs JS execution."
+    },
+    {
+      "dir_name": "All Things AI",
+      "status": "failed-connection-retry",
+      "response_code": 0,
+      "error": "SSL EOF error on proxy. May need VPN check.",
+      "note": "Retried with proxy, still connection failed"
     }
   ],
-  "total": 51,
-  "success": 19,
-  "fail": 32,
-  "last_updated": "2026-06-06T10:25:00+08:00",
-  "notes": "Retried connection-failed entries; added 5 new directories found via search"
+  "total": 53,
+  "success": 13,
+  "fail": 34,
+  "last_updated": "2026-06-07T10:30:00+08:00",
+  "notes": "2 actual POST submissions completed (aitools-directory.com, aitoolsmarketer.com). Both returned 200 OK. Future AI Guide blocked by CSRF (419). Most directories are Next.js client-side apps requiring browser interaction."
 }

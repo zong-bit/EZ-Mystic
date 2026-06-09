@@ -28,7 +28,7 @@ function verifySignature(rawBody: string, signature: string | null): boolean {
 }
 
 /**
- * Detect FateWise plan from Gumroad product name or permalink.
+ * Detect FateWise plan from Gumroad product permalink or name.
  */
 function detectFatewisePlan(
   productName: string,
@@ -41,10 +41,14 @@ function detectFatewisePlan(
     (variant || '').toLowerCase(),
   ].join(' ')
 
-  if (lower.includes('ultimate') || lower.includes('premium') || lower.includes('gebxj')) {
+  // Explicit product ID checks (permalink contains the Gumroad product slug)
+  if (lower.includes('gebxj') || lower.includes('ultimate')) {
     return 'premium-lifetime'
   }
-  // Default: pro-monthly (maps to lcrujk product)
+  if (lower.includes('wejaix')) {
+    return 'pro-yearly'
+  }
+  // lcrujk = Pro Monthly (default)
   return 'pro-monthly'
 }
 

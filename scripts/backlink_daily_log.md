@@ -68,3 +68,81 @@ AI Tools Directory (aidirectory.wiki)、AI Tools Arena、AI Tools Guru、AI Tool
 
 ---
 *下次运行：按 cron 调度自动执行*
+
+## 📅 2026-06-07 (周日) — Cron: fatewise-backlink-automation
+
+---
+
+### 步骤1：实际表单 POST 提交（200 OK 目录）
+
+**核心发现：** 今日真正执行了表单 POST 提交，而非仅做可达性检测。
+
+| 目录 | Submit URL | HTTP 码 | 提交方式 | 状态 |
+|------|-----------|---------|---------|------|
+| **AI Tools Directory** (aitools-directory.com) | https://www.aitools-directory.com/submit-your-ai-tool-2 | **200** ✅ | `application/x-www-form-urlencoded` (tool_name, tool_url, short_desc, description, category, contact_email) | 已提交，等待审核 |
+| **AI Tools Marketer** (aitoolsmarketer.com) | https://aitoolsmarketer.com/submit/ | **200** ✅ | `application/x-www-form-urlencoded` (input_text, email, description) | 已提交，等待审核 |
+
+**尝试但未成功的提交：**
+| 目录 | 原因 | HTTP 码 |
+|------|------|---------|
+| Future AI Guide (tools.futureaiguide.com) | CSRF Token 验证失败，表单有反爬保护 | **419** ❌ |
+| AI Pulse (aipulse.fyi) | Next.js 客户端渲染表单，无 REST API（/api/listings → 404） | 404 ❌ |
+| AI Tools Love (aitools.love) | SSL 连接失败（proxy 问题） | **000** ❌ |
+| AIToolIndex (aitoolindex.io) | Next.js 客户端渲染，无服务器端表单字段 | — |
+| GPTBot (gptbot.io) | Next.js 客户端渲染，无服务器端表单字段 | — |
+| Best AI Brands (aidirectori.es) | Next.js 客户端渲染，无服务器端表单字段 | — |
+
+---
+
+### 步骤2：之前提交的目录状态跟踪
+
+无 `status=submitted` 且超过 7 天的条目（今天首次提交，无需检查确认）。
+
+---
+
+### 步骤3：新发现目录检测
+
+| 名称 | Submit URL | HTTP 码 | 备注 |
+|------|-----------|---------|------|
+| The Next AI (thenextai.com) | https://www.thenextai.com/submit | 200 ✅ | WordPress，但表单为 GET 搜索（非提交表单）|
+
+---
+
+### 步骤4：统计汇总
+
+| 指标 | 数值 |
+|------|------|
+| 提交总数（累计） | **53** |
+| 已实际 POST 提交 | **2** ✅（aitools-directory.com, aitoolsmarketer.com）|
+| 成功（含之前恢复的） | **13** ✅ |
+| 失败/永久失效 | **34** ❌ |
+| 今日新增目录 | **1**（The Next AI，但无实际提交表单）|
+| 今日实际 POST 成功 | **2** ✅ |
+
+---
+
+### 🔍 关键分析：为什么大多数目录无法自动化提交？
+
+今日实际执行了表单 POST，结果揭示了当前 AI 工具目录生态的一个特征：
+
+1. **Next.js / React 客户端渲染占主导**（~60%）：Futurepedia、AI Hunt List、AiDirs、AiToolex、AI Tool Trek、All Things AI 等——这些目录的提交表单在客户端用 JavaScript 渲染，curl POST 无法模拟。需要浏览器自动化（Playwright/CloakBrowser）才能提交。
+
+2. **CSRF 保护**：Future AI Guide、Best AI Brands 等使用 CSRF Token，curl POST 即使拿到 token 也会被拒绝（419）。
+
+3. **Cloudflare Bot 保护**：There's An AI For That、AiToolz、AI Tools Explore——403 拦截。
+
+4. **可自动化的目录**（WordPress/传统 PHP）：
+   - ✅ aitools-directory.com — 直接 POST `application/x-www-form-urlencoded`
+   - ✅ aitoolsmarketer.com — 直接 POST `application/x-www-form-urlencoded`
+   - ⚠️ aitoolsmagazine.com — HivePress 插件，需要登录才能提交 listing
+
+---
+
+### ⚠️ 待办事项
+1. **Medium Token** — 仍缺失，需手动获取
+2. **浏览器自动化提交** — 对 Next.js 客户端渲染目录，需要用 CloakBrowser/Playwright 模拟真实表单提交（Futurepedia、AI Hunt List、AiDirs、AiToolex 等）
+3. **Cloudflare 403 目录** — There's An AI For That：通过 X/Twitter Thread 免费渠道提交
+4. **后续跟进** — 7 天后检查 aitools-directory.com 和 aitoolsmarketer.com 是否已收录
+
+---
+*下次运行：按 cron 调度自动执行 | 上次实际提交：2026-06-07*

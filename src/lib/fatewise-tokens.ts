@@ -35,6 +35,13 @@ export const FATEWISE_PLANS = {
     expiryDays: 30,
     plan: 'pro' as const,
   },
+  'pro-yearly': {
+    name: 'Destiny Book Pro Yearly',
+    price: 79.99,
+    maxRequests: 500,
+    expiryDays: 365,
+    plan: 'pro' as const,
+  },
   'premium-lifetime': {
     name: 'Ultimate Destiny Toolkit',
     price: 29.99,
