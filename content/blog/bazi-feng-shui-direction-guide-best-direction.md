@@ -1,10 +1,11 @@
 ---
-title: "Bazi & Feng Shui Direction Guide: How to Choose Your Best Direction"
-slug: "bazi-feng-shui-direction-guide-best-direction"
-date: "2026-05-28"
+title: "Bazi Lucky Direction — Find Your Wealth, Career & Health Direction by Element Type"
+slug: "bazi-lucky-direction-guide"
+date: "2026-06-11"
 author: "FateWise Team"
-description: "Your Bazi chart reveals your favorable and unfavorable directions. Learn how to use Feng Shui directions for career, love, and health success."
-tags: ["bazi", "feng shui", "directions", "chinese astrology", "lucky direction"]
+description: "Find your lucky direction in Bazi astrology. Learn how each of the 5 elements (Wood, Fire, Earth, Metal, Water) maps to specific directions — East, South, West, North — and how to use your favorable direction for wealth, career success, health, and relationships."
+tags: ["bazi", "feng shui", "directions", "chinese astrology", "lucky direction", "favorable directions bazi", "bazi wealth direction"]
+keywords: ["bazi lucky direction", "bazi feng shui direction", "favorable directions bazi", "bazi wealth direction", "best feng shui direction by element", "lucky direction calculator bazi"]
 ---
 
 # Bazi & Feng Shui Direction Guide: How to Choose Your Best Direction
@@ -103,10 +104,38 @@ To find YOUR best directions, calculate your Bazi chart first, then:
 3. **Travel direction**: Your favorable Fortune Cycle direction this year
 4. **Home entrance**: Your Day Master's support element direction
 
+## Related: Lucky Colors and Lucky Numbers
+
+Your lucky directions work alongside your [lucky colors](/blog/daily-lucky-colors-for-your-bazi-chart) and [lucky numbers](/blog/chinese-numerology-lucky-numbers-bazi) to form a complete elemental support system. When all three align — the right direction, colors, and numbers — you're creating maximum elemental harmony in your life.
+
 ## Get Your Personalized Directions
 
 **👉 Calculate your chart at [bornchart.app/bazi](https://bornchart.app/bazi)** — your free chart includes personalized direction recommendations based on your Day Master and element balance.
 
 ---
 
-*By FateWise Team | Updated May 28, 2026*
+## Frequently Asked Questions
+
+**How do I find my lucky direction in Bazi?**
+Your lucky (favorable) directions are determined by your Day Master and the Five Elements in your chart. Each element corresponds to a specific direction: Wood → East, Fire → South, Earth → Center/Southwest/Northeast, Metal → West, Water → North. The element your chart needs most points to your favorable direction.
+
+**What's the difference between Bazi directions and Feng Shui directions?**
+Bazi directions are personalized to your birth chart — they're calculated from your unique Day Master and element balance. Feng Shui directions are more general, based on the Bagua map of a specific space. The two work together: Bazi tells you which direction is favorable for YOU, and Feng Shui helps you orient your physical space accordingly.
+
+**Can my lucky direction change over time?**
+Your baseline favorable directions are determined by your birth chart and remain relatively stable. However, during different 10-year Fortune Cycles (大运), certain directions may become more or less favorable. The current year's energy also plays a role — in 2026, the Fire Horse year amplifies South-facing energy for everyone.
+
+**What if my favorable direction conflicts with practical constraints?**
+If you can't align your bed or desk to your ideal direction, don't worry. Even small adjustments help — facing your favorable direction for 15-30 minutes during important work, or keeping a small object of that direction's element (a green plant for East/Wood) on your desk. The key is intention, not perfection.
+
+**Which direction is best for wealth in Bazi?**
+The wealth direction depends on your Day Master. For a Wood person, South (Fire) generates Earth which is your wealth element — so Southeast (Wood-wealth corner in Feng Shui combined with South's fire energy) is powerful. For Water people, the Southeast (Wood feeds your wealth element Fire). The most reliable approach is to calculate your full chart to identify your specific Wealth Star direction.
+
+**How accurate are Bazi directions compared to Feng Shui compass methods?**
+They complement each other. Compass-based Feng Shui (like Eight Mansions or Flying Stars) uses the building's orientation as primary. Bazi directions use your personal chart as primary. The most precise approach combines both: orient your space according to Feng Shui principles, then prioritize personal activities (sleeping, working) toward your Bazi-favorable direction within that space.
+
+---
+
+*By FateWise Team | Updated June 11, 2026*
+
+*This article is for educational purposes. Direction guidance based on Bazi and Feng Shui is a traditional Chinese cultural practice and should be viewed as a complementary wellness approach, not medical or professional advice.*

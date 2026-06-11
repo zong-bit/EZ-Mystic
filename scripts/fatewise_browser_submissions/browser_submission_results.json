@@ -1,0 +1,120 @@
+{
+  "timestamp": "2026-06-11T23:59:16.841820",
+  "product": {
+    "name": "FateWise",
+    "url": "https://bornchart.app",
+    "description": "AI-powered Bazi (Four Pillars of Destiny) chart analysis platform. Get your free destiny reading with Chinese astrology, Five Elements analysis, and AI deep interpretation.",
+    "category": "AI / Wellness / Spirituality",
+    "tags": [
+      "AI",
+      "astrology",
+      "bazi",
+      "chinese astrology",
+      "destiny",
+      "wellness"
+    ],
+    "logo_url": "https://bornchart.app/logo.png"
+  },
+  "results": [
+    {
+      "dir_name": "There's An AI For That",
+      "url": "https://theresanaiforthat.com/submit/",
+      "timestamp": "2026-06-11T23:44:50.178347",
+      "status": "error-TimeoutError",
+      "error": "Page.screenshot: Timeout 30000ms exceeded.\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n"
+    },
+    {
+      "dir_name": "Toolify AI",
+      "url": "https://www.toolify.ai/submit",
+      "timestamp": "2026-06-11T23:46:14.590239",
+      "status": "submitted",
+      "final_url": "https://www.toolify.ai/submit"
+    },
+    {
+      "dir_name": "Product Hunt",
+      "url": "https://www.producthunt.com/topics/new-tools",
+      "timestamp": "2026-06-11T23:47:15.516329",
+      "status": "no-form-detected"
+    },
+    {
+      "dir_name": "Futurepedia",
+      "url": "https://www.futurepedia.io/submit-a-tool",
+      "timestamp": "2026-06-11T23:47:51.818662",
+      "status": "no-form-detected",
+      "final_url": "https://www.futurepedia.io/submit-tool"
+    },
+    {
+      "dir_name": "AI21 Tools Directory",
+      "url": "https://www.ai21.com/tools",
+      "timestamp": "2026-06-11T23:48:51.244219",
+      "status": "no-form-detected"
+    },
+    {
+      "dir_name": "AITools.fyi",
+      "url": "https://aitools.fyi/submit",
+      "timestamp": "2026-06-11T23:49:34.456203",
+      "status": "no-form-detected",
+      "final_url": "https://tally.so/r/2EkV4g?ref=boostmytool.com"
+    },
+    {
+      "dir_name": "TopAI.tools",
+      "url": "https://topai.tools/submit",
+      "timestamp": "2026-06-11T23:50:36.399116",
+      "status": "no-form-detected",
+      "final_url": "https://topai.tools/submit"
+    },
+    {
+      "dir_name": "AI SuperHub",
+      "url": "https://www.aisuperhub.io/submit",
+      "timestamp": "2026-06-11T23:51:34.130159",
+      "status": "no-form-detected"
+    },
+    {
+      "dir_name": "FutureTools.io",
+      "url": "https://www.futuretools.io/submit-tool",
+      "timestamp": "2026-06-11T23:53:27.653544",
+      "status": "no-form-detected",
+      "final_url": "https://futuretools.io/submit-a-tool"
+    },
+    {
+      "dir_name": "The AI Library",
+      "url": "https://www.theailibrary.co/submit-tool",
+      "timestamp": "2026-06-11T23:54:16.203126",
+      "status": "no-form-detected",
+      "final_url": "https://www.theailibrary.co/login"
+    },
+    {
+      "dir_name": "AI Tool DB",
+      "url": "https://www.aitooldb.com/submit",
+      "timestamp": "2026-06-11T23:54:45.842653",
+      "status": "error-Error",
+      "error": "Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.aitooldb.com/submit\nCall log:\n  - navigating to \"https://www.aitooldb.com/submit\", waiting until \"domcontentloaded\"\n"
+    },
+    {
+      "dir_name": "SubmitAITool",
+      "url": "https://submitaitool.com/",
+      "timestamp": "2026-06-11T23:54:56.195086",
+      "status": "submitted",
+      "final_url": "https://submitaitool.com/"
+    },
+    {
+      "dir_name": "AI Agents Directory",
+      "url": "https://aiagentsdirectory.com/submit",
+      "timestamp": "2026-06-11T23:55:25.020753",
+      "status": "no-form-detected"
+    },
+    {
+      "dir_name": "Dofollow.Tools",
+      "url": "https://dofollow.tools/submit",
+      "timestamp": "2026-06-11T23:57:45.793929",
+      "status": "error-TimeoutError",
+      "error": "Page.screenshot: Timeout 30000ms exceeded.\nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n"
+    },
+    {
+      "dir_name": "TopFreeAITools",
+      "url": "https://topfreeaitools.com/submit",
+      "timestamp": "2026-06-11T23:59:01.885985",
+      "status": "no-form-detected"
+    }
+  ]
+}

@@ -159,3 +159,33 @@ Chinese numerology is a practical tool for aligning your daily environment with 
 By understanding which numbers support your destiny and which undermine it, you can make smarter choices about the numeric environment you live in.
 
 **Want to discover your lucky numbers?** Enter your birth details on BornChart.app and get a personalized numerology report based on your Bazi chart's Useful God.
+
+---
+
+## Frequently Asked Questions (FAQ)
+
+### What are lucky numbers in Bazi?
+In Bazi, your lucky numbers are determined by the Five Elements that support your Day Master. Each element (Wood=3/8, Fire=2/7, Earth=5/0, Metal=4/9, Water=1/6) has associated digits. Your personalized lucky numbers depend on which elements are favorable in your chart, not just your Chinese Zodiac sign.
+
+### How do I find my personal lucky numbers?
+Calculate your complete Bazi chart to identify your Day Master element and determine which elements are favorable (喜用) vs. unfavorable (忌). Then apply the Five Element number mapping: Wood=3,8 / Fire=2,7 / Earth=5,0 / Metal=4,9 / Water=1,6. Our [free Bazi calculator](/bazi) does this automatically.
+
+### Are lucky numbers the same as Chinese Zodiac lucky digits?
+No. Your Chinese Zodiac sign (based on birth year) has general lucky numbers, but your Bazi chart provides far more precise lucky digits based on the Five Element balance in all four pillars. The Bazi approach is personalized; the Zodiac approach is general.
+
+### Can lucky numbers help with business decisions?
+Yes — many Chinese entrepreneurs choose phone numbers, license plates, and even store addresses based on their Bazi lucky numbers. While this is a traditional cultural practice rather than a scientific strategy, it can serve as a confidence-building tool when combined with sound business planning.
+
+### How often should I check my lucky numbers?
+Your core Bazi chart doesn't change, so your fundamental lucky numbers remain constant throughout life. However, the 10-year Luck Pillars (大运) and annual energies can shift which numbers are most beneficial in any given period.
+
+### What about unlucky numbers?
+Unlucky numbers correspond to elements that drain or clash with your Day Master. For example, if Metal is unfavorable for you, numbers 4 and 9 should be used sparingly. Understanding both lucky and unlucky digits gives you a complete numerological strategy.
+
+---
+
+**Continue your Bazi journey:**
+- [Calculate Your Complete Bazi Chart](/) — Free four pillars calculator with true solar time correction
+- [Find Your Lucky Element](/tools/lucky-element-finder) — Discover your favorable and unfavorable elements
+- [Check Your Compatibility](/tools/bazi-compatibility) — How well do your Five Elements match with a partner?
+- [Upgrade to Pro Report](/pricing) — Get a complete personalized destiny reading with PDF download

@@ -147,23 +147,54 @@ If you were born between January 1 and February 3, 2026, you're still in the Yea
 - Share your ideas publicly
 - Build your personal brand
 
-## FAQ
+## Frequently Asked Questions
 
 ### What is the Year of the Fire Horse in Bazi?
-2026 is the Bing Wu (丙午) year — Yang Fire over Horse. It's a pure Fire year, one of the most intense in the 60-year Chinese calendar cycle.
+2026 is the Bing Wu (丙午) year — Yang Fire over Horse. It's a pure Fire year, one of the most intense in the 60-year Chinese calendar cycle. The combination of Bing (丙, Yang Fire) as the Heavenly Stem and Wu (午, Horse) as the Earthly Branch creates a year of extraordinary energy — visibility, passion, action, and transformation.
 
 ### How does the Fire Horse year affect my Bazi chart?
-The effect depends on your Day Master. Fire is your Wealth element if you're a Water Day Master, your Officer element if you're Metal, your Resource element if you're Earth, your Companion element if you're Fire, and your Output element if you're Wood.
+The effect depends entirely on your Day Master (日主). Fire is your Wealth element if you're a Water Day Master, your Officer element if you're Metal, your Resource element if you're Earth, your Companion element if you're Fire, and your Output element if you're Wood. To understand exactly what this means for you, first [find out your Day Master](/blog/what-is-my-day-master-guide).
 
 ### When does the 2026 Chinese New Year start in Bazi?
-In Bazi, the new year starts at Beginning of Spring (立春), which is February 4, 2026. Before that date, you're still in the previous year's energy.
+In Bazi, the new year starts at Beginning of Spring (立春, Lì Chūn), which is February 4, 2026 — not January 1st. Before that date, you're still in the previous year's (Wood Snake) energy. If you were born between January 1 and February 3, 2026, your Bazi chart is still in the Year of the Wood Snake (乙巳), not the Fire Horse.
 
 ### Is 2026 a good year for everyone?
-Not uniformly. The Fire Horse year amplifies certain energies and challenges others. Water Day Masters may experience their strongest wealth year in decades, while Metal Day Masters may face more pressure and structure.
+Not uniformly. The Fire Horse year amplifies certain energies and challenges others:
+- **Water Day Masters**: Your strongest wealth year in decades — act decisively on financial opportunities.
+- **Wood Day Masters**: Peak creative output year — share your ideas boldly but ground them in substance.
+- **Fire Day Masters**: Intensity year — build alliances and guard against burnout.
+- **Earth Day Masters**: Learning year — invest in education, accept mentorship.
+- **Metal Day Masters**: Discipline year — navigate authority with strategy and patience.
+
+Read the full breakdown above for each Day Master's specific guidance.
 
 ### How often does the Fire Horse year occur?
-Every 60 years. The last was 1966, and the next will be 2086.
+Every 60 years in the Chinese calendar cycle. The last Fire Horse year was 1966, and the next won't arrive until 2086. This makes 2026 a rare and powerful window of opportunity — the kind that comes only once in a lifetime.
+
+### Does my Chinese Zodiac sign matter for 2026?
+Yes, but it's secondary to your Day Master. The Fire Horse year has specific interactions with each of the 12 zodiac signs (Horse = Tai Sui clash year for Rat, harmony with Tiger/Dog). However, your Day Master interaction is more precise because it's based on your exact birth moment, not just your year.
+
+### How does 2026 affect Bazi compatibility?
+The Fire Horse energy can intensify relationship dynamics. For people in relationships, 2026 may bring clarity — things that were hidden surface to light. For singles, the year's visibility energy attracts attention but also demands authenticity. If you're curious about how 2026 affects your relationship chart, our [Bazi Compatibility Tool](/tools/bazi-compatibility) can reveal how your partner's chart interacts with the Fire Horse energy.
+
+### What are the most important months in 2026 for Bazi?
+The key transitional months follow the Chinese solar calendar:
+- **February 4** (Beginning of Spring): Year officially begins
+- **April 4** (Beginning of Summer): Fire energy peaks
+- **August 7** (Beginning of Autumn): Metal begins to counterbalance Fire
+- **October 8** (Beginning of Winter): Water energy starts the cycle
+Your favorable elements determine which months are most auspicious for major decisions.
 
 ---
 
-*Get your personalized 2026 Bazi fortune reading at [bornchart.app](https://bornchart.app). Enter your birth details to see exactly how the Fire Horse year affects your chart.*
+*Get your personalized 2026 Bazi fortune reading at [bornchart.app](/bazi). Enter your birth details to see exactly how the Fire Horse year affects your chart.*
+
+Want to know how 2026's energy affects your relationship? Use our [Bazi Compatibility Tool](/tools/bazi-compatibility) to see how your partner's chart interacts with the Fire Horse year — and whether this is a year of deepening commitment or necessary change.
+
+---
+
+**Continue your Bazi journey:**
+- [Calculate Your Complete Bazi Chart](/) — Free four pillars calculator with true solar time correction
+- [Find Your Lucky Element](/tools/lucky-element-finder) — Discover your favorable and unfavorable elements
+- [Check Your Compatibility](/tools/bazi-compatibility) — How well do your Five Elements match with a partner?
+- [Upgrade to Pro Report](/pricing) — Get a complete personalized destiny reading with PDF download

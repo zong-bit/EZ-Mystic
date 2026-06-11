@@ -1,0 +1,59 @@
+{
+  "timestamp": "2026-06-12T15:45:00Z",
+  "product": {
+    "name": "FateWise",
+    "url": "https://bornchart.app",
+    "description": "AI-powered Bazi (Four Pillars of Destiny) chart analysis platform. Get your free destiny reading with Chinese astrology, Five Elements analysis, and AI deep interpretation.",
+    "category": "AI / Wellness / Spirituality",
+    "tags": ["AI", "astrology", "bazi", "chinese astrology", "destiny", "wellness"]
+  },
+  "summary": {
+    "total_attempts_api": 53,
+    "successful_api": 16,
+    "failed_api": 32,
+    "total_attempts_browser": 15,
+    "successful_browser": 0,
+    "blocked_by_cloudflare_browser": 12,
+    "no_form_detected_browser": 3,
+    "unique_successful_submissions": 16
+  },
+  "successful_directories": [
+    {"name": "Futurepedia", "url": "https://www.futurepedia.io/submit-a-tool", "dr_estimate": 68, "method": "api-post"},
+    {"name": "Best AI Brands", "url": "https://bestaibran.ds", "dr_estimate": 40, "method": "api-post"},
+    {"name": "AI Hunt List", "url": "https://aihuntlist.com/submit", "dr_estimate": 35, "method": "api-post"},
+    {"name": "AI Tools Love", "url": "https://aitools.love/submit", "dr_estimate": 30, "method": "api-post"},
+    {"name": "AI Tools Magazine", "url": "https://aitoolsmagazine.com/submit", "dr_estimate": 32, "method": "api-post"},
+    {"name": "AI Pulse", "url": "https://aipulse.ai/submit", "dr_estimate": 20, "method": "api-post"},
+    {"name": "AiDirs", "url": "https://aidirs.co/submit", "dr_estimate": 35, "method": "api-post"},
+    {"name": "AiToolex", "url": "https://aitoolex.com/submit", "dr_estimate": 28, "method": "api-post"},
+    {"name": "AI Tool Trek", "url": "https://aitooltrek.com/submit", "dr_estimate": 25, "method": "api-post"},
+    {"name": "AI Hubs", "url": "https://aihubs.io/submit", "dr_estimate": 30, "method": "api-post"},
+    {"name": "AI Tools Submit", "url": "https://aitoolssubmit.com/submit", "dr_estimate": 25, "method": "api-post"},
+    {"name": "List Your Tool (Organic Pilot)", "url": "https://organicpilot.com/submit", "dr_estimate": 18, "method": "api-post"},
+    {"name": "StartupHub", "url": "https://startuphub.io/submit", "dr_estimate": 28, "method": "api-post"},
+    {"name": "AIToolIndex", "url": "https://aitoolindex.io/submit", "dr_estimate": 25, "method": "api-post"},
+    {"name": "GPTBot", "url": "https://gptbot.io/submit-ai-tool", "dr_estimate": 20, "method": "api-post"},
+    {"name": "Best AI Brands (aidirectori.es)", "url": "https://aidirectori.es/submit", "dr_estimate": 22, "method": "api-post"}
+  ],
+  "manual_submission_needed": [
+    {"name": "There's An AI For That", "url": "https://theresanaiforthat.com/submit/", "dr_estimate": 72, "priority": "P0", "reason": "Cloudflare Enterprise - must use real browser"},
+    {"name": "Product Hunt", "url": "https://www.producthunt.com/tools/new", "dr_estimate": 91, "priority": "P0", "reason": "Requires PH account signup"},
+    {"name": "Toolify AI", "url": "https://www.toolify.ai/submit", "dr_estimate": 70, "priority": "P1", "reason": "Cloudflare Enterprise - must use real browser"},
+    {"name": "Futurepedia (browser confirm)", "url": "https://www.futurepedia.io/submit-a-tool", "dr_estimate": 68, "priority": "P1", "reason": "API submitted but needs browser to verify review status"},
+    {"name": "Dofollow.Tools", "url": "https://dofollow.tools/submit", "dr_estimate": 72, "priority": "P2", "reason": "Cloudflare - DoFollow backlink value"},
+    {"name": "The AI Library", "url": "https://www.theailibrary.co/submit-tool", "dr_estimate": 35, "priority": "P2", "reason": "Cloudflare - large directory with 5000+ tools"},
+    {"name": "FutureTools.io", "url": "https://www.futuretools.io/submit-tool", "dr_estimate": 45, "priority": "P3", "reason": "Cloudflare - AI tool aggregator"},
+    {"name": "AITools.fyi", "url": "https://aitools.fyi/submit", "dr_estimate": 30, "priority": "P2", "reason": "React SPA - needs longer JS render time"},
+    {"name": "TopFreeAITools", "url": "https://topfreeaitools.com/submit", "dr_estimate": 37, "priority": "P3", "reason": "Cloudflare - free tools directory"},
+    {"name": "SubmitAITool", "url": "https://submitaitool.com/", "dr_estimate": 25, "priority": "P3", "reason": "Cloudflare - free submission"}
+  ],
+  "screenshots_dir": "scripts/fatewise_browser_submissions/",
+  "screenshot_count": 20,
+  "notes": [
+    "API POST approach achieved 30% success rate (16/53)",
+    "Browser automation blocked by Cloudflare on 80% of high-DR sites",
+    "Futurepedia submitted via API POST (HTTP 200) but browser shows Cloudflare challenge",
+    "AITools.fyi loaded successfully but React SPA prevented form detection with short timeout",
+    "All browser screenshots saved to fatewise_browser_submissions directory"
+  ]
+}

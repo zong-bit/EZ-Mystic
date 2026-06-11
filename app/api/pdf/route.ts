@@ -5,12 +5,27 @@ import fs from 'fs';
 import path from 'path';
 import type { BaziResult } from '@/bazi/types';
 
-// Load Noto Sans SC fonts (server-side only, cached at module level)
-const fontRegularPath = path.join(process.cwd(), 'public', 'fonts', 'NotoSansSC-Regular.ttf');
-const fontBoldPath = path.join(process.cwd(), 'public', 'fonts', 'NotoSansSC-Bold.ttf');
+// Vercel Hobby plan default timeout is 10s; PDF generation can take >30s on cold start
+export const maxDuration = 60;
 
-const fontRegularBase64 = fs.readFileSync(fontRegularPath, 'base64');
-const fontBoldBase64 = fs.readFileSync(fontBoldPath, 'base64');
+// Lazy-load fonts to avoid blocking cold start; cache after first load
+let _fontRegularBase64: string | null = null;
+let _fontBoldBase64: string | null = null;
+
+function getFontBase64(type: 'regular' | 'bold'): string {
+  if (type === 'regular') {
+    if (!_fontRegularBase64) {
+      const p = path.join(process.cwd(), 'public', 'fonts', 'NotoSansSC-Regular.ttf');
+      _fontRegularBase64 = fs.readFileSync(p, 'base64');
+    }
+    return _fontRegularBase64;
+  }
+  if (!_fontBoldBase64) {
+    const p = path.join(process.cwd(), 'public', 'fonts', 'NotoSansSC-Bold.ttf');
+    _fontBoldBase64 = fs.readFileSync(p, 'base64');
+  }
+  return _fontBoldBase64;
+}
 
 const TIAN_GAN = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'] as const;
 
@@ -37,10 +52,10 @@ export async function POST(request: NextRequest) {
     const contentWidth = pageWidth - margin * 2;
     let y = 20;
 
-    // Register Chinese fonts
-    doc.addFileToVFS('NotoSansSC-Regular.ttf', fontRegularBase64);
+    // Register Chinese fonts (lazy-loaded, cached after first call)
+    doc.addFileToVFS('NotoSansSC-Regular.ttf', getFontBase64('regular'));
     doc.addFont('NotoSansSC-Regular.ttf', 'NotoSansSC', 'normal');
-    doc.addFileToVFS('NotoSansSC-Bold.ttf', fontBoldBase64);
+    doc.addFileToVFS('NotoSansSC-Bold.ttf', getFontBase64('bold'));
     doc.addFont('NotoSansSC-Bold.ttf', 'NotoSansSC', 'bold');
 
     // Title
@@ -168,15 +183,22 @@ export async function POST(request: NextRequest) {
           const splitText = doc.splitTextToSize(text, contentWidth - 5);
           doc.text(`• ${splitText[0]}`, margin + 5, y);
           y += 5;
-        } else if (line.includes('|')) {
-          // Table row
+        } else if (line.trim().startsWith('|')) {
+          // Table row: pipe-delimited cells
           const cells = line.split('|').filter((c: string) => c.trim());
-          let x = margin;
-          for (const cell of cells) {
-            if (cell.trim()) {
-              doc.text(cell.trim().substring(0, 20), x, y);
-              x += 30;
+          if (cells.length > 1) {
+            const cellWidth = Math.floor(contentWidth / cells.length);
+            let x = margin;
+            for (const cell of cells) {
+              const trimmed = cell.trim();
+              if (trimmed) {
+                doc.text(trimmed.substring(0, 18), x + 2, y);
+                x += cellWidth;
+              }
             }
+          } else {
+            // Single-cell line with leading pipe — treat as regular text
+            doc.text(line.trim().replace(/^\|/, ''), margin, y);
           }
           y += 6;
         } else if (line.trim()) {
@@ -190,22 +212,23 @@ export async function POST(request: NextRequest) {
       y += 5;
     }
 
-    // Disclaimer
+    // Footer disclaimer — position dynamically to avoid content overlap
+    const footerY = Math.max(y + 15, 280);
     doc.setFont('NotoSansSC', 'normal');
-    y = 280;
     doc.setFontSize(8);
     doc.setTextColor(150, 150, 150);
-    doc.text('⚠️ This reading is AI-generated, for reference and entertainment only, not a basis for life decisions.', pageWidth / 2, y, { align: 'center' });
-    doc.text(`bornchart.app · ${new Date().toLocaleDateString('en-US')}`, pageWidth / 2, y + 5, { align: 'center' });
+    doc.text('⚠️ This reading is AI-generated, for reference and entertainment only, not a basis for life decisions.', pageWidth / 2, footerY, { align: 'center' });
+    doc.text(`bornchart.app · ${new Date().toLocaleDateString('en-US')}`, pageWidth / 2, footerY + 5, { align: 'center' });
 
-    // Generate PDF and return
-    const pdfBlob = doc.output('blob');
-    const pdfBase64 = await blobToBase64(pdfBlob);
+    // Return PDF as direct download stream (no base64 overhead)
+    const pdfData = doc.output('arraybuffer');
+    const filename = `fatebook-${name || 'anonymous'}-${new Date().toISOString().slice(0, 10)}.pdf`;
 
-    return NextResponse.json({
-      success: true,
-      pdfBase64,
-      filename: `fatebook-${name || 'anonymous'}-${new Date().toISOString().slice(0, 10)}.pdf`,
+    return new NextResponse(pdfData, {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="${filename}"`,
+      },
     });
   } catch (error) {
     console.error('PDF generation failed:', error);
@@ -214,13 +237,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-function blobToBase64(blob: Blob): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result as string);
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
 }

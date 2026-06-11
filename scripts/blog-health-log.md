@@ -1,9 +1,5 @@
-# Blog Health Check - ez-mystic
+# Blog Health Check - 2026-06-11 07:00
 
-**Check Time:** 2026-06-09 07:03 (Asia/Shanghai)
-**Site:** bornchart.app
-**Total URLs checked:** 145
-**OK (200):** 145
-**Errors:** 0
+## ✅ All OK
 
-All OK - 145 pages checked ✅
+All 148 pages checked — 0 errors.

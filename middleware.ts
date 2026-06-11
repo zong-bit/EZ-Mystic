@@ -35,6 +35,7 @@ const OPEN_PATHS = [
   '/blog',
   '/bazi',
   '/bagua',
+  '/tools',
   '/zh',
   '/zh/blog',
 ];

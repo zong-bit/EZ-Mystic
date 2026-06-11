@@ -120,13 +120,20 @@ function FateBookContent() {
         }),
       });
 
-      const data = await response.json();
-      if (data.success && data.pdfBase64) {
-        const link = document.createElement('a');
-        link.href = data.pdfBase64;
-        link.download = data.filename || 'fatebook.pdf';
-        link.click();
+      if (!response.ok) {
+        console.error('PDF generation failed:', response.status);
+        return;
       }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      // Extract filename from Content-Disposition header
+      const disposition = response.headers.get('Content-Disposition');
+      link.download = disposition ? disposition.split('filename="')[1]?.replace(/"/, '') : 'fatebook.pdf';
+      link.click();
+      URL.revokeObjectURL(url);
     } catch (err) {
       console.error('PDF download failed:', err);
     } finally {

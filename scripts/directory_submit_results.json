@@ -386,11 +386,103 @@
       "response_code": 0,
       "error": "SSL EOF error on proxy. May need VPN check.",
       "note": "Retried with proxy, still connection failed"
+    },
+    {
+      "dir_name": "AITools.fyi",
+      "status": "browser-no-form-detected",
+      "response_code": 200,
+      "error": "Page loaded but React SPA - no form fields found in initial HTML",
+      "response_body": ""
+    },
+    {
+      "dir_name": "There's An AI For That",
+      "status": "browser-cloudflare-blocked",
+      "response_code": 0,
+      "error": "Cloudflare Challenge page - headless browser blocked",
+      "response_body": ""
+    },
+    {
+      "dir_name": "Toolify AI",
+      "status": "browser-cloudflare-blocked",
+      "response_code": 0,
+      "error": "Cloudflare Challenge page - headless browser blocked",
+      "response_body": ""
+    },
+    {
+      "dir_name": "Product Hunt",
+      "status": "browser-cloudflare-blocked",
+      "response_code": 0,
+      "error": "Cloudflare Challenge page - headless browser blocked",
+      "response_body": ""
+    },
+    {
+      "dir_name": "Futurepedia (browser)",
+      "status": "browser-cloudflare-blocked",
+      "response_code": 0,
+      "error": "Cloudflare Challenge page - headless browser blocked",
+      "response_body": ""
+    },
+    {
+      "dir_name": "AI SuperHub",
+      "status": "browser-cloudflare-blocked",
+      "response_code": 0,
+      "error": "Cloudflare Challenge page - headless browser blocked",
+      "response_body": ""
+    },
+    {
+      "dir_name": "TopAI.tools",
+      "status": "browser-cloudflare-blocked",
+      "response_code": 0,
+      "error": "Cloudflare Challenge page - headless browser blocked",
+      "response_body": ""
+    },
+    {
+      "dir_name": "FutureTools.io",
+      "status": "browser-cloudflare-blocked",
+      "response_code": 0,
+      "error": "Cloudflare Challenge page - headless browser blocked",
+      "response_body": ""
+    },
+    {
+      "dir_name": "The AI Library",
+      "status": "browser-cloudflare-blocked",
+      "response_code": 0,
+      "error": "Cloudflare Challenge page - headless browser blocked",
+      "response_body": ""
+    },
+    {
+      "dir_name": "SubmitAITool",
+      "status": "browser-cloudflare-blocked",
+      "response_code": 0,
+      "error": "Cloudflare Challenge page - headless browser blocked",
+      "response_body": ""
+    },
+    {
+      "dir_name": "AI Agents Directory",
+      "status": "browser-cloudflare-blocked",
+      "response_code": 0,
+      "error": "Cloudflare Challenge page - headless browser blocked",
+      "response_body": ""
+    },
+    {
+      "dir_name": "Dofollow.Tools",
+      "status": "browser-cloudflare-blocked",
+      "response_code": 0,
+      "error": "Cloudflare Challenge page - headless browser blocked",
+      "response_body": ""
+    },
+    {
+      "dir_name": "TopFreeAITools",
+      "status": "browser-cloudflare-blocked",
+      "response_code": 0,
+      "error": "Cloudflare Challenge page - headless browser blocked",
+      "response_body": ""
     }
   ],
   "total": 53,
   "success": 13,
   "fail": 34,
   "last_updated": "2026-06-07T10:30:00+08:00",
-  "notes": "2 actual POST submissions completed (aitools-directory.com, aitoolsmarketer.com). Both returned 200 OK. Future AI Guide blocked by CSRF (419). Most directories are Next.js client-side apps requiring browser interaction."
+  "notes": "2 actual POST submissions completed (aitools-directory.com, aitoolsmarketer.com). Both returned 200 OK. Future AI Guide blocked by CSRF (419). Most directories are Next.js client-side apps requiring browser interaction.",
+  "total_attempts": 66
 }
