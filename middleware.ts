@@ -38,6 +38,9 @@ const OPEN_PATHS = [
   '/tools',
   '/zh',
   '/zh/blog',
+  '/zh/terms',
+  '/zh/privacy',
+  '/zh/refund',
 ];
 
 // Open static file patterns
