@@ -1,13 +1,194 @@
-# IndexNow Submission Log
+# IndexNow Submission Log - bornchart.app
 
-2026-06-11 05:01:09 --- 2026-06-11 05:01 IndexNow Auto-Submit ---
-2026-06-11 05:01:09 === Starting submission for bornchart.app ===
-2026-06-11 05:01:10 [bornchart.app] Batch 1: submitting 100 URLs
-2026-06-11 05:01:12 [FAIL] bornchart.app batch 1: {"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null}
-2026-06-11 05:01:16 [bornchart.app] Batch 2: submitting 82 URLs
-2026-06-11 05:01:18 [FAIL] bornchart.app batch 2: {"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null}
-2026-06-11 05:01:21 [bornchart.app] Completed: 182 total URLs across 2 batch(es)
-2026-06-11 05:01:23 === Starting submission for www.summarizeai.app ===
-2026-06-11 05:01:23 [www.summarizeai.app] Batch 1: submitting 63 URLs
-2026-06-11 05:01:25 [FAIL] www.summarizeai.app batch 1: 
-2026-06-11 05:01:28 [www.summarizeai.app] Completed: 63 total URLs across 1 batch(es)
+## Latest Submission (2026-06-13T21:01:24Z)
+
+- **Total URLs**: 176
+- **Batches submitted**: 2
+- **Successful batches**: 2
+- **Failed batches**: 0
+
+### Batch Details
+
+- ✅ Batch 1: 100 URLs submitted (response: "{\"errorCode\":\"UserForbiddedToAccessSite\",\"message\":\"User is unauthorized to access the site. Please verify the site using the key and try again\",\"details\":null}")
+- ✅ Batch 2: 76 URLs submitted (response: "{\"errorCode\":\"UserForbiddedToAccessSite\",\"message\":\"User is unauthorized to access the site. Please verify the site using the key and try again\",\"details\":null}")
+
+### Full URL List
+
+```
+https://bornchart.app
+https://bornchart.app/bazi
+https://bornchart.app/chat
+https://bornchart.app/blog
+https://bornchart.app/pricing
+https://bornchart.app/zen
+https://bornchart.app/contact
+https://bornchart.app/terms
+https://bornchart.app/privacy
+https://bornchart.app/refund
+https://bornchart.app/signup
+https://bornchart.app/login
+https://bornchart.app/about
+https://bornchart.app/fatebook
+https://bornchart.app/account
+https://bornchart.app/activate
+https://bornchart.app/dashboard
+https://bornchart.app/zh
+https://bornchart.app/zh/bazi
+https://bornchart.app/zh/chat
+https://bornchart.app/zh/blog
+https://bornchart.app/zh/pricing
+https://bornchart.app/zh/zen
+https://bornchart.app/zh/contact
+https://bornchart.app/zh/terms
+https://bornchart.app/zh/privacy
+https://bornchart.app/zh/refund
+https://bornchart.app/zh/signup
+https://bornchart.app/zh/login
+https://bornchart.app/zh/about
+https://bornchart.app/zh/fatebook
+https://bornchart.app/zh/account
+https://bornchart.app/zh/activate
+https://bornchart.app/zh/dashboard
+https://bornchart.app/blog/2025-bazi-year-in-review-fire-snake
+https://bornchart.app/blog/2026-clash-year-survival-guide-rat-horse-chang-fan-tai-sui
+https://bornchart.app/blog/2026-fire-horse-bazi-fortune-predictions-every-day-master
+https://bornchart.app/blog/2026-fire-horse-bazi-yearly-forecast
+https://bornchart.app/blog/2026-monthly-bazi-predictions-zodiac-signs
+https://bornchart.app/blog/2027-year-wood-goat-bazi-forecast-early-preview
+https://bornchart.app/blog/2027-year-wood-goat-bazi-forecast
+https://bornchart.app/blog/ai-destiny-reading-vs-traditional-bazi-master-comparison
+https://bornchart.app/blog/bazi-10-gods-shi-shen-complete-guide
+https://bornchart.app/blog/bazi-birth-hour-personality-guide-12-double-hours
+https://bornchart.app/blog/bazi-business-timing-entrepreneur-guide
+https://bornchart.app/blog/bazi-career-guide-ideal-career-path
+https://bornchart.app/blog/bazi-career-reading-ideal-profession-guide
+https://bornchart.app/blog/bazi-career-transition-timing-guide
+https://bornchart.app/blog/bazi-chart-explained-four-pillars-guide
+https://bornchart.app/blog/bazi-chinese-zodiac-combination-destiny-chart
+https://bornchart.app/blog/bazi-compatibility-by-birth-date-guide
+https://bornchart.app/blog/bazi-compatibility-by-zodiac-year-guide
+https://bornchart.app/blog/bazi-compatibility-calculator-free-online-guide
+https://bornchart.app/blog/bazi-daily-fortune-reading-guide
+https://bornchart.app/blog/bazi-element-deficiency-how-to-find-and-fix-missing-elements
+https://bornchart.app/blog/bazi-entrepreneur-business-timing-wealth-guide
+https://bornchart.app/blog/bazi-feng-shui-direction-guide-best-direction
+https://bornchart.app/blog/bazi-feng-shui-direction-guide-which-direction-to-live
+https://bornchart.app/blog/bazi-health-body-constitution-chinese-medicine
+https://bornchart.app/blog/bazi-health-reading-body-longevity-guide
+https://bornchart.app/blog/bazi-health-wellness-by-element-type
+https://bornchart.app/blog/bazi-iching-combined-divination-guide
+https://bornchart.app/blog/bazi-investor-timing-stock-market-real-estate
+https://bornchart.app/blog/bazi-life-cycle-major-luck-pillars
+https://bornchart.app/blog/bazi-life-cycles-fortune-periods-guide
+https://bornchart.app/blog/bazi-life-path-four-pillars-destiny-journey
+https://bornchart.app/blog/bazi-love-compatibility-four-pillars-match
+https://bornchart.app/blog/bazi-love-compatibility-guide
+https://bornchart.app/blog/bazi-marriage-love-destiny-spouse-palace
+https://bornchart.app/blog/bazi-marriage-spouse-palace-relationship-destiny
+https://bornchart.app/blog/bazi-missing-elements-deficiency-fix-guide
+https://bornchart.app/blog/bazi-nobleman-stars-activate-guide
+https://bornchart.app/blog/bazi-parenting-understanding-child-talents-chart
+https://bornchart.app/blog/bazi-resource-guide-tools-books-communities
+https://bornchart.app/blog/bazi-strong-weak-day-master-favorable-element-guide
+https://bornchart.app/blog/bazi-students-major-career-path-guide
+https://bornchart.app/blog/bazi-ten-gods-complete-guide-wealth-career-love
+https://bornchart.app/blog/bazi-vs-vedic-astrology-comparison
+https://bornchart.app/blog/bazi-vs-western-astrology-key-differences-you-should-know
+https://bornchart.app/blog/bazi-vs-western-astrology-which-system-better
+https://bornchart.app/blog/bazi-vs-ziwei-doushu-which-system
+https://bornchart.app/blog/bazi-wealth-element-how-to-find-your-money-star
+https://bornchart.app/blog/bazi-wealth-reading-financial-pattern-guide
+https://bornchart.app/blog/bazi-western-astrology-which-is-right
+https://bornchart.app/blog/best-exercise-for-your-five-elements-type
+https://bornchart.app/blog/chinese-astrology-career-timing-job-change
+https://bornchart.app/blog/chinese-astrology-compatibility-comprehensive-guide
+https://bornchart.app/blog/chinese-marriage-date-selection-择日-auspicious-wedding-day-guide
+https://bornchart.app/blog/chinese-name-analysis-five-elements-bazi
+https://bornchart.app/blog/chinese-numerology-lucky-numbers-bazi
+https://bornchart.app/blog/chinese-zodiac-vs-bazi-comparison
+https://bornchart.app/blog/chinese-zodiac-yearly-fortune-2026-rat-ox-tiger-rabbit-dragon-snake-horse-goat-monkey-rooster-dog-pig
+https://bornchart.app/blog/daily-lucky-colors-for-your-bazi-chart
+https://bornchart.app/blog/daily-yi-ji-chinese-almanac-what-to-do-today
+https://bornchart.app/blog/day-master-bazi-10-types-explained
+https://bornchart.app/blog/earth-day-master-bazi-personality-career-love
+https://bornchart.app/blog/feng-shui-front-door-entrance-energy-wealth-flow-guide
+https://bornchart.app/blog/fire-day-master-bazi-personality-career-love
+https://bornchart.app/blog/five-elements-bazi-wood-fire-earth-metal-water
+https://bornchart.app/blog/five-elements-personality-types-guide
+https://bornchart.app/blog/four-pillars-of-destiny-complete-guide
+https://bornchart.app/blog/free-bazi-chart-reading-complete-guide
+https://bornchart.app/blog/free-bazi-reading-vs-paid-comparison
+https://bornchart.app/blog/free-bazi-reading-vs-paid-guide
+https://bornchart.app/blog/history-of-bazi-han-dynasty-to-ai
+https://bornchart.app/blog/how-to-calculate-your-bazi-chart-step-by-step-guide
+https://bornchart.app/blog/how-to-read-bazi-chart-beginners-guide
+https://bornchart.app/blog/how-to-read-bazi-chart-day-master-five-elements
+https://bornchart.app/blog/how-to-use-annual-fortune-prediction-decisions-2026
+https://bornchart.app/blog/liunian-prediction-how-annual-luck-interacts-with-bazi-chart
+https://bornchart.app/blog/luoshu-flying-stars-feng-shui-2026-annual-energy-map
+https://bornchart.app/blog/metal-day-master-bazi-personality-career-love
+https://bornchart.app/blog/palmistry-meets-bazi-combine-destiny-reading
+https://bornchart.app/blog/the-five-elements-in-bazi-wood-fire-earth-metal-water-explained
+https://bornchart.app/blog/true-solar-time-chinese-astrology-birth-location
+https://bornchart.app/blog/understanding-your-day-master-the-key-to-reading-bazi
+https://bornchart.app/blog/water-day-master-bazi-personality-career-love
+https://bornchart.app/blog/what-is-bazi-four-pillars-of-destiny-guide
+https://bornchart.app/blog/what-is-my-day-master-find-your-core-element
+https://bornchart.app/blog/what-to-eat-today-based-on-your-bazi-five-element-diet
+https://bornchart.app/blog/wood-day-master-bazi-personality-career-love
+https://bornchart.app/blog/ziwei-doushu-beginners-guide-144-stars
+https://bornchart.app/zh/blog/2026-fire-horse-bazi-fortune-predictions-every-day-master
+https://bornchart.app/zh/blog/2026-fire-horse-bazi-yearly-forecast
+https://bornchart.app/zh/blog/ai-destiny-reading-vs-traditional-bazi-master-comparison
+https://bornchart.app/zh/blog/bazi-10-gods-shi-shen-complete-guide
+https://bornchart.app/zh/blog/bazi-birth-hour-personality-guide-12-double-hours
+https://bornchart.app/zh/blog/bazi-career-guide-how-to-read-your-chart
+https://bornchart.app/zh/blog/bazi-career-guide-ideal-career-path
+https://bornchart.app/zh/blog/bazi-chinese-zodiac-combination-destiny-chart
+https://bornchart.app/zh/blog/bazi-element-deficiency-how-to-find-and-fix-missing-elements
+https://bornchart.app/zh/blog/bazi-feng-shui-direction-guide-best-direction
+https://bornchart.app/zh/blog/bazi-feng-shui-direction-guide-which-direction-to-live
+https://bornchart.app/zh/blog/bazi-health-body-constitution-chinese-medicine
+https://bornchart.app/zh/blog/bazi-health-body-constitution-five-elements
+https://bornchart.app/zh/blog/bazi-health-wellness-by-element-type
+https://bornchart.app/zh/blog/bazi-life-cycle-major-luck-pillars
+https://bornchart.app/zh/blog/bazi-life-cycles-fortune-periods-guide
+https://bornchart.app/zh/blog/bazi-love-compatibility-four-pillars-match
+https://bornchart.app/zh/blog/bazi-love-compatibility-guide
+https://bornchart.app/zh/blog/bazi-marriage-love-destiny-spouse-palace
+https://bornchart.app/zh/blog/bazi-marriage-spouse-palace-relationship-destiny
+https://bornchart.app/zh/blog/bazi-missing-elements-deficiency-fix-guide
+https://bornchart.app/zh/blog/bazi-nobleman-stars-activate-guide
+https://bornchart.app/zh/blog/bazi-resource-guide-tools-books-communities
+https://bornchart.app/zh/blog/bazi-strong-weak-day-master-favorable-element-guide
+https://bornchart.app/zh/blog/bazi-students-major-career-path-guide
+https://bornchart.app/zh/blog/bazi-vs-western-astrology-key-differences-7
+https://bornchart.app/zh/blog/bazi-vs-western-astrology-key-differences-you-should-know
+https://bornchart.app/zh/blog/bazi-wealth-element-how-to-find-your-money-star
+https://bornchart.app/zh/blog/bazi-wealth-money-star-element-guide
+https://bornchart.app/zh/blog/bazi-western-astrology-which-is-right
+https://bornchart.app/zh/blog/best-exercise-for-your-five-elements-type
+https://bornchart.app/zh/blog/chinese-astrology-career-timing-job-change
+https://bornchart.app/zh/blog/chinese-marriage-date-selection-择日-auspicious-wedding-day-guide
+https://bornchart.app/zh/blog/chinese-name-analysis-five-elements-bazi
+https://bornchart.app/zh/blog/chinese-numerology-lucky-numbers-bazi
+https://bornchart.app/zh/blog/chinese-zodiac-vs-bazi-comparison
+https://bornchart.app/zh/blog/chinese-zodiac-yearly-fortune-2026-rat-ox-tiger-rabbit-dragon-snake-horse-goat-monkey-rooster-dog-pig
+https://bornchart.app/zh/blog/daily-lucky-colors-for-your-bazi-chart
+https://bornchart.app/zh/blog/daily-yi-ji-chinese-almanac-what-to-do-today
+https://bornchart.app/zh/blog/day-master-bazi-10-types-explained
+https://bornchart.app/zh/blog/feng-shui-front-door-entrance-energy-wealth-flow-guide
+https://bornchart.app/zh/blog/five-elements-bazi-wood-fire-earth-metal-water
+https://bornchart.app/zh/blog/how-to-calculate-your-bazi-chart-step-by-step-guide
+https://bornchart.app/zh/blog/how-to-read-bazi-chart-beginners-guide
+https://bornchart.app/zh/blog/how-to-read-bazi-chart-day-master-five-elements
+https://bornchart.app/zh/blog/luoshu-flying-stars-feng-shui-2026-annual-energy-map
+https://bornchart.app/zh/blog/palmistry-meets-bazi-combine-destiny-reading
+https://bornchart.app/zh/blog/the-five-elements-in-bazi-wood-fire-earth-metal-water-explained
+https://bornchart.app/zh/blog/true-solar-time-bazi-birth-location-correction
+https://bornchart.app/zh/blog/true-solar-time-chinese-astrology-birth-location
+https://bornchart.app/zh/blog/understanding-your-day-master-the-key-to-reading-bazi
+https://bornchart.app/zh/blog/what-is-bazi-beginners-guide
+https://bornchart.app/zh/blog/what-is-bazi-four-pillars-of-destiny-guide
+https://bornchart.app/zh/blog/ziwei-doushu-beginners-guide-144-stars
+```

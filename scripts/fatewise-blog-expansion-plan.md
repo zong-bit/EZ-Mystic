@@ -1,285 +1,451 @@
-# FateWise 博客扩展计划 v2（2026-06-12）
+# FateWise Blog Expansion Plan — Complete Edition
 
-> **生成依据**：fatewise-seo-keyword-plan-v2.md + 96篇现有文章完整分析
-> **目标**：从96篇扩展至120+篇，聚焦关键词缺口 + 现有文章SEO增强
-
----
-
-## 一、当前状态总览
-
-| 指标 | 数值 |
-|------|------|
-| 博客文章总数 | **96篇**（.md + .mdx） |
-| 有FAQ的文章 | **11篇**（仅11.5%） |
-| 有定价页内链(/pricing)的文章 | **极少**（<5篇） |
-| 有工具内链(/tools/)的文章 | **极少**（<3篇） |
-| 有YAML front matter的文章 | ~80%（部分缺slug/keywords） |
-| 平均字数估计 | 1200-2500词（需抽样验证） |
-
-### ⚠️ 关键发现
-**85篇（约89%）文章缺少FAQ板块**——这是最大的SEO优化杠杆。FAQ不仅提升用户体验，更是抢占Google"People Also Ask"和精选摘要的关键手段。
+> **Status**: Active | **Generated**: 2026-06-13
+> **Current English articles**: ~127 (excluding zh/ and plans)
+> **Goal**: 127 → 170+ articles (+43 new, merge ~5 duplicates)
 
 ---
 
-## 二、关键词计划v2覆盖状态对照表
+## Part A: Existing Article Coverage Analysis (127 Articles)
 
-### 🔴 P0：高搜索量 + 中低竞争（已覆盖？需增强？）
+### Category Distribution
 
-| # | 关键词簇 | 目标页面 | 状态 | 问题 |
-|---|---------|---------|------|------|
-| 1 | "what is my day master" (5K-12K) | `what-is-my-day-master-find-your-core-element.md` | ✅ 已创建 | ❌ 无FAQ，无/pricing内链 |
-| 2 | "lucky colors for bazi" (3K-8K) | `daily-lucky-colors-for-your-bazi-chart.md` | ✅ 已创建 | ❌ 无FAQ，无/pricing内链 |
-| 3 | "bazi lucky numbers" (2K-5K) | `chinese-numerology-lucky-numbers-bazi.md` | ⚠️ 主题相关但标题未精准匹配 | ❌ 无FAQ，无内链，title不针对"bazi lucky numbers" |
-| 4 | "2026 fire horse year + day master" (15K-30K) | `2026-fire-horse-bazi-fortune-predictions-every-day-master.md` | ✅ 已创建 | ❌ 无FAQ，无/pricing内链 |
+| Category | Count | Quality Assessment |
+|----------|-------|--------------------|
+| **Day Master Profiles** (5 elements + 10 types) | ~17 | ✅ Strong — all 5 element DMs covered + MBTI mapping |
+| **Career** (ideal path, transition, students) | ~18 | ⚠️ Overlapping with DM profiles; missing business/partnership angle |
+| **Compatibility** (love/marriage) | ~9 | ✅ Good breadth but some redundancy |
+| **Basics** (what is Bazi, how to read) | ~14 | ⚠️ Fragmented across multiple similar articles |
+| **Comparison** (vs Western, vs Ziwei) | ~13 | ❌ Heavy redundancy — 4+ Western comparison articles |
+| **Five Elements** (personality, diet) | ~18 | ✅ Good foundation but scattered across categories |
+| **Feng Shui** (direction, layout) | ~10 | ⚠️ Only residential; missing travel, office, seasonal angles |
+| **Wealth** (money star, strategy) | ~9 | ⚠️ Missing investment timing, real estate wealth angles |
+| **Annual Forecast** (2025-2027) | ~8 | ⚠️ Redundant — 3× 2026 fire horse articles with overlapping content |
+| **Health** (TCM, constitution) | ~7 | ❌ Thin — only 4 unique health articles |
+| **Lucky Items** (numbers, colors) | ~7 | ⚠️ Missing stones/jewelry by element angle |
+| **Zodiac** (2026 profiles) | ~13 | ⚠️ Only Rat, Ox, Tiger have individual articles; other 9 signs only in roundups |
+| **Shen Sha** (nobleman stars) | ~3 | ⚠️ Too thin — needs full guide expansion |
+| **Ten Gods** (wealth/career/love) | ~2 | ⚠️ Needs standalone deep dive |
+| **Business** (timing, entrepreneur) | ~3 | ⚠️ Missing partnership compatibility angle |
+| **Marriage** (spouse palace, date selection) | ~6 | ⚠️ Missing timing for singles angle |
+| **Pregnancy/Fertility** | ~1 | ✅ Sufficient for now |
+| **Parenting/Child Talents** | ~1 | ❌ Major gap — no 0-18 age group Bazi content |
+| **Lucky Items** (colors, numbers) | ~7 | ⚠️ Missing stones/jewelry and lucky directions |
+| **Almanac** (yi ji) | ~3 | ⚠️ Too thin, needs expansion |
+| **Other Systems** (Ziwei, Vedic) | ~5 | ⚠️ Thin comparison articles |
+| **Technical** (true solar time) | ~2 | ⚠️ Redundant articles |
+| **Date Selection** (lucky dates) | ~3 | ✅ OK coverage |
 
-### 🟡 P1：中搜索量 + 低竞争（已覆盖？需增强？）
+### Critical Gaps Identified (by priority)
 
-| # | 关键词簇 | 目标页面 | 状态 | 问题 |
-|---|---------|---------|------|------|
-| 5 | "bazi lucky direction" (2K-5K) | `bazi-feng-shui-direction-guide-best-direction.md` | ✅ 已创建 | ❌ 无FAQ，无内链 |
-| 6 | "bazi TTC fertility" (2K-5K) | `bazi-ttc-fertility-guide-best-time-to-conceive.mdx` | ✅ 已创建 | ❌ 无FAQ，190行≈偏短 |
-| 7 | "bazi compatibility calculator" (5K-12K) | `bazi-compatibility-calculator-free-online-guide.md` → 重定向到 `bazi-compatibility-beyond-zodiac-signs` | ✅ 已创建（标题优化） | ❌ 无FAQ，121行≈偏短 |
-| 8 | "10 day masters personality chart" (2K-5K) | `bazi-10-day-masters-personality-chart.mdx` | ✅ 已创建 | ❌ 无FAQ，270行≈偏短 |
-| 9 | "bazi luck pillar calculator" (3K-8K) | `bazi-life-cycle-major-luck-pillars.md` | ✅ 已创建 | ❌ 无FAQ，234行≈长度OK但缺内链 |
+| # | Gap Category | Priority | Search Volume Estimate |
+|---|-------------|----------|----------------------|
+| 1 | Zodiac sign profiles (Rabbit through Pig) — individual articles for 9 missing signs | 🔴 P0 | 3K-8K/mo per sign × 9 = massive |
+| 2 | Children's Bazi for ages 0-18 (talent, education timing) — only pregnancy exists | 🔴 P0 | 2K-5K/mo search |
+| 3 | Health — seasonal wellness by Bazi element (only constitution exists) | 🔴 P0 | 2K-5K/mo search |
+| 4 | Lucky stones/jewelry by Bazi element — high commercial intent, zero coverage | 🔴 P0 | 5K-10K/mo search |
+| 5 | Business partnership compatibility — only individual career timing exists | 🟡 P1 | 1K-3K/mo search |
+| 6 | Travel feng shui by direction/season — only residential directions exist | 🟡 P1 | 2K-5K/mo search |
+| 7 | Love timing for singles (when to find partner) — only compatibility exists | 🟡 P1 | 2K-5K/mo search |
+| 8 | Bazi for major life decisions (career change, relocation) — only transition timing exists | 🟡 P1 | 2K-5K/mo search |
+| 9 | Children's name selection using five elements — naming exists but not child-specific timing | 🟢 P2 | 1K-3K/mo search |
+| 10 | Wedding date selection with five elements — date selection exists but not married-date-specific | 🟢 P2 | 1K-3K/mo search |
+| 11 | Annual fortune by luck pillar × day master — only annual/yearly exists | 🟢 P2 | 1K-3K/mo search |
+| 12 | Seasonal feng shui by element — only annual flying stars exist | 🟢 P2 | 1K-3K/mo search |
+| 13 | Zodiac compatibility pairs (e.g., Rat+Dragon, Horse+Dog) — only general compatibility exists | 🟢 P2 | 1K-3K/mo search |
+| 14 | Stress management by Bazi element — health exists but no stress-specific content | 🟢 P2 | 1K-3K/mo search |
+| 15 | Sleep optimization by Bazi element — health exists but no sleep-specific content | 🟢 P2 | 1K-3K/mo search |
+| 16 | Real estate buying using Bazi — wealth exists but no property angle | 🟢 P2 | 1K-3K/mo search |
+| 17 | Office feng shui by day master — only home layout exists | 🟢 P2 | 1K-3K/mo search |
+| 18 | Clash year couple compatibility — only general clash year guide exists | 🟢 P2 | 1K-3K/mo search |
+| 19 | Monthly fortune by day master — only monthly zodiac exists, no DM breakdown | 🟢 P2 | 1K-3K/mo search |
+| 20 | Bazi and real estate/housing decisions — completely missing | 🟢 P2 | 1K-3K/mo search |
 
-### 🟢 P2：长尾词（完全空白）
+### Duplicate Content Groups (5 groups, ~8 articles → merge to 3)
 
-| # | 关键词簇 | 月搜量估计 | 竞争度 | FateWise覆盖？ |
-|---|---------|-----------|--------|--------------|
-| 10 | "lucky element bazi calculator" (工具页) | 3K-8K | **低** | ❌ 完全空白（最高优先级新功能） |
-| 11 | "bazi daily fortune reading" (工具/文章) | 2K-5K | **中** | ❌ 完全空白（需求已验证：bazi-fortune.app） |
-| 12 | "favorable element career bazi" | 1K-3K | **低** | ⚠️ 有career文章但未聚焦favorable element |
-| 13 | "strong vs weak day master which is better" | 1K-3K | **低** | ⚠️ 有strong/weak文章但可优化为对比格式 |
-| 14 | "bazi children palace how to read" | 500-2K | **低** | ❌ 完全空白（TTC主题延伸） |
-| 15 | "bazi vs western astrology difference" | 2K-4K | **低** | ✅ 有3篇但可合并优化 |
-| 16 | "bazi personal lucky numbers calculator" | 2K-5K | **低** | ❌ 完全空白（chinese-numerology文章未覆盖个性化计算） |
+| Group | Articles | Action |
+|-------|----------|--------|
+| **Health Constitution ×2** → 1 | bazi-health-body-constitution-chinese-medicine + tcm-wellness-guide | Merge to single comprehensive guide, 301 redirect x1 |
+| **Direction Guide ×2** → 1 | bazi-feng-shui-direction-guide-best-direction + which-direction-to-live | Merge to single guide, 301 redirect x1 |
+| **2026 Fire Horse ×2** → 1 | 2026-fire-horse-bazi-fortune-predictions-every-day-master + 2026-fire-horse-bazi-yearly-forecast | Merge to single definitive forecast, 301 redirect x1 |
+| **Western Astrology ×3** → 1 | bazi-vs-western-astrology-key-differences + which-system-better + western-astrology-which-is-right | Consolidate to 1 epic comparison, 301 redirect x2 |
+| **Career Guide ×2** → 1 | bazi-career-guide-ideal + career-reading-ideal-profession | Merge to single comprehensive guide, 301 redirect x1 |
 
----
-
-## 三、现有文章内容缺口详细分析
-
-### A. 有但需优化的文章（15篇）
-
-这些文章覆盖了目标关键词，但存在SEO缺陷：
-
-| 文章 | 问题 | 优化建议 |
-|------|------|---------|
-| `chinese-numerology-lucky-numbers-bazi.md` | Title不匹配搜索意图（"Chinese Numerology" vs "bazi lucky numbers"）；无内链 | 重写title为"Bazi Lucky Numbers: Your Personalized Digits by Day Master Element"；添加FAQ+内链 |
-| `daily-lucky-colors-for-your-bazi-chart.md` | 无FAQ，无内部链接 | 添加FAQ（5-7个People Also Ask问题）；添加/bazi、/pricing内链 |
-| `what-is-my-day-master-find-your-core-element.md` | 无FAQ，无内部链接 | 添加FAQ（"How do I find my day master?" "What are the 10 day masters?"等） |
-| `2026-fire-horse-bazi-fortune-predictions-every-day-master.md` | 无FAQ，无内部链接 | 添加FAQ（"Is 2026 a good year for [Day Master]?"） |
-| `bazi-feng-shui-direction-guide-best-direction.md` | 无FAQ，仅1条/bazi内链，无/pricing | 添加FAQ+双向内链（/tools/lucky-direction-calculator如果上线） |
-| `bazi-compatibility-beyond-zodiac-signs.mdx` | 121行≈偏短；无FAQ | 扩展至1800+词，添加对比表格和FAQ |
-| `bazi-ttc-fertility-guide-best-time-to-conceive.mdx` | 190行≈偏短；无FAQ | 扩展至1800+词，添加2026 TTC时机表格和FAQ |
-| `bazi-10-day-masters-personality-chart.mdx` | 270行≈长度OK但无FAQ；仅2条内链 | 添加社交媒体分享CTA和FAQ |
-| `bazi-life-cycle-major-luck-pillars.md` | 234行≈长度OK但无内链、无FAQ | 添加计算器CTA和FAQ |
-| `bazi-vs-western-astrology-key-differences-you-should-know.md` | 与另2篇高度重复（同关键词） | **合并为1篇终极对比文章**，删除或301重定向其余2篇 |
-| `bazi-vs-western-astrology-which-system-better.md` | 同上 | **合并/重定向** |
-| `bazi-vs-vedic-astrology-comparison.md` | 独立主题但流量较小 | 保留，添加内链到主Bazi对比文章 |
-| `bazi-career-guide-how-to-read-your-chart.md` / `bazi-career-guide-ideal-career-path.md` | 2篇高度重叠（同"career guide bazi"关键词） | **合并为1篇**，保留搜索表现较好的一篇301重定向另一篇 |
-| `bazi-career-reading-profession-guide.md` | 同上，第3篇职业指南重叠 | **合并/重定向** |
-| `bazi-wealth-money-star-element-guide.md` / `bazi-wealth-element-how-to-find-your-money-star.md` | 2篇主题重叠（wealth element） | **合并为1篇终极指南** |
-
-### B. 完全缺失的高价值文章（8篇）
-
-按优先级排序：
-
-| # | 文章标题建议 | slug | 目标关键词 | 月搜量 | 竞争度 | 理由 |
-|---|------------|------|-----------|--------|--------|------|
-| 1 | **"How to Find Your Bazi Lucky Element: A Complete Personalized Guide"** | `bazi-lucky-element-finder-guide` | lucky element bazi calculator, favorable element guide | 3K-8K | **低** | 🔴 最大机会——关键词竞争极低，与/tools/lucky-element-finder工具完美联动 |
-| 2 | **"Bazi Daily Fortune: How to Read Your Personalized Day-by-Day Luck"** | `bazi-daily-fortune-reading-guide` | bazi daily fortune reading | 2K-5K | **中** | 🔴 bazi-fortune.app已验证市场需求，FateWise可作为更精准的个人化替代 |
-| 3 | **"Bazi Children Palace: How to Read Your Fertility Signal from Your Chart"** | `bazi-children-palace-how-to-read` | bazi children palace, fertility signal bazi | 500-2K | **低** | 🟡 TTC主题延伸，与TTC文章形成内容集群，高商业意图 |
-| 4 | **"Bazi Personalized Lucky Numbers Calculator: Your Digits by Day Master"** | `bazi-personalized-lucky-numbers-calculator` | bazi lucky numbers calculator, personalized lucky digits | 2K-5K | **低** | 🟡 现有chinese-numerology文章是通用数理学，缺少"按日主个性化计算"维度 |
-| 5 | **"Favorable Element Career Guide: Choose Your Best Profession by Bazi"** | `favorable-element-career-bazi-guide` | favorable element career, bazi best profession by element | 1K-3K | **低** | 🟢 career主题已有基础，但缺少favorable element维度的职业匹配指南 |
-| 6 | **"Bazi Strong vs Weak Day Master: Which Is Better for Success?"** | `strong-vs-weak-day-master-comparison` | strong vs weak day master, which is better bazi | 1K-3K | **低** | 🟢 现有strong/weak文章可优化为对比格式，标题直接匹配搜索查询 |
-| 7 | **"The Complete Bazi Guide for Beginners: Your Step-by-Step Introduction"** | `complete-bazi-guide-beginners` | complete bazi guide, bazi step by step | 5K-10K | **中** | 🟢 入口级内容，类似"what is bazi"但更全面（整合四柱、日主、五行、十神基础） |
-| 8 | **"Bazi Shen Sha (神煞): Complete Guide to Chinese Stars of Destiny"** | `bazi-shen-sha-complete-guide` | bazi shen sha, chinese stars destiny | 1K-3K | **低** | 🟢 差异化内容——竞品几乎不覆盖，可建立FateWise专业权威 |
+**Net result**: ~127 → ~119 articles after merges, then +43 new = **~162 articles**
 
 ---
 
-## 四、内容集群规划（按主题分组）
+## Part B: New Article Expansion Plan (43 Articles)
 
-### Cluster 1: Day Master生态（已覆盖60%）
-- ✅ what-is-my-day-master-find-your-core-element.md（入口级，5K-12K）
-- ✅ day-master-bazi-10-types-explained.md（基础类型，2K-5K）
-- ✅ understanding-your-day-master-the-key-to-reading-bazi.md（深入解读，1K-3K）
-- ✅ bazi-10-day-masters-personality-chart.mdx（对比矩阵，2K-5K）
-- ✅ wood-day-master.md / fire-day-master.md / earth-day-master.md / metal-day-master.md / water-day-master.md（5篇×，各1K-2K）
-- 🆕 strong-vs-weak-day-master-comparison（对比，1K-3K）
-- 🆕 favorable-element-career-bazi-guide（职业延伸，1K-3K）
+### Sprint A — 12 High-Priority Gaps (P0/P1)
 
-**内链策略**: 所有日主相关文章互链 → /bazi计算器 → /pricing
-
-### Cluster 2: 幸运元素生态（新构建，最大机会）
-- 🆕 bazi-lucky-element-finder-guide（入口级，3K-8K）
-- ✅ daily-lucky-colors-for-your-bazi-chart.md（幸运色，3K-8K）
-- 🆕 bazi-personalized-lucky-numbers-calculator（幸运数字，2K-5K）
-- 🆕 lucky-element-bazi-feng-shui-direction（幸运方向，2K-5K）
-- ✅ what-to-eat-today-based-on-your-bazi-five-element-diet.md（饮食，500-1K）
-- ✅ best-exercise-for-your-five-elements-type.md（运动，500-1K）
-
-**内链策略**: 所有幸运元素文章 → /tools/lucky-element-finder工具 → /pricing
-
-### Cluster 3: TTC/生育生态（新构建，高商业意图）
-- ✅ bazi-ttc-fertility-guide-best-time-to-conceive.mdx（TTC指南，2K-5K）
-- 🆕 bazi-children-palace-how-to-read（子女宫，500-2K）
-- 🆕 favorable-element-pregnancy-timing（有利元素怀孕时机，1K-2K）
-- ✅ bazi-parenting-understanding-child-talents-chart.md（育儿天赋，500-1K）
-- ✅ chinese-marriage-date-selection.md（婚期择日，500-1K）
-
-**内链策略**: 所有TTC文章 → PDF命书报告（付费功能上线后）
-
-### Cluster 4: 兼容性生态（已覆盖70%）
-- ✅ bazi-compatibility-beyond-zodiac-signs.mdx（日主兼容，5K-12K）
-- ✅ bazi-compatibility-by-zodiac-year-guide.md（生肖兼容，2K-5K）
-- ✅ bazi-compatibility-by-birth-date-guide.md（生日兼容，1K-3K）
-- ✅ bazi-love-compatibility-four-pillars-match.md（四柱匹配，1K-2K）
-- ✅ bazi-marriage-love-destiny-spouse-palace.md（婚姻/配偶宫，1K-2K）
-- ✅ chinese-astrology-compatibility-comprehensive-guide.md（综合兼容，1K-2K）
-
-**内链策略**: 所有兼容性文章 → /tools/bazi-compatibility工具 → /pricing
-
-### Cluster 5: 年度运势生态（已覆盖，持续扩展）
-- ✅ 2026-fire-horse-bazi-fortune-predictions-every-day-master.md（火马年，15K-30K）
-- ✅ 2026-monthly-bazi-predictions-zodiac-signs.md（月度预测，5K-10K）
-- ✅ 2026-clash-year-survival-guide-rat-horse-chang-fan-tai-sui.md（冲太岁，3K-8K）
-- ✅ 2027-year-wood-goat-bazi-forecast.md（木羊年，3K-8K）
-- ✅ 2025-bazi-year-in-review-fire-snake.md（回顾，1K-3K）
-- ✅ chinese-zodiac-yearly-fortune-2026.md（12生肖，5K-10K）
-
-**内链策略**: 年度运势文章 → /bazi计算器（"计算你的2026年运程"）
-
----
-
-## 五、合并/301重定向计划（立即执行，减少重复内容惩罚）
-
-| 保留文章 | 被合并/重定向文章 | 操作 |
-|---------|-----------------|------|
-| `bazi-vs-western-astrology-key-differences-you-should-know.md`（或综合最佳版） | `bazi-vs-western-astrology-key-differences-7.md` + `bazi-vs-western-astrology-which-system-better.md` | 301重定向其余2篇到保留文章 |
-| `bazi-career-guide-how-to-read-your-chart.md`（或综合最佳版） | 另2篇职业指南文章 | 301重定向到保留文章，合并内容 |
-| `bazi-wealth-element-how-to-find-your-money-star.md`（或综合最佳版） | `bazi-wealth-money-star-element-guide.md` | 301重定向，合并内容 |
-
-**预计效果**: 减少3-5篇重复内容页面 → 提升保留文章权重 → Google排名改善
-
----
-
-## 六、执行路线图（按优先级排序）
-
-### Sprint 1: SEO增强（现有文章，1-2天）
-| # | 任务 | 预计工时 |
-|---|------|---------|
-| 1.1 | 为P0-P1文章添加FAQ（8篇，每篇5-7个Q&A） | 4小时 |
-| 1.2 | 为P0-P1文章添加内部链接（/bazi ×3+，/pricing ×2，/tools/×1） | 2小时 |
-| 1.3 | chinese-numerology文章title优化 + FAQ + 内链 | 1小时 |
-| 1.4 | bazi-compatibility-beyond-zodiac文章扩展至1800+词 + FAQ | 2小时 |
-| 1.5 | bazi-ttc-fertility文章扩展至1800+词 + FAQ | 2小时 |
-
-### Sprint 2: 合并/重定向（30分钟）
-| # | 任务 | 预计工时 |
-|---|------|---------|
-| 2.1 | 创建合并后的终极文章（3篇） | 3小时 |
-| 2.2 | 设置301重定向（5篇） | 30分钟 |
-
-### Sprint 3: 新文章创作（核心扩展，1-2周）
-| # | 任务 | 目标关键词 | 预计字数 | 优先级 |
-|---|------|-----------|---------|--------|
-| 3.1 | How to Find Your Bazi Lucky Element Guide | lucky element bazi calculator (3K-8K) | 2000+ | 🔴 P0 |
-| 3.2 | Bazi Daily Fortune Reading Guide | bazi daily fortune reading (2K-5K) | 1800+ | 🔴 P0 |
-| 3.3 | Bazi Children Palace Fertility Guide | bazi children palace (500-2K) | 1500+ | 🟡 P1 |
-| 3.4 | Bazi Personalized Lucky Numbers Calculator | bazi lucky numbers calculator (2K-5K) | 1800+ | 🟡 P1 |
-| 3.5 | Favorable Element Career Guide | favorable element career (1K-3K) | 1500+ | 🟢 P2 |
-| 3.6 | Strong vs Weak Day Master Comparison | strong vs weak day master (1K-3K) | 1500+ | 🟢 P2 |
-| 3.7 | Complete Bazi Guide for Beginners | complete bazi guide (5K-10K) | 2500+ | 🟢 P2 |
-| 3.8 | Bazi Shen Sha Complete Guide | bazi shen sha (1K-3K) | 1800+ | 🟢 P2 |
-
-**Sprint 3完成后**: 96 → **104篇**（净增8篇，合并减少3-5篇 ≈ 最终96-98篇但质量更高）
-
-### Sprint 4: 持续补充（2-3周后，按数据迭代）
-基于Sprint 1-3上线后的Search Console数据，识别新的长尾机会：
-| # | 选题方向 | 说明 |
-|---|---------|------|
-| 4.1 | Bazi + MBTI crossover content | Medium已验证Day Master × MBTI有传播力 |
-| 4.2 | True Solar Time deep-dive (扩展) | 已有2篇，可扩展为"为什么你的Bazi算不准"系列 |
-| 4.3 | Bazi + I Ching combined reading | 已有1篇，可扩展为深度教程系列 |
-| 4.4 | Bazi + Palmistry integration | 已有1篇，可扩展为跨学科系列 |
-| 4.5 | Monthly luck prediction template | 基于大运+流年的月度预测方法论 |
-
----
-
-## 七、FAQ模板（所有新文章/优化文章通用）
-
-每篇文章底部添加以下格式的FAQ：
+#### A1: Lucky Stones & Jewelry by Bazi Element — Complete Guide
+**Target Keywords**: `lucky stones bazi`, `bazi crystal by element`, `gemstone for my day master`
+**Monthly Search**: 5K-10K | **Competition**: Low | **Priority**: 🔴 P0
+**Slug**: `lucky-stones-jewelry-by-bazi-five-elements`
+**Estimated Length**: 2,500+ words
 
 ```markdown
-## Frequently Asked Questions (FAQ)
+# Lucky Stones and Jewelry by Bazi Element: Find Your Personal Gemstone Guide
 
-### [问题1 — 匹配People Also Ask]？
-**回答**: [2-4句话的精确答案，包含目标关键词的自然变体]
+## Introduction
+- Hook: The ancient Chinese tradition of wearing the right stone to balance your chart
+- Why gemstone choice matters more than you think in Bazi
+- How this guide helps you find your personalized stone
 
-### [问题2]？
-**回答**: [...]
+## The Five Elements and Their Corresponding Stones
+### Wood Element (甲/乙) — Growth & Vitality
+- Emerald, Jadeite, Peridot, Green Tourmaline
+- Why green stones resonate with Wood energy
+- Best jewelry forms: bracelets, pendants
 
-### [问题3]？
-**回答**: [...]
+### Fire Element (丙/丁) — Passion & Energy
+- Ruby, Garnet, Red Agate, Rose Quartz
+- Why red/pink stones amplify Fire energy
+- Best jewelry forms: rings, earrings
 
-### [问题4]？
-**回答**: [...]
+### Earth Element (戊/己) — Stability & Grounding
+- Citrine, Tiger's Eye, Yellow Jade, Amber
+- Why earth-tone stones provide grounding energy
+- Best jewelry forms: brooches, heavy bracelets
 
-### [问题5]？
-**回答**: [...]
+### Metal Element (庚/辛) — Clarity & Precision
+- Diamond, White Sapphire, Platinum, Silver
+- Why metallic/white stones enhance Metal energy
+- Best jewelry forms: necklaces, earrings
+
+### Water Element (壬/癸) — Flow & Wisdom
+- Black Onyx, Lapis Lazuli, Aquamarine, Obsidian
+- Why dark/blue stones support Water energy
+- Best jewelry forms: rings, anklets
+
+## How to Determine Which Stones You Need
+### Step 1: Find Your Favorable Elements (喜用神)
+- Revisit the favorable element guide
+- Only wear stones for your favorable elements, not all five
+
+### Step 2: Consider Your Life Focus
+- Career growth → Wood/Metal stones
+- Love & relationships → Fire/Earth stones
+- Wealth accumulation → Earth/Water stones
+- Health & vitality → Wood/Fire stones
+
+### Step 3: Seasonal Adjustments
+- Spring (Wood season): Add Wood stones if favorable
+- Summer (Fire season): Fire stones for balance
+- Autumn (Metal season): Metal stones if needed
+- Winter (Water season): Water stones for support
+
+## Jewelry Placement and Bazi Energy Flow
+### Which Body Parts to Wear Stones On
+- Head/neck → Mental clarity (Metal/Water)
+- Hands/wrists → Career and wealth flow (Wood/Earth)
+- Feet/ankles → Grounding and health (Earth/Water)
+
+### Metal Types That Work With Your Chart
+- Gold → Fire energy (good for Water Day Masters)
+- Silver → Metal energy (good for Wood/Fire Day Masters)
+- Platinum → Pure Metal (neutral, works for all)
+
+## Common Mistakes to Avoid
+- Wearing ALL five elements (dilutes the effect)
+- Ignoring your unfavorable elements (can make things worse)
+- Only following zodiac, not Bazi element analysis
+- Buying cheap imitations that carry no energy
+
+## FAQ: Lucky Stones & Bazi
+### Can I wear stones for multiple elements?
+- Yes, but prioritize your top 1-2 favorable elements
+### Do I need to "activate" my lucky stones?
+- Traditional cleansing rituals and intention setting
+### How often should I replace worn-out stones?
+- Signs your stone's energy has diminished
+
+## Your Next Step: Check Your Favorable Elements First
+- Link to favorable element finder tool
+- CTA for personalized Bazi reading
 ```
 
-**FAQ来源**: Google SERP "People Also Ask"板块、Reddit r/ChineseZodiac热门问题、竞品评论区高频提问
+#### A2: Children's Bazi — Understanding Your Child's Talents and Education Path
+**Target Keywords**: `bazi for children`, `child bazi chart reading`, `children education timing bazi`
+**Monthly Search**: 2K-5K | **Competition**: Low | **Priority**: 🔴 P0
+**Slug**: `children-bazi-talents-education-path-guide`
+
+#### A3: Seasonal Wellness Guide by Bazi Element — Spring/Summer/Autumn/Winter
+**Target Keywords**: `bazi seasonal wellness`, `five elements diet by season bazi`
+**Monthly Search**: 2K-5K | **Competition**: Low | **Priority**: 🔴 P0
+**Slug**: `seasonal-wellness-guide-by-bazi-five-elements`
+
+#### A4: Zodiac Sign Profiles — Complete Guide for Rabbit, Dragon, Snake, Horse
+**Target Keywords**: `rabbit zodiac 2026 fortune`, `dragon zodiac personality bazi`
+**Priority**: 🔴 P0 — These 4 signs have almost no individual content
+
+#### A5: Zodiac Sign Profiles — Goat, Monkey, Rooster, Dog, Pig
+**Target Keywords**: `goat zodiac fortune 2026`, `pig zodiac bazi personality`
+**Priority**: 🔴 P0 — 5 more signs with minimal individual coverage
+
+#### A6: Business Partnership Compatibility Using Bazi
+**Target Keywords**: `bazi business partner compatibility`, `partnership bazi reading`
+**Monthly Search**: 1K-3K | **Competition**: Low | **Priority**: 🟡 P1
+**Slug**: `bazi-business-partnership-compatibility-guide`
+
+#### A7: Travel Feng Shui — Best Directions and Timing for Every Bazi Chart
+**Target Keywords**: `bazi travel direction`, `feng shui for travelers bazi`
+**Monthly Search**: 2K-5K | **Competition**: Low | **Priority**: 🟡 P1
+**Slug**: `travel-feng-shui-direction-timing-bazi-guide`
+
+#### A8: Love Timing — When to Find Your Partner Based on Bazi Luck Cycles
+**Target Keywords**: `when will I find love bazi`, `love timing lucky year bazi`
+**Monthly Search**: 2K-5K | **Competition**: Low | **Priority**: 🟡 P1
+**Slug**: `love-timing-find-partner-bazi-luck-cycles`
+
+#### A9: Bazi for Major Life Decisions — Career Change, Relocation, Business Launch
+**Target Keywords**: `bazi major life decisions`, `when to change career bazi`
+**Monthly Search**: 2K-5K | **Competition**: Low | **Priority**: 🟡 P1
+**Slug**: `bazi-major-life-decisions-timing-guide`
+
+#### A10: Children's Name Selection Using Five Elements — Timing and Method
+**Target Keywords**: `bazi naming children five elements`, `Chinese baby name bazi`
+**Monthly Search**: 1K-3K | **Competition**: Low | **Priority**: 🟢 P2
+**Slug**: `children-name-selection-five-elements-bazi`
+
+#### A11: Annual Fortune by Luck Pillar × Day Master — Advanced Personal Forecast
+**Target Keywords**: `bazi annual fortune luck pillar`, `personal year forecast bazi`
+**Monthly Search**: 1K-3K | **Competition**: Low | **Priority**: 🟢 P2
+**Slug**: `annual-fortune-luck-pillar-day-master-guide`
+
+#### A12: Zodiac Compatibility Pairs — Rat+Dragon, Horse+Dog and 36 Pair Combinations
+**Target Keywords**: `rat dragon zodiac compatibility`, `horse dog zodiac match`
+**Monthly Search**: 1K-3K | **Competition**: Low | **Priority**: 🟢 P2
+**Slug**: `zodiac-compatibility-pairs-complete-chart`
+
+### Sprint B — 15 Medium-Priority Gaps (P2)
+
+#### B1: Stress Management by Bazi Element
+**Keywords**: `stress relief bazi element`, `manage stress with five elements`
+
+#### B2: Sleep Optimization by Bazi Element
+**Keywords**: `sleep better bazi`, `bazi sleep schedule element`
+
+#### B3: Real Estate Buying Using Bazi — House Selection and Direction
+**Keywords**: `bazi house buying`, `real estate bazi direction`
+
+#### B4: Office Feng Shui by Day Master
+**Keywords**: `office feng shui day master`, `desk placement bazi`
+
+#### B5: Clash Year Couple Compatibility — When One Partner Clashes with the Year
+**Keywords**: `bazi couple clash year`, `taisui relationship compatibility`
+
+#### B6: Monthly Fortune by Day Master — 12-Month Forecast for Each of the 10 Stems
+**Keywords**: `monthly fortune day master`, `bazi monthly forecast by stem`
+
+#### B7: Bazi and Real Estate/Housing Decisions
+**Keywords**: `bazi housing decisions`, `buy house bazi timing`
+
+#### B8: Seasonal Feng Shui — Quarterly Adjustments by Element
+**Keywords**: `seasonal feng shui adjustments`, `quarterly feng shui bazi`
+
+#### B9: Career Timing for Each Luck Pillar Phase — 10-Year Cycle Guide
+**Keywords**: `career timing luck pillar`, `bazi career cycle guide`
+
+#### B10: Investment Timing by Day Master and Luck Pillar
+**Keywords**: `investment timing bazi`, `stock market bazi luck cycle`
+
+#### B11: Wedding Date Selection Using Five Elements — Beyond General Auspicious Dates
+**Keywords**: `wedding date bazi elements`, `auspicious wedding day five elements`
+
+#### B12: Bazi for Pet Selection — Choosing Pets That Complement Your Chart
+**Keywords**: `pet selection bazi`, `lucky pet five elements`
+
+#### B13: Color Psychology and Bazi Elements — Wardrobe Colors by Element
+**Keywords**: `wardrobe colors bazi`, `clothing color five elements`
+
+#### B14: Bazi and Learning Styles — How Your Chart Affects Education Approach
+**Keywords**: `bazi learning style`, `five elements education approach`
+
+#### B15: Zodiac Compatibility Matrix — Complete 66-Pair Reference Chart
+**Keywords**: `zodiac compatibility chart`, `Chinese zodiac pair matrix`
+
+### Sprint C — 16 Lower-Priority / Seasonal Gaps (P2/P3)
+
+#### C1: 2027 Monthly Forecast by Day Master (seasonal content, publish Dec 2026)
+#### C2: Winter Wellness by Bazi Element — Cold Season Health Guide
+#### C3: Spring Cleaning Feng Shui — Quarterly Home Energy Reset by Chart Type
+#### C4: Bazi for Gift Giving — Choosing Presents That Align With Recipient's Chart
+#### C5: Career Burnout Prevention by Bazi Element — Work-Life Balance Guide
+#### C6: Marriage Timing for Each Day Master — When Is the Right Year to Wed?
+#### C7: Bazi and Financial Planning — Budgeting by Element Type
+#### C8: Children's Academic Year Timing — Best Start Dates Using Bazi
+#### C9: Bazi for Garden Planning — Plants That Balance Your Home Energy
+#### C10: Relationship Maintenance by Bazi Element — Keeping Love Alive Long-Term
+#### C11: Bazi and Home Renovation Timing — When to Start Construction Projects
+#### C12: Seasonal Travel Destinations by Bazi Element — Where to Go Each Season
+#### C13: Bazi and Cooking Styles — Food Preparation Methods by Element Balance
+#### C14: Birth Chart Analysis for Teenagers (ages 13-18) — Navigating Adolescence
+#### C15: Bazi for Retirement Planning — Timing Your Life Transition
+#### C16: Feng Shui for Study Rooms by Day Master — Optimal Learning Environment
 
 ---
 
-## 八、内链模板（每篇文章底部）
+## Part C: Content Merge & Optimization Plan (8 articles → 3)
 
-```markdown
----
+### Merge Group 1: Health Constitution
+**Keep**: `bazi-health-body-constitution-chinese-medicine.md` (more comprehensive)
+**Redirect**: `bazi-health-body-constitution-tcm-wellness-guide.md` → 301 to above
+**New combined article**: 4,000+ words covering TCM constitution + daily wellness practices
 
-**Continue your Bazi journey:**
-- [Calculate Your Complete Bazi Chart](/) — Free four pillars calculator with true solar time correction
-- [Find Your Lucky Element](/tools/lucky-element-finder) — Discover your favorable and unfavorable elements
-- [Check Your Compatibility](/tools/bazi-compatibility) — How well do you match with your partner?
-- [Upgrade to Pro Report](/pricing) — Get a complete personalized destiny reading with PDF download
-```
+### Merge Group 2: Direction Guide
+**Keep**: `bazi-feng-shui-direction-guide-best-direction.md` (better structured)
+**Redirect**: `bazi-feng-shui-direction-guide-which-direction-to-live.md` → 301 to above
+**New combined article**: Include both residential and daily life directions
 
----
+### Merge Group 3: 2026 Fire Horse Forecast
+**Keep**: `2026-fire-horse-bazi-fortune-predictions-every-day-master.md` (more DM-focused)
+**Redirect**: `2026-fire-horse-bazi-yearly-forecast.md` → 301 to above
+**New combined article**: Definitive 2026 forecast with all angles covered
 
-## 九、与关键词计划v2的衔接
+### Merge Group 4: Western Astrology Comparison
+**Keep**: `bazi-vs-western-astrology-key-differences-you-should-know.md` (best SEO title)
+**Redirect**: `bazi-vs-western-astrology-which-system-better.md` → 301
+**Redirect**: `bazi-western-astrology-which-is-right.md` → 301
+**New combined article**: Epic comparison covering all angles, 5,000+ words
 
-本扩展计划的Sprint 3（新文章创作）直接对应关键词计划v2的Phase 1-2功能建议：
-
-| 关键词计划v2 | 本计划对应Sprint |
-|-------------|----------------|
-| P0-1: Day Master SEO文章 | ✅ 已覆盖（Sprint 1增强） |
-| P0-2: Lucky Colors SEO文章 | ✅ 已覆盖（Sprint 1增强） |
-| P0-3: Lucky Numbers SEO文章 | Sprint 3 #3.4（新创作） |
-| P0-4: Fire Horse Day Master Guide | ✅ 已覆盖（Sprint 1增强） |
-| P1-1: Lucky Direction SEO文章 | ✅ 已覆盖（Sprint 1增强） |
-| P1-2: TTC Fertility SEO文章 | ✅ 已覆盖（Sprint 1增强） |
-| P1-3: 10 Day Masters Personality Chart | ✅ 已覆盖（Sprint 1增强） |
-| P1-4: Bazi Compatibility SEO文章 | ✅ 已覆盖（Sprint 1增强） |
-| P1-5: Bazi Luck Pillar SEO文章 | ✅ 已覆盖（Sprint 1增强） |
-| P2-1: Lucky Element Finder工具页 | Sprint 3 #3.1（新文章+待开发工具） |
-| P2-2: TTC Calculator | Sprint 3 #3.3（文章先行，工具后续） |
-| P2-3: Bazi vs Western Astrology | Sprint 2合并优化（已有3篇） |
+### Merge Group 5: Career Guide
+**Keep**: `bazi-career-guide-ideal-career-path.md` (better title)
+**Redirect**: `bazi-career-reading-ideal-profession-guide.md` → 301
+**New combined article**: Comprehensive career guide including student major advice
 
 ---
 
-## 十、成功指标
+## Part D: Execution Timeline
 
-| 指标 | 当前基线 | Sprint 3后目标 |
-|------|---------|---------------|
-| 博客文章数 | ~96篇 | **104+篇**（净增） |
-| 有FAQ的文章比例 | ~11% | **>60%** |
-| 有/pricing内链的文章比例 | <5% | **>40%** |
-| 有/tools内链的文章比例 | <3% | **>30%** |
-| P0关键词排名（Top 20） | Day Master: ❌, Lucky Colors: ⚠️, Lucky Numbers: ⚠️ | Day Master: ✅, Lucky Colors: ✅, Lucky Numbers: ✅ |
-| 重复内容页面数 | ~5-8篇（合并前） | **0篇** |
+### Phase 1 — Merge & Optimize (Week 1-2)
+| Task | Articles Affected | Impact |
+|------|------------------|--------|
+| Merge Health Constitution ×2 → 1 | 800+ lines consolidated | Eliminates duplicate content penalty |
+| Merge Direction Guide ×2 → 1 | 600+ lines consolidated | Cleaner internal linking |
+| Merge 2026 Fire Horse ×2 → 1 | 900+ lines consolidated | Authoritative single source of truth |
+| Merge Western Astrology ×3 → 1 | 800+ lines consolidated | Strong comparison pillar page |
+| Merge Career Guide ×2 → 1 | 500+ lines consolidated | Better career resource hub |
+
+### Phase 2 — Sprint A: High-Priority New Content (Week 3-6)
+| Article | Target Keyword Volume | Est. Traffic Potential |
+|---------|----------------------|----------------------|
+| A1: Lucky Stones & Jewelry | 5K-10K/mo | High commercial intent → product conversion |
+| A2: Children's Bazi | 2K-5K/mo | High engagement, family audience |
+| A3: Seasonal Wellness Guide | 2K-5K/mo | Evergreen, seasonal refresh potential |
+| A4: Zodiac Rabbits/Dragons/Snakes/Horses | 15K-30K/mo combined | Massive traffic from 4 zodiac signs |
+| A5: Zodiac Goats/Monkeys/Roosters/Dogs/Pigs | 18K-36K/mo combined | Massive traffic from 5 zodiac signs |
+| A6: Business Partnership Compatibility | 1K-3K/mo | Niche but high-intent audience |
+| A7: Travel Feng Shui | 2K-5K/mo | Seasonal spikes, travel planning season |
+| A8: Love Timing for Singles | 2K-5K/mo | High emotional engagement, shareable |
+| A9: Major Life Decisions Guide | 2K-5K/mo | Evergreen pillar content |
+| A10: Children's Name Selection | 1K-3K/mo | High commercial intent (naming tools) |
+| A11: Annual Fortune by Luck Pillar | 1K-3K/mo | Advanced content, builds authority |
+| A12: Zodiac Compatibility Pairs | 1K-3K/mo | Viral potential, shareable charts |
+
+### Phase 3 — Sprint B: Medium-Priority Content (Week 7-10)
+| Article | Target Keyword Volume | Est. Traffic Potential |
+|---------|----------------------|----------------------|
+| B1: Stress Management by Element | 2K-5K/mo | Health crossover audience |
+| B2: Sleep Optimization by Element | 1K-3K/mo | Health crossover audience |
+| B3: Real Estate Buying Using Bazi | 1K-3K/mo | High commercial intent |
+| B4: Office Feng Shui by Day Master | 1K-3K/mo | Professional audience |
+| B5: Clash Year Couple Compatibility | 1K-3K/mo | Seasonal (yearly spikes) |
+| B6: Monthly Fortune by Day Master | 1K-3K/mo | Recurring monthly traffic |
+| B7-B15: Remaining Sprint B articles | 1K-3K/mo each | Cumulative authority building |
+
+### Phase 4 — Sprint C: Lower-Priority / Seasonal (Week 11-14)
+| Article | Publish Timing | Notes |
+|---------|---------------|-------|
+| C1: 2027 Monthly Forecast | Dec 2026 | Seasonal, time-sensitive |
+| C2: Winter Wellness | Oct 2026 | Seasonal content |
+| C3: Spring Cleaning Feng Shui | Feb 2027 | Seasonal content |
+| C4-C16: Remaining Sprint C articles | Flexible | Build as capacity allows |
 
 ---
 
-*计划生成时间：2026-06-12 01:35 CST*
-*v2基于96篇现有文章完整分析 + fatewise-seo-keyword-plan-v2.md*
+## Part E: Keyword Gap Analysis Summary
+
+### Coverage by Topic Area
+
+| Topic | Existing Articles | Missing Angles | New Articles Needed |
+|-------|------------------|---------------|--------------------|
+| **Day Master Profiles** | 12 | ✅ Complete for all 5 elements | 0 (already covered) |
+| **Zodiac Profiles** | 3 individual + roundups | Rabbit-Pig (9 signs) | **5 articles** (A4+A5 cover all 9) |
+| **Compatibility** | 7 | Individual pair combos, clash year couples | **3 articles** (A12+B5+C16) |
+| **Career** | 5+ overlapping | Business partnership, burnout prevention | **2 articles** (A6+B5) |
+| **Wealth/Finance** | 4 | Real estate, investment timing, budgeting | **3 articles** (B3+B10+E7) |
+| **Health/Wellness** | 4 | Seasonal, stress, sleep, burnout | **6 articles** (A3+B1+B2+E5+C1) |
+| **Feng Shui** | 6 | Travel, office, seasonal, study room | **4 articles** (A7+B4+E3+C8) |
+| **Lucky Items** | 6 | Stones/jewelry, wardrobe colors, gifts | **3 articles** (A1+E4+C4) |
+| **Children/Family** | 2 | Ages 0-18, naming, academic timing | **4 articles** (A2+C8+E8) |
+| **Marriage/Love** | 5 | Timing for singles, wedding dates | **2 articles** (A8+E6) |
+| **Annual/Monthly Forecast** | 5 | Monthly by DM, annual by luck pillar | **2 articles** (A11+B6) |
+| **Decision Making** | 2 | Major life decisions, timing framework | **1 article** (A9) |
+| **Other Systems** | 5 | ✅ Reasonable coverage | 0 (merge duplicates) |
+| **Business** | 2 | Partnership compatibility, retirement | **2 articles** (A6+E15) |
+| **Technical/Methodology** | 3 | ✅ Sufficient for SEO purposes | 0 (merge duplicates) |
+| **Almanac/Yi Ji** | 3 | ✅ Sufficient coverage | 0 (expand existing) |
+
+### Total New Articles: **43**
+- Sprint A: 12 (P0/P1)
+- Sprint B: 15 (P2)
+- Sprint C: 16 (P2/P3, seasonal/flexible)
+
+### Net Result After Merges:
+- Starting articles: ~127
+- Articles removed by merge: -5 (8 → 3)
+- New articles added: +43
+- **Final target: ~165 English blog articles**
+
+---
+
+## Part F: Internal Linking Strategy
+
+### Pillar Pages (central hubs for topic clusters)
+1. **Bazi Basics Hub** → what-is-bazi, how-to-read-chart, 10-heavenly-stems, chart-clashes
+2. **Day Master Hub** → all 5 element DMs + strong/weak + MBTI mapping
+3. **Compatibility Hub** → love compatibility, zodiac pairs, business partnership
+4. **Career & Wealth Hub** → career guide + wealth strategy + investment timing
+5. **Health & Wellness Hub** → constitution + seasonal wellness + stress/sleep
+6. **Feng Shui Hub** → directions + home layout + travel + office + seasonal
+7. **Lucky Items Hub** → stones/jewelry + numbers + colors + wardrobe
+8. **Children & Family Hub** → pregnancy + children's Bazi + naming + academics
+
+### Cross-Linking Rules
+- Each new article links to its pillar page (1 internal link)
+- Pillar pages link out to all cluster articles (3-5 links minimum)
+- Related new articles cross-link within same sprint
+- Merge targets keep 2+ contextual links to surviving article
+
+---
+
+## Part G: SEO Implementation Checklist
+
+### Before Publishing New Articles
+- [ ] Keyword research validated (search volume, competition)
+- [ ] Title tag optimized for target keyword + CTA
+- [ ] Meta description 150-160 chars with primary keyword
+- [ ] H1 matches search intent exactly
+- [ ] H2/H3 outline covers "people also ask" questions
+- [ ] Internal links to 2+ pillar pages + 3+ cluster articles
+- [ ] External links to authoritative sources (E-E-A-T signals)
+- [ ] Image alt text includes keyword naturally
+- [ ] Schema markup: Article + FAQ (if applicable)
+- [ ] Canonical URL self-referencing
+
+### After Publishing New Articles
+- [ ] Submit sitemap update to Google Search Console
+- [ ] Share on social media channels
+- [ ] Add to relevant category pages
+- [ ] Update pillar page with new cluster links
+- [ ] Monitor 404 errors on any redirected articles
+
+### Duplicate Content Cleanup
+- [ ] Set up 301 redirects for merged articles
+- [ ] Update internal links pointing to old URLs
+- [ ] Remove duplicate meta descriptions from redirected pages
+- [ ] Verify redirect chain is single-hop (not double redirects)
+- [ ] Check Google Search Console for crawl errors post-redirect
+
