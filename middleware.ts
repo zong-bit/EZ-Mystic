@@ -22,11 +22,11 @@ function hasAuthCookie(request: NextRequest): boolean {
 }
 
 // Open routes that do NOT require authentication
+// NOTE: /api/ is intentionally excluded — each API route handles its own auth.
 const OPEN_PATHS = [
   '/',
   '/login',
   '/signup',
-  '/api/',
   '/privacy',
   '/terms',
   '/refund',
@@ -41,6 +41,13 @@ const OPEN_PATHS = [
   '/zh/terms',
   '/zh/privacy',
   '/zh/refund',
+];
+
+// Public API paths — no auth required
+const PUBLIC_API_PATHS = [
+  '/api/gumroad-webhook',
+  '/api/user-count',
+  '/api/stats',       // public usage stats (no sensitive data)
 ];
 
 // Open static file patterns
@@ -80,8 +87,13 @@ const OPEN_FILE_EXTENSIONS = [
 function isPublicPath(pathname: string): boolean {
   // Check exact open paths
   for (const p of OPEN_PATHS) {
-    // Use p directly (not p + '/') so '/api/' matches '/api/bazi'
-    if (pathname === p || pathname.startsWith(p)) {
+    if (pathname === p || pathname.startsWith(p + '/')) {
+      return true;
+    }
+  }
+  // Check public API paths
+  for (const p of PUBLIC_API_PATHS) {
+    if (pathname === p || pathname.startsWith(p + '/')) {
       return true;
     }
   }
@@ -123,6 +135,7 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
+// Exempt API routes from middleware auth (each route handles its own)
 export const config = {
-  matcher: ['/((?!.*\\..*|_next|favicon.ico|.*\\.png$|.*\\.jpg$|.*\\.jpeg$|.*\\.gif$|.*\\.svg$|.*\\.css$|.*\\.js$).*)'],
+  matcher: ['/((?!api/.*|.*\\..*|_next|favicon.ico|.*\\.png$|.*\\.jpg$|.*\\.jpeg$|.*\\.gif$|.*\\.svg$|.*\\.css$|.*\\.js$).*)'],
 };

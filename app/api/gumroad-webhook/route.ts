@@ -13,12 +13,13 @@ const GUMROAD_WEBHOOK_SECRET = process.env.GUMROAD_WEBHOOK_SECRET || ''
 
 /**
  * Verify Gumroad Ping signature (HMAC-SHA256).
+ * CRITICAL: If GUMROAD_WEBHOOK_SECRET is not configured, reject ALL requests.
  */
 function verifySignature(rawBody: string, signature: string | null): boolean {
   if (!signature) return false
   if (!GUMROAD_WEBHOOK_SECRET) {
-    console.warn('[FateWise Webhook] GUMROAD_WEBHOOK_SECRET not set, skipping signature verification')
-    return true
+    console.error('[FateWise Webhook] CRITICAL: GUMROAD_WEBHOOK_SECRET not configured — rejecting request')
+    return false
   }
   const expected = crypto
     .createHmac('sha256', GUMROAD_WEBHOOK_SECRET)

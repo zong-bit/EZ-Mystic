@@ -1,18 +1,12 @@
 import { NextResponse } from 'next/server'
-import { getUsageStats } from '@/lib/usage-tracker'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 60 // cache for 60 seconds
 
+// Public stats endpoint — no sensitive data exposed (no unique IP counts)
 export async function GET() {
-  try {
-    const stats = await getUsageStats('fatewise')
-    return NextResponse.json(stats)
-  } catch (error) {
-    console.error('Stats API error:', error)
-    return NextResponse.json(
-      { today: 0, total: 0, uniqueIps: 0 },
-      { status: 200 }
-    )
-  }
+  return NextResponse.json({
+    message: 'FateWise usage stats are not publicly available.',
+    // Remove this endpoint from public access — use internal monitoring instead
+  })
 }

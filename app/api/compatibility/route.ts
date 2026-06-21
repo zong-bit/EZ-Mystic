@@ -1,10 +1,56 @@
 // app/api/compatibility/route.ts
 // Compatibility (合盘) calculation endpoint
+// Rate limited: max 10 requests per minute per IP
 
 import { NextRequest, NextResponse } from 'next/server';
 import { calculateCompatibility, type CompatibilityInput } from '@/bazi/compatibility';
 
+// Simple in-memory rate limiter (for Vercel Hobby — upgrade to Upstash Redis on Pro)
+const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
+const RATE_LIMIT_MAX = 10; // requests per window
+const ipCounts = new Map<string, { count: number; resetAt: number }>();
+
+// Cleanup expired entries every 5 minutes to prevent memory leak
+setInterval(() => {
+  const now = Date.now();
+  ipCounts.forEach((entry, ip) => {
+    if (now > entry.resetAt) {
+      ipCounts.delete(ip);
+    }
+  });
+}, 5 * 60_1000);
+
+function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  let entry = ipCounts.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    entry = { count: 0, resetAt: now + RATE_LIMIT_WINDOW_MS };
+    ipCounts.set(ip, entry);
+  }
+
+  entry.count++;
+
+  if (entry.count > RATE_LIMIT_MAX) {
+    return { allowed: false, remaining: 0 };
+  }
+
+  return { allowed: true, remaining: RATE_LIMIT_MAX - entry.count };
+}
+
 export async function POST(request: NextRequest) {
+  // Rate limiting check
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+    || request.headers.get('x-real-ip')
+    || 'unknown';
+  const rateLimit = checkRateLimit(ip);
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded. Please try again later.' },
+      { status: 429 }
+    );
+  }
+
   try {
     const body = await request.json();
 

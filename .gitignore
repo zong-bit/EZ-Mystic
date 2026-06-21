@@ -23,8 +23,11 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
 .env
+.env.*
+.env*.local
+*.secret
+auth.json
 
 # vercel
 .vercel
@@ -41,4 +44,4 @@ www/
 Pods/
 .build/
 DerivedData/
-.env.production
+# .env.production (redundant with .env.* above, kept for clarity)
