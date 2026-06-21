@@ -31,10 +31,10 @@ export default function HomePage() {
           </div>
 
           <h1 className="font-display font-bold text-5xl md:text-7xl mb-6 leading-tight text-gold-glow">
-            东方神秘学
+            易经八卦
             <br />
             <span className="bg-gradient-to-r from-gold-primary via-gold-light to-gold-primary bg-clip-text text-transparent">
-              占卜与命理
+              八字命理 · 智能解读
             </span>
           </h1>
 
