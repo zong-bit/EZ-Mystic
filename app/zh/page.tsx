@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../auth/auth-context';
+import QuickDivination from '../components/QuickDivination';
 
 export default function HomePage() {
   const { user } = useAuth();
@@ -26,19 +27,19 @@ export default function HomePage() {
 
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
           <div className="mb-6">
-            <span className="text-gold-primary text-lg font-display tracking-widest">✦ 免费八字计算器 · AI 驱动中国占星术 ✦</span>
+            <span className="text-gold-primary text-lg font-display tracking-widest">✦ 八字命盘 · 八卦起卦 · AI 占星解读 ✦</span>
           </div>
 
           <h1 className="font-display font-bold text-5xl md:text-7xl mb-6 leading-tight text-gold-glow">
-            免费八字计算器与
+            东方神秘学
             <br />
             <span className="bg-gradient-to-r from-gold-primary via-gold-light to-gold-primary bg-clip-text text-transparent">
-              中国占星命盘解读
+              占卜与命理
             </span>
           </h1>
 
           <p className="text-text-secondary text-lg md:text-xl mb-6 max-w-2xl mx-auto leading-relaxed">
-            即时生成您的八字（四柱推命）命盘——免费、精准、AI 驱动。
+            即时起卦、生成八字命盘——免费、精准、AI 驱动。
             <br />
             <span className="text-text-tertiary text-base">千年东方智慧，由人工智能揭示</span>
           </p>
@@ -52,11 +53,11 @@ export default function HomePage() {
           )}
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/bazi" className="btn-primary glow-pulse text-lg px-12 py-4">
-              ✨ 获取免费八字命盘
+            <Link href="/bagua" className="btn-primary glow-pulse text-lg px-12 py-4" style={{ boxShadow: '0 0 32px rgba(212,175,55,0.25)' }}>
+              🔮 免费起卦
             </Link>
-            <Link href="/pricing" className="glass px-8 py-4 text-text-secondary hover:text-text-primary transition-colors text-lg">
-              查看定价 →
+            <Link href="/bazi" className="glass px-8 py-4 text-text-secondary hover:text-text-primary transition-colors text-lg">
+              查看八字命盘 →
             </Link>
           </div>
 
@@ -68,13 +69,13 @@ export default function HomePage() {
             </div>
             <div className="w-px bg-text-tertiary/30" />
             <div className="text-center">
-              <div className="text-3xl font-display font-bold text-gold-primary">10</div>
-              <div className="text-xs mt-1">天干</div>
+              <div className="text-3xl font-display font-bold text-gold-primary">64</div>
+              <div className="text-xs mt-1">卦象</div>
             </div>
             <div className="w-px bg-text-tertiary/30" />
             <div className="text-center">
-              <div className="text-3xl font-display font-bold text-gold-primary">12</div>
-              <div className="text-xs mt-1">地支</div>
+              <div className="text-3xl font-display font-bold text-gold-primary">8</div>
+              <div className="text-xs mt-1">卦</div>
             </div>
             <div className="w-px bg-text-tertiary/30" />
             <div className="text-center">
@@ -84,6 +85,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Quick Divination */}
+      <QuickDivination />
 
       {/* Invite Friends CTA — position 2, after Hero */}
       <section className="py-24 px-6">
@@ -110,6 +114,17 @@ export default function HomePage() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Bagua Divination (moved to first position) */}
+            <Link href="/bagua" className="glass-card p-8 hover:scale-[1.02] transition-transform group">
+              <div className="text-4xl mb-4">🔮</div>
+              <h3 className="font-display text-xl font-semibold mb-3 text-gold-primary group-hover:text-gold-light transition-colors">
+                八卦起卦
+              </h3>
+              <p className="text-text-secondary text-sm leading-relaxed">
+                易经八卦起卦，即时获得卦象结果与 AI 深度解读。探索古老易学的智慧指引。
+              </p>
+            </Link>
+
             {/* Bazi Chart */}
             <Link href="/bazi" className="glass-card p-8 hover:scale-[1.02] transition-transform group">
               <div className="text-4xl mb-4">🜁</div>
@@ -128,18 +143,7 @@ export default function HomePage() {
                 AI 深度解读
               </h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                AI 占星师从多个维度解读您的八字命盘——性格、事业、财运、感情等。
-              </p>
-            </div>
-
-            {/* Destiny Book PDF */}
-            <div className="glass-card p-8">
-              <div className="text-4xl mb-4">🜄</div>
-              <h3 className="font-display text-xl font-semibold mb-3 text-gold-primary">
-                完整命书 PDF
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                生成精美排版的 PDF 命书报告，包含大运周期、流年运势和开运指引。
+                AI 占星师从多个维度解读您的八字命盘和易经卦象——性格、事业、财运、感情等。
               </p>
             </div>
           </div>
@@ -246,7 +250,7 @@ export default function HomePage() {
               </div>
               <ul className="text-sm text-text-secondary space-y-3 mb-8 flex-grow">
                 <li>✓ 基础八字命盘</li>
-                <li>✓ 四柱概览</li>
+                <li>✓ 八卦起卦</li>
                 <li>✓ AI 五行分析</li>
               </ul>
               <Link href="/bazi" className="glass w-full text-center py-3 text-text-primary hover:text-gold-primary transition-colors">
@@ -361,7 +365,7 @@ export default function HomePage() {
       <section className="pb-16 px-6">
         <div className="max-w-3xl mx-auto p-4 border border-gold-primary/20 rounded-lg bg-gold-primary/5">
           <p className="text-text-secondary text-sm leading-relaxed text-center">
-            <strong className="text-gold-primary">FateWise</strong>（由 <strong className="text-gold-primary">BornChart</strong> 运营）是一个 AI 驱动的中国占星平台，生成个性化八字（四柱推命）命盘，提供性格、事业、财富和关系方面的深度 AI 解读，并交付精美排版的命书 PDF 报告，包含大运周期和流年运势分析。
+            <strong className="text-gold-primary">FateWise</strong>（由 <strong className="text-gold-primary">BornChart</strong> 运营）是一个 AI 驱动的中国占星平台，生成个性化八字（四柱推命）命盘和易经卦象，提供性格、事业、财富和关系方面的深度 AI 解读，并交付精美排版的命书 PDF 报告，包含大运周期和流年运势分析。
           </p>
         </div>
       </section>

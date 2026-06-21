@@ -28,12 +28,14 @@ export default function Navbar({ currentPage }: NavbarProps) {
     ? [
         { href: '/zh', label: '首页' },
         { href: '/zh/bazi', label: '八字命盘' },
+        { href: '/zh/bagua', label: '🔮 八卦起卦' },
         { href: '/zh/chat', label: 'AI 咨询' },
         { href: '/zh/daily', label: '每日运势' },
       ]
     : [
         { href: '/', label: 'Home' },
         { href: '/bazi', label: 'Bazi Chart' },
+        { href: '/bagua', label: '🔮 Bagua' },
         { href: '/chat', label: 'AI Chat' },
         { href: '/daily', label: 'Daily' },
       ];
