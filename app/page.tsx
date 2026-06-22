@@ -519,7 +519,6 @@ export default function HomePage() {
 type StatsData = {
   today: number
   total: number
-  uniqueIps: number
 }
 
 function LiveStats() {
@@ -536,18 +535,14 @@ function LiveStats() {
 
   return (
     <section className="py-12 px-6">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-xl mx-auto">
         <div className="text-center mb-6">
           <h2 className="text-text-tertiary tracking-wide uppercase text-xs font-semibold">📊 Live Stats</h2>
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <div className="glass-card p-4 text-center">
             <div className="text-2xl font-display font-bold text-gold-primary">{stats.today}</div>
             <div className="text-xs text-text-tertiary mt-1">Charts generated today</div>
-          </div>
-          <div className="glass-card p-4 text-center">
-            <div className="text-2xl font-display font-bold text-gold-primary">{stats.uniqueIps}</div>
-            <div className="text-xs text-text-tertiary mt-1">Active users this week</div>
           </div>
           <div className="glass-card p-4 text-center">
             <div className="text-2xl font-display font-bold text-gold-primary">{stats.total}</div>
