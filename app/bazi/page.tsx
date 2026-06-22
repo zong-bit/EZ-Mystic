@@ -1195,31 +1195,47 @@ export default function BaziPage() {
                 </button>
               </div>
 
-              {/* Upgrade Prompt */}
-              <div className="mt-6 glass-card p-5 rounded-2xl border border-gold-primary/10 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-gold-primary/[0.03] to-transparent pointer-events-none" />
-                <div className="relative flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gold-primary/10 flex items-center justify-center text-2xl">
+              {/* Upgrade Prompt — Premium CTA */}
+              <div className="mt-8 glass-card p-6 md:p-8 rounded-2xl border border-gold-primary/20 relative overflow-hidden group">
+                {/* Shimmer gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-gold-primary/[0.06] via-transparent to-gold-primary/[0.03] pointer-events-none" />
+                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold-primary/40 to-transparent" />
+
+                <div className="relative flex flex-col md:flex-row items-start gap-5">
+                  {/* Icon */}
+                  <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-gold-primary/20 to-amber-600/10 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-500">
                     👑
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-display font-semibold text-gold-primary text-base mb-1">
+
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-display font-bold text-gold-primary text-lg mb-2">
                       Unlock Your Full Destiny Profile
                     </h3>
-                    <p className="text-text-secondary text-sm mb-3">
-                      Get in-depth analysis: yearly fortune, career peak years, relationship compatibility,
-                      and personalized feng shui recommendations.
+                    <p className="text-text-secondary text-sm mb-4 leading-relaxed">
+                      Your basic chart reveals the Four Pillars — but your complete destiny profile unlocks:
                     </p>
-                    <div className="flex flex-wrap gap-3">
+
+                    {/* Feature grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-5">
+                      {[<><strong>Career &amp; Wealth</strong> — Deep AI analysis of your income potential and optimal career paths</>, <><strong>Love &amp; Relationships</strong> — Partner compatibility and relationship timing insights</>, <><strong>Great Fortune Cycles</strong> — 10-year luck cycles with yearly breakdowns</>, <><strong>Destiny Book PDF</strong> — Beautifully formatted complete report for download</>].map((feature, i) => (
+                        <div key={i} className="flex items-start gap-2 text-sm">
+                          <span className="text-gold-primary mt-0.5 flex-shrink-0">✦</span>
+                          <span className="text-text-secondary leading-relaxed">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* CTA buttons */}
+                    <div className="flex flex-wrap items-center gap-3">
                       <Link
                         href="/pricing"
-                        className="btn-primary text-sm px-5 py-2.5 inline-flex items-center gap-2">
+                        className="btn-primary text-sm px-6 py-3 inline-flex items-center gap-2 shadow-lg shadow-gold-primary/10 hover:shadow-gold-primary/20 transition-all">
                         <span>🚀 Upgrade to Pro</span>
                       </Link>
                       <Link
                         href="/fatebook"
-                        className="text-sm text-gold-primary hover:underline inline-flex items-center gap-1">
-                        Learn more →
+                        className="text-sm text-gold-primary/80 hover:text-gold-primary transition-colors inline-flex items-center gap-1">
+                        See what Pro includes →
                       </Link>
                     </div>
                   </div>

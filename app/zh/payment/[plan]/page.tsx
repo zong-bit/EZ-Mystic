@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 
 // Gumroad product links
 const GUMROAD_MONTHLY = 'https://selinazw.gumroad.com/l/lcrujk';
-const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/gebxj';
+const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/wejaix';
 
 // Paddle product prices
 const PADDLE_PRO_PRICE_ID = 'pri_01krwj2267cjbr45n40f3aj3vr';

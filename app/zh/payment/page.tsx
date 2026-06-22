@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 
 // Gumroad product links
 const GUMROAD_MONTHLY = 'https://selinazw.gumroad.com/l/lcrujk';
-const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/gebxj';
+const GUMROAD_YEARLY = 'https://selinazw.gumroad.com/l/wejaix';
 
 // Paddle checkout URLs (update after creating in Paddle dashboard)
 const PADDLE_CHECKOUT_PRO = 'https://checkout.paddle.com/checkout/price/pri_01krwnhrp61mddw9hb4rj7k40b';
