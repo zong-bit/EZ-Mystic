@@ -1,6 +1,8 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { BAGUA, type BaguaItem, getHexagram, randomTrigramIndex } from '@/bazi/bagua';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -8,7 +10,7 @@ import { BAGUA, type BaguaItem, getHexagram, randomTrigramIndex } from '@/bazi/b
 interface QuickDivinationResult {
   upper: BaguaItem;
   lower: BaguaItem;
-  hexagram: { name: string; description: string };
+  hexagram: { chinese: string; english: string; pinyin: string; judgment: string; image: string; meaning: string; keywords: string[] };
   upperLines: number[];
   lowerLines: number[];
 }
@@ -80,7 +82,10 @@ export default function QuickDivination() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<QuickDivinationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isPro, setIsPro] = useState(false);
   const resultRef = useRef<HTMLDivElement | null>(null);
+  const pathname = usePathname();
+  const isZh = pathname?.startsWith('/zh');
 
   const handleDivination = useCallback(async () => {
     setError(null);
@@ -93,6 +98,11 @@ export default function QuickDivination() {
       const upper = BAGUA[upperIdx];
       const lower = BAGUA[lowerIdx];
       const hexagram = getHexagram(upper, lower);
+
+      if (!hexagram) {
+        setError('Hexagram not found');
+        return;
+      }
 
       setResult({ upper, lower, hexagram, upperLines: upper.lines, lowerLines: lower.lines });
 
@@ -110,6 +120,18 @@ export default function QuickDivination() {
     setResult(null);
     setError(null);
     setQuestion('');
+  }, []);
+
+  useEffect(() => {
+    try {
+      const token = localStorage.getItem('fatewise_token');
+      if (token) {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        setIsPro(payload.plan === 'pro' || payload.subscription?.plan === 'pro');
+      }
+    } catch {
+      // ignore
+    }
   }, []);
 
   return (
@@ -187,10 +209,10 @@ export default function QuickDivination() {
             </div>
 
             <div className="mb-2">
-              <span className="text-2xl font-display font-bold text-gold-primary">{result.hexagram.name}</span>
+              <span className="text-2xl font-display font-bold text-gold-primary">{result.hexagram.chinese}</span>
             </div>
             <p className="text-text-secondary text-sm mb-6 max-w-md mx-auto">
-              {result.hexagram.description}
+              {result.hexagram.english}
             </p>
 
             {/* Trigram info */}
@@ -227,13 +249,22 @@ export default function QuickDivination() {
 
             {/* CTA to full bagua page */}
             <div className="mt-6 pt-5 border-t border-white/5">
+              {!isPro && (
+                <div className="mb-4 p-2.5 rounded-lg border border-[#c9a84c]/30 bg-gradient-to-r from-[#c9a84c]/[0.06] to-transparent">
+                  <Link
+                    href="/pricing"
+                    className="text-xs text-gold-primary font-medium hover:text-gold-primary-hover transition-colors inline-flex items-center gap-1">
+                    ✨ Upgrade to Pro for unlimited AI interpretations — $9.99/mo →
+                  </Link>
+                </div>
+              )}
               <p className="text-text-tertiary text-xs mb-3">Want a deep AI interpretation?</p>
-              <a
-                href="/bagua"
+              <Link
+                href={isZh ? '/zh/bagua' : '/bagua'}
                 className="inline-flex items-center gap-1 text-sm font-medium text-gold-primary hover:text-gold-primary-hover transition-colors"
               >
                 Go to Bagua Divination →
-              </a>
+              </Link>
             </div>
           </div>
         )}

@@ -16,6 +16,18 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://bornchart.app/bagua</loc>
+    <lastmod>2026-06-22</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://bornchart.app/zh/bagua</loc>
+    <lastmod>2026-06-22</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://bornchart.app/pricing</loc>
     <lastmod>2026-05-19</lastmod>
     <priority>0.8</priority>

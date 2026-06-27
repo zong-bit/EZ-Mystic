@@ -1,0 +1,11 @@
+=== Hexagram Count Summary ===
+File: /home/zxw/.openclaw/workspace/ez-mystic/src/bazi/bagua.ts
+
+Total hexagrams in HEXAGRAM_MAP: 64
+
+First 3 hexagram names:
+1. 乾为天 (The Creative — Pure creative power, heaven above heaven)
+2. 兑为泽 (The Joyous — Lake above lake, joy and harmony)
+3. 离为火 (The Clinging — Fire above fire, clarity and illumination)
+
+Note: 64 = 8 × 8, covering all possible combinations of the 8 trigrams (八卦) as upper + lower.

@@ -1,0 +1,123 @@
+{
+  "lastUpdated": "2026-06-26T01:43:00+08:00",
+  "totalKeywords": 120,
+  "coveredKeywords": 45,
+  "coverageRate": "37.5%",
+  "keywords": [
+    {
+      "keyword": "bazi calculator",
+      "searchVolume": "high",
+      "competition": "low",
+      "covered": true,
+      "article": "multiple"
+    },
+    {
+      "keyword": "bazi chart analysis",
+      "searchVolume": "high",
+      "competition": "low",
+      "covered": true,
+      "article": "bazi-chart-explained-four-pillars-guide"
+    },
+    {
+      "keyword": "day master",
+      "searchVolume": "high",
+      "competition": "low",
+      "covered": true,
+      "article": "bazi-10-day-masters-personality-chart"
+    },
+    {
+      "keyword": "lucky element finder",
+      "searchVolume": "high",
+      "competition": "low",
+      "covered": true,
+      "article": "bazi-lucky-element-finder-guide"
+    },
+    {
+      "keyword": "2026 fire horse bazi",
+      "searchVolume": "high",
+      "competition": "low",
+      "covered": true,
+      "article": "2026-fire-horse-bazi-fortune-predictions-every-day-master"
+    },
+    {
+      "keyword": "bazi career guide",
+      "searchVolume": "medium",
+      "competition": "low",
+      "covered": true,
+      "article": "bazi-career-guide-ideal-career-path"
+    },
+    {
+      "keyword": "bazi children palace fertility",
+      "searchVolume": "medium",
+      "competition": "low",
+      "covered": true,
+      "article": "bazi-children-palace-fertility-guide"
+    },
+    {
+      "keyword": "zodiac bazi compatibility",
+      "searchVolume": "medium",
+      "competition": "low",
+      "covered": true,
+      "article": "bazi-each-zodiac-sign-guide"
+    },
+    {
+      "keyword": "favorable element career",
+      "searchVolume": "medium",
+      "competition": "low",
+      "covered": true,
+      "article": "favorable-element-career-bazi-guide"
+    },
+    {
+      "keyword": "bazi lucky colors",
+      "searchVolume": "medium",
+      "competition": "low",
+      "covered": false,
+      "article": null
+    },
+    {
+      "keyword": "bazi lucky numbers",
+      "searchVolume": "medium",
+      "competition": "low",
+      "covered": false,
+      "article": null
+    },
+    {
+      "keyword": "bazi love compatibility",
+      "searchVolume": "medium",
+      "competition": "low",
+      "covered": false,
+      "article": null
+    },
+    {
+      "keyword": "chinese astrology calculator",
+      "searchVolume": "high",
+      "competition": "medium",
+      "covered": false,
+      "article": null
+    },
+    {
+      "keyword": "fortune telling online",
+      "searchVolume": "high",
+      "competition": "high",
+      "covered": false,
+      "article": null
+    },
+    {
+      "keyword": "bazi wealth strategy",
+      "searchVolume": "medium",
+      "competition": "low",
+      "covered": false,
+      "article": null
+    }
+  ],
+  "nextPriorityKeywords": [
+    "bazi lucky colors",
+    "bazi lucky numbers",
+    "bazi love compatibility",
+    "chinese astrology calculator",
+    "bazi wealth strategy",
+    "bazi feng shui direction",
+    "bazi monthly fortune",
+    "bazi daily luck"
+  ]
+}

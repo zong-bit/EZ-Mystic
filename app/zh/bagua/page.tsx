@@ -3,17 +3,19 @@ export const dynamic = 'force-dynamic';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { BAGUA, type BaguaItem, getHexagram, randomTrigramIndex } from '@/bazi/bagua';
+import { BAGUA, type BaguaItem, getHexagramById, getHexagramByLines, getHexagramSymbol, randomTrigramIndex } from '@/bazi/bagua';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 interface BaguaResult {
   upper: BaguaItem;
   lower: BaguaItem;
-  hexagram: { name: string; description: string };
+  hexagram: { chinese: string; english: string; pinyin: string; judgment: string; image: string; meaning: string; keywords: string[]; number: number };
   upperLines: number[];
   lowerLines: number[];
 }
+type DivinationMode = 'coin' | 'three-coin' | 'number';
+interface CoinState { tosses: number[]; lines: number[]; step: number; }
 
 interface InterpretResponse {
   success: boolean;
@@ -142,6 +144,41 @@ function HexagramVisual({ upper, lower }: { upper: BaguaItem; lower: BaguaItem }
   );
 }
 
+// ─── Line Value → Symbol
+function getLineSymbol(value: number): string {
+  switch (value) {
+    case 6: return '⚋o';
+    case 7: return '⚊';
+    case 8: return '⚋';
+    case 9: return '⚌o';
+    default: return '?';
+  }
+}
+
+// ─── Hexagram Lines Visual (6 lines, top-to-bottom)
+function HexagramLinesVisual({ lines }: { lines: number[] }) {
+  return (
+    <div className="flex flex-col items-center gap-2 py-4">
+      {lines.map((lineVal, i) => {
+        const isYang = lineVal === 7 || lineVal === 9;
+        return (
+          <div key={i} className="flex items-center gap-3">
+            <span className="text-[10px] text-text-muted w-5 text-right">{['上','五','四','三','二','初'][i]}</span>
+            {isYang ? (
+              <div className="h-2.5 rounded-sm bg-gold-primary" style={{ width: 100 }} />
+            ) : (
+              <div className="flex gap-2 justify-center" style={{ width: 100 }}>
+                <div className="flex-1 h-2.5 rounded-sm bg-gold-primary" />
+                <div className="flex-1 h-2.5 rounded-sm bg-gold-primary" />
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 // ─── Loading Overlay ─────────────────────────────────────────────────────────
 
 function LoadingOverlay() {
@@ -159,38 +196,91 @@ function LoadingOverlay() {
 // ─── Main Component ──────────────────────────────────────────────────────────
 
 export default function BaguaPage() {
+  const [mode, setMode] = useState<DivinationMode>('coin');
   const [question, setQuestion] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<BaguaResult | null>(null);
   const [interpretation, setInterpretation] = useState<string | null>(null);
   const [interpretLoading, setInterpretLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isPro, setIsPro] = useState(false);
   const resultRef = useRef<HTMLDivElement | null>(null);
+  const [coinState, setCoinState] = useState<CoinState>({ tosses: [], lines: [], step: 0 });
+  const [numA, setNumA] = useState('');
+  const [numB, setNumB] = useState('');
 
-  const handleDivination = useCallback(async () => {
+  const handleCoinToss = useCallback(() => {
     setError(null);
-    setResult(null);
-    setInterpretation(null);
-    setLoading(true);
+    if (coinState.step >= 6) return;
+    const c1 = Math.random() < 0.5 ? 3 : 2;
+    const c2 = Math.random() < 0.5 ? 3 : 2;
+    const c3 = Math.random() < 0.5 ? 3 : 2;
+    const sum = c1 + c2 + c3;
+    const newLines = [...coinState.lines, sum];
+    if (coinState.step === 5) {
+      const hexagram = getHexagramByLines(newLines);
+      if (!hexagram) { setError('卦象未找到'); setLoading(false); return; }
+      const upperLines = newLines.slice(0, 3);
+      const lowerLines = newLines.slice(3);
+      const upper = BAGUA.find(b => b.lines[0] === upperLines[0] && b.lines[1] === upperLines[1] && b.lines[2] === upperLines[2]) || BAGUA[0];
+      const lower = BAGUA.find(b => b.lines[0] === lowerLines[0] && b.lines[1] === lowerLines[1] && b.lines[2] === lowerLines[2]) || BAGUA[0];
+      setResult({ upper, lower, hexagram, upperLines, lowerLines });
+    }
+    setCoinState({ tosses: [...coinState.tosses, sum], lines: newLines, step: coinState.step + 1 });
+    setLoading(false);
+    setTimeout(() => { resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
+  }, [coinState]);
 
+  const handleThreeCoinToss = useCallback(() => {
+    setError(null);
+    if (coinState.step >= 6) return;
+    const c1 = Math.random() < 0.5 ? 3 : 2;
+    const c2 = Math.random() < 0.5 ? 3 : 2;
+    const c3 = Math.random() < 0.5 ? 3 : 2;
+    const sum = c1 + c2 + c3;
+    const newLines = [...coinState.lines, sum];
+    if (coinState.step === 5) {
+      const hexagram = getHexagramByLines(newLines);
+      if (!hexagram) { setError('卦象未找到'); setLoading(false); return; }
+      const upperLines = newLines.slice(0, 3);
+      const lowerLines = newLines.slice(3);
+      const upper = BAGUA.find(b => b.lines[0] === upperLines[0] && b.lines[1] === upperLines[1] && b.lines[2] === upperLines[2]) || BAGUA[0];
+      const lower = BAGUA.find(b => b.lines[0] === lowerLines[0] && b.lines[1] === lowerLines[1] && b.lines[2] === lowerLines[2]) || BAGUA[0];
+      setResult({ upper, lower, hexagram, upperLines, lowerLines });
+    }
+    setCoinState({ tosses: [...coinState.tosses, sum], lines: newLines, step: coinState.step + 1 });
+    setLoading(false);
+    setTimeout(() => { resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
+  }, [coinState]);
+
+  const handleNumberDivination = useCallback(() => {
+    setError(null);
+    setLoading(true);
     try {
-      const upperIdx = randomTrigramIndex();
-      const lowerIdx = randomTrigramIndex();
+      const n1 = parseInt(numA) || Math.floor(Math.random() * 999) + 1;
+      const n2 = parseInt(numB) || Math.floor(Math.random() * 999) + 1;
+      const upperIdx = ((n1 - 1) % 8 + 8) % 8;
+      const lowerIdx = ((n2 - 1) % 8 + 8) % 8;
       const upper = BAGUA[upperIdx];
       const lower = BAGUA[lowerIdx];
-      const hexagram = getHexagram(upper, lower);
-
-      setResult({ upper, lower, hexagram, upperLines: upper.lines, lowerLines: lower.lines });
-
-      setTimeout(() => {
-        resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 300);
-    } catch (err: any) {
-      setError(err.message || '起卦失败');
-    } finally {
+      const upperLines = [...upper.lines];
+      const lowerLines = [...lower.lines];
+      const hexagram = getHexagramByLines([...upper.lines, ...lower.lines]) || null;
+      if (!hexagram) { setError('卦象未找到'); setLoading(false); return; }
+      setResult({ upper, lower, hexagram, upperLines, lowerLines });
+    } catch (err: any) { setError(err.message || '起卦失败'); }
+    finally {
       setLoading(false);
+      setTimeout(() => { resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
     }
-  }, []);
+  }, [numA, numB]);
+
+  const handleDivination = useCallback(() => {
+    if (mode === 'number') { handleNumberDivination(); return; }
+    if (coinState.step < 6) { handleCoinToss(); return; }
+    setLoading(false);
+    setTimeout(() => { resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
+  }, [mode, coinState.step, handleCoinToss, handleNumberDivination]);
 
   const handleInterpret = useCallback(async () => {
     if (!result) return;
@@ -208,8 +298,8 @@ export default function BaguaPage() {
           question: question || undefined,
           upperTrigram: { name: result.upper.name, symbol: result.upper.symbol, element: result.upper.element, direction: result.upper.direction, nature: result.upper.nature },
           lowerTrigram: { name: result.lower.name, symbol: result.lower.symbol, element: result.lower.element, direction: result.lower.direction, nature: result.lower.nature },
-          hexagramName: result.hexagram.name,
-          hexagramDesc: result.hexagram.description,
+          hexagramName: result.hexagram.chinese,
+          hexagramDesc: result.hexagram.english,
         }),
       });
 
@@ -231,6 +321,21 @@ export default function BaguaPage() {
     setInterpretation(null);
     setError(null);
     setQuestion('');
+    setCoinState({ tosses: [], lines: [], step: 0 });
+    setNumA('');
+    setNumB('');
+  }, []);
+
+  useEffect(() => {
+    try {
+      const token = localStorage.getItem('fatewise_token');
+      if (token) {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        setIsPro(payload.plan === 'pro' || payload.subscription?.plan === 'pro');
+      }
+    } catch {
+      // ignore
+    }
   }, []);
 
   return (
@@ -254,7 +359,33 @@ export default function BaguaPage() {
         </div>
       </section>
 
-      {/* ─── Question Input ─── */}
+      {/* ─── Mode Tabs ─── */}
+      <section className="px-6 pb-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="flex gap-1 p-1 glass rounded-xl">
+            {([
+              { key: 'coin' as DivinationMode, label: '🪙 投硬币', sub: 'Coin Toss' },
+              { key: 'three-coin' as DivinationMode, label: '🥡 掷铜钱', sub: 'Three Coins' },
+              { key: 'number' as DivinationMode, label: '🔢 数字起卦', sub: 'Numbers' },
+            ]).map(m => (
+              <button
+                key={m.key}
+                type="button"
+                className={`flex-1 py-2.5 px-3 rounded-lg text-center transition-all duration-300 ${
+                  mode === m.key
+                    ? 'bg-gold-primary/20 text-gold-primary font-semibold shadow-sm'
+                    : 'text-text-tertiary hover:text-text-secondary hover:bg-white/5'
+                }`}
+                onClick={() => { setMode(m.key); handleReset(); }}>
+                <div className="text-sm">{m.label}</div>
+                <div className="text-[10px] opacity-60">{m.sub}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Divination Area ─── */}
       <section className="px-6 pb-8">
         <div className="max-w-2xl mx-auto">
           <div className="glass-card p-6 md:p-8">
@@ -268,6 +399,36 @@ export default function BaguaPage() {
               onChange={e => setQuestion(e.target.value)}
             />
 
+            {mode !== 'number' && coinState.step < 6 && (
+              <div className="mt-5">
+                <div className="text-xs text-text-tertiary mb-3 text-center">第 {coinState.step + 1} 爻 / 共 6 爻 · 点击按钮起爻</div>
+                <div className="flex justify-center gap-4">
+                  {coinState.lines.map((lineVal, i) => {
+                    const lineType = getLineSymbol(lineVal);
+                    return (
+                      <div key={i} className="text-center">
+                        <div className="text-xs text-text-tertiary mb-1">{['初','二','三','四','五','上'][i]}</div>
+                        <div className={`text-2xl font-display ${lineVal === 6 || lineVal === 9 ? 'text-cinnabar-red' : 'text-gold-primary'}`}>{lineType}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {mode === 'number' && (
+              <div className="mt-5 grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs text-text-secondary mb-1">第一个数字（上卦）</label>
+                  <input type="number" className="input-field w-full text-center text-lg font-display" placeholder="任意数字" value={numA} onChange={e => setNumA(e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-xs text-text-secondary mb-1">第二个数字（下卦）</label>
+                  <input type="number" className="input-field w-full text-center text-lg font-display" placeholder="任意数字" value={numB} onChange={e => setNumB(e.target.value)} />
+                </div>
+              </div>
+            )}
+
             {error && (
               <div className="mt-4 p-3 rounded-xl bg-cinnabar-red/10 border border-cinnabar-red/20 text-cinnabar-red text-sm">
                 {error}
@@ -277,7 +438,7 @@ export default function BaguaPage() {
             <div className="mt-6 text-center">
               <button
                 type="button"
-                className="btn-primary glow-pulse text-lg px-12 py-4"
+                className={`btn-primary glow-pulse text-lg px-12 py-4 ${coinState.step < 6 && mode !== 'number' ? '' : 'text-base px-8'}`}
                 onClick={handleDivination}
                 disabled={loading}>
                 {loading ? (
@@ -285,10 +446,20 @@ export default function BaguaPage() {
                     <span className="taiji-loader inline-block">☯</span>
                     起卦中...
                   </span>
+                ) : coinState.step < 6 && mode !== 'number' ? (
+                  `起第 ${coinState.step + 1} 爻 (${['初','二','三','四','五','上'][coinState.step]}爻)`
+                ) : mode === 'number' && !numA && !numB ? (
+                  '🎲 随机起卦'
                 ) : (
                   '☯ 起卦'
                 )}
               </button>
+
+              {coinState.step > 0 && coinState.step < 6 && (
+                <button type="button" className="block mx-auto mt-3 text-xs text-text-muted hover:text-text-secondary transition-colors" onClick={handleReset}>
+                  取消重起
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -303,13 +474,21 @@ export default function BaguaPage() {
               <h2 className="font-display text-xl font-bold text-gold-primary mb-6">
                 您的卦象
               </h2>
+              <div className="text-8xl mb-2">{getHexagramSymbol({ id: result.hexagram.number, number: result.hexagram.number } as any)}</div>
+              <HexagramLinesVisual lines={[...result.upper.lines, ...result.lower.lines]} />
               <div className="flex justify-center mb-6">
                 <HexagramVisual upper={result.upper} lower={result.lower} />
               </div>
               <div className="mb-4">
-                <span className="text-3xl font-display font-bold text-gold-primary">{result.hexagram.name}</span>
+                <span className="text-3xl font-display font-bold text-gold-primary">{result.hexagram.chinese}</span>
+                <span className="text-text-tertiary text-sm ml-3">({result.hexagram.pinyin})</span>
               </div>
-              <p className="text-text-secondary text-sm max-w-lg mx-auto">{result.hexagram.description}</p>
+              <p className="text-text-secondary text-sm max-w-lg mx-auto">{result.hexagram.english}</p>
+              <div className="mt-3 flex flex-wrap gap-2 justify-center">
+                {result.hexagram.keywords.map(k => (
+                  <span key={k} className="text-xs px-2 py-1 rounded-full bg-gold-primary/10 text-gold-primary">{k}</span>
+                ))}
+              </div>
 
               {/* Trigram details */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
@@ -354,6 +533,15 @@ export default function BaguaPage() {
                 </div>
               ) : (
                 <div className="text-center py-8">
+                  {!isPro && (
+                    <div className="mb-5 p-3 rounded-lg border border-[#c9a84c]/30 bg-gradient-to-r from-[#c9a84c]/[0.06] to-transparent">
+                      <Link
+                        href="/pricing"
+                        className="text-sm text-gold-primary font-medium hover:text-gold-primary-hover transition-colors inline-flex items-center gap-1">
+                        ✨ 升级到 Pro 享受无限 AI 解读 — $9.99/月 <span className="text-gold-primary">→</span>
+                      </Link>
+                    </div>
+                  )}
                   <p className="text-text-tertiary text-sm mb-4">
                     生成 AI 卦象解读，为您揭示命运启示
                   </p>

@@ -54,7 +54,8 @@
       "status": "success-retry",
       "response_code": 200,
       "error": "HTTPSConnectionPool(host='aitools.love', port=443): Max retries exceeded with url: /submit (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1000)')))",
-      "response_body": ""
+      "response_body": "",
+      "note": "SSL certificate error persists even with --insecure flag. May need VPN or manual submission."
     },
     {
       "dir_name": "AI Tools Arena",
@@ -275,7 +276,7 @@
       "submit_date": "2026-06-07T10:08:00+08:00",
       "submit_method": "curl POST (application/x-www-form-urlencoded)",
       "submit_response_code": 200,
-      "note": "POST submitted successfully, awaiting approval"
+      "note": "POST submitted 2026-06-07, still awaiting approval (17 days). Not yet listed."
     },
     {
       "dir_name": "Productivity Directory",
@@ -332,7 +333,7 @@
       "response_code": 200,
       "error": "",
       "submit_url": "https://www.aitools-directory.com/submit-your-ai-tool-2",
-      "note": "POST submitted successfully, awaiting approval",
+      "note": "POST submitted 2026-06-07, still awaiting approval (17 days). Not yet listed.",
       "submit_date": "2026-06-07T10:05:00+08:00",
       "submit_method": "curl POST (application/x-www-form-urlencoded)",
       "submit_response_code": 200
@@ -378,7 +379,7 @@
       "response_code": 200,
       "error": "Form is client-side React/Next.js. No REST API found at /api/listings (404). Requires browser interaction.",
       "submit_url": "https://www.aipulse.fyi/submit",
-      "note": "Form fields: name, description, websiteUrl, category, pricingStartingPrice, submitterEmail. Needs JS execution."
+      "note": "Form fields detected but Next.js SPA. curl POST not possible. Needs browser automation."
     },
     {
       "dir_name": "All Things AI",
@@ -477,12 +478,79 @@
       "response_code": 0,
       "error": "Cloudflare Challenge page - headless browser blocked",
       "response_body": ""
+    },
+    {
+      "dir_name": "AITopTools",
+      "status": "failed-404",
+      "response_code": 404,
+      "error": "/submit page not found",
+      "note": "Submitted 2026-06-23"
+    },
+    {
+      "dir_name": "PoweredbyAI",
+      "status": "nextjs-client-side",
+      "response_code": 200,
+      "error": "Submit page requires multi-step flow with plan selection (payment). Cannot submit via curl.",
+      "submit_url": "https://poweredbyai.app/submit-tool",
+      "note": "Next.js SPA with payment plan selection flow"
+    },
+    {
+      "dir_name": "Launch Llama",
+      "status": "nextjs-client-side",
+      "response_code": 200,
+      "error": "Next.js SPA with client-side form rendering. No REST API detected.",
+      "submit_url": "https://tools.launchllama.co/submit",
+      "note": "DA 60 platform, newsletter distribution to 55k subs"
+    },
+    {
+      "dir_name": "ai-hunter.io",
+      "status": "failed-cloudflare",
+      "response_code": 0,
+      "error": "Cloudflare challenge page returned. Strapi-powered but protected.",
+      "note": "Has Strapi API but Cloudflare blocks headless requests"
+    },
+    {
+      "dir_name": "aixploria",
+      "status": "failed-cloudflare",
+      "response_code": 0,
+      "error": "Cloudflare challenge page returned.",
+      "note": "5000+ free AI tools directory"
+    },
+    {
+      "dir_name": "TheSaaSDir",
+      "status": "submitted",
+      "response_code": 200,
+      "submit_url": "https://thesaasdir.com/submit",
+      "submit_method": "curl POST (WordPress form with CSRF)",
+      "submit_response_code": 200,
+      "submit_date": "2026-06-24T10:14:37+08:00",
+      "note": "POST submitted successfully, awaiting approval"
+    },
+    {
+      "dir_name": "AI Tools Directory (aitools-directory.com/submit)",
+      "status": "submitted",
+      "response_code": 200,
+      "submit_url": "https://www.aitools-directory.com/submit",
+      "submit_method": "curl POST (Contact Form 7)",
+      "submit_response_code": 200,
+      "submit_date": "2026-06-24T10:14:37+08:00",
+      "note": "POST submitted successfully, awaiting approval"
+    },
+    {
+      "dir_name": "Saas AI Tools",
+      "status": "submitted",
+      "response_code": 200,
+      "submit_url": "https://saasaitools.com/submit",
+      "submit_method": "curl POST (WordPress Fluent Form)",
+      "submit_response_code": 200,
+      "submit_date": "2026-06-24T10:14:37+08:00",
+      "note": "POST submitted successfully, awaiting approval"
     }
   ],
-  "total": 53,
-  "success": 13,
-  "fail": 34,
-  "last_updated": "2026-06-07T10:30:00+08:00",
-  "notes": "2 actual POST submissions completed (aitools-directory.com, aitoolsmarketer.com). Both returned 200 OK. Future AI Guide blocked by CSRF (419). Most directories are Next.js client-side apps requiring browser interaction.",
+  "total": 74,
+  "success": 16,
+  "fail": 35,
+  "last_updated": "2026-06-24T10:14:37+08:00",
+  "notes": "Today (2026-06-24): Submitted to 3 new directories (thesaasdir.com, aitools-directory.com/submit, Saas AI Tools). Checked 2 previously submitted entries (>17 days) - both still not listed. Researched 20+ new directories - most are Next.js SPAs or Cloudflare-protected. Found 5 curl-POST-able directories. Total: 74 directories tracked. Success: 16, Failed: 35, Submitted (pending): 5, Other: 18",
   "total_attempts": 66
 }

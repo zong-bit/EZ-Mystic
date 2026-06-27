@@ -1,4 +1,5 @@
-// Bagua (八卦) — Eight Trigrams data for I Ching divination
+// Bagua (八卦) — Eight Trigrams + 64 Hexagrams data for I Ching divination
+import hexagramsData from '../../data/hexagrams.json';
 
 export interface BaguaItem {
   name: string;       // Chinese name: 乾, 兑, etc.
@@ -11,7 +12,7 @@ export interface BaguaItem {
 }
 
 // Each trigram has 3 lines (top to bottom)
-// 6 = solid line (yang), 5 = broken line (yin)
+// 6 = solid line (yang), 5 = broken (yin)
 export const BAGUA: BaguaItem[] = [
   {
     name: '乾',
@@ -87,96 +88,115 @@ export const BAGUA: BaguaItem[] = [
   },
 ];
 
-// Full hexagram (6 lines) = upper trigram + lower trigram
-export interface Hexagram {
-  upper: BaguaItem;
-  lower: BaguaItem;
-  name: string;
-  description: string;
+// Hexagram interface matching hexagrams.json structure
+export interface HexagramItem {
+  id: number;
+  number: number;
+  chinese: string;
+  pinyin: string;
+  english: string;
+  upper: string;
+  lower: string;
+  element: string;
+  judgment: string;
+  image: string;
+  meaning: string;
+  keywords: string[];
+  lines: number[];
+  fiveElements: string;
+  direction: string;
+  season: string;
 }
 
-// Map (upper, lower) → full hexagram name & description
-const HEXAGRAM_MAP: Record<string, { name: string; description: string }> = {
-  '乾-乾': { name: '乾为天', description: 'The Creative — Pure creative power, heaven above heaven. Supreme success.' },
-  '兑-兑': { name: '兑为泽', description: 'The Joyous — Lake above lake, joy and harmony.' },
-  '离-离': { name: '离为火', description: 'The Clinging — Fire above fire, clarity and illumination.' },
-  '震-震': { name: '震为雷', description: 'The Arousing — Thunder above thunder, shock and awakening.' },
-  '巽-巽': { name: '巽为风', description: 'The Gentle — Wind above wind, gentle penetration.' },
-  '坎-坎': { name: '坎为水', description: 'The Abysmal — Water above water, danger upon danger.' },
-  '艮-艮': { name: '艮为山', description: 'Keeping Still — Mountain above mountain, stillness and meditation.' },
-  '坤-坤': { name: '坤为地', description: 'The Receptive — Earth above earth, perfect devotion.' },
-  '乾-兑': { name: '泽天夬', description: 'Breakthrough — Lake over heaven, decisive action.' },
-  '乾-离': { name: '火天大有', description: 'Great Possession — Fire over heaven, abundance and prosperity.' },
-  '乾-震': { name: '天雷无妄', description: 'Innocence — Thunder under heaven, natural spontaneity.' },
-  '乾-巽': { name: '风天小畜', description: 'Small Taming — Wind over heaven, gentle restraint.' },
-  '乾-坎': { name: '水天需', description: 'Waiting — Water over heaven, patience and nourishment.' },
-  '乾-艮': { name: '山天大畜', description: 'Great Taming — Mountain over heaven, great accumulation.' },
-  '乾-坤': { name: '天地否', description: 'Standstill — Earth over heaven, obstruction and withdrawal.' },
-  '兑-离': { name: '泽火革', description: 'Revolution — Lake over fire, transformation and change.' },
-  '兑-震': { name: '泽雷随', description: 'Following — Thunder under lake, adaptation and compliance.' },
-  '兑-巽': { name: '泽风大过', description: 'Preponderance of the Great — Lake over wind, exceptional weight.' },
-  '兑-坎': { name: '泽水困', description: 'Oppression — Water under lake, exhaustion and testing.' },
-  '兑-艮': { name: '泽山咸', description: 'Influence — Mountain under lake, mutual attraction.' },
-  '兑-坤': { name: '泽地萃', description: 'Gathering Together — Earth under lake, convergence and gathering.' },
-  '离-乾': { name: '火天大有', description: 'Great Possession — Fire over heaven, abundance and prosperity.' },
-  '离-兑': { name: '泽火革', description: 'Revolution — Lake over fire, transformation and change.' },
-  '离-震': { name: '火雷噬嗑', description: 'Biting Through — Thunder under fire, justice and enforcement.' },
-  '离-巽': { name: '火风鼎', description: 'The Cauldron — Wind under fire, cultivation and transformation.' },
-  '离-坎': { name: '火水未济', description: 'Before Completion — Water under fire, transition and potential.' },
-  '离-艮': { name: '火山旅', description: 'The Wanderer — Mountain under fire, travel and impermanence.' },
-  '离-坤': { name: '地火明夷', description: 'Darkening of the Light — Earth over fire, obscured brilliance.' },
-  '震-乾': { name: '天雷无妄', description: 'Innocence — Thunder under heaven, natural spontaneity.' },
-  '震-兑': { name: '泽雷随', description: 'Following — Thunder under lake, adaptation and compliance.' },
-  '震-离': { name: '火雷噬嗑', description: 'Biting Through — Thunder under fire, justice and enforcement.' },
-  '震-巽': { name: '雷风恒', description: 'Duration — Wind under thunder, constancy and endurance.' },
-  '震-坎': { name: '雷水解', description: 'Deliverance — Water under thunder, release and liberation.' },
-  '震-艮': { name: '雷山小过', description: 'Preponderance of the Small — Mountain over thunder, careful moderation.' },
-  '震-坤': { name: '雷地豫', description: 'Enthusiasm — Earth under thunder, joy and readiness.' },
-  '巽-乾': { name: '风天小畜', description: 'Small Taming — Wind over heaven, gentle restraint.' },
-  '巽-兑': { name: '泽风大过', description: 'Preponderance of the Great — Lake over wind, exceptional weight.' },
-  '巽-离': { name: '火风鼎', description: 'The Cauldron — Wind under fire, cultivation and transformation.' },
-  '巽-震': { name: '雷风恒', description: 'Duration — Wind under thunder, constancy and endurance.' },
-  '巽-坎': { name: '风水涣', description: 'Dispersion — Water over wind, dissolution and renewal.' },
-  '巽-艮': { name: '风山渐', description: 'Development — Mountain under wind, gradual progress.' },
-  '巽-坤': { name: '风地观', description: 'Contemplation — Earth under wind, observation and insight.' },
-  '坎-乾': { name: '水天需', description: 'Waiting — Water over heaven, patience and nourishment.' },
-  '坎-兑': { name: '泽水困', description: 'Oppression — Water under lake, exhaustion and testing.' },
-  '坎-离': { name: '火水未济', description: 'Before Completion — Water under fire, transition and potential.' },
-  '坎-震': { name: '雷水解', description: 'Deliverance — Water under thunder, release and liberation.' },
-  '坎-巽': { name: '风水涣', description: 'Dispersion — Water over wind, dissolution and renewal.' },
-  '坎-艮': { name: '山水蒙', description: 'Youthful Folly — Mountain over water, ignorance and learning.' },
-  '坎-坤': { name: '地水师', description: 'The Army — Earth over water, organization and discipline.' },
-  '艮-乾': { name: '山天大畜', description: 'Great Taming — Mountain over heaven, great accumulation.' },
-  '艮-兑': { name: '泽山咸', description: 'Influence — Mountain under lake, mutual attraction.' },
-  '艮-离': { name: '火山旅', description: 'The Wanderer — Mountain under fire, travel and impermanence.' },
-  '艮-震': { name: '雷山小过', description: 'Preponderance of the Small — Mountain over thunder, careful moderation.' },
-  '艮-巽': { name: '风山渐', description: 'Development — Mountain under wind, gradual progress.' },
-  '艮-坎': { name: '山水蒙', description: 'Youthful Folly — Mountain over water, ignorance and learning.' },
-  '艮-坤': { name: '山地剥', description: 'Splitting Apart — Earth over mountain, decline and erosion.' },
-  '坤-乾': { name: '天地否', description: 'Standstill — Earth over heaven, obstruction and withdrawal.' },
-  '坤-兑': { name: '泽地萃', description: 'Gathering Together — Earth under lake, convergence and gathering.' },
-  '坤-离': { name: '地火明夷', description: 'Darkening of the Light — Earth over fire, obscured brilliance.' },
-  '坤-震': { name: '雷地豫', description: 'Enthusiasm — Earth under thunder, joy and readiness.' },
-  '坤-巽': { name: '风地观', description: 'Contemplation — Earth under wind, observation and insight.' },
-  '坤-坎': { name: '地水师', description: 'The Army — Earth over water, organization and discipline.' },
-  '坤-艮': { name: '山地剥', description: 'Splitting Apart — Earth over mountain, decline and erosion.' },
-};
+// Load all hexagrams from JSON (ID-based lookup)
+const ALL_HEXAGRAMS: HexagramItem[] = hexagramsData as unknown as HexagramItem[];
 
-// Default to "unknown" hexagram name
-const UNKNOWN_HEX = { name: '未知卦象', description: 'Hexagram not found in standard mapping.' };
+// Build ID-indexed lookup map
+const HEXAGRAM_BY_ID = new Map<number, HexagramItem>();
+ALL_HEXAGRAMS.forEach(h => HEXAGRAM_BY_ID.set(h.id, h));
 
-export function getHexagram(upper: BaguaItem, lower: BaguaItem): Hexagram {
+// Build upper+lower trigram → hexagram lookup (for divination result matching)
+const HEXAGRAM_BY_TRIGRAMS = new Map<string, HexagramItem>();
+ALL_HEXAGRAMS.forEach(h => {
+  const key = `${h.upper}-${h.lower}`;
+  HEXAGRAM_BY_TRIGRAMS.set(key, h);
+});
+
+// Build lines-array → hexagram lookup (for coin/coin-throw results)
+const HEXAGRAM_BY_LINES = new Map<string, HexagramItem>();
+ALL_HEXAGRAMS.forEach(h => {
+  const key = h.lines.join('');
+  HEXAGRAM_BY_LINES.set(key, h);
+});
+
+/**
+ * Get hexagram by numeric ID (1-64) — primary lookup method
+ */
+export function getHexagramById(id: number): HexagramItem | undefined {
+  return HEXAGRAM_BY_ID.get(id);
+}
+
+/**
+ * Get hexagram by upper/lower trigram names (e.g., "乾-坤")
+ */
+export function getHexagramByTrigrams(upper: string, lower: string): HexagramItem | undefined {
+  const key = `${upper}-${lower}`;
+  return HEXAGRAM_BY_TRIGRAMS.get(key);
+}
+
+/**
+ * Get hexagram by line pattern (e.g., [6,6,6,5,5,5])
+ * Lines ordered from top (line 6) to bottom (line 1) — matches divination result
+ */
+export function getHexagramByLines(lines: number[]): HexagramItem | undefined {
+  const key = lines.join('');
+  return HEXAGRAM_BY_LINES.get(key);
+}
+
+/**
+ * Get all hexagrams (for listing, random selection, etc.)
+ */
+export function getAllHexagrams(): HexagramItem[] {
+  return ALL_HEXAGRAMS;
+}
+
+/**
+ * Get hexagram by upper/lower BaguaItem (legacy API, still works)
+ */
+export function getHexagram(upper: BaguaItem, lower: BaguaItem): HexagramItem | undefined {
   const key = `${upper.name}-${lower.name}`;
-  const info = HEXAGRAM_MAP[key] || UNKNOWN_HEX;
-  return {
-    upper,
-    lower,
-    name: info.name,
-    description: info.description,
-  };
+  return HEXAGRAM_BY_TRIGRAMS.get(key);
 }
 
-// Generate a random trigram index (0-7)
+/**
+ * Generate a random hexagram ID (1-64) — for daily hexagram / random divination
+ */
+export function randomHexagramId(): number {
+  return Math.floor(Math.random() * 64) + 1;
+}
+
+/**
+ * Generate a random trigram index (0-7) — legacy, for backward compat
+ */
 export function randomTrigramIndex(): number {
   return Math.floor(Math.random() * 8);
+}
+
+/**
+ * Convert trigram name to symbol
+ */
+export function getTrigramSymbol(name: string): string {
+  const trigram = BAGUA.find(b => b.name === name);
+  return trigram?.symbol || '?';
+}
+
+/**
+ * Get hexagram display symbol (Unicode hexagram character)
+ * Based on the hexagram's lines pattern
+ */
+export function getHexagramSymbol(hex: HexagramItem): string {
+  // Map common hexagrams to Unicode I Ching symbols (䷀-䷿)
+  // Unicode range: U+4DC0 (Hexagram 1) to U+4DFF (Hexagram 64)
+  const base = 0x4DC0; // U+4DC0 = Hexagram 1 (乾为天)
+  return String.fromCodePoint(base + hex.id - 1);
 }

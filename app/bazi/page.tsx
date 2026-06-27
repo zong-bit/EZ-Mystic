@@ -4,6 +4,8 @@ export const dynamic = 'force-dynamic';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import ShareModal from '../components/ShareModal';
 import Link from 'next/link';
+import { getHexagramById, getHexagramSymbol } from '@/bazi/bagua';
+import hexagramsData from '../../data/hexagrams.json';
 import { CITIES, type CityData } from './cities';
 import {
   GAN_TRANSLATIONS,
@@ -552,6 +554,77 @@ function LoadingOverlay() {
         <div className="text-6xl mb-4 taiji-loader">☯</div>
         <div className="text-gold-primary font-display text-lg mb-2">Calculating your destiny chart...</div>
         <div className="text-text-tertiary text-sm">Decoding your destiny code</div>
+      </div>
+    </div>
+  );
+}
+
+// ── Extended Divination Module ────────────────────────────────────────────────
+
+function baziDailyHexagramId(): number {
+  const now = new Date();
+  const dateStr = `${now.getUTCFullYear()}-${String(now.getUTCMonth()+1).padStart(2,'0')}-${String(now.getUTCDate()).padStart(2,'0')}`;
+  let hash = 0;
+  for (let i = 0; i < dateStr.length; i++) {
+    hash = ((hash << 5) - hash + dateStr.charCodeAt(i)) | 0;
+  }
+  return Math.abs(hash) % 64 + 1;
+}
+
+function ExtendedDivinationModule() {
+  const [hexData, setHexData] = useState<{ symbol: string; chinese: string; pinyin: string; english: string; judgment: string } | null>(null);
+
+  useEffect(() => {
+    const id = baziDailyHexagramId();
+    const arr = Object.values(hexagramsData) as Array<{ id: number; chinese: string; pinyin: string; english: string; judgment: string }>; // eslint-disable-line
+    const hex = arr.find(h => h.id === id);
+    if (hex) {
+      setHexData({
+        symbol: getHexagramSymbol(hex as any),
+        chinese: hex.chinese,
+        pinyin: hex.pinyin,
+        english: hex.english,
+        judgment: hex.judgment.slice(0, 40) + (hex.judgment.length > 40 ? '…' : ''),
+      });
+    }
+  }, []);
+
+  if (!hexData) return null;
+
+  return (
+    <div className="glass-card p-6 md:p-8 rounded-2xl border border-gold-primary/15 relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold-primary/30 to-transparent" />
+      <div className="relative">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="text-gold-primary text-xl">🔮</span>
+          <h3 className="font-display font-bold text-gold-primary">Your Destiny's Hidden Hexagram · 命盘卦象</h3>
+        </div>
+
+        <p className="text-text-secondary text-sm mb-5">
+          Your Bazi chart holds a hidden hexagram — today's daily hexagram connects to your destiny code.
+        </p>
+
+        <div className="flex flex-col md:flex-row items-center gap-6">
+          {/* Hexagram symbol */}
+          <div className="flex-shrink-0 w-24 h-24 rounded-xl bg-gold-primary/5 flex items-center justify-center">
+            <span className="text-6xl" style={{ color: 'var(--color-primary, #c9a84c)' }}>{hexData.symbol}</span>
+          </div>
+
+          {/* Hexagram info */}
+          <div className="flex-1 text-center md:text-left">
+            <div className="text-2xl font-display font-bold text-text-primary mb-1">{hexData.chinese}</div>
+            <div className="text-sm text-text-tertiary italic mb-1">{hexData.pinyin}</div>
+            <div className="text-sm font-semibold text-gold-primary mb-2">{hexData.english}</div>
+            <p className="text-xs text-text-secondary leading-relaxed">{hexData.judgment}</p>
+          </div>
+
+          {/* CTA */}
+          <Link
+            href="/bagua"
+            className="flex-shrink-0 btn-primary text-sm px-6 py-3 whitespace-nowrap">
+            Cast Your Hexagram →
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -1255,6 +1328,9 @@ export default function BaziPage() {
 
             {/* Share invite modal - appears 5s after results */}
             <ShareModal />
+
+            {/* ── Extended Divination Module ── */}
+            <ExtendedDivinationModule />
 
             {/* Disclaimer */}
             <p className="text-center text-text-muted text-xs">

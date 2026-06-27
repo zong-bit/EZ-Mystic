@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useAuth } from './auth/auth-context';
 import QuickDivination from './components/QuickDivination';
+import { getHexagramById, getHexagramSymbol } from '@/bazi/bagua';
+import hexagramsData from '../data/hexagrams.json';
 
 export default function HomePage() {
   const { user } = useAuth();
@@ -144,6 +146,14 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── Divider ── */}
+      <div className="max-w-5xl mx-auto px-8">
+        <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent)' }} />
+      </div>
+
+      {/* ── Daily Hexagram Section ── */}
+      <DailyHexagramSection />
 
       {/* ── Divider ── */}
       <div className="max-w-5xl mx-auto px-8">
@@ -512,6 +522,87 @@ export default function HomePage() {
       </section>
 
     </div>
+  );
+}
+
+// ── Daily Hexagram Section ───────────────────────────────────────────────────
+
+function dailyHexagramId(): number {
+  const now = new Date();
+  // UTC date string: YYYY-MM-DD
+  const dateStr = `${now.getUTCFullYear()}-${String(now.getUTCMonth()+1).padStart(2,'0')}-${String(now.getUTCDate()).padStart(2,'0')}`;
+  // Simple hash: sum of char codes
+  let hash = 0;
+  for (let i = 0; i < dateStr.length; i++) {
+    hash = ((hash << 5) - hash + dateStr.charCodeAt(i)) | 0;
+  }
+  return Math.abs(hash) % 64 + 1; // 1-64
+}
+
+function DailyHexagramSection() {
+  const [hexData, setHexData] = useState<{ symbol: string; chinese: string; pinyin: string; english: string; judgment: string } | null>(null);
+
+  useEffect(() => {
+    const id = dailyHexagramId();
+    // hexagramsData is an array with numeric keys; convert to indexed
+    const arr = Object.values(hexagramsData) as Array<{ id: number; chinese: string; pinyin: string; english: string; judgment: string }>; // eslint-disable-line
+    const hex = arr.find(h => h.id === id);
+    if (hex) {
+      setHexData({
+        symbol: getHexagramSymbol(hex as any),
+        chinese: hex.chinese,
+        pinyin: hex.pinyin,
+        english: hex.english,
+        judgment: hex.judgment.slice(0, 40) + (hex.judgment.length > 40 ? '…' : ''),
+      });
+    }
+  }, []);
+
+  if (!hexData) return null;
+
+  return (
+    <section className="py-12 px-6">
+      <div className="max-w-xl mx-auto text-center">
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <span className="block" style={{ width: 16, height: 1, backgroundColor: 'var(--color-primary)' }} />
+          <span style={{ fontSize: '0.65rem', letterSpacing: '0.3em', color: 'var(--color-text-muted)' }}>
+            DAILY HEXAGRAM · 今日卦象
+          </span>
+          <span className="block" style={{ width: 16, height: 1, backgroundColor: 'var(--color-primary)' }} />
+        </div>
+
+        <div className="glass-card p-8 hover:scale-[1.02] transition-transform duration-300 cursor-pointer" onClick={() => window.location.href = '/bagua'}>
+          <div className="text-7xl mb-3" style={{ color: 'var(--color-primary)' }}>
+            {hexData.symbol}
+          </div>
+
+          <h3 className="font-display text-2xl font-bold mb-1" style={{ color: 'var(--color-text-primary)' }}>
+            {hexData.chinese}
+          </h3>
+          <p className="text-sm mb-1" style={{ color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
+            {hexData.pinyin}
+          </p>
+          <p className="text-sm font-semibold mb-3" style={{ color: 'var(--color-primary)' }}>
+            {hexData.english}
+          </p>
+
+          <div className="border-t border-gold-primary/10 pt-3 mt-2">
+            <p className="text-xs leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
+              {hexData.judgment}
+            </p>
+          </div>
+
+          <Link
+            href="/bagua"
+            className="inline-flex items-center gap-1 mt-4 text-xs font-semibold transition-colors"
+            style={{ color: 'var(--color-text-muted)' }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-primary)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text-muted)')}>
+            Cast your own hexagram →
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 }
 

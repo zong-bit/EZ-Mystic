@@ -12,6 +12,7 @@ export default function Footer() {
   const links = isChinese ? {
     home: '/zh',
     bazi: '/zh/bazi',
+    bagua: '/zh/bagua',
     pricing: '/zh/pricing',
     blog: '/zh/blog',
     terms: '/zh/terms',
@@ -21,6 +22,7 @@ export default function Footer() {
   } : {
     home: '/',
     bazi: '/bazi',
+    bagua: '/bagua',
     pricing: '/pricing',
     blog: '/blog',
     terms: '/terms',
@@ -56,6 +58,11 @@ export default function Footer() {
               <li>
                 <Link href={links.bazi} className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
                   {t('八字命盘', 'Bazi Chart')}
+                </Link>
+              </li>
+              <li>
+                <Link href={links.bagua} className="text-text-tertiary hover:text-gold-primary transition-colors text-sm">
+                  {t('八卦问卜', 'Bagua Divination')}
                 </Link>
               </li>
               <li>

@@ -94,12 +94,12 @@ function buildChangedHexagram(lines: { value: number }[]): { index: number; orig
 }
 
 // ── Reading generation (deterministic, no AI) ────────────────────
-function generateReading(hexagram: { name: string; description: string }, lines: { value: number }[], changingLines: number[]): string {
+function generateReading(hexagram: { chinese: string; english: string }, lines: { value: number }[], changingLines: number[]): string {
   const parts: string[] = [];
 
   // Core hexagram reading
-  parts.push(`**卦象：${hexagram.name}**`);
-  parts.push(hexagram.description);
+  parts.push(`**卦象：${hexagram.chinese}**`);
+  parts.push(hexagram.english);
   parts.push('');
 
   // Line-by-line breakdown
@@ -129,7 +129,7 @@ function generateReading(hexagram: { name: string; description: string }, lines:
   }
 
   // Philosophical guidance
-  const guidance = getPhilosophicalGuidance(hexagram.name, changingLines.length);
+  const guidance = getPhilosophicalGuidance(hexagram.chinese, changingLines.length);
   parts.push('');
   parts.push(guidance);
 
@@ -265,6 +265,13 @@ export async function POST(request: NextRequest) {
     const { upper: changedUpper, lower: changedLower } = extractTrigrams(changedLines);
     const changedHexagram = getHexagram(changedUpper, changedLower);
 
+    if (!hexagram) {
+      return NextResponse.json(
+        { error: 'Hexagram not found' },
+        { status: 500 }
+      );
+    }
+
     // Generate reading
     const reading = generateReading(hexagram, lines, changingLines);
 
@@ -273,8 +280,8 @@ export async function POST(request: NextRequest) {
       success: true,
       method: divinationMethod,
       hexagram: {
-        name: hexagram.name,
-        description: hexagram.description,
+        name: hexagram.chinese,
+        description: hexagram.english,
         upperTrigram: { name: upper.name, symbol: upper.symbol, nature: upper.nature },
         lowerTrigram: { name: lower.name, symbol: lower.symbol, nature: lower.nature },
       },
@@ -286,8 +293,8 @@ export async function POST(request: NextRequest) {
         changing: l.changing,
       })),
       changedHexagram: {
-        name: changedHexagram.name,
-        description: changedHexagram.description,
+        name: changedHexagram?.chinese || '',
+        description: changedHexagram?.english || '',
         upperTrigram: { name: changedUpper.name, symbol: changedUpper.symbol },
         lowerTrigram: { name: changedLower.name, symbol: changedLower.symbol },
       },
