@@ -32,3 +32,7 @@ Total URLs: 263
 | 2026-06-29 05:04 | bornchart.app | 2 | 100 | ❌ Failed | 403 | {"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null} |
 | 2026-06-29 05:04 | bornchart.app | 3 | 63 | ❌ Failed | 403 | {"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null} |
 
+
+--- 2026-06-30 05:01:04 CST ---
+Total URLs: 267
+Batch 100 (0+1..100): FAIL ({"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null})\nBatch 101 (100+1..201): FAIL ({"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null})\nBatch 102 (201+1..267): FAIL ({"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null})\n

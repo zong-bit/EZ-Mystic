@@ -288,6 +288,30 @@ export default function BaguaPage() {
     try {
       const authHeader = typeof window !== 'undefined' ? localStorage.getItem('fatewise_token') : null;
 
+      // Derive line values from coin toss if available
+      const lineValues = coinState.lines.length === 6 ? coinState.lines : undefined;
+      const lineSymbols = lineValues?.map(v => ({ 6: '⚋⏎', 7: '⚊', 8: '⚋', 9: '⚊⏎' }[v] || '?'));
+      const changingLines = lineValues?.filter((v, i) => (v === 6 || v === 9) ? i + 1 : 0).filter(Boolean) as number[] | undefined;
+
+      // Build changed hexagram if there are changing lines
+      let changedHexagram: typeof result.hexagram | undefined;
+      if (changingLines && changingLines.length > 0 && lineValues) {
+        const changedValues = lineValues.map(v => v === 6 ? 7 : v === 9 ? 8 : v);
+        const changedHex = getHexagramByLines(changedValues);
+        if (changedHex) {
+          changedHexagram = {
+            chinese: changedHex.chinese,
+            english: changedHex.english,
+            pinyin: changedHex.pinyin,
+            judgment: changedHex.judgment,
+            image: changedHex.image,
+            meaning: changedHex.meaning,
+            keywords: changedHex.keywords,
+            number: changedHex.number,
+          };
+        }
+      }
+
       const response = await fetch('/api/bagua/completion', {
         method: 'POST',
         headers: {
@@ -296,10 +320,38 @@ export default function BaguaPage() {
         },
         body: JSON.stringify({
           question: question || undefined,
-          upperTrigram: { name: result.upper.name, symbol: result.upper.symbol, element: result.upper.element, direction: result.upper.direction, nature: result.upper.nature },
-          lowerTrigram: { name: result.lower.name, symbol: result.lower.symbol, element: result.lower.element, direction: result.lower.direction, nature: result.lower.nature },
           hexagramName: result.hexagram.chinese,
+          hexagramNumber: result.hexagram.number,
           hexagramDesc: result.hexagram.english,
+          judgment: result.hexagram.judgment,
+          image: result.hexagram.image,
+          meaning: result.hexagram.meaning,
+          keywords: result.hexagram.keywords,
+          fiveElements: (result.hexagram as any).fiveElements,
+          direction: (result.hexagram as any).direction,
+          season: (result.hexagram as any).season,
+          upperTrigram: {
+            name: result.upper.name, symbol: result.upper.symbol,
+            element: result.upper.element, direction: result.upper.direction,
+            nature: result.upper.nature, meaning: result.upper.meaning,
+          },
+          lowerTrigram: {
+            name: result.lower.name, symbol: result.lower.symbol,
+            element: result.lower.element, direction: result.lower.direction,
+            nature: result.lower.nature, meaning: result.lower.meaning,
+          },
+          lineValues,
+          lineSymbols,
+          changingLines: changingLines?.length ? changingLines : undefined,
+          changedHexagram: changedHexagram ? {
+            name: changedHexagram.chinese,
+            number: changedHexagram.number,
+            desc: changedHexagram.english,
+            judgment: changedHexagram.judgment,
+            image: changedHexagram.image,
+            meaning: changedHexagram.meaning,
+            fiveElements: (changedHexagram as any).fiveElements,
+          } : undefined,
         }),
       });
 
@@ -314,7 +366,7 @@ export default function BaguaPage() {
     } finally {
       setInterpretLoading(false);
     }
-  }, [result, question]);
+  }, [result, question, coinState]);
 
   const handleReset = useCallback(() => {
     setResult(null);

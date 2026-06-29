@@ -3,10 +3,18 @@ export const dynamic = 'force-dynamic';
 
 import { useState, useCallback, useRef } from 'react';
 import Link from 'next/link';
-import { BAGUA, type BaguaItem, type HexagramItem, getHexagram, randomTrigramIndex } from '@/bazi/bagua';
+import { BAGUA, type BaguaItem, type HexagramItem, getHexagram, getHexagramByLines, randomTrigramIndex } from '@/bazi/bagua';
 import BaguaDiagram from './components/BaguaDiagram';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
+
+interface LineInfo {
+  index: number;      // 1-6, bottom to top
+  value: number;      // 6=old yin, 7=young yang, 8=young yin, 9=old yang
+  symbol: string;     // ⚋⏎ / ⚊ / ⚋ / ⚊⏎
+  name: string;       // 老阴/少阳/少阴/老阳
+  changing: boolean;  // true for 6 or 9
+}
 
 interface BaguaResult {
   upper: BaguaItem;
@@ -14,6 +22,14 @@ interface BaguaResult {
   hexagram: HexagramItem;
   upperLines: number[];
   lowerLines: number[];
+  lineValues: number[];       // 6 line values bottom→top (for coin-toss)
+  changingLines: number[];    // indices (1-based) of changing lines
+  changedHexagram?: HexagramItem;
+  changedUpper?: BaguaItem;
+  changedLower?: BaguaItem;
+  changedUpperLines?: number[];
+  changedLowerLines?: number[];
+  lineSymbols: string[];      // display symbols for each line
 }
 
 interface InterpretResponse {
@@ -264,6 +280,45 @@ export default function BaguaPage() {
   const [diagramKey, setDiagramKey] = useState(0);
   const resultRef = useRef<HTMLDivElement | null>(null);
 
+  // ── Coin toss helpers ──────────────────────────────────────────────
+  function tossThreeCoins(): number {
+    const coins = [Math.random() < 0.5 ? 3 : 2, Math.random() < 0.5 ? 3 : 2, Math.random() < 0.5 ? 3 : 2];
+    return coins[0] + coins[1] + coins[2]; // 6, 7, 8, or 9
+  }
+
+  const LINE_SYMBOLS: Record<number, string> = { 6: '⚋⏎', 7: '⚊', 8: '⚋', 9: '⚊⏎' };
+  const LINE_NAMES: Record<number, string> = { 6: '老阴', 7: '少阳', 8: '少阴', 9: '老阳' };
+  const LINE_NAMES_FULL: Record<number, string> = { 6: '老阴 ⚋⏎', 7: '少阳 ⚊', 8: '少阴 ⚋', 9: '老阳 ⚊⏎' };
+
+  function buildLines(values: number[]): LineInfo[] {
+    return values.map((v, i) => ({
+      index: i + 1,
+      value: v,
+      symbol: LINE_SYMBOLS[v] || '?',
+      name: LINE_NAMES[v] || '?',
+      changing: v === 6 || v === 9,
+    }));
+  }
+
+  function extractTrigramsFromLines(values: number[]): { upper: BaguaItem; lower: BaguaItem } {
+    const lowerValues = [values[0], values[1], values[2]];
+    const upperValues = [values[3], values[4], values[5]];
+
+    const match = (vals: number[]): BaguaItem => {
+      for (const t of BAGUA) {
+        const rev = [...t.lines].reverse();
+        if (rev[0] === vals[0] && rev[1] === vals[1] && rev[2] === vals[2]) return t;
+      }
+      return BAGUA[7]; // fallback 坤
+    };
+
+    return { upper: match(upperValues), lower: match(lowerValues) };
+  }
+
+  function buildChangedLines(values: number[]): number[] {
+    return values.map(v => v === 6 ? 7 : v === 9 ? 8 : v);
+  }
+
   const handleDivination = useCallback(async () => {
     setError(null);
     setResult(null);
@@ -272,16 +327,49 @@ export default function BaguaPage() {
     setLoading(true);
 
     try {
-      const upperIdx = randomTrigramIndex();
-      const lowerIdx = randomTrigramIndex();
-      const upper = BAGUA[upperIdx];
-      const lower = BAGUA[lowerIdx];
-      const hexagram = getHexagram(upper, lower);
-      if (!hexagram) {
-        throw new Error('Hexagram not found');
+      // Coin toss: 6 lines, each from 3 coins
+      const allValues: number[] = [];
+      for (let i = 0; i < 6; i++) {
+        const tosses = [tossThreeCoins(), tossThreeCoins(), tossThreeCoins()];
+        const avg = Math.round((tosses[0] + tosses[1] + tosses[2]) / 3);
+        allValues.push(Math.min(9, Math.max(6, avg)));
       }
 
-      setResult({ upper, lower, hexagram, upperLines: upper.lines, lowerLines: lower.lines });
+      const lines = buildLines(allValues);
+      const changingLines = lines.filter(l => l.changing).map(l => l.index);
+
+      // Extract trigrams from original lines
+      const { upper, lower } = extractTrigramsFromLines(allValues);
+      const hexagram = getHexagram(upper, lower);
+      if (!hexagram) throw new Error('Hexagram not found');
+
+      // Build changed (变卦) if there are changing lines
+      let changedHexagram: HexagramItem | undefined;
+      let changedUpper: BaguaItem | undefined;
+      let changedLower: BaguaItem | undefined;
+      if (changingLines.length > 0) {
+        const changedValues = buildChangedLines(allValues);
+        const { upper: cu, lower: cl } = extractTrigramsFromLines(changedValues);
+        changedUpper = cu;
+        changedLower = cl;
+        changedHexagram = getHexagram(cu, cl);
+      }
+
+      const lineSymbols = allValues.map(v => LINE_SYMBOLS[v] || '?');
+
+      setResult({
+        upper, lower, hexagram,
+        upperLines: upper.lines,
+        lowerLines: lower.lines,
+        lineValues: allValues,
+        changingLines,
+        changedHexagram,
+        changedUpper,
+        changedLower,
+        changedUpperLines: changedUpper?.lines,
+        changedLowerLines: changedLower?.lines,
+        lineSymbols,
+      });
 
       setTimeout(() => {
         resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -307,10 +395,42 @@ export default function BaguaPage() {
         },
         body: JSON.stringify({
           question: question || undefined,
-          upperTrigram: { name: result.upper.name, symbol: result.upper.symbol, element: result.upper.element, direction: result.upper.direction, nature: result.upper.nature },
-          lowerTrigram: { name: result.lower.name, symbol: result.lower.symbol, element: result.lower.element, direction: result.lower.direction, nature: result.lower.nature },
+          // Original hexagram
           hexagramName: result.hexagram.chinese,
+          hexagramNumber: result.hexagram.number,
           hexagramDesc: result.hexagram.english,
+          judgment: result.hexagram.judgment,
+          image: result.hexagram.image,
+          meaning: result.hexagram.meaning,
+          keywords: result.hexagram.keywords,
+          fiveElements: result.hexagram.fiveElements,
+          direction: result.hexagram.direction,
+          season: result.hexagram.season,
+          // Trigrams
+          upperTrigram: {
+            name: result.upper.name, symbol: result.upper.symbol,
+            element: result.upper.element, direction: result.upper.direction,
+            nature: result.upper.nature, meaning: result.upper.meaning,
+          },
+          lowerTrigram: {
+            name: result.lower.name, symbol: result.lower.symbol,
+            element: result.lower.element, direction: result.lower.direction,
+            nature: result.lower.nature, meaning: result.lower.meaning,
+          },
+          // Lines
+          lineValues: result.lineValues,
+          lineSymbols: result.lineSymbols,
+          changingLines: result.changingLines.length > 0 ? result.changingLines : undefined,
+          // Changed hexagram (变卦)
+          changedHexagram: result.changedHexagram ? {
+            name: result.changedHexagram.chinese,
+            number: result.changedHexagram.number,
+            desc: result.changedHexagram.english,
+            judgment: result.changedHexagram.judgment,
+            image: result.changedHexagram.image,
+            meaning: result.changedHexagram.meaning,
+            fiveElements: result.changedHexagram.fiveElements,
+          } : undefined,
         }),
       });
 
@@ -431,6 +551,44 @@ export default function BaguaPage() {
             <div className="max-w-3xl mx-auto space-y-6">
               {/* Hexagram Card */}
               <HexagramDisplayCard result={result} />
+
+              {/* Changing Lines Display */}
+              {result.changingLines.length > 0 && (
+                <div className="glass-card p-5">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-7 h-7 rounded-lg flex items-center justify-center text-sm" style={{ background: 'rgba(212,168,83,0.12)' }}>⏎</div>
+                    <h3 className="font-display font-semibold text-sm" style={{ color: 'var(--accent-primary)' }}>Changing Lines · 动爻</h3>
+                  </div>
+                  <div className="space-y-1.5 text-sm">
+                    {result.changingLines.map(li => {
+                      const lineNames = ['初爻', '二爻', '三爻', '四爻', '五爻', '上爻'];
+                      const lineValues = result.lineValues;
+                      const isYang = lineValues[li - 1] === 9;
+                      const changeText = isYang ? '阳 → 阴' : '阴 → 阳';
+                      return (
+                        <div key={li} className="flex items-center gap-2">
+                          <span className="text-[var(--text-tertiary)] w-10">{lineNames[li - 1]}</span>
+                          <span className="text-[var(--accent-primary)]">{result.lineSymbols[li - 1]}</span>
+                          <span className="text-[var(--text-secondary)]">{LINE_NAMES_FULL[lineValues[li - 1]]}</span>
+                          <span className="text-[var(--text-tertiary)]">→</span>
+                          <span className="text-[var(--text-secondary)]">{changeText}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {result.changedHexagram && (
+                    <div className="mt-4 pt-4 border-t border-white/[0.06]">
+                      <div className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-tertiary)] mb-1">Changed Hexagram · 变卦</div>
+                      <div className="flex items-center gap-3">
+                        <span className="font-display font-bold text-lg" style={{ color: 'var(--accent-primary)' }}>
+                          {result.changedHexagram.chinese}
+                        </span>
+                        <span className="text-sm text-[var(--text-secondary)]">{result.changedHexagram.english}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* AI Interpretation */}
               <div className="glass-card p-6 md:p-8">
