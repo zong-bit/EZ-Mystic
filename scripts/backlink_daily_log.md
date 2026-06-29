@@ -126,3 +126,6 @@
 *最后更新: 2026-06-24 10:00 CST*
 ## 2026-06-26 (Fri) - 1 submission(s)
 - [DONE] Future AI Guide (tools.futureaiguide.com) - FateWise -> https://bornchart.app - POST 302 redirect (no errors, likely accepted)
+## 2026-06-29
+- 10:00 CST — 尝试 TheNextAI (thenextai.com) 提交 FateWise → Google Script endpoint 405 失败，跳过
+- 今日提交次数：0/1

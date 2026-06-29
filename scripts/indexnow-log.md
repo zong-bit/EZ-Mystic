@@ -1,40 +1,34 @@
-# IndexNow Submission Log
-Domain: bornchart.app
-Key: yJWr0rWGgRfTy8PSwleCj9LX5q1VpReB-ipxtPH4VFBTPqf
-Total URLs: 254
-Batches: 3
----
+# IndexNow Submission Log - bornchart.app
 
-## Batch 1/3 (100 URLs)
-Response: {"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null}
+## 2026-06-28 05:07:13
 
-## Batch 2/3 (100 URLs)
-Response: {"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null}
+- **Domain**: bornchart.app
+- **Total URLs found**: 263
+- **Key file**: https://bornchart.app/yJWr0rWGgRfTy8PSwleCcj9LX5q1VpReB-ipxtPH4VFBTPqf.txt
+- **Key verified by Bing**: ❌ NO
+- **Status**: ❌ FAILED — `UserForbiddedToAccessSite` (403)
 
-## Batch 3/3 (54 URLs)
-Response: {"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null}
+### Batch Details
+| Batch | URLs | HTTP Status | Response |
+|-------|------|-------------|----------|
+| 1 | 1-100 | 403 | UserForbiddedToAccessSite |
+| 2 | 101-200 | 403 | UserForbiddedToAccessSite |
+| 3 | 201-263 | 403 | UserForbiddedToAccessSite |
 
-## ⚠️ Issue
-Key file exists on server (https://bornchart.app/yJWr0rWGgRfTy8PSwleCcj9LX5q1VpReB-ipxtPH4VFBTPqf.txt returns correctly),
-but Bing returns "UserForbiddedToAccessSite". Possible causes:
-- Key was generated for a different domain/URL
-- Bing cache needs time to pick up the key file
-- Key format issue
+### Root Cause
+Bing has not yet verified the IndexNow key for bornchart.app. The key file exists on the site but Bing's crawler hasn't confirmed ownership yet.
 
-## Summary
-Total batches: 3
-Successful: 0/3
-Total URLs attempted: 254
-Date: 2026-06-26 05:19:00 CST
-## 2026-06-27 05:00:43 IndexNow 批量提交
+### Action Needed
+- Verify key manually: visit https://www.bing.com/webmasters/help/indexnow-309 and follow the verification process
+- Or wait for Bing to auto-verify (can take 24-48 hours)
 
-- **域名**: bornchart.app
-- **总 URL 数**: 254
-- **批次**: 3 批 (每批最多 100)
+## 2026-06-29 05:04 - bornchart.app
 
-- 第 1 批: 100 URLs → ❌ HTTP 403: {"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null}
-- 第 2 批: 100 URLs → ❌ HTTP 403: {"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null}
-- 第 3 批: 54 URLs → ❌ HTTP 403: {"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null}
+Total URLs: 263
 
----
+| Date | Domain | Batch | URLs | Status | Response |
+|------|--------|-------|------|--------|----------|
+| 2026-06-29 05:04 | bornchart.app | 1 | 100 | ❌ Failed | 403 | {"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null} |
+| 2026-06-29 05:04 | bornchart.app | 2 | 100 | ❌ Failed | 403 | {"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null} |
+| 2026-06-29 05:04 | bornchart.app | 3 | 63 | ❌ Failed | 403 | {"errorCode":"UserForbiddedToAccessSite","message":"User is unauthorized to access the site. Please verify the site using the key and try again","details":null} |
 

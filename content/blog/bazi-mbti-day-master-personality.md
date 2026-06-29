@@ -1,13 +1,13 @@
 ---
-title: "Bazi + MBTI: Mapping the 10 Day Masters to Personality Types"
+title: "Five Elements as Character: Bazi Day Master Personality Types Complete Guide"
 slug: "bazi-mbti-day-master-personality"
 date: "2026-06-12"
 author: "FateWise Team"
-description: "Discover the fascinating parallels between Bazi Day Masters and MBTI personality types. Learn how each of the 10 Chinese elemental personalities maps to Western psychological frameworks."
-tags: ["bazi", "mbti", "personality types", "day master", "five elements personality", "psychology"]
+description: "Understand how the five elements reveal your true character through Bazi Day Master personality types. Learn your elemental personality and how it shapes your behavior."
+tags: ["bazi", "five elements personality", "day master", "character analysis", "personality types", "chinese astrology character"]
 ---
 
-# Bazi + MBTI: Mapping the 10 Day Masters to Personality Types
+# Five Elements as Character: Bazi Day Master Personality Types Complete Guide
 
 What if two of the world's most influential personality systems — one ancient Chinese, one modern Western — were describing the same psychological archetypes?
 

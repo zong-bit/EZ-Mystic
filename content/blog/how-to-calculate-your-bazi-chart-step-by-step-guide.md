@@ -1,9 +1,10 @@
-title: How to Calculate Your Bazi Chart: Step-by-Step Guide
+title: How to Calculate Your Bazi Chart: Step-by-Step Guide to Your Destiny Code
+slug: how-to-calculate-your-bazi-chart-step-by-step-guide
 date: 2026-05-15
 author: FateWise
 category: Bazi Basics
-keywords: how to calculate bazi, bazi chart calculator, four pillars step by step, bazi tutorial, chinese astrology calculation
-excerpt: Learn exactly how to calculate your Bazi chart from scratch. This step-by-step guide walks you through the Heavenly Stems and Earthly Branches system so you can decode your own destiny code.
+keywords: ["how to calculate bazi", "bazi chart calculator", "four pillars step by step", "bazi tutorial", "chinese astrology calculation", "bazichart", "bazi destiny chart"]
+excerpt: Learn exactly how to calculate your Bazi chart from scratch. This step-by-step guide walks you through the Heavenly Stems and Earthly Branches system so you can decode your own destiny code and understand your bazichart. 
 
 ## Introduction
 
