@@ -1,4 +1,5 @@
 'use client';
+// v3: force fresh SSR build
 export const dynamic = 'force-dynamic';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
