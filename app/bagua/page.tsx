@@ -316,9 +316,16 @@ export default function BaguaPage() {
     }));
   }
 
+  // Normalize coin-toss values to hexagram data convention:
+  // Coin: 7=少阳(solid), 8=少阴(broken), 9=老阳(solid+change), 6=老阴(broken+change)
+  // Hex data: 6=solid(yang), 5=broken(yin)
+  function normalizeLine(v: number): number {
+    return v === 7 || v === 9 ? 6 : 5;
+  }
+
   function extractTrigramsFromLines(values: number[]): { upper: BaguaItem; lower: BaguaItem } {
-    const lowerValues = [values[0], values[1], values[2]];
-    const upperValues = [values[3], values[4], values[5]];
+    const lowerValues = values.slice(0, 3).map(normalizeLine);
+    const upperValues = values.slice(3, 6).map(normalizeLine);
 
     const match = (vals: number[]): BaguaItem => {
       for (const t of BAGUA) {
@@ -332,6 +339,7 @@ export default function BaguaPage() {
   }
 
   function buildChangedLines(values: number[]): number[] {
+    // For changing lines: 老阴(6)→少阳(7), 老阳(9)→少阴(8), others unchanged
     return values.map(v => v === 6 ? 7 : v === 9 ? 8 : v);
   }
 
