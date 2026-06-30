@@ -1,7 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { BAGUA, type BaguaItem, getHexagramById, getHexagramByLines, getHexagramSymbol, randomTrigramIndex } from '@/bazi/bagua';
 
@@ -20,6 +20,8 @@ interface CoinState { tosses: number[]; lines: number[]; step: number; }
 interface InterpretResponse {
   success: boolean;
   content: string;
+  displayContent?: string;
+  isPro?: boolean;
 }
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -203,9 +205,9 @@ export default function BaguaPage() {
   const [interpretation, setInterpretation] = useState<string | null>(null);
   const [interpretLoading, setInterpretLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isPro, setIsPro] = useState(false);
   const resultRef = useRef<HTMLDivElement | null>(null);
   const [coinState, setCoinState] = useState<CoinState>({ tosses: [], lines: [], step: 0 });
+  const [isPro, setIsPro] = useState(false);
   const [numA, setNumA] = useState('');
   const [numB, setNumB] = useState('');
 
@@ -357,7 +359,8 @@ export default function BaguaPage() {
 
       const data: InterpretResponse = await response.json();
       if (data.success) {
-        setInterpretation(data.content);
+        // Use displayContent (sliced for free users) if available, fallback to full content
+        setInterpretation(data.displayContent ?? data.content);
       } else {
         throw new Error((data as any).error || '解读失败');
       }
@@ -367,6 +370,8 @@ export default function BaguaPage() {
       setInterpretLoading(false);
     }
   }, [result, question, coinState]);
+
+  // ── No isPro check needed — API handles paywall via displayContent ──
 
   const handleReset = useCallback(() => {
     setResult(null);
@@ -585,15 +590,6 @@ export default function BaguaPage() {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  {!isPro && (
-                    <div className="mb-5 p-3 rounded-lg border border-[#c9a84c]/30 bg-gradient-to-r from-[#c9a84c]/[0.06] to-transparent">
-                      <Link
-                        href="/pricing"
-                        className="text-sm text-gold-primary font-medium hover:text-gold-primary-hover transition-colors inline-flex items-center gap-1">
-                        ✨ 升级到 Pro 享受无限 AI 解读 — $9.99/月 <span className="text-gold-primary">→</span>
-                      </Link>
-                    </div>
-                  )}
                   <p className="text-text-tertiary text-sm mb-4">
                     生成 AI 卦象解读，为您揭示命运启示
                   </p>

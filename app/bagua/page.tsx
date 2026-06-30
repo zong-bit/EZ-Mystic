@@ -1,7 +1,7 @@
 'use client';
 export const dynamic = 'force-dynamic';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { BAGUA, type BaguaItem, type HexagramItem, getHexagram, getHexagramByLines, randomTrigramIndex } from '@/bazi/bagua';
 import BaguaDiagram from './components/BaguaDiagram';
@@ -35,6 +35,8 @@ interface BaguaResult {
 interface InterpretResponse {
   success: boolean;
   content: string;
+  displayContent?: string;
+  isPro?: boolean;
 }
 
 // ─── Hexagram Lines SVG ──────────────────────────────────────────────────────
@@ -278,7 +280,21 @@ export default function BaguaPage() {
   const [interpretLoading, setInterpretLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [diagramKey, setDiagramKey] = useState(0);
+  const [isPro, setIsPro] = useState(false);
   const resultRef = useRef<HTMLDivElement | null>(null);
+
+  // Check Pro status from token
+  useEffect(() => {
+    try {
+      const token = localStorage.getItem('fatewise_token');
+      if (token) {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        setIsPro(payload.plan === 'pro' || payload.subscription?.plan === 'pro');
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
 
   // ── Coin toss helpers ──────────────────────────────────────────────
   function tossThreeCoins(): number {
@@ -436,7 +452,8 @@ export default function BaguaPage() {
 
       const data: InterpretResponse = await response.json();
       if (data.success) {
-        setInterpretation(data.content);
+        // Use displayContent (sliced for free users) if available, fallback to full content
+        setInterpretation(data.displayContent ?? data.content);
       } else {
         throw new Error((data as any).error || 'Interpretation failed');
       }
@@ -603,6 +620,15 @@ export default function BaguaPage() {
                   </div>
                 ) : (
                   <div className="text-center py-6">
+                    {!isPro && (
+                      <div className="mb-4 p-3 rounded-lg border border-[rgba(212,168,83,0.3)] bg-[rgba(212,168,83,0.06)]">
+                        <Link
+                          href="/pricing"
+                          className="text-sm text-[var(--accent-primary)] font-medium hover:text-[var(--accent-light)] transition-colors inline-flex items-center gap-1">
+                          ✨ Upgrade to Pro for unlimited AI interpretations — $9.99/mo <span className="text-[var(--accent-primary)]">→</span>
+                        </Link>
+                      </div>
+                    )}
                     <p className="text-sm mb-5" style={{ color: 'var(--text-tertiary)' }}>
                       Generate an AI-powered interpretation of your hexagram
                     </p>

@@ -148,12 +148,43 @@ async function incrementUsage(request: NextRequest, userId?: string) {
 function describeElementInteraction(upperElement: string, lowerElement: string): string {
   const interactions: Record<string, Record<string, string>> = {
     '金': { '金': '比和（相助）', '水': '金生水（上生下）', '木': '金克木（上克下）', '火': '火克金（下克上）', '土': '土生金（下生上）' },
-    '水': { '金': '金生水（上生下）', '水': '比和（相助）', '木': '水生木（上生下）', '火': '水克火（上克下）', '土': '土克水（下克上）' },
+    '水': { '金': '金生水（上生下）', '水': '比和（相助）', '木': '水生木（上生下）', '火': '水克火（下克上）', '土': '土克水（下克上）' },
     '木': { '金': '金克木（上克下）', '水': '水生木（下生上）', '木': '比和（相助）', '火': '木生火（上生下）', '土': '木克土（上克下）' },
     '火': { '金': '火克金（下克上）', '水': '水克火（下克上）', '木': '木生火（下生上）', '火': '比和（相助）', '土': '火生土（上生下）' },
     '土': { '金': '土生金（上生下）', '水': '土克水（上克下）', '木': '木克土（下克上）', '火': '火生土（上生下）', '土': '比和（相助）' },
   };
   return interactions[upperElement]?.[lowerElement] || '五行关系不明';
+}
+
+// ── Slice interpretation for free users (only first 2 sections) ────
+function sliceFreeContent(content: string, isChinese: boolean): string {
+  // Split by ## headers, keep only first two sections
+  const sections = content.split(/(## .+)/);
+  if (sections.length < 5) return content; // not enough sections, return all
+  // sections[0] = content before first header, [1] = first header, [2] = first section body,
+  // [3] = second header, [4] = second section body, [5] = third header, ...
+  const freeContent = sections.slice(0, 5).join('');
+  const upgradePrompt = isChinese
+    ? `\n\n---\n\n⚠️ **Pro 版解锁完整解读** — 包含爻辞分析、变卦启示、五行深度分析和综合建议\n\n👑 [立即升级](/pricing）` 
+    : `\n\n---\n\n⚠️ **Upgrade to Pro for Full Reading** — Includes line analysis, changed hexagram insights, five elements deep dive, and comprehensive advice\n\n👑 [Upgrade to Pro](/pricing)\n`;
+  return freeContent + upgradePrompt;
+}
+
+// ── Build line change description for API prompt ────────────────────
+function buildLineChangeDesc(changingLines: number[], lineValues: number[], isChinese: boolean): string {
+  if (!changingLines || changingLines.length === 0) return '';
+  const lineNames = isChinese
+    ? ['初爻', '二爻', '三爻', '四爻', '五爻', '上爻']
+    : ['1st', '2nd', '3rd', '4th', '5th', '6th'];
+  const lineStates: Record<number, string> = isChinese
+    ? { 6: '老阴（变爻）', 7: '少阳', 8: '少阴', 9: '老阳（变爻）' }
+    : { 6: 'old yin (changing)', 7: 'young yang', 8: 'young yin', 9: 'old yang (changing)' };
+  return changingLines.map(li => {
+    const val = lineValues?.[li - 1] ?? 0;
+    const isYang = val === 9; // 9 = old yang, 6 = old yin
+    const change = isYang ? (isChinese ? '→ 阴' : '→ yin') : (isChinese ? '→ 阳' : '→ yang');
+    return `${lineNames[li - 1]}爻 (${lineStates[val] || '?'}) ${change}`;
+  }).join('；');
 }
 
 export async function POST(request: NextRequest) {
@@ -218,17 +249,8 @@ export async function POST(request: NextRequest) {
       ? describeElementInteraction(upperTrigram.element, lowerTrigram.element)
       : '';
 
-    // Build line change descriptions
-    const lineChangeDesc = changingLines && changingLines.length > 0
-      ? changingLines.map(li => {
-          const lineNames = isChinese
-            ? ['初爻', '二爻', '三爻', '四爻', '五爻', '上爻']
-            : ['1st', '2nd', '3rd', '4th', '5th', '6th'];
-          const val = lineValues?.[li - 1] ?? 0;
-          const isYang = val === 9;
-          return `${lineNames[li - 1]}爻 (${val === 6 ? 'old yin' : 'old yang'}) → ${isYang ? 'yin' : 'yang'}`;
-        }).join(', ')
-      : '';
+    // Build line change descriptions using enhanced helper
+    const lineChangeDesc = buildLineChangeDesc(changingLines ?? [], lineValues ?? [], isChinese);
 
     // Build complete user prompt
     let userPrompt = '';
@@ -264,7 +286,7 @@ export async function POST(request: NextRequest) {
 - 上下卦五行关系：${elementInteraction || '—'}
 
 **【爻象】**
-${lineValues ? `- 六爻（自下而上）：${lineValues.map((v, i) => `${i + 1}爻=${v}` ).join('、')}` : ''}
+${lineValues ? `- 六爻（自下而上）：${lineValues.map((v, i) => (i + 1) + '爻=' + v).join('、')}` : ''}
 ${lineSymbols ? `- 爻象符号：${lineSymbols.join('、')}` : ''}
 ${changingLines ? `- 动爻位置：${lineChangeDesc}` : '- 无动爻（静卦）'}
 
@@ -343,7 +365,7 @@ ${changedHexagram ? '[解释从本卦到变卦的变化方向、趋势和启示]
 - Upper/Lower relationship: ${elementInteraction || '—'}
 
 **【Lines】**
-${lineValues ? `- Six lines (bottom to top): ${lineValues.map((v, i) => `line ${i + 1}=${v}`).join(', ')}` : ''}
+${lineValues ? `- Six lines (bottom to top): ${lineValues.map((v, i) => 'line ' + (i + 1) + '=' + v).join(', ')}` : ''}
 ${lineSymbols ? `- Line symbols: ${lineSymbols.join(', ')}` : ''}
 ${changingLines ? `- Changing lines: ${lineChangeDesc}` : '- No changing lines (static hexagram)'}
 
@@ -406,17 +428,45 @@ Please structure your interpretation as follows:
 - 针对求卦者的具体问题给出切实可行的建议
 - 保持客观理性，不夸大、不迷信
 - 适当引用经典，但不过度学术化
+- 每个部分要有深度，避免泛泛而谈的套话
 
-输出格式要求：
-- 必须使用 Markdown 格式
-- 严格按照以下六个部分输出：卦象概述、卦辞解读、爻辞分析、变卦启示、五行关系、综合建议
-- 每部分要有实质性内容，不要敷衍
+输出格式要求（严格按以下六个部分，每部分用 ## 标题）：
+
+## 卦象概述
+- 说明本卦的名称、编号和象征意义
+- 用一两句话概括此卦的核心精神
+- 结合用户问题，点明此卦与此事的关联
+
+## 卦辞解读
+- 用白话文解释卦辞的含义
+- 结合用户的具体问题，给出针对性的指引
+- 指出卦辞中最重要的警示或机遇
+
+## 爻辞分析
+- 如果存在变爻：逐一分析每个变爻的爻辞含义、所处位置的意义，以及该爻变所暗示的转变
+- 如果没有变爻（静卦）：分析全卦的整体状态和每个爻位的相互关系
+- 说明变爻在卦中的位置（初、二、三、四、五、上）对解读的影响
+
+## 变卦启示
+- 如果有变卦：解释从本卦到变卦的变化方向、趋势和启示
+- 说明变化意味着什么——是好转、恶化、还是状态的转换
+- 给出关于未来走向的判断
+
+## 五行关系
+- 分析上下卦五行生克关系（生/克/比和）对本卦含义的影响
+- 结合具体情境（如事业、感情、健康等）解释五行关系的启示
+- 说明这种五行格局对求卦者的实际影响
+
+## 综合建议
+- 结合以上所有分析，给出 3-5 条具体、可操作的建议
+- 每条建议要有针对性，避免空泛的鸡汤
+- 可以包含时间建议、行动方向、心态调整等方面
+
+**总体要求：**
 - 总字数控制在 800-1500 字
+- 使用 Markdown 格式
 - 不要输出任何额外的说明或标题
-
-注意事项：
 - 不要做出任何医疗、法律或财务承诺
-- 如果用户没有提问，就给出一般性的卦象解读
 - 如果有变卦，要重点分析变化的趋势和启示
 - 五行生克要结合实际情境解释`
         : `You are a senior I Ching (易经) scholar and divination master, deeply versed in the 64 hexagrams, eight trigrams, five elements, line texts, and changed hexagrams of the I Ching. You provide professional, insightful, and practical interpretations.
@@ -427,17 +477,45 @@ Your interpretation style:
 - Provide actionable advice connected to the querent's specific question
 - Maintain objectivity, avoid superstition
 - Quote classics appropriately without being overly academic
+- Each section should have depth — avoid generic platitudes
 
-Output format requirements:
-- Use Markdown format
-- Follow exactly these six sections: Hexagram Overview, Judgment Interpretation, Line Analysis, Changed Hexagram Insights, Five Elements Analysis, Comprehensive Advice
-- Each section must have substantive content
+Output format requirements (strictly follow these six sections, each with ## heading):
+
+## Hexagram Overview
+- State the hexagram's name, number, and symbolic meaning
+- Summarize the core spirit of this hexagram in 1-2 sentences
+- Connect to the user's question, explaining why this hexagram is relevant
+
+## Judgment Interpretation
+- Explain the judgment (卦辞) in plain language
+- Provide targeted guidance based on the user's specific question
+- Highlight the most important warning or opportunity in the judgment
+
+## Line Analysis
+- If there are changing lines: analyze each changing line's text meaning, the significance of its position, and what the change implies
+- If no changing lines (static hexagram): analyze the overall state and relationships between all six positions
+- Explain how the position of each changing line (1st through 6th) affects the interpretation
+
+## Changed Hexagram Insights
+- If there's a changed hexagram: explain the direction, trend, and implications of the change
+- Describe what the change means — improvement, decline, or state transition
+- Provide judgment about the future direction
+
+## Five Elements Analysis
+- Analyze how the upper/lower trigram five elements interaction (generating/controlling/same) affects the hexagram's meaning
+- Explain the implications of this five elements pattern in the specific context (career, relationships, health, etc.)
+- Describe the practical impact of this five elements configuration on the querent
+
+## Comprehensive Advice
+- Based on all the above analysis, provide 3-5 specific, actionable suggestions
+- Each suggestion should be targeted and specific — avoid vague platitudes
+- Include aspects like timing, action direction, and mindset adjustment
+
+**Overall requirements:**
 - Total length: 800-1500 words
+- Use Markdown format
 - Do not add extra headers or explanations
-
-Notes:
 - Never make medical, legal, or financial promises
-- If no question is asked, provide a general hexagram reading
 - If there's a changed hexagram, emphasize the change direction and implications
 - Explain five elements interactions in practical terms`;
 
@@ -474,9 +552,17 @@ Notes:
     // Increment usage count for free users (Pro users are exempt)
     await incrementUsage(request, limitCheck.user_id);
 
+    // ── Paywall: slice content for free users ──────────────────────────
+    // Free users get only the first 2 sections (卦象概述 + 卦辞解读)
+    // Pro users get the full interpretation
+    const isPro = limitCheck.isPro;
+    const displayContent = isPro ? content : sliceFreeContent(content, isChinese);
+
     return NextResponse.json({
       success: true,
       content,
+      displayContent,
+      isPro,
     });
   } catch (error) {
     console.error('API error:', error);
