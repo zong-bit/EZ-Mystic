@@ -1,7 +1,16 @@
 'use client';
 export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
 
 import { useState, useCallback, useRef, useEffect } from 'react';
+
+// Inline styles for coin toss animation
+const coinStyles = `
+  @keyframes coinReveal {
+    from { opacity: 0; transform: translateY(-10px) scale(0.8); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+`;
 import Link from 'next/link';
 import { BAGUA, type BaguaItem, type HexagramItem, getHexagram, getHexagramByLines, randomTrigramIndex } from '@/bazi/bagua';
 import BaguaDiagram from './components/BaguaDiagram';
@@ -282,6 +291,9 @@ export default function BaguaPage() {
   const [diagramKey, setDiagramKey] = useState(0);
   const [isPro, setIsPro] = useState(false);
   const resultRef = useRef<HTMLDivElement | null>(null);
+  // Animation state for sequential coin toss
+  const [tossingLine, setTossingLine] = useState<number | null>(null);
+  const [revealedCoins, setRevealedCoins] = useState<number[]>([]);
 
   // Check Pro status from token
   useEffect(() => {
@@ -349,14 +361,39 @@ export default function BaguaPage() {
     setInterpretation(null);
     setDiagramKey(k => k + 1);
     setLoading(true);
+    setRevealedCoins([]);
+    setTossingLine(null);
 
     try {
-      // Coin toss: 6 lines, each from 3 coins
+      // Coin toss: 6 lines, sequential animation
       const allValues: number[] = [];
+
       for (let i = 0; i < 6; i++) {
-        const tosses = [tossThreeCoins(), tossThreeCoins(), tossThreeCoins()];
-        const avg = Math.round((tosses[0] + tosses[1] + tosses[2]) / 3);
-        allValues.push(Math.min(9, Math.max(6, avg)));
+        setTossingLine(i);
+        // Reveal each coin individually with delay
+        const flips = [Math.random() < 0.5 ? 3 : 2, Math.random() < 0.5 ? 3 : 2, Math.random() < 0.5 ? 3 : 2];
+        
+        await new Promise<void>((resolve) => {
+          let idx = 0;
+          const interval = setInterval(() => {
+            setRevealedCoins(prev => [...prev, flips[idx]]);
+            idx++;
+            if (idx >= 3) {
+              clearInterval(interval);
+              // After revealing all 3 coins, compute sum
+              const sum = flips[0] + flips[1] + flips[2];
+              allValues.push(sum);
+              setTimeout(() => {
+                setRevealedCoins([]);
+                resolve();
+              }, 300);
+            }
+          }, 400);
+        });
+
+        setTossingLine(null);
+        // Small delay between lines
+        await new Promise(r => setTimeout(r, 200));
       }
 
       const lines = buildLines(allValues);
@@ -480,7 +517,9 @@ export default function BaguaPage() {
   }, []);
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
+    <>
+      <style>{coinStyles}</style>
+      <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
       {/* ─── Ambient Background ─── */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full blur-[120px]" style={{ background: 'radial-gradient(circle, rgba(212,168,83,0.04) 0%, transparent 70%)' }} />
@@ -545,15 +584,41 @@ export default function BaguaPage() {
                 </div>
               )}
 
-              <div className="mt-6 text-center">
+              {/* Coin Toss Animation */}
+              {loading && tossingLine !== null && (
+                <div className="mt-4 mb-2 text-center">
+                  <div className="text-xs uppercase tracking-[0.2em] mb-3" style={{ color: 'var(--text-tertiary)' }}>
+                    Line {tossingLine + 1} of 6 · 第{['初','二','三','四','五','上'][tossingLine]}爻
+                  </div>
+                  <div className="flex justify-center gap-4">
+                    {revealedCoins.map((val, i) => (
+                      <div key={i} className="flex flex-col items-center gap-1" style={{ animation: 'coinReveal 0.3s ease-out forwards' }}>
+                        <span className="text-2xl" style={{ color: val === 7 || val === 9 ? 'var(--accent-primary)' : 'var(--accent-secondary)' }}>
+                          {val === 7 || val === 9 ? '⚊' : '⚋'}
+                        </span>
+                        <span className="text-[10px]" style={{ color: 'var(--text-tertiary)' }}>{val}</span>
+                      </div>
+                    ))}
+                    {revealedCoins.length < 3 && Array.from({ length: 3 - revealedCoins.length }).map((_, i) => (
+                      <div key={`empty-${i}`} className="flex flex-col items-center gap-1 opacity-30">
+                        <span className="text-2xl">?</span>
+                        <span className="text-[10px]">—</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="mt-4 text-center">
                 <button
                   type="button"
                   className="btn-glow btn-gold text-lg px-10 py-3.5"
                   onClick={handleDivination}
                   disabled={loading}
                   style={{
-                    background: 'linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-light) 50%, var(--accent-dim) 100%)',
-                    boxShadow: '0 0 20px rgba(212,168,83,0.25)',
+                    background: loading ? 'rgba(212,168,83,0.15)' : 'linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-light) 50%, var(--accent-dim) 100%)',
+                    boxShadow: loading ? 'none' : '0 0 20px rgba(212,168,83,0.25)',
+                    cursor: loading ? 'not-allowed' : 'pointer',
                   }}
                 >
                   {loading ? (
@@ -713,5 +778,6 @@ export default function BaguaPage() {
       {/* Loading overlay */}
       {loading && <LoadingOverlay />}
     </div>
+    </>
   );
 }
