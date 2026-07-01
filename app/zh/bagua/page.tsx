@@ -13,6 +13,10 @@ interface BaguaResult {
   hexagram: { chinese: string; english: string; pinyin: string; judgment: string; image: string; meaning: string; keywords: string[]; number: number };
   upperLines: number[];
   lowerLines: number[];
+  lineValues: number[];
+  lineSymbols: string[];
+  changingLines: number[];
+  changedHexagram?: { chinese: string; english: string; pinyin: string; judgment: string; image: string; meaning: string; keywords: string[]; number: number };
 }
 type DivinationMode = 'coin' | 'three-coin' | 'number';
 interface CoinState { tosses: number[]; lines: number[]; step: number; }
@@ -207,53 +211,88 @@ export default function BaguaPage() {
   const [error, setError] = useState<string | null>(null);
   const resultRef = useRef<HTMLDivElement | null>(null);
   const [coinState, setCoinState] = useState<CoinState>({ tosses: [], lines: [], step: 0 });
+  const [tossingLine, setTossingLine] = useState<number | null>(null);
+  const [coinFlip, setCoinFlip] = useState<number | null>(null);
   const [isPro, setIsPro] = useState(false);
   const [numA, setNumA] = useState('');
   const [numB, setNumB] = useState('');
 
+  // Normalize coin-toss values to hexagram data convention:
+  // Coin: 7=少阳(solid), 8=少阴(broken), 9=老阳(solid+change), 6=老阴(broken+change)
+  // Hex data: 6=solid(yang), 5=broken(yin)
+  const normalizeLine = (v: number): number => (v === 7 || v === 9 ? 6 : 5);
+
   const handleCoinToss = useCallback(() => {
     setError(null);
     if (coinState.step >= 6) return;
-    const c1 = Math.random() < 0.5 ? 3 : 2;
-    const c2 = Math.random() < 0.5 ? 3 : 2;
-    const c3 = Math.random() < 0.5 ? 3 : 2;
-    const sum = c1 + c2 + c3;
-    const newLines = [...coinState.lines, sum];
-    if (coinState.step === 5) {
-      const hexagram = getHexagramByLines(newLines);
-      if (!hexagram) { setError('卦象未找到'); setLoading(false); return; }
-      const upperLines = newLines.slice(0, 3);
-      const lowerLines = newLines.slice(3);
-      const upper = BAGUA.find(b => b.lines[0] === upperLines[0] && b.lines[1] === upperLines[1] && b.lines[2] === upperLines[2]) || BAGUA[0];
-      const lower = BAGUA.find(b => b.lines[0] === lowerLines[0] && b.lines[1] === lowerLines[1] && b.lines[2] === lowerLines[2]) || BAGUA[0];
-      setResult({ upper, lower, hexagram, upperLines, lowerLines });
-    }
-    setCoinState({ tosses: [...coinState.tosses, sum], lines: newLines, step: coinState.step + 1 });
-    setLoading(false);
-    setTimeout(() => { resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
+    setLoading(true);
+    
+    const lineIdx = coinState.step;
+    setTossingLine(lineIdx);
+    
+    // Generate coin values
+    const flips = [Math.random() < 0.5 ? 3 : 2, Math.random() < 0.5 ? 3 : 2, Math.random() < 0.5 ? 3 : 2];
+    
+    // Animate: show each coin flipping for 400ms, then reveal result
+    let i = 0;
+    const flipAnim = setInterval(() => {
+      setCoinFlip(flips[i]);
+      i++;
+      if (i >= 3) {
+        clearInterval(flipAnim);
+        setTimeout(() => {
+          setCoinFlip(null);
+          setTossingLine(null);
+
+          const sum = flips[0] + flips[1] + flips[2];
+          const newLines = [...coinState.lines, sum];
+          if (coinState.step === 5) {
+            // Normalize before lookup
+            const normalized = newLines.map(normalizeLine);
+            const hexagram = getHexagramByLines(normalized);
+            if (!hexagram) { setError('卦象未找到'); setLoading(false); return; }
+            const upperLines = normalized.slice(0, 3);
+            const lowerLines = normalized.slice(3);
+            const upper = BAGUA.find(b => b.lines[0] === upperLines[0] && b.lines[1] === upperLines[1] && b.lines[2] === upperLines[2]) || BAGUA[0];
+            const lower = BAGUA.find(b => b.lines[0] === lowerLines[0] && b.lines[1] === lowerLines[1] && b.lines[2] === lowerLines[2]) || BAGUA[0];
+            const changingLines = newLines.map((v, i) => (v === 6 || v === 9) ? i + 1 : 0).filter(Boolean) as number[];
+            // Build changed hexagram
+            let changedHex: typeof hexagram | undefined;
+            if (changingLines.length > 0) {
+              const changedValues = newLines.map(v => v === 6 ? 7 : v === 9 ? 8 : v);
+              const changedNorm = changedValues.map(normalizeLine);
+              changedHex = getHexagramByLines(changedNorm);
+            }
+            setResult({
+              upper, lower, hexagram,
+              upperLines: upper.lines,
+              lowerLines: lower.lines,
+              lineValues: newLines,
+              lineSymbols: newLines.map(v => ({ 6: '⚋⏎', 7: '⚊', 8: '⚋', 9: '⚌o' }[v] || '?')),
+              changingLines,
+              changedHexagram: changedHex ? {
+                chinese: changedHex.chinese,
+                english: changedHex.english,
+                pinyin: changedHex.pinyin,
+                judgment: changedHex.judgment,
+                image: changedHex.image,
+                meaning: changedHex.meaning,
+                keywords: changedHex.keywords,
+                number: changedHex.number,
+              } : undefined,
+            });
+          }
+          setCoinState({ tosses: [...coinState.tosses, sum], lines: newLines, step: coinState.step + 1 });
+          setLoading(false);
+          setTimeout(() => { resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
+        });
+      }
+    }, 400);
   }, [coinState]);
 
-  const handleThreeCoinToss = useCallback(() => {
-    setError(null);
-    if (coinState.step >= 6) return;
-    const c1 = Math.random() < 0.5 ? 3 : 2;
-    const c2 = Math.random() < 0.5 ? 3 : 2;
-    const c3 = Math.random() < 0.5 ? 3 : 2;
-    const sum = c1 + c2 + c3;
-    const newLines = [...coinState.lines, sum];
-    if (coinState.step === 5) {
-      const hexagram = getHexagramByLines(newLines);
-      if (!hexagram) { setError('卦象未找到'); setLoading(false); return; }
-      const upperLines = newLines.slice(0, 3);
-      const lowerLines = newLines.slice(3);
-      const upper = BAGUA.find(b => b.lines[0] === upperLines[0] && b.lines[1] === upperLines[1] && b.lines[2] === upperLines[2]) || BAGUA[0];
-      const lower = BAGUA.find(b => b.lines[0] === lowerLines[0] && b.lines[1] === lowerLines[1] && b.lines[2] === lowerLines[2]) || BAGUA[0];
-      setResult({ upper, lower, hexagram, upperLines, lowerLines });
-    }
-    setCoinState({ tosses: [...coinState.tosses, sum], lines: newLines, step: coinState.step + 1 });
-    setLoading(false);
-    setTimeout(() => { resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
-  }, [coinState]);
+  // handleThreeCoinToss is identical to handleCoinToss (both use 3 coins)
+  // Kept for mode switching compatibility
+  const handleThreeCoinToss = handleCoinToss;
 
   const handleNumberDivination = useCallback(() => {
     setError(null);
@@ -269,7 +308,7 @@ export default function BaguaPage() {
       const lowerLines = [...lower.lines];
       const hexagram = getHexagramByLines([...upper.lines, ...lower.lines]) || null;
       if (!hexagram) { setError('卦象未找到'); setLoading(false); return; }
-      setResult({ upper, lower, hexagram, upperLines, lowerLines });
+      setResult({ upper, lower, hexagram, upperLines, lowerLines, lineValues: [], lineSymbols: [], changingLines: [] });
     } catch (err: any) { setError(err.message || '起卦失败'); }
     finally {
       setLoading(false);
