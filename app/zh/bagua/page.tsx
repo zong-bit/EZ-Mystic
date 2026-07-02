@@ -208,6 +208,7 @@ export default function BaguaPage() {
   const [result, setResult] = useState<BaguaResult | null>(null);
   const [interpretation, setInterpretation] = useState<string | null>(null);
   const [interpretLoading, setInterpretLoading] = useState(false);
+  const [interpretError, setInterpretError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const resultRef = useRef<HTMLDivElement | null>(null);
   const [coinState, setCoinState] = useState<CoinState>({ tosses: [], lines: [], step: 0 });
@@ -401,10 +402,11 @@ export default function BaguaPage() {
         // Use displayContent (sliced for free users) if available, fallback to full content
         setInterpretation(data.displayContent ?? data.content);
       } else {
+        // API returns i18n-aware error message
         throw new Error((data as any).error || '解读失败');
       }
     } catch (err: any) {
-      setError(err.message || '解读失败');
+      setInterpretError(err.message || '解读失败');
     } finally {
       setInterpretLoading(false);
     }
@@ -415,6 +417,7 @@ export default function BaguaPage() {
   const handleReset = useCallback(() => {
     setResult(null);
     setInterpretation(null);
+    setInterpretError(null);
     setError(null);
     setQuestion('');
     setCoinState({ tosses: [], lines: [], step: 0 });
@@ -629,6 +632,12 @@ export default function BaguaPage() {
                 </div>
               ) : (
                 <div className="text-center py-8">
+                  {interpretError && (
+                    <div className="mb-4 p-3 rounded-xl bg-cinnabar-red/10 border border-cinnabar-red/20 text-cinnabar-red text-sm">
+                      <p className="font-medium mb-1">⚠️ 错误</p>
+                      <p>{interpretError}</p>
+                    </div>
+                  )}
                   <p className="text-text-tertiary text-sm mb-4">
                     生成 AI 卦象解读，为您揭示命运启示
                   </p>

@@ -10,6 +10,26 @@ const coinStyles = `
     from { opacity: 0; transform: translateY(-10px) scale(0.8); }
     to { opacity: 1; transform: translateY(0) scale(1); }
   }
+  @keyframes coinFlip {
+    0% { opacity: 0; transform: translateY(-30px) rotateX(0deg) scale(0.5); }
+    50% { opacity: 1; transform: translateY(-15px) rotateX(180deg) scale(1.1); }
+    100% { opacity: 1; transform: translateY(0) rotateX(360deg) scale(1); }
+  }
+  @keyframes coinRotate {
+    0% { transform: perspective(500px) rotateY(0deg); }
+    100% { transform: perspective(500px) rotateY(360deg); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out forwards;
+  }
 `;
 import Link from 'next/link';
 import { BAGUA, type BaguaItem, type HexagramItem, getHexagram, getHexagramByLines, randomTrigramIndex } from '@/bazi/bagua';
@@ -265,16 +285,150 @@ function renderInline(text: string): React.ReactNode {
   });
 }
 
-// ─── Loading Overlay ─────────────────────────────────────────────────────────
+// ─── Coin Toss Animation ─────────────────────────────────────────────────────
 
-function LoadingOverlay() {
+interface CoinProps {
+  value: number;
+  index: number;
+  delay: number;
+}
+
+function Coin({ value, index, delay }: CoinProps) {
+  const isYang = value === 7 || value === 9;
+  const isChanging = value === 6 || value === 9;
+  
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--bg-primary)]/85 backdrop-blur-sm">
-      <div className="text-center">
-        <div className="text-6xl mb-4 animate-spin">☯</div>
-        <div className="font-display text-lg mb-2" style={{ color: 'var(--accent-primary)' }}>Divining the hexagram...</div>
-        <div className="text-sm" style={{ color: 'var(--text-tertiary)' }}>Reading the eight trigrams</div>
+    <div
+      className="flex flex-col items-center gap-2"
+      style={{
+        animation: 'coinFlip 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+        animationDelay: `${delay}ms`,
+        opacity: 0,
+        transform: 'translateY(-30px) rotateX(0deg) scale(0.5)',
+      }}
+    >
+      {/* Coin circle with 3D effect */}
+      <div
+        className="w-20 h-20 rounded-full flex items-center justify-center text-4xl font-bold relative overflow-hidden"
+        style={{
+          background: 'radial-gradient(circle at 35% 35%, #E5C158, #D4A853 40%, #8B6914 100%)',
+          boxShadow: '0 6px 20px rgba(0,0,0,0.5), inset 0 3px 6px rgba(255,255,255,0.4), 0 0 15px rgba(212,168,83,0.3)',
+          border: '3px solid rgba(212,168,83,0.8)',
+        }}
+      >
+        {/* Inner ring */}
+        <div 
+          className="absolute inset-2 rounded-full border-2 border-white/30"
+          style={{
+            background: 'radial-gradient(circle, transparent 40%, rgba(255,255,255,0.1) 100%)',
+          }}
+        />
+        
+        {/* Yin/Yang symbol */}
+        <span className="relative z-10 drop-shadow-lg" style={{ animation: `coinRotate 0.8s ease-out forwards` }}>
+          {isYang ? '⚊' : '⚋'}
+        </span>
+        
+        {/* Changing line indicator */}
+        {isChanging && (
+          <div 
+            className="absolute top-1 right-1 w-2 h-2 rounded-full"
+            style={{
+              background: '#FF4444',
+              boxShadow: '0 0 6px rgba(255,68,68,0.8)',
+              animation: 'pulse 1s infinite',
+            }}
+          />
+        )}
       </div>
+      
+      {/* Value and name */}
+      <div className="flex flex-col items-center gap-1">
+        <div className="text-sm font-bold" style={{ color: 'var(--accent-primary)' }}>
+          {value}
+        </div>
+        <div className="text-xs" style={{ color: 'var(--text-tertiary)' }}>
+          {value === 6 ? 'Old Yin ⚋⏎' : value === 7 ? 'Young Yang ⚊' : value === 8 ? 'Young Yin ⚋' : 'Old Yang ⚊⏎'}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CoinTossAnimation({ lineIndex, revealedCoins }: { lineIndex: number; revealedCoins: number[] }) {
+  const lineNames = ['初爻', '二爻', '三爻', '四爻', '五爻', '上爻'];
+  const currentSum = revealedCoins.reduce((sum, val) => sum + val, 0);
+  const isComplete = revealedCoins.length === 3;
+  
+  return (
+    <div className="mt-6 mb-6 text-center">
+      {/* Line indicator with progress */}
+      <div className="mb-6">
+        <div className="text-lg mb-2" style={{ color: 'var(--accent-primary)' }}>
+          <span className="font-display font-bold">第{lineNames[lineIndex]}爻</span>
+          <span className="mx-3 text-[var(--text-tertiary)]">·</span>
+          <span className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
+            Line {lineIndex + 1} of 6
+          </span>
+        </div>
+        
+        {/* Progress bar */}
+        <div className="w-64 mx-auto h-2 rounded-full overflow-hidden" style={{ background: 'rgba(212,168,83,0.1)' }}>
+          <div 
+            className="h-full rounded-full transition-all duration-500"
+            style={{ 
+              width: `${((lineIndex + 1) / 6) * 100}%`,
+              background: 'linear-gradient(90deg, var(--accent-primary), var(--accent-light))',
+              boxShadow: '0 0 10px rgba(212,168,83,0.5)',
+            }}
+          />
+        </div>
+      </div>
+      
+      {/* Three coins */}
+      <div className="flex justify-center gap-8 mb-6">
+        {[0, 1, 2].map((coinIdx) => {
+          const coinValue = revealedCoins[coinIdx];
+          const isRevealed = coinValue !== undefined;
+          
+          if (!isRevealed) {
+            // Hidden coin (waiting to be revealed)
+            return (
+              <div
+                key={coinIdx}
+                className="w-20 h-20 rounded-full flex items-center justify-center text-2xl"
+                style={{
+                  background: 'rgba(21,17,33,0.8)',
+                  border: '2px solid rgba(212,168,83,0.3)',
+                  boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.5), 0 0 10px rgba(212,168,83,0.1)',
+                  animation: 'pulse 2s infinite',
+                }}
+              >
+                <span className="opacity-40">?</span>
+              </div>
+            );
+          }
+          
+          return (
+            <Coin key={coinIdx} value={coinValue} index={coinIdx} delay={coinIdx * 200} />
+          );
+        })}
+      </div>
+      
+      {/* Result display */}
+      {isComplete && (
+        <div className="mt-4 animate-fade-in">
+          <div className="text-2xl font-display mb-2" style={{ color: 'var(--accent-primary)' }}>
+            {currentSum}
+          </div>
+          <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+            {currentSum === 6 ? '老阴 ⚋⏎ (Old Yin)' : 
+             currentSum === 7 ? '少阳 ⚊ (Young Yang)' :
+             currentSum === 8 ? '少阴 ⚋ (Young Yin)' :
+             '老阳 ⚊⏎ (Old Yang)'}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -287,6 +441,7 @@ export default function BaguaPage() {
   const [result, setResult] = useState<BaguaResult | null>(null);
   const [interpretation, setInterpretation] = useState<string | null>(null);
   const [interpretLoading, setInterpretLoading] = useState(false);
+  const [interpretError, setInterpretError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [diagramKey, setDiagramKey] = useState(0);
   const [isPro, setIsPro] = useState(false);
@@ -445,6 +600,7 @@ export default function BaguaPage() {
   const handleInterpret = useCallback(async () => {
     if (!result) return;
     setInterpretLoading(true);
+    setInterpretError(null);
     try {
       const authHeader = typeof window !== 'undefined' ? localStorage.getItem('fatewise_token') : null;
 
@@ -500,10 +656,11 @@ export default function BaguaPage() {
         // Use displayContent (sliced for free users) if available, fallback to full content
         setInterpretation(data.displayContent ?? data.content);
       } else {
+        // Use i18n error message from API
         throw new Error((data as any).error || 'Interpretation failed');
       }
     } catch (err: any) {
-      setError(err.message || 'Interpretation failed');
+      setInterpretError(err.message || 'Interpretation failed');
     } finally {
       setInterpretLoading(false);
     }
@@ -512,6 +669,7 @@ export default function BaguaPage() {
   const handleReset = useCallback(() => {
     setResult(null);
     setInterpretation(null);
+    setInterpretError(null);
     setError(null);
     setQuestion('');
   }, []);
@@ -584,29 +742,9 @@ export default function BaguaPage() {
                 </div>
               )}
 
-              {/* Coin Toss Animation */}
+              {/* Coin Toss Animation - In Page */}
               {loading && tossingLine !== null && (
-                <div className="mt-4 mb-2 text-center">
-                  <div className="text-xs uppercase tracking-[0.2em] mb-3" style={{ color: 'var(--text-tertiary)' }}>
-                    Line {tossingLine + 1} of 6 · 第{['初','二','三','四','五','上'][tossingLine]}爻
-                  </div>
-                  <div className="flex justify-center gap-4">
-                    {revealedCoins.map((val, i) => (
-                      <div key={i} className="flex flex-col items-center gap-1" style={{ animation: 'coinReveal 0.3s ease-out forwards' }}>
-                        <span className="text-2xl" style={{ color: val === 7 || val === 9 ? 'var(--accent-primary)' : 'var(--accent-secondary)' }}>
-                          {val === 7 || val === 9 ? '⚊' : '⚋'}
-                        </span>
-                        <span className="text-[10px]" style={{ color: 'var(--text-tertiary)' }}>{val}</span>
-                      </div>
-                    ))}
-                    {revealedCoins.length < 3 && Array.from({ length: 3 - revealedCoins.length }).map((_, i) => (
-                      <div key={`empty-${i}`} className="flex flex-col items-center gap-1 opacity-30">
-                        <span className="text-2xl">?</span>
-                        <span className="text-[10px]">—</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <CoinTossAnimation lineIndex={tossingLine} revealedCoins={revealedCoins} />
               )}
 
               <div className="mt-4 text-center">
@@ -693,6 +831,12 @@ export default function BaguaPage() {
                   </div>
                 ) : (
                   <div className="text-center py-6">
+                    {interpretError && (
+                      <div className="mb-4 p-3 rounded-lg" style={{ background: 'rgba(220,38,38,0.1)', border: '1px solid rgba(220,38,38,0.3)', color: '#DC2626' }}>
+                        <p className="text-sm font-medium mb-1">⚠️ Error</p>
+                        <p className="text-sm">{interpretError}</p>
+                      </div>
+                    )}
                     {!isPro && (
                       <div className="mb-4 p-3 rounded-lg border border-[rgba(212,168,83,0.3)] bg-[rgba(212,168,83,0.06)]">
                         <Link
@@ -775,8 +919,7 @@ export default function BaguaPage() {
         )}
       </div>
 
-      {/* Loading overlay */}
-      {loading && <LoadingOverlay />}
+
     </div>
     </>
   );

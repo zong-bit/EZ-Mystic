@@ -16,6 +16,19 @@ function getSupabase() {
   );
 }
 
+/** Detect language from referer header */
+function detectLanguage(request: NextRequest): boolean {
+  const referer = request.headers.get('referer') || '';
+  return referer.includes('/zh/');
+}
+
+/** i18n error message for rate limit */
+function rateLimitMsg(isChinese: boolean): string {
+  return isChinese
+    ? '今日免费次数已用完，升级到 Pro 享受无限 AI 解读。'
+    : 'Daily limit reached. Upgrade to Pro for unlimited AI interpretations.';
+}
+
 async function checkUsageLimit(request: NextRequest): Promise<{
   allowed: boolean;
   error?: string;
@@ -23,6 +36,8 @@ async function checkUsageLimit(request: NextRequest): Promise<{
   isPro?: boolean;
 }> {
   const supabase = getSupabase();
+  const isChinese = detectLanguage(request);
+  const limitMsg = rateLimitMsg(isChinese);
 
   const authHeader = request.headers.get('authorization');
   let token: string | null = null;
@@ -52,7 +67,7 @@ async function checkUsageLimit(request: NextRequest): Promise<{
 
     const count = data?.count || 0;
     if (count >= FREE_DAILY_LIMIT) {
-      return { allowed: false, error: 'Daily limit reached. Upgrade to Pro for unlimited AI interpretations.' };
+      return { allowed: false, error: limitMsg };
     }
     return { allowed: true };
   }
@@ -69,7 +84,7 @@ async function checkUsageLimit(request: NextRequest): Promise<{
 
     const count = data?.count || 0;
     if (count >= FREE_DAILY_LIMIT) {
-      return { allowed: false, error: 'Daily limit reached. Upgrade to Pro for unlimited AI interpretations.' };
+      return { allowed: false, error: limitMsg };
     }
     return { allowed: true };
   }
@@ -97,7 +112,7 @@ async function checkUsageLimit(request: NextRequest): Promise<{
 
   const count = data?.count || 0;
   if (count >= FREE_DAILY_LIMIT) {
-    return { allowed: false, error: 'Daily limit reached. Upgrade to Pro for unlimited AI interpretations.' };
+    return { allowed: false, error: limitMsg };
   }
 
   return { allowed: true, user_id: user.id as string };
