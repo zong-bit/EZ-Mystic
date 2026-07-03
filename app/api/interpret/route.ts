@@ -46,23 +46,6 @@ export async function POST(request: NextRequest) {
           // Log DeepSeek API call
           if (data.usage) {
             console.log(`[deepseek-log] interpret: model=deepseek-chat, prompt_tokens=${data.usage.prompt_tokens}, completion_tokens=${data.usage.completion_tokens}, total_tokens=${data.usage.total_tokens}`);
-            try {
-              await fetch("https://xgaxejeaxfhlupguqteu.supabase.co/rest/v1/api_usage", {
-                method: "POST",
-                headers: {
-                  "apikey": "sb_secret_Ic345MFMBPwc6dtrUEWCgA_L27K74dX",
-                  "Authorization": "Bearer sb_sec…74dX",
-                  "Content-Type": "application/json",
-                  "Prefer": "return=minimal"
-                },
-                body: JSON.stringify({
-                  source: "fatewise-deepseek",
-                  endpoint: "interpret",
-                  ip: "server-side",
-                  is_pro: true
-                })
-              }).catch(() => {});
-            } catch {}
           }
           fullContent = data.choices?.[0]?.message?.content || '';
         }
