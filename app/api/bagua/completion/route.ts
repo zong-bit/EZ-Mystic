@@ -554,6 +554,10 @@ Output format requirements (strictly follow these six sections, each with ## hea
 
         if (response.ok) {
           const data = await response.json();
+          // Log DeepSeek API call
+          if (data.usage) {
+            console.log(`[deepseek-log] bagua-completion: model=deepseek-v4-flash, prompt_tokens=${data.usage.prompt_tokens}, completion_tokens=${data.usage.completion_tokens}, total_tokens=${data.usage.total_tokens}`);
+          }
           content = data.choices?.[0]?.message?.content || '';
         }
       } else {

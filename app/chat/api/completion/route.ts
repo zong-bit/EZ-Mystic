@@ -123,6 +123,10 @@ export async function POST(request: NextRequest) {
     }
 
     const data = await response.json();
+      // Log DeepSeek API call
+      if (data.usage) {
+        console.log(`[deepseek-log] chat-completion: model=deepseek-chat, prompt_tokens=${data.usage.prompt_tokens}, completion_tokens=${data.usage.completion_tokens}, total_tokens=${data.usage.total_tokens}`);
+      }
     const content = data.choices?.[0]?.message?.content || '';
 
     // Increment message count only for non-Pro users
