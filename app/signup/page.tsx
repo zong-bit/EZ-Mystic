@@ -43,9 +43,27 @@ function SignupContent() {
     setClaimResult(null);
 
     try {
-      const supabase = getSupabaseClient();
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
+      // Use localStorage token instead of getSession() which hangs
+      // on China→Supabase connections.
+      const tokenStr = localStorage.getItem(
+        `sb-xgaxejeaxfhlupguqteu-auth-token`
+      );
+      if (!tokenStr) {
+        setClaimResult({ success: false, error: 'Not logged in' });
+        return;
+      }
+
+      // Supabase stores the session object as JSON in localStorage
+      let accessToken = '';
+      try {
+        const parsed = JSON.parse(tokenStr);
+        accessToken = parsed.access_token || '';
+      } catch {
+        // Fallback: treat raw string as token
+        accessToken = tokenStr;
+      }
+
+      if (!accessToken) {
         setClaimResult({ success: false, error: 'Not logged in' });
         return;
       }
@@ -54,7 +72,7 @@ function SignupContent() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.access_token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ code: referralCode }),
       });
@@ -120,8 +138,26 @@ function SignupContent() {
 
       if (data.session) {
         // Auto-login if session returned (email confirmation disabled)
-        router.push('/bazi');
-        router.refresh();
+        // Persist session to localStorage as backup (getSession() hangs on China→Supabase)
+        try {
+          const tokenStr = JSON.stringify(data.session);
+          localStorage.setItem(
+            `sb-xgaxejeaxfhlupguqteu-auth-token`,
+            tokenStr
+          );
+        } catch (e) {
+          console.warn('[Signup] Failed to persist session:', e);
+        }
+
+        // Wait for cookie propagation, then navigate
+        await new Promise((resolve) => setTimeout(resolve, 300));
+
+        const cookieSet = document.cookie.includes('sb-xgaxejeaxfhlupguqteu-auth-token');
+        if (cookieSet) {
+          router.replace('/bazi');
+        } else {
+          window.location.href = '/bazi';
+        }
       } else {
         // Email confirmation required
         setSuccess(true);

@@ -4,33 +4,6 @@ export const dynamicParams = true;
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 
-// Inline styles for coin toss animation
-const coinStyles = `
-  @keyframes coinReveal {
-    from { opacity: 0; transform: translateY(-10px) scale(0.8); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-  @keyframes coinFlip {
-    0% { opacity: 0; transform: translateY(-30px) rotateX(0deg) scale(0.5); }
-    50% { opacity: 1; transform: translateY(-15px) rotateX(180deg) scale(1.1); }
-    100% { opacity: 1; transform: translateY(0) rotateX(360deg) scale(1); }
-  }
-  @keyframes coinRotate {
-    0% { transform: perspective(500px) rotateY(0deg); }
-    100% { transform: perspective(500px) rotateY(360deg); }
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .animate-fade-in {
-    animation: fade-in 0.5s ease-out forwards;
-  }
-`;
 import Link from 'next/link';
 import { BAGUA, type BaguaItem, type HexagramItem, getHexagram, getHexagramByLines, randomTrigramIndex } from '@/bazi/bagua';
 import BaguaDiagram from './components/BaguaDiagram';
@@ -285,154 +258,6 @@ function renderInline(text: string): React.ReactNode {
   });
 }
 
-// ─── Coin Toss Animation ─────────────────────────────────────────────────────
-
-interface CoinProps {
-  value: number;
-  index: number;
-  delay: number;
-}
-
-function Coin({ value, index, delay }: CoinProps) {
-  const isYang = value === 7 || value === 9;
-  const isChanging = value === 6 || value === 9;
-  
-  return (
-    <div
-      className="flex flex-col items-center gap-2"
-      style={{
-        animation: 'coinFlip 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
-        animationDelay: `${delay}ms`,
-        opacity: 0,
-        transform: 'translateY(-30px) rotateX(0deg) scale(0.5)',
-      }}
-    >
-      {/* Coin circle with 3D effect */}
-      <div
-        className="w-20 h-20 rounded-full flex items-center justify-center text-4xl font-bold relative overflow-hidden"
-        style={{
-          background: 'radial-gradient(circle at 35% 35%, #E5C158, #D4A853 40%, #8B6914 100%)',
-          boxShadow: '0 6px 20px rgba(0,0,0,0.5), inset 0 3px 6px rgba(255,255,255,0.4), 0 0 15px rgba(212,168,83,0.3)',
-          border: '3px solid rgba(212,168,83,0.8)',
-        }}
-      >
-        {/* Inner ring */}
-        <div 
-          className="absolute inset-2 rounded-full border-2 border-white/30"
-          style={{
-            background: 'radial-gradient(circle, transparent 40%, rgba(255,255,255,0.1) 100%)',
-          }}
-        />
-        
-        {/* Yin/Yang symbol */}
-        <span className="relative z-10 drop-shadow-lg" style={{ animation: `coinRotate 0.8s ease-out forwards` }}>
-          {isYang ? '⚊' : '⚋'}
-        </span>
-        
-        {/* Changing line indicator */}
-        {isChanging && (
-          <div 
-            className="absolute top-1 right-1 w-2 h-2 rounded-full"
-            style={{
-              background: '#FF4444',
-              boxShadow: '0 0 6px rgba(255,68,68,0.8)',
-              animation: 'pulse 1s infinite',
-            }}
-          />
-        )}
-      </div>
-      
-      {/* Value and name */}
-      <div className="flex flex-col items-center gap-1">
-        <div className="text-sm font-bold" style={{ color: 'var(--accent-primary)' }}>
-          {value}
-        </div>
-        <div className="text-xs" style={{ color: 'var(--text-tertiary)' }}>
-          {value === 6 ? 'Old Yin ⚋⏎' : value === 7 ? 'Young Yang ⚊' : value === 8 ? 'Young Yin ⚋' : 'Old Yang ⚊⏎'}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function CoinTossAnimation({ lineIndex, revealedCoins }: { lineIndex: number; revealedCoins: number[] }) {
-  const lineNames = ['初爻', '二爻', '三爻', '四爻', '五爻', '上爻'];
-  const currentSum = revealedCoins.reduce((sum, val) => sum + val, 0);
-  const isComplete = revealedCoins.length === 3;
-  
-  return (
-    <div className="mt-6 mb-6 text-center">
-      {/* Line indicator with progress */}
-      <div className="mb-6">
-        <div className="text-lg mb-2" style={{ color: 'var(--accent-primary)' }}>
-          <span className="font-display font-bold">第{lineNames[lineIndex]}爻</span>
-          <span className="mx-3 text-[var(--text-tertiary)]">·</span>
-          <span className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
-            Line {lineIndex + 1} of 6
-          </span>
-        </div>
-        
-        {/* Progress bar */}
-        <div className="w-64 mx-auto h-2 rounded-full overflow-hidden" style={{ background: 'rgba(212,168,83,0.1)' }}>
-          <div 
-            className="h-full rounded-full transition-all duration-500"
-            style={{ 
-              width: `${((lineIndex + 1) / 6) * 100}%`,
-              background: 'linear-gradient(90deg, var(--accent-primary), var(--accent-light))',
-              boxShadow: '0 0 10px rgba(212,168,83,0.5)',
-            }}
-          />
-        </div>
-      </div>
-      
-      {/* Three coins */}
-      <div className="flex justify-center gap-8 mb-6">
-        {[0, 1, 2].map((coinIdx) => {
-          const coinValue = revealedCoins[coinIdx];
-          const isRevealed = coinValue !== undefined;
-          
-          if (!isRevealed) {
-            // Hidden coin (waiting to be revealed)
-            return (
-              <div
-                key={coinIdx}
-                className="w-20 h-20 rounded-full flex items-center justify-center text-2xl"
-                style={{
-                  background: 'rgba(21,17,33,0.8)',
-                  border: '2px solid rgba(212,168,83,0.3)',
-                  boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.5), 0 0 10px rgba(212,168,83,0.1)',
-                  animation: 'pulse 2s infinite',
-                }}
-              >
-                <span className="opacity-40">?</span>
-              </div>
-            );
-          }
-          
-          return (
-            <Coin key={coinIdx} value={coinValue} index={coinIdx} delay={coinIdx * 200} />
-          );
-        })}
-      </div>
-      
-      {/* Result display */}
-      {isComplete && (
-        <div className="mt-4 animate-fade-in">
-          <div className="text-2xl font-display mb-2" style={{ color: 'var(--accent-primary)' }}>
-            {currentSum}
-          </div>
-          <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-            {currentSum === 6 ? '老阴 ⚋⏎ (Old Yin)' : 
-             currentSum === 7 ? '少阳 ⚊ (Young Yang)' :
-             currentSum === 8 ? '少阴 ⚋ (Young Yin)' :
-             '老阳 ⚊⏎ (Old Yang)'}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
 // ─── Main Component ──────────────────────────────────────────────────────────
 
 export default function BaguaPage() {
@@ -445,10 +270,9 @@ export default function BaguaPage() {
   const [error, setError] = useState<string | null>(null);
   const [diagramKey, setDiagramKey] = useState(0);
   const [isPro, setIsPro] = useState(false);
+  const [shareCopied, setShareCopied] = useState(false);
   const resultRef = useRef<HTMLDivElement | null>(null);
-  // Animation state for sequential coin toss
-  const [tossingLine, setTossingLine] = useState<number | null>(null);
-  const [revealedCoins, setRevealedCoins] = useState<number[]>([]);
+
 
   // Check Pro status from token
   useEffect(() => {
@@ -462,12 +286,6 @@ export default function BaguaPage() {
       // ignore
     }
   }, []);
-
-  // ── Coin toss helpers ──────────────────────────────────────────────
-  function tossThreeCoins(): number {
-    const coins = [Math.random() < 0.5 ? 3 : 2, Math.random() < 0.5 ? 3 : 2, Math.random() < 0.5 ? 3 : 2];
-    return coins[0] + coins[1] + coins[2]; // 6, 7, 8, or 9
-  }
 
   const LINE_SYMBOLS: Record<number, string> = { 6: '⚋⏎', 7: '⚊', 8: '⚋', 9: '⚊⏎' };
   const LINE_NAMES: Record<number, string> = { 6: '老阴', 7: '少阳', 8: '少阴', 9: '老阳' };
@@ -516,39 +334,15 @@ export default function BaguaPage() {
     setInterpretation(null);
     setDiagramKey(k => k + 1);
     setLoading(true);
-    setRevealedCoins([]);
-    setTossingLine(null);
-
     try {
-      // Coin toss: 6 lines, sequential animation
+      // Simple casting delay: wait ~2.5s then generate hexagram
+      await new Promise(r => setTimeout(r, 2500));
+
+      // Generate 6 lines via coin toss (3 coins per line)
       const allValues: number[] = [];
-
       for (let i = 0; i < 6; i++) {
-        setTossingLine(i);
-        // Reveal each coin individually with delay
         const flips = [Math.random() < 0.5 ? 3 : 2, Math.random() < 0.5 ? 3 : 2, Math.random() < 0.5 ? 3 : 2];
-        
-        await new Promise<void>((resolve) => {
-          let idx = 0;
-          const interval = setInterval(() => {
-            setRevealedCoins(prev => [...prev, flips[idx]]);
-            idx++;
-            if (idx >= 3) {
-              clearInterval(interval);
-              // After revealing all 3 coins, compute sum
-              const sum = flips[0] + flips[1] + flips[2];
-              allValues.push(sum);
-              setTimeout(() => {
-                setRevealedCoins([]);
-                resolve();
-              }, 300);
-            }
-          }, 400);
-        });
-
-        setTossingLine(null);
-        // Small delay between lines
-        await new Promise(r => setTimeout(r, 200));
+        allValues.push(flips[0] + flips[1] + flips[2]);
       }
 
       const lines = buildLines(allValues);
@@ -666,6 +460,21 @@ export default function BaguaPage() {
     }
   }, [result, question]);
 
+  const handleShare = useCallback(() => {
+    if (!result) return;
+    if (!isPro) {
+      alert('Upgrade to Pro to share your reading');
+      return;
+    }
+    const shareText = `${result.hexagram.chinese} ${result.hexagram.english}\n${result.upper.name} (Upper) · ${result.lower.name} (Lower)\nhttps://bornchart.app/bagua`;
+    navigator.clipboard.writeText(shareText).then(() => {
+      setShareCopied(true);
+      setTimeout(() => setShareCopied(false), 2000);
+    }).catch(() => {
+      setShareCopied(false);
+    });
+  }, [result, isPro]);
+
   const handleReset = useCallback(() => {
     setResult(null);
     setInterpretation(null);
@@ -676,7 +485,7 @@ export default function BaguaPage() {
 
   return (
     <>
-      <style>{coinStyles}</style>
+
       <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
       {/* ─── Ambient Background ─── */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
@@ -740,11 +549,6 @@ export default function BaguaPage() {
                 <div className="mt-4 p-3 rounded-xl text-sm" style={{ background: 'rgba(220,38,38,0.1)', border: '1px solid rgba(220,38,38,0.2)', color: '#DC2626' }}>
                   {error}
                 </div>
-              )}
-
-              {/* Coin Toss Animation - In Page */}
-              {loading && tossingLine !== null && (
-                <CoinTossAnimation lineIndex={tossingLine} revealedCoins={revealedCoins} />
               )}
 
               <div className="mt-4 text-center">
@@ -881,11 +685,28 @@ export default function BaguaPage() {
                   <button
                     type="button"
                     className="btn-purple-ghost text-sm"
+                    onClick={handleShare}
+                    disabled={!isPro}
+                    title={!isPro ? 'Upgrade to Pro to share' : 'Copy reading to clipboard'}
+                  >
+                    {shareCopied ? '✅ Copied!' : '🔗 Share'}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-purple-ghost text-sm"
                     onClick={handleReset}
                   >
                     ↩ Back
                   </button>
                 </div>
+
+                {!isPro && (
+                  <div className="text-center mt-3">
+                    <Link href="/pricing" className="text-xs text-[var(--text-tertiary)] hover:text-[var(--accent-primary)] transition-colors inline-flex items-center gap-1">
+                      ✨ Upgrade to Pro to share your reading <span className="text-[var(--accent-primary)]">→</span>
+                    </Link>
+                  </div>
+                )}
               </div>
 
               {/* Upgrade Prompt */}

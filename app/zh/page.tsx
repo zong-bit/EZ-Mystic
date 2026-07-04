@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../auth/auth-context';
-import QuickDivination from '../components/QuickDivination';
+import QuickDivination from '../components/QuickDivinationZh';
 
 export default function HomePage() {
   const { user } = useAuth();

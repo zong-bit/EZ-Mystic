@@ -148,7 +148,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Divider ── */}
-      <div className="max-w-5xl mx-auto px-8">
+      <div className="max-w-6xl mx-auto px-8">
         <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent)' }} />
       </div>
 
@@ -156,7 +156,7 @@ export default function HomePage() {
       <DailyHexagramSection />
 
       {/* ── Divider ── */}
-      <div className="max-w-5xl mx-auto px-8">
+      <div className="max-w-6xl mx-auto px-8">
         <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent)' }} />
       </div>
 
@@ -164,7 +164,7 @@ export default function HomePage() {
       <QuickDivination />
 
       {/* ── Divider ── */}
-      <div className="max-w-5xl mx-auto px-8">
+      <div className="max-w-6xl mx-auto px-8">
         <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent)' }} />
       </div>
 
@@ -193,13 +193,13 @@ export default function HomePage() {
             <br />
             Analysis Experience
           </h2>
-          <p className="text-center text-text-secondary mb-16 max-w-xl mx-auto">
+          <p className="text-center" style={{ color: 'var(--color-text-secondary)', fontSize: '1.125rem', marginBottom: '4rem', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.75 }}>
             From precise charting to deep interpretation — a complete destiny analysis experience
           </p>
 
           {/* Centered feature cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Feature 1 — Bagua Divination (moved to first position) */}
+            {/* Feature 1 — Bagua Divination */}
             <Link href="/bagua" className="glass-card p-8 hover:scale-[1.02] transition-transform group">
               <div className="text-4xl mb-4">🔮</div>
               <h3 className="font-display text-xl font-semibold mb-3 text-gold-primary group-hover:text-gold-light transition-colors">
@@ -222,21 +222,21 @@ export default function HomePage() {
             </Link>
 
             {/* Feature 3 — AI Interpretation */}
-            <div className="glass-card p-8">
+            <Link href="/bazi" className="glass-card p-8 hover:scale-[1.02] transition-transform group">
               <div className="text-4xl mb-4">🜂</div>
-              <h3 className="font-display text-xl font-semibold mb-3 text-gold-primary">
+              <h3 className="font-display text-xl font-semibold mb-3 text-gold-primary group-hover:text-gold-light transition-colors">
                 AI Deep Interpretation
               </h3>
               <p className="text-text-secondary text-sm leading-relaxed">
                 AI astrologer analyzes your Bazi chart and I Ching hexagrams across multiple dimensions — personality, career, wealth, relationships, and more.
               </p>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* ── Divider ── */}
-      <div className="max-w-5xl mx-auto px-8">
+      <div className="max-w-6xl mx-auto px-8">
         <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent)' }} />
       </div>
 
@@ -263,7 +263,7 @@ export default function HomePage() {
             <br />
             Daily Life
           </h2>
-          <p className="text-center text-text-secondary mb-16 max-w-xl mx-auto">
+          <p className="text-center" style={{ color: 'var(--color-text-secondary)', fontSize: '1.125rem', marginBottom: '4rem', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.75 }}>
             Practical daily tools based on ancient Chinese wisdom
           </p>
 
@@ -342,7 +342,7 @@ export default function HomePage() {
       <LiveStats />
 
       {/* ── Divider ── */}
-      <div className="max-w-5xl mx-auto px-8">
+      <div className="max-w-6xl mx-auto px-8">
         <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent)' }} />
       </div>
 
@@ -369,7 +369,7 @@ export default function HomePage() {
             <br />
             Unlock Your Destiny
           </h2>
-          <p className="text-center text-text-secondary mb-16 max-w-xl mx-auto">
+          <p className="text-center" style={{ color: 'var(--color-text-secondary)', fontSize: '1.125rem', marginBottom: '4rem', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.75 }}>
             Start with a free chart reading. Unlock your complete destiny profile when you're ready.
           </p>
 

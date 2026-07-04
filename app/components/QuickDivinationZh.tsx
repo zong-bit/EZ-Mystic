@@ -70,14 +70,14 @@ function MiniLoader() {
   return (
     <div className="flex flex-col items-center gap-3 py-6">
       <span className="text-4xl taiji-loader">☯</span>
-      <span className="text-gold-primary text-sm font-medium">Divining...</span>
+      <span className="text-gold-primary text-sm font-medium">起卦中...</span>
     </div>
   );
 }
 
 // ─── Main Component ──────────────────────────────────────────────────────────
 
-export default function QuickDivination() {
+export default function QuickDivinationZh() {
   const [question, setQuestion] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<QuickDivinationResult | null>(null);
@@ -100,7 +100,7 @@ export default function QuickDivination() {
       const hexagram = getHexagram(upper, lower);
 
       if (!hexagram) {
-        setError('Hexagram not found');
+        setError('未找到卦象');
         return;
       }
 
@@ -110,7 +110,7 @@ export default function QuickDivination() {
         resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }, 200);
     } catch (err: any) {
-      setError(err.message || 'Divination failed');
+      setError(err.message || '起卦失败');
     } finally {
       setLoading(false);
     }
@@ -135,13 +135,13 @@ export default function QuickDivination() {
   }, []);
 
   return (
-    <section className="py-32 px-6">
+    <section className="py-20 px-6">
       <div className="max-w-2xl mx-auto">
         {/* Section label */}
         <div className="flex items-center justify-center gap-3 mb-6">
           <span className="block" style={{ width: 24, height: 1, backgroundColor: 'var(--color-primary)' }} />
           <span style={{ fontSize: '0.75rem', letterSpacing: '0.3em', color: 'var(--color-text-muted)' }}>
-            QUICK DIVINATION
+            快速起卦
           </span>
           <span className="block" style={{ width: 24, height: 1, backgroundColor: 'var(--color-primary)' }} />
         </div>
@@ -149,41 +149,27 @@ export default function QuickDivination() {
         <h2
           className="font-display font-bold mb-3 text-center"
           style={{
-            fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
+            fontSize: 'clamp(1.5rem, 3.5vw, 2rem)',
             color: 'var(--color-text-primary)',
             lineHeight: 1.3,
           }}
         >
-          Cast a Hexagram
+          在此刻
           <br />
-          <span style={{ color: 'var(--color-primary)' }}>Right Here</span>
+          <span style={{ color: 'var(--color-primary)' }}>起一卦</span>
         </h2>
-        <p className="text-center" style={{ color: 'var(--color-text-secondary)', fontSize: '1.125rem', marginBottom: '3rem', maxWidth: '36rem', marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.75 }}>
-          Ask a question, cast the I Ching, and receive instant guidance from the ancient wisdom of the Eight Trigrams.
+        <p className="text-center text-text-secondary mb-10 max-w-md mx-auto text-sm leading-relaxed">
+          提出你的问题，掷出易经卦象，即刻获得来自八卦古老智慧的指引。
         </p>
 
         {/* Input Card */}
-        <div className="glass-card p-8 md:p-10">
-          <label className="block" style={{ color: 'var(--color-text-secondary)', fontSize: '0.875rem', marginBottom: '0.5rem' }}>
-            Your Question <span style={{ color: 'var(--color-text-muted)', fontSize: '0.75rem' }}>(optional)</span>
+        <div className="glass-card p-6 md:p-8">
+          <label className="block text-sm text-text-secondary mb-2">
+            你的问题（可选）
           </label>
           <textarea
-            className="w-full text-sm min-h-[80px] resize-y rounded-xl p-4 transition-all focus:outline-none"
-            style={{
-              background: 'rgba(26, 26, 40, 0.6)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              color: '#F5F0E8',
-              fontFamily: 'inherit',
-            }}
-            onFocus={e => {
-              e.currentTarget.style.borderColor = '#D4A853';
-              e.currentTarget.style.boxShadow = '0 0 16px rgba(212, 168, 83, 0.15)';
-            }}
-            onBlur={e => {
-              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-              e.currentTarget.style.boxShadow = 'none';
-            }}
-            placeholder="e.g., What should I know about my career path?"
+            className="input-field w-full text-sm min-h-[72px] resize-y"
+            placeholder="例如：我的事业方向是什么？"
             value={question}
             onChange={e => setQuestion(e.target.value)}
           />
@@ -204,10 +190,10 @@ export default function QuickDivination() {
               {loading ? (
                 <span className="flex items-center gap-2 justify-center">
                   <span className="taiji-loader inline-block">☯</span>
-                  Divining...
+                  起卦中...
                 </span>
               ) : (
-                '☯ Cast Hexagram'
+                '☯ 起卦'
               )}
             </button>
           </div>
@@ -215,7 +201,7 @@ export default function QuickDivination() {
 
         {/* Result Card */}
         {result && (
-          <div ref={resultRef} className="mt-8 glass-card p-8 md:p-10 text-center page-enter">
+          <div ref={resultRef} className="mt-8 glass-card p-6 md:p-8 text-center page-enter">
             <div className="text-xs text-text-tertiary uppercase tracking-wider mb-4">Your Hexagram · 卦象</div>
 
             <div className="flex justify-center mb-4">
@@ -250,14 +236,14 @@ export default function QuickDivination() {
                 className="glass text-sm px-5 py-2.5 rounded-xl text-text-secondary hover:text-text-primary border border-white/10 hover:border-gold-primary/30 transition-all duration-300"
                 onClick={handleDivination}
               >
-                🔄 Cast Again
+                🔄 再掷一卦
               </button>
               <button
                 type="button"
                 className="glass text-sm px-5 py-2.5 rounded-xl text-text-secondary hover:text-text-primary border border-white/10 hover:border-gold-primary/30 transition-all duration-300"
                 onClick={handleReset}
               >
-                ↩ Reset
+                ↩ 重置
               </button>
             </div>
 
@@ -268,16 +254,16 @@ export default function QuickDivination() {
                   <Link
                     href="/pricing"
                     className="text-xs text-gold-primary font-medium hover:text-gold-primary-hover transition-colors inline-flex items-center gap-1">
-                    ✨ Upgrade to Pro for unlimited AI interpretations — $9.99/mo →
+                    ✨ 升级至 Pro 享受无限 AI 解读 — ¥69/月 →
                   </Link>
                 </div>
               )}
-              <p className="text-text-tertiary text-xs mb-3">Want a deep AI interpretation?</p>
+              <p className="text-text-tertiary text-xs mb-3">想要AI深度解读？</p>
               <Link
                 href={isZh ? '/zh/bagua' : '/bagua'}
                 className="inline-flex items-center gap-1 text-sm font-medium text-gold-primary hover:text-gold-primary-hover transition-colors"
               >
-                Go to Bagua Divination →
+                前往完整起卦 →
               </Link>
             </div>
           </div>

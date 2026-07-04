@@ -13,24 +13,56 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [checking, setChecking] = useState(true);
 
-  // Cookie-only session check — zero network calls.
+  // Determine the correct redirect path based on current URL (preserve /zh/ prefix)
+  const redirectPath = typeof window !== 'undefined' && window.location.pathname.startsWith('/zh/') ? '/zh/chat' : '/zh/account';
+  const [resolvedRedirectPath, setResolvedRedirectPath] = useState(redirectPath);
+  useEffect(() => {
+    setResolvedRedirectPath(redirectPath);
+  }, [redirectPath]);
+
+  // Session check — zero network calls.
   // getSession() hangs on China→Supabase connections, so we never call it here.
-  // Middleware already enforces auth; this is purely a UX optimization for logged-in users.
+  // Check cookie first, then localStorage as fallback (cookie may not be written yet after login).
+  // Use window.location.href for full-page reload so cookie takes effect.
   useEffect(() => {
     let cancelled = false;
 
-    // Supabase stores the auth cookie as sb-{projectRef}-auth-token
+    // Check cookie first
     const hasAuthCookie = document.cookie.includes('sb-xgaxejeaxfhlupguqteu-auth-token');
-
     if (hasAuthCookie) {
-      // Cookie present — user is likely logged in. Trigger a server-side check.
-      // This uses the existing cookie, so no new network to Supabase.
-      router.refresh();
-      // After refresh, middleware will handle any server-side redirect.
-      // If we still see the login page, the cookie was stale — show the form.
+      const t = setTimeout(() => {
+        if (!cancelled) {
+          window.location.href = resolvedRedirectPath;
+        }
+      }, 300);
+      return () => {
+        cancelled = true;
+        clearTimeout(t);
+      };
     }
 
-    // Always show the form after a short delay to avoid flash
+    // Fallback: check localStorage
+    try {
+      const tokenStr = localStorage.getItem('sb-xgaxejeaxfhlupguqteu-auth-token');
+      if (tokenStr) {
+        const parsed = JSON.parse(tokenStr);
+        if (parsed?.access_token) {
+          const t = setTimeout(() => {
+            if (!cancelled) {
+              window.location.href = resolvedRedirectPath;
+            }
+          }, 500);
+          return () => {
+            cancelled = true;
+            clearTimeout(t);
+          };
+        }
+      }
+    } catch {
+      // Malformed token — fall through
+    }
+
+    // No auth found — show the form
     const t = setTimeout(() => {
       if (!cancelled) setChecking(false);
     }, 500);
@@ -39,7 +71,7 @@ export default function LoginPage() {
       cancelled = true;
       clearTimeout(t);
     };
-  }, [router]);
+  }, [resolvedRedirectPath]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

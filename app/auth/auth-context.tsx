@@ -27,19 +27,99 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const supabase = getSupabaseClient();
 
-    // Get initial session
+    // First, try to restore session from localStorage.
+    // getSession() hangs on China→Supabase connections, so we use
+    // localStorage as the primary fast-path and only fall back to
+    // getSession() as a secondary check.
+    const restoreFromLocalStorage = () => {
+      try {
+        const tokenStr = localStorage.getItem(
+          'sb-xgaxejeaxfhlupguqteu-auth-token'
+        );
+        if (tokenStr) {
+          const parsed = JSON.parse(tokenStr);
+          const accessToken = parsed?.access_token;
+          if (accessToken) {
+            // Extract user from the JWT payload to avoid network call
+            const payload = JSON.parse(
+              Buffer.from(accessToken.split('.')[1], 'base64').toString()
+            );
+            if (payload?.sub) {
+              setUser({ ...parsed.user, id: payload.sub } as User);
+              setLoading(false);
+              return true;
+            }
+          }
+        }
+      } catch {
+        // Malformed token — fall through to getSession()
+      }
+      return false;
+    };
+
+    // Fast path: restore from localStorage
+    if (restoreFromLocalStorage()) return;
+
+    // Slow path: call getSession() with a timeout to avoid hanging forever.
+    // If it times out, fall back to localStorage-based detection.
+    let cancelled = false;
+    const timeoutMs = 3000;
+
+    const timeoutId = setTimeout(() => {
+      if (!cancelled) {
+        // getSession() timed out — try localStorage fallback
+        const tokenStr = localStorage.getItem(
+          'sb-xgaxejeaxfhlupguqteu-auth-token'
+        );
+        if (tokenStr) {
+          try {
+            const parsed = JSON.parse(tokenStr);
+            const accessToken = parsed?.access_token;
+            if (accessToken) {
+              const payload = JSON.parse(
+                Buffer.from(accessToken.split('.')[1], 'base64').toString()
+              );
+              if (payload?.sub) {
+                setUser({ ...parsed.user, id: payload.sub } as User);
+                setLoading(false);
+                return;
+              }
+            }
+          } catch {}
+        }
+        // No localStorage token either — user is not logged in
+        setUser(null);
+        setLoading(false);
+      }
+    }, timeoutMs);
+
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
+      if (!cancelled) {
+        clearTimeout(timeoutId);
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
+    }).catch(() => {
+      // getSession() failed entirely (network error, timeout, etc.)
+      if (!cancelled) {
+        clearTimeout(timeoutId);
+        setUser(null);
+        setLoading(false);
+      }
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
+      if (!cancelled) {
+        setUser(session?.user ?? null);
+      }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signOut = async () => {

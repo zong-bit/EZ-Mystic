@@ -13,24 +13,55 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [checking, setChecking] = useState(true);
 
-  // Cookie-only session check — zero network calls.
+  // Determine the correct redirect path based on current URL (preserve /zh/ prefix)
+  const redirectPath = typeof window !== 'undefined' && window.location.pathname.startsWith('/zh/') ? '/zh/chat' : '/chat';
+
+  // Session check — zero network calls.
   // getSession() hangs on China→Supabase connections, so we never call it here.
-  // Middleware already enforces auth; this is purely a UX optimization for logged-in users.
+  // Check cookie first, then localStorage as fallback (cookie may not be written yet after login).
+  // Use window.location.href for full-page reload so cookie takes effect (router.replace is client-side only).
   useEffect(() => {
     let cancelled = false;
 
-    // Supabase stores the auth cookie as sb-{projectRef}-auth-token
+    // Check cookie first
     const hasAuthCookie = document.cookie.includes('sb-xgaxejeaxfhlupguqteu-auth-token');
-
     if (hasAuthCookie) {
-      // Cookie present — user is likely logged in. Trigger a server-side check.
-      // This uses the existing cookie, so no new network to Supabase.
-      router.refresh();
-      // After refresh, middleware will handle any server-side redirect.
-      // If we still see the login page, the cookie was stale — show the form.
+      const t = setTimeout(() => {
+        if (!cancelled) {
+          window.location.href = redirectPath;
+        }
+      }, 300);
+      return () => {
+        cancelled = true;
+        clearTimeout(t);
+      };
     }
 
-    // Always show the form after a short delay to avoid flash
+    // Fallback: check localStorage (login page sets this on successful login)
+    // This catches the case where cookie hasn't propagated yet after login
+    try {
+      const tokenStr = localStorage.getItem('sb-xgaxejeaxfhlupguqteu-auth-token');
+      if (tokenStr) {
+        const parsed = JSON.parse(tokenStr);
+        if (parsed?.access_token) {
+          // User is logged in (token exists in localStorage)
+          // Wait for cookie to propagate, then redirect with full page reload
+          const t = setTimeout(() => {
+            if (!cancelled) {
+              window.location.href = redirectPath;
+            }
+          }, 500);
+          return () => {
+            cancelled = true;
+            clearTimeout(t);
+          };
+        }
+      }
+    } catch {
+      // Malformed token — fall through
+    }
+
+    // No auth found — show the form
     const t = setTimeout(() => {
       if (!cancelled) setChecking(false);
     }, 500);
@@ -39,7 +70,13 @@ export default function LoginPage() {
       cancelled = true;
       clearTimeout(t);
     };
-  }, [router]);
+  }, [redirectPath]);
+
+  // Also re-compute redirectPath on each render in case pathname changes
+  const [resolvedRedirectPath, setResolvedRedirectPath] = useState(redirectPath);
+  useEffect(() => {
+    setResolvedRedirectPath(redirectPath);
+  }, [redirectPath]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -54,12 +91,35 @@ export default function LoginPage() {
 
     try {
       const supabase = getSupabaseClient();
-      const { error: authError } = await supabase.auth.signInWithPassword({
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (authError) throw authError;
+
+      // Verify session was actually established — signInWithPassword may succeed
+      // but the session could fail to persist (cookie not written, etc.)
+      if (!data?.session) {
+        console.warn('[Login] signInWithPassword succeeded but no session returned');
+        throw new Error('Authentication succeeded but session could not be established. Please try again.');
+      }
+
+      console.log('[Login] Auth successful, session established for:', data.session.user?.email);
+
+      // Persist the auth token in localStorage as a backup.
+      // Supabase JS client stores it automatically, but we double-store
+      // because getSession() hangs on China→Supabase connections and the
+      // auth context won't pick up the cookie reliably.
+      try {
+        const tokenStr = JSON.stringify(data.session);
+        localStorage.setItem(
+          `sb-xgaxejeaxfhlupguqteu-auth-token`,
+          tokenStr
+        );
+      } catch (e) {
+        console.warn('[Login] Failed to persist session to localStorage:', e);
+      }
 
       // Auto-detect Gumroad purchase and activate Pro
       try {
@@ -80,9 +140,15 @@ export default function LoginPage() {
         // Gumroad lookup failure is non-fatal
       }
 
-      router.push('/account');
-      router.refresh();
+      // Clear form state before navigating
+      setEmail('');
+      setPassword('');
+
+      // Always use full-page redirect to guarantee cookie propagation.
+      // Client-side navigation doesn't pick up new cookies set by Supabase auth.
+      window.location.href = resolvedRedirectPath;
     } catch (err: any) {
+      console.error('[Login] Error:', err);
       setError(err.message || 'Login failed');
     } finally {
       setLoading(false);

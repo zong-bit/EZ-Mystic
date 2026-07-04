@@ -217,6 +217,7 @@ export default function BaguaPage() {
   const [isPro, setIsPro] = useState(false);
   const [numA, setNumA] = useState('');
   const [numB, setNumB] = useState('');
+  const [shareCopied, setShareCopied] = useState(false);
 
   // Normalize coin-toss values to hexagram data convention:
   // Coin: 7=少阳(solid), 8=少阴(broken), 9=老阳(solid+change), 6=老阴(broken+change)
@@ -413,6 +414,21 @@ export default function BaguaPage() {
   }, [result, question, coinState]);
 
   // ── No isPro check needed — API handles paywall via displayContent ──
+
+  const handleShare = useCallback(() => {
+    if (!result) return;
+    if (!isPro) {
+      alert('Upgrade to Pro to share your reading');
+      return;
+    }
+    const shareText = `${result.hexagram.chinese} ${result.hexagram.english}\n${result.upper.name} (上卦) · ${result.lower.name} (下卦)\nhttps://bornchart.app/bagua`;
+    navigator.clipboard.writeText(shareText).then(() => {
+      setShareCopied(true);
+      setTimeout(() => setShareCopied(false), 2000);
+    }).catch(() => {
+      setShareCopied(false);
+    });
+  }, [result, isPro]);
 
   const handleReset = useCallback(() => {
     setResult(null);
@@ -671,10 +687,27 @@ export default function BaguaPage() {
                 <button
                   type="button"
                   className="glass text-sm px-6 py-3 rounded-xl text-text-secondary hover:text-text-primary border border-white/10 hover:border-gold-primary/30 transition-all duration-300"
+                  onClick={handleShare}
+                  disabled={!isPro}
+                  title={!isPro ? '升级到 Pro 可分享' : '复制解读到剪贴板'}
+                >
+                  {shareCopied ? '✅ 已复制！' : '🔗 分享'}
+                </button>
+                <button
+                  type="button"
+                  className="glass text-sm px-6 py-3 rounded-xl text-text-secondary hover:text-text-primary border border-white/10 hover:border-gold-primary/30 transition-all duration-300"
                   onClick={handleReset}>
                   ↩ 返回
                 </button>
               </div>
+
+              {!isPro && (
+                <div className="text-center mt-3">
+                  <Link href="/pricing" className="text-xs text-text-muted hover:text-gold-primary transition-colors inline-flex items-center gap-1">
+                    ✨ 升级到 Pro 分享你的解读 <span className="text-gold-primary">→</span>
+                  </Link>
+                </div>
+              )}
             </div>
 
             {/* Upgrade Prompt */}
