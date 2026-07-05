@@ -125,12 +125,11 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // Redirect logged-in users away from login/signup
-  if (pathname === '/login' || pathname === '/signup') {
-    if (hasAuthCookie(request)) {
-      return NextResponse.redirect(new URL('/dashboard', request.url));
-    }
-  }
+  // Note: We no longer redirect logged-in users away from login/signup.
+  // The login page itself handles the redirect via localStorage/cookie check,
+  // and forcing a server-side redirect caused loops when cookies hadn't
+  // propagated yet after a full-page reload (window.location.href).
+  // The auth-context (client-side) is the authoritative source for "is logged in".
 
   return NextResponse.next();
 }

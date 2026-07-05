@@ -18,53 +18,38 @@ export default function LoginPage() {
 
   // Session check — zero network calls.
   // getSession() hangs on China→Supabase connections, so we never call it here.
-  // Check cookie first, then localStorage as fallback (cookie may not be written yet after login).
-  // Use window.location.href for full-page reload so cookie takes effect (router.replace is client-side only).
+  // Priority: localStorage token (fastest, survives full-page reload) > cookie > show form.
+  // Use window.location.href for full-page reload so cookie takes effect.
   useEffect(() => {
     let cancelled = false;
 
-    // Check cookie first
-    const hasAuthCookie = document.cookie.includes('sb-xgaxejeaxfhlupguqteu-auth-token');
-    if (hasAuthCookie) {
-      const t = setTimeout(() => {
-        if (!cancelled) {
-          window.location.href = redirectPath;
-        }
-      }, 300);
-      return () => {
-        cancelled = true;
-        clearTimeout(t);
-      };
-    }
-
-    // Fallback: check localStorage (login page sets this on successful login)
-    // This catches the case where cookie hasn't propagated yet after login
+    // Fast path: check localStorage first (set during login, survives full-page reload)
     try {
       const tokenStr = localStorage.getItem('sb-xgaxejeaxfhlupguqteu-auth-token');
       if (tokenStr) {
         const parsed = JSON.parse(tokenStr);
         if (parsed?.access_token) {
-          // User is logged in (token exists in localStorage)
-          // Wait for cookie to propagate, then redirect with full page reload
-          const t = setTimeout(() => {
-            if (!cancelled) {
-              window.location.href = redirectPath;
-            }
-          }, 500);
-          return () => {
-            cancelled = true;
-            clearTimeout(t);
-          };
+          // User is logged in — redirect immediately (no delay)
+          window.location.href = redirectPath;
+          return;
         }
       }
     } catch {
-      // Malformed token — fall through
+      // Malformed token — fall through to cookie check
     }
 
-    // No auth found — show the form
+    // Second: check cookie
+    const hasAuthCookie = document.cookie.includes('sb-xgaxejeaxfhlupguqteu-auth-token');
+    if (hasAuthCookie) {
+      // Cookie exists — redirect immediately
+      window.location.href = redirectPath;
+      return;
+    }
+
+    // No auth found — show the form after a brief delay
     const t = setTimeout(() => {
       if (!cancelled) setChecking(false);
-    }, 500);
+    }, 300);
 
     return () => {
       cancelled = true;
@@ -72,11 +57,7 @@ export default function LoginPage() {
     };
   }, [redirectPath]);
 
-  // Also re-compute redirectPath on each render in case pathname changes
-  const [resolvedRedirectPath, setResolvedRedirectPath] = useState(redirectPath);
-  useEffect(() => {
-    setResolvedRedirectPath(redirectPath);
-  }, [redirectPath]);
+
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -146,7 +127,7 @@ export default function LoginPage() {
 
       // Always use full-page redirect to guarantee cookie propagation.
       // Client-side navigation doesn't pick up new cookies set by Supabase auth.
-      window.location.href = resolvedRedirectPath;
+      window.location.href = redirectPath;
     } catch (err: any) {
       console.error('[Login] Error:', err);
       setError(err.message || 'Login failed');
