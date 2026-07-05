@@ -36,11 +36,13 @@ const OPEN_PATHS = [
   '/bazi',
   '/bagua',
   '/tools',
+  '/chat',
   '/zh',
   '/zh/blog',
   '/zh/terms',
   '/zh/privacy',
   '/zh/refund',
+  '/zh/chat',
 ];
 
 // Public API paths — no auth required
